@@ -1,0 +1,18 @@
+{"val_size": 0.2,
+    "normalize": true,
+    "split_videos": false,
+    "future_frames": 50,
+    "past_frames": 50,
+    "frame_gap": 1,
+    "use_conv": true,
+    "batch_size": 128,
+    "augment": false,
+    "epochs": 15,
+    "reweight_loss": false,
+    "learning_decay_freq": 1000,
+    "model_param__layer_channels": [128, 64, 64],
+    "model_param__conv_size": 5,
+    "model_param__dropout_rate": 0.5,
+    "model_param__learning_rate": 0.0005,
+    "features": "identity"
+}

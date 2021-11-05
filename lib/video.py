@@ -1,10 +1,12 @@
-""" Basic video class that houses data """
+""" Basic video tracking and behavior class that houses data """
 
 import pandas as pd
 from glob import glob 
 import pickle 
 import numpy as np
 from sklearn.model_selection import PredefinedSplit
+
+from lib.io import read_DLC_tracks
 
 class MLDataFrame(object):
     """
@@ -70,28 +72,85 @@ class MLDataFrame(object):
     def __repr__(self):
         return str(self.data)
 
+def _add_item_to_dict(tracking_files, metadata, k, item):
+    for fn in tracking_files:
+        metadata[fn][k] = item
+
+def _add_items_to_dict(tracking_files, metadata, k, items):
+    for fn, item in zip(tracking_files, items):
+        metadata[fn][k] = item
+
 def clone_metadata(tracking_files, **kwargs):
+    """
+    Prepare a metadata dictionary for defining a VideosetDataFrame. 
+
+    Only required argument is list of DLC tracking file names. 
+
+    Any other keyword argument must be either a non-iterable object (e.g. a scalar parameter, like FPS)
+    that will be copied and tagged to each of the DLC tracking files, or an iterable object of the same
+    length of the list of DLC tracking files. Each element in the iterable will be tagged with the corresponding
+    DLC file.
+
+    Args:
+        tracking_files: (list) of DLC tracking .csvs
+        **kwargs: described as above
+
+    Returns:
+        (dict) Dictionary whose keys are DLC tracking file names, and contains a dictionary with key,values containing
+        the metadata provided
+    """
+
     metadata = {}
     for fn in tracking_files:
-        metadata[fn[0]] = kwargs
+        metadata[fn] = {}
+    n_files = len(tracking_files)
+
+    for k,v in kwargs.items():
+        if hasattr(v, '__len__'):
+            if len(v) != n_files:
+                raise ValueError("Argument must be iterable same length as tracking_files")
+            _add_items_to_dict(tracking_files, metadata, k, v)
+        else:
+            _add_item_to_dict(tracking_files, metadata, k, v)
 
     return metadata
 
 class VideosetDataFrame(MLDataFrame):
-    def __init__(self, metadata : dict):
-        self.req_cols = ['scale', 'fps', 'units', 'resolution']
+    """
+    Houses DLC tracking data and behavior annotations in pandas DataFrame for ML, along with relevant metadata
+
+    Args:
+        metadata: (dict) Dictionary whose keys are DLC tracking csvs, and value is a dictionary of associated metadata
+            for that video. Most easiest to create with 'clone_metadata'. 
+            Required keys are: ['scale', 'fps', 'units', 'resolution', 'label_files']
+        label_key: (dict) Default None. Dictionary whose keys are behavior labels and values are integers 
+    """
+    def __init__(self, metadata : dict, label_key : dict = None):
+        self.req_cols = ['scale', 'fps', 'units', 'resolution', 'label_files']
 
         self.data = pd.DataFrame()
-        self.label_key = None
+        self.label_key = label_key
+        self.reverse_label_key = {v:k for k,v in self.label_key.items()}
 
         if self._validate_metadata(metadata):   
             self.metadata = metadata
         else:
             raise ValueError("Metadata not properly formatted. See docstring.")
     
+        self.n_videos = len(metadata)
+
         if len(metadata) > 0:
-            self.load_tracks()
-            self.load_labels()
+            self.load_tracks() 
+            #By default make these tracks the features... 
+            #useless for ML but just to have something to start with
+            #This will be updated once some features to do ML with have been computed
+            self.feature_cols = self.data.columns
+            self.load_labels(set_as_label = True)
+
+    def _setup_default_cv_folds(self):
+        default_fold_cols = [f'fold{idx}' for idx in range(self.n_videos)]
+        self.fold_cols = default_fold_cols 
+        raise NotImplementedError
 
     def _validate_metadata(self, metadata):
         for fn in metadata:
@@ -101,64 +160,14 @@ class VideosetDataFrame(MLDataFrame):
         return True
 
     def load_tracks(self):
+        """Add DLC tracks to DataFrame"""
         raise NotImplementedError
 
-    def load_labels(self):
+    def load_labels(self, col_name = 'label', set_as_label = False):
+        """Add behavior label data to DataFrame"""
         raise NotImplementedError
 
-    def make_movie(self, fn_out, movie_in):
+    def make_movie(self, prediction_column, fn_out, movie_in):
+        """Given a column indicating behavior predictions, make a video
+        outputting those predictiions alongside true labels."""
         raise NotImplementedError
-
- 
-def load_data(fn):
-    try:
-        with open(fn, 'rb') as handle:
-            a = pickle.load(handle)
-    except FileNotFoundError:
-        print("Cannot find", fn)
-        return None
-    return a 
-
-###############      
-## Test code ##
-###############
-
-tracking_files = glob('./testdata/dlc/*.csv')
-boris_files = glob('./testdata/boris/*.csv')
-
-scale = None
-fps = 30
-units = None
-resolution = (1200, 1600)
-metadata = clone_metadata(tracking_files, 
-                          label_file = boris_files, 
-                          scale = scale, 
-                          fps = fps, 
-                          units = units, 
-                          resolution = resolution)
-
-dataset = VideosetDataFrame(metadata)
-
-#Now create features on this dataset
-dataset.create_dl_features()
-dataset.create_mabe_features()
-dataset.create_custom_features()
-dataset.add_features()
-
-#Set features by group names
-
-#Now we can do ML on this object with the following attributes
-dataset.features and dataset.label and dataset.splitter and/or dataset.group
-
-"""
-Advantages:
-* Can import data from a range of sources
-* Comes with some general data processing methods, e.g. can filter DLC tracks and interpolate at low-confidence points
-* More general than SimBA and MABE
-* Lightweight, no GUI... just use in jupyter notebook. Or can be put into a fully automated pipeline this way
- and be given to experimentalists. Train them to use DLC, BORIS and then run the script/notebook to do behavior classification
-* For some problems (mouse tracking), good baseline performance 
-* Extensible, add your own features;
-* And try your own ML models or use good baselines
-* Active learning... train classifier on one video, inference on the rest, and suggest chunks of 
-"""

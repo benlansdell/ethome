@@ -1,4 +1,9 @@
-Advantages:
+## Installation
+
+`pip install -e .`
+
+### Advantages
+
 * Can import data from a range of sources
 * Comes with some general data processing methods, e.g. can filter DLC tracks and interpolate at low-confidence points
 * More general than SimBA and MABE

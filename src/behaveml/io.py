@@ -1,5 +1,6 @@
 """ Loading and saving tracking and behavior annotation files """
 import pandas as pd
+import pickle
 
 def read_DLC_tracks(fn_in):
     """Read in tracks from DLC"""

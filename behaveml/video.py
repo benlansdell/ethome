@@ -108,8 +108,9 @@ def clone_metadata(tracking_files, **kwargs):
     for k,v in kwargs.items():
         if hasattr(v, '__len__'):
             if len(v) != n_files:
-                raise ValueError("Argument must be iterable same length as tracking_files")
-            _add_items_to_dict(tracking_files, metadata, k, v)
+                _add_item_to_dict(tracking_files, metadata, k, v)
+            else:
+                _add_items_to_dict(tracking_files, metadata, k, v)
         else:
             _add_item_to_dict(tracking_files, metadata, k, v)
 
@@ -126,11 +127,14 @@ class VideosetDataFrame(MLDataFrame):
         label_key: (dict) Default None. Dictionary whose keys are behavior labels and values are integers 
     """
     def __init__(self, metadata : dict, label_key : dict = None):
-        self.req_cols = ['scale', 'fps', 'units', 'resolution', 'label_files']
+        self.req_cols = ['frame_length', 'fps', 'units', 'resolution']
 
         self.data = pd.DataFrame()
         self.label_key = label_key
-        self.reverse_label_key = {v:k for k,v in self.label_key.items()}
+        if self.label_key:
+            self.reverse_label_key = {v:k for k,v in self.label_key.items()}
+        else: 
+            self.reverse_label_key = None
 
         if self._validate_metadata(metadata):   
             self.metadata = metadata
@@ -154,7 +158,7 @@ class VideosetDataFrame(MLDataFrame):
 
     def _validate_metadata(self, metadata):
         for fn in metadata:
-            checks = [col in fn.keys() for col in self.req_cols]
+            checks = [col in metadata[fn].keys() for col in self.req_cols]
             if sum(checks) < len(self.req_cols):
                 return False
         return True

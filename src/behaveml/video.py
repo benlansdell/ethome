@@ -6,7 +6,7 @@ import pickle
 import numpy as np
 from sklearn.model_selection import PredefinedSplit
 
-from lib.io import read_DLC_tracks
+from behaveml.io import read_DLC_tracks
 
 class MLDataFrame(object):
     """

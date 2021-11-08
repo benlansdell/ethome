@@ -1,8 +1,16 @@
 [![codecov](https://codecov.io/gh/benlansdell/behaveml/branch/master/graph/badge.svg?token=PN52Q3UH3G)](https://codecov.io/gh/benlansdell/behaveml)
 
+# BehaveML
+
+Supervised learning for animal behavior.
+
+Interprets pose-tracking files (currently only from DLC), behavior annotations (currently only from BORIS) to train a behavior classifier. 
+
 ## Installation
 
-`pip install -e .`
+```
+pip install behaveml
+```
 
 ### Advantages
 

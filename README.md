@@ -1,3 +1,5 @@
+[![codecov](https://codecov.io/gh/benlansdell/behaveml/branch/master/graph/badge.svg?token=PN52Q3UH3G)](https://codecov.io/gh/benlansdell/behaveml)
+
 ## Installation
 
 `pip install -e .`

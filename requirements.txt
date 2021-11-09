@@ -3,3 +3,5 @@ wheel
 numpy
 pandas
 scikit-learn
+tqdm
+keras==2.4.3

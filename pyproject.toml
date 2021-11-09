@@ -4,6 +4,8 @@ requires = [
     "wheel",
     "numpy",
     "pandas",
-    "scikit-learn"
+    "scikit-learn",
+    "tqdm",
+    "keras==2.4.3"
 ]
 build-backend = "setuptools.build_meta"

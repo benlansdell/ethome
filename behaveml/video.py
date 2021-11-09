@@ -1,12 +1,13 @@
 """ Basic video tracking and behavior class that houses data """
 
 import pandas as pd
-from glob import glob 
 import pickle 
 import numpy as np
+from itertools import product
+from glob import glob 
 from sklearn.model_selection import PredefinedSplit
 
-from behaveml.io import read_DLC_tracks
+from behaveml.io import read_DLC_tracks, XY_IDS
 
 class MLDataFrame(object):
     """
@@ -144,12 +145,15 @@ class VideosetDataFrame(MLDataFrame):
         self.n_videos = len(metadata)
 
         if len(metadata) > 0:
-            self.load_tracks() 
+            self._load_tracks() 
             #By default make these tracks the features... 
             #useless for ML but just to have something to start with
             #This will be updated once some features to do ML with have been computed
-            self.feature_cols = self.data.columns
-            self.load_labels(set_as_label = True)
+            self.feature_cols = self.raw_track_columns
+            self._load_labels(set_as_label = True)
+        else:
+            self.feature_cols = None
+            self.raw_track_columns = None
 
     def _setup_default_cv_folds(self):
         default_fold_cols = [f'fold{idx}' for idx in range(self.n_videos)]
@@ -163,13 +167,49 @@ class VideosetDataFrame(MLDataFrame):
                 return False
         return True
 
-    def load_tracks(self):
-        """Add DLC tracks to DataFrame"""
-        raise NotImplementedError
+    @property
+    def group(self):
+        return self.data.filename.to_numpy()
 
-    def load_labels(self, col_name = 'label', set_as_label = False):
+    def _load_tracks(self):
+        """Add DLC tracks to DataFrame"""
+        df = pd.DataFrame()
+        dfs = []
+        col_names_old = None
+        #Go through each video file and load DLC tracks
+        for fn in self.metadata.keys():
+            df_fn, body_parts, animals, col_names = read_DLC_tracks(fn)
+            n_rows = len(df_fn)
+            dfs.append(df_fn)
+            self.metadata[fn]['duration'] = n_rows/self.metadata[fn]['fps']
+            if col_names_old is not None:
+                if col_names != col_names_old:
+                    raise RuntimeError("DLC files have different columns. Must all be from same project")
+            col_names_old = col_names
+        df = pd.concat(dfs, axis = 0)
+        self.body_parts = body_parts
+        self.animals = animals
+        self.animal_setup = {'mouse_ids': animals, 'bodypart_ids': body_parts, 'colnames': col_names}
+        self.raw_track_columns = col_names
+        self.data = df
+
+    #Set features by individual or by group names
+    def add_features(self, feature_maker, featureset_name, add_to_features = False):
+        new_features = feature_maker(self.data, self.raw_track_columns, self.animal_setup)
+
+        #Prepend these column names w featureset-name__feature-name
+        new_feat_cols = list(new_features.columns)
+        new_feat_cols = [featureset_name + i for i in new_feat_cols]
+        new_features.columns = new_feat_cols
+
+        #Add
+        self.data = pd.concat(self.data, new_features, axis = 1)
+        if add_to_features:
+            self.feature_cols += new_features.columns
+
+    def _load_labels(self, col_name = 'label', set_as_label = False):
         """Add behavior label data to DataFrame"""
-        raise NotImplementedError
+        pass
 
     def make_movie(self, prediction_column, fn_out, movie_in):
         """Given a column indicating behavior predictions, make a video

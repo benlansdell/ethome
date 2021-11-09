@@ -62,7 +62,7 @@ for f_idx, fn_in in enumerate(files_in):
     #Save for visualization
     df.to_csv(files_out[f_idx])
 
-    dlc_tracks = np.array(df)[:,1:]
+    dlc_tracks = np.array(df)[:,1:] #????? Is this a bug?
     vid_name = hashlib.md5(fn_in.encode()).hexdigest()[:8]
 
     #Adult, then juvenile. Same as resident then intruder... or should be flipped?

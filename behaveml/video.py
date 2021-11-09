@@ -208,9 +208,32 @@ class VideosetDataFrame(MLDataFrame):
             self.feature_cols += new_features.columns
 
     def _load_labels(self, col_name = 'label', set_as_label = False):
-        """Add behavior label data to DataFrame"""
-        pass
+        #For the moment only BORIS support
+        return self._load_labels_boris(col_name, set_as_label)
 
+    def _load_labels_boris(self, col_name = 'label', set_as_label = False):
+        """Add behavior label data to DataFrame"""
+
+        for vid in self.metadata:
+            if 'label_files' in self.metadata[vid]:
+                fn_in = self.metadata[vid]['label_files']
+                fps = self.metadata[vid]['fps']
+                n_bins = int(self.metadata[vid]['duration']*fps)
+                boris_labels = pd.read_csv(fn_in, skiprows = 15)
+                boris_labels['index'] = (boris_labels.index//2)
+                boris_labels = boris_labels.pivot_table(index = 'index', columns = 'Status', values = 'Time').reset_index()
+                boris_labels = list(np.array(boris_labels[['START', 'STOP']]))
+                boris_labels = [list(i) for i in boris_labels]
+                ground_truth = np.zeros(n_bins)
+                for start, end in boris_labels:
+                    ground_truth[int(start*fps):int(end*fps)] = 1
+                #Add this to data
+                self.data.loc[self.data['filename'] == vid, col_name] = ground_truth
+
+        if set_as_label:
+            self.label_col = col_name
+
+    
     def make_movie(self, prediction_column, fn_out, movie_in):
         """Given a column indicating behavior predictions, make a video
         outputting those predictiions alongside true labels."""

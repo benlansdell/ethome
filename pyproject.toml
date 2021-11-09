@@ -6,6 +6,7 @@ requires = [
     "pandas",
     "scikit-learn",
     "tqdm",
+    "tensorflow",
     "keras==2.4.3"
 ]
 build-backend = "setuptools.build_meta"

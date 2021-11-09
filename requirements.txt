@@ -4,4 +4,5 @@ numpy
 pandas
 scikit-learn
 tqdm
+tensorflow
 keras==2.4.3

@@ -3,7 +3,6 @@
 #######################
 
 #TODO
-# * Import BORIS labels
 # * Import MARS feature creation 
 
 ###########################
@@ -66,6 +65,7 @@ dataset.add_features(create_mars_features,
 
 #Now all the work of the package is done, more or less, and 
 # we can do ML on this object in e.g. sklearn by using the following attributes:
-# dataset.features
-# dataset.label
-# dataset.group
+# dataset.features #The feature matrix setup for learning w
+# dataset.label    #The labels for supervision
+# dataset.group    #Used for group-level cross validation 
+#                   (by default, groups are set to filename, so this implements video-level CV)

@@ -69,3 +69,9 @@ dataset.add_features(create_mars_features,
 # dataset.label    #The labels for supervision
 # dataset.group    #Used for group-level cross validation 
 #                   (by default, groups are set to filename, so this implements video-level CV)
+
+#We can use CV predict to make predictions w the model
+
+#We can then compute the accuracy of these predictions, etc
+
+#We can also make a video of 

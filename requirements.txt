@@ -5,4 +5,7 @@ pandas
 scikit-learn
 tqdm
 tensorflow==2.4.1
+typeguard
+tensorflow-addons
+typing
 keras==2.4.3

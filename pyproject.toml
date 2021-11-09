@@ -7,6 +7,8 @@ requires = [
     "scikit-learn",
     "tqdm",
     "tensorflow==2.4.1",
+    "typeguard",
+    "typing",
     "keras==2.4.3"
 ]
 build-backend = "setuptools.build_meta"

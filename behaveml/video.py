@@ -199,13 +199,17 @@ class VideosetDataFrame(MLDataFrame):
 
         #Prepend these column names w featureset-name__feature-name
         new_feat_cols = list(new_features.columns)
-        new_feat_cols = [featureset_name + i for i in new_feat_cols]
+        new_feat_cols = [str(featureset_name) + str(i) for i in new_feat_cols]
         new_features.columns = new_feat_cols
 
         #Add
-        self.data = pd.concat(self.data, new_features, axis = 1)
+        # TODO
+        # Figure out same indices problem here...
+        # Where did the frames column go?
+        # Might be because I use frame column as a pointer to index? or something...
+        self.data = pd.concat([self.data.reset_index(drop = True), new_features.reset_index(drop = True)], axis = 1)
         if add_to_features:
-            self.feature_cols += new_features.columns
+            self.feature_cols = list(self.feature_cols) + list(new_features.columns)
 
     def _load_labels(self, col_name = 'label', set_as_label = False):
         #For the moment only BORIS support

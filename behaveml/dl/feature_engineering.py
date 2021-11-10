@@ -61,10 +61,15 @@ def augment_features(window_size = 5, n_shifts = 3, mode = 'shift'):
                     s_df = s_df.rename(columns = {k:f'{k}_shifted_{p}' for k in added_cols})
                     shifted_data.append(s_df)
             #Combine with current table
-            df = pd.concat([df] + shifted_data, axis = 1)
+            #TODO
+            # Figure out why a reset_index is needed here... seems to cause issues downstream
+            # df has a funny index or column structure?
+            df = pd.concat([df.reset_index(drop = True)] + shifted_data, axis = 1)
             return df
         return wrapper
     return decorator
+
+from pandas.api.types import is_numeric_dtype
 
 def boiler_plate(features_df):
     reversemap = None
@@ -79,7 +84,9 @@ def boiler_plate(features_df):
         if col in features_df.columns:
             features_df = features_df.drop(columns = col)
     #Impute nas
-    features_df = features_df.apply(lambda x: x.fillna(x.mean()), axis=0)
+    for col in features_df:
+        if is_numeric_dtype(features_df[col]):
+            features_df[col] = features_df[col].fillna(features_df[col].mean())
     return features_df, reversemap
 
 def make_features_distances(df, animal_setup):
@@ -309,13 +316,13 @@ def _compute_iou(df, animal_setup, n_shifts = 3, mode = 'shift'):
             mins['_'.join([m_id, xy])] = np.min(df[colnames], axis = 1)
             maxs['_'.join([m_id, xy])] = np.max(df[colnames], axis = 1)
 
-    dx = np.minimum(maxs['mouse_0_x'], maxs['mouse_1_x']) - np.maximum(mins['mouse_0_x'], mins['mouse_1_x'])
-    dy = np.minimum(maxs['mouse_0_y'], maxs['mouse_1_y']) - np.maximum(mins['mouse_0_y'], mins['mouse_1_y'])
+    dx = np.minimum(maxs[f'{mouse_ids[0]}_x'], maxs[f'{mouse_ids[1]}_x']) - np.maximum(mins[f'{mouse_ids[0]}_x'], mins[f'{mouse_ids[1]}_x'])
+    dy = np.minimum(maxs[f'{mouse_ids[0]}_y'], maxs[f'{mouse_ids[1]}_y']) - np.maximum(mins[f'{mouse_ids[0]}_y'], mins[f'{mouse_ids[1]}_y'])
     dx = np.maximum(0, dx)
     dy = np.maximum(0, dy)
 
-    bb1_area = (maxs['mouse_0_x'] - mins['mouse_0_x'])*(maxs['mouse_0_y'] - mins['mouse_0_y'])
-    bb2_area = (maxs['mouse_1_x'] - mins['mouse_1_x'])*(maxs['mouse_1_y'] - mins['mouse_1_y'])
+    bb1_area = (maxs[f'{mouse_ids[0]}_x'] - mins[f'{mouse_ids[0]}_x'])*(maxs[f'{mouse_ids[0]}_y'] - mins[f'{mouse_ids[0]}_y'])
+    bb2_area = (maxs[f'{mouse_ids[1]}_x'] - mins[f'{mouse_ids[1]}_x'])*(maxs[f'{mouse_ids[1]}_y'] - mins[f'{mouse_ids[1]}_y'])
     intersection_area = dx*dy
     iou = intersection_area / (bb1_area + bb2_area - intersection_area)
     df['iou'] = iou
@@ -349,9 +356,9 @@ def make_features_mars(df, animal_setup, n_shifts = 3, mode = 'shift', feature_s
     ## Position features ##
     #######################
     features_df = _compute_centroid(features_df, 'all', animal_setup, n_shifts = n_shifts, mode = mode)
-    features_df = _compute_centroid(features_df, 'head', animal_setup, ['nose', 'l_ear', 'r_ear', 'neck'], n_shifts = n_shifts, mode = mode)
-    features_df = _compute_centroid(features_df, 'hips', animal_setup, ['l_hip', 'tail_base', 'r_hip'], n_shifts = n_shifts, mode = mode)
-    features_df = _compute_centroid(features_df, 'body', animal_setup, ['neck', 'l_hip', 'r_hip', 'tail_base'], n_shifts = n_shifts, mode = mode)
+    features_df = _compute_centroid(features_df, 'head', animal_setup, ['nose', 'leftear', 'rightear', 'neck'], n_shifts = n_shifts, mode = mode)
+    features_df = _compute_centroid(features_df, 'hips', animal_setup, ['lefthip', 'tail', 'righthip'], n_shifts = n_shifts, mode = mode)
+    features_df = _compute_centroid(features_df, 'body', animal_setup, ['neck', 'lefthip', 'righthip', 'tail'], n_shifts = n_shifts, mode = mode)
 
     features_df = _compute_cage_distances(features_df, animal_setup, n_shifts = n_shifts, mode = mode)
 
@@ -362,9 +369,9 @@ def make_features_mars(df, animal_setup, n_shifts = 3, mode = 'shift', feature_s
     ## absolute orientation of mice
     features_df = _compute_abs_angle(features_df, 'head_hips', animal_setup, ['centroid_head', 'centroid_hips'], n_shifts = n_shifts, mode = mode)
     features_df = _compute_abs_angle(features_df, 'head_nose', animal_setup, ['neck', 'nose'], centroid = False, n_shifts = n_shifts, mode = mode)
-    features_df = _compute_abs_angle(features_df, 'tail_neck', animal_setup, ['tail_base', 'neck'], centroid = False, n_shifts = n_shifts, mode = mode)
+    features_df = _compute_abs_angle(features_df, 'tail_neck', animal_setup, ['tail', 'neck'], centroid = False, n_shifts = n_shifts, mode = mode)
     ## relative orientation of mice
-    features_df = _compute_rel_angle(features_df, 'l_ear_neck_r_ear', animal_setup, ['l_ear', 'neck', 'r_ear'], n_shifts = n_shifts, mode = mode)
+    features_df = _compute_rel_angle(features_df, 'leftear_neck_rightear', animal_setup, ['leftear', 'neck', 'rightear'], n_shifts = n_shifts, mode = mode)
     ## major axis len, minor axis len of ellipse fit to mouses body
     features_df = _compute_ellipsoid(features_df, animal_setup, n_shifts = n_shifts, mode = mode)
 

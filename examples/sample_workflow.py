@@ -3,7 +3,13 @@
 #######################
 
 #TODO
-# * Import MARS feature creation 
+# * Write a bunch of tests... make sure it's behaving as it should
+# * Clean up the MARS code...
+# * Rewrite stacking code in our new formalism... shouldn't need to use the MARS stacking code I wrote, 
+#   idea is that things are cleaner for that sort of thing now
+# * Make a cleaner feature creation interface? One that can support any animal config
+# * Check row order is preserved by DL model
+# * Better way of getting parameters to feature creation step...like frame width?
 
 ###########################
 ## Example analysis code ##
@@ -11,7 +17,7 @@
 
 from glob import glob 
 from behaveml import VideosetDataFrame, clone_metadata
-from behaveml import compute_dl_probability_features, create_mars_features
+from behaveml import compute_dl_probability_features, compute_mars_features
 
 #from behaveml import read_DLC_tracks
 
@@ -41,14 +47,15 @@ dataset.add_features(compute_dl_probability_features,
                      featureset_name = '1dcnn', 
                      add_to_features = True)
 
+dataset.add_features(compute_mars_features, 
+                     featureset_name = 'MARS', 
+                     add_to_features = True)
+
 ####################
 # Works up to here # 
 ####################
 
-dataset.add_features(create_mars_features, 
-                     featureset_name = 'MARS', 
-                     add_to_features = True)
-
+print(dataset.data)
 #You can make your own 'feature maker':
 #The feature creation functions take:
 # * Pandas data frame (dataset.data)

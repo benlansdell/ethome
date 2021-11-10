@@ -230,7 +230,7 @@ def convert_to_mars_format(df, colnames, animal_setup):
 def convert_to_pandas_df(data, colnames = None):
     dfs = []
     for vid in data:
-        df = pd.DataFrame(data[vid], colnames = colnames)
+        df = pd.DataFrame(data[vid], columns = colnames)
         df['filename'] = vid
         dfs.append(df)
     final_df = pd.concat(dfs, axis = 0)

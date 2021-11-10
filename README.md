@@ -24,7 +24,7 @@ pip install behaveml
 * And try your own ML models or use good baselines
 * Active learning... train classifier on one video, inference on the rest, and suggest chunks of 
 
-## How to use
+## Quickstart
 
 Import
 ```

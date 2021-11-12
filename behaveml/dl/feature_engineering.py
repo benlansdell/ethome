@@ -64,7 +64,8 @@ def augment_features(window_size = 5, n_shifts = 3, mode = 'shift'):
             #TODO
             # Figure out why a reset_index is needed here... seems to cause issues downstream
             # df has a funny index or column structure?
-            df = pd.concat([df.reset_index(drop = True)] + shifted_data, axis = 1)
+            #df = pd.concat([df.reset_index(drop = True)] + shifted_data, axis = 1)
+            df = pd.concat([df] + shifted_data, axis = 1)
             return df
         return wrapper
     return decorator

@@ -142,8 +142,6 @@ class VideosetDataFrame(MLDataFrame):
         else:
             raise ValueError("Metadata not properly formatted. See docstring.")
     
-        self.n_videos = len(metadata)
-
         if len(metadata) > 0:
             self._load_tracks() 
             #By default make these tracks the features... 
@@ -168,10 +166,42 @@ class VideosetDataFrame(MLDataFrame):
         return True
 
     @property
+    def videos(self):
+        return list(self.metadata.keys())
+
+    @property
+    def n_videos(self):
+        return len(self.metadata)
+
+    @property
     def group(self):
         return self.data.filename.to_numpy()
 
+    #Set features by individual or by group names
+    def add_features(self, feature_maker, featureset_name, columns = None, add_to_features = False, **kwargs):
+        if columns is None:
+            columns = self.raw_track_columns
+        new_features = feature_maker(self.data, columns, self.animal_setup, **kwargs)
+
+        #Prepend these column names w featureset-name__feature-name
+        new_feat_cols = list(new_features.columns)
+        new_feat_cols = [str(featureset_name) + '__' + str(i) for i in new_feat_cols]
+        new_features.columns = new_feat_cols
+
+        self.data = pd.concat([self.data.reset_index(drop = True), 
+                               new_features.reset_index(drop = True)], axis = 1)
+        if add_to_features:
+            self.feature_cols = list(self.feature_cols) + list(new_features.columns)
+
+    def remove_feature_cols(self, col_names):
+        new_col_names = [i for i in self.feature_cols if i not in col_names]
+        self.feature_cols = new_col_names
+
     def _load_tracks(self):
+        #For the moment only supports DLC
+        return self._load_dlc_tracks()
+
+    def _load_dlc_tracks(self):
         """Add DLC tracks to DataFrame"""
         df = pd.DataFrame()
         dfs = []
@@ -187,29 +217,12 @@ class VideosetDataFrame(MLDataFrame):
                     raise RuntimeError("DLC files have different columns. Must all be from same project")
             col_names_old = col_names
         df = pd.concat(dfs, axis = 0)
+        df = df.reset_index(drop = True)
         self.body_parts = body_parts
         self.animals = animals
         self.animal_setup = {'mouse_ids': animals, 'bodypart_ids': body_parts, 'colnames': col_names}
         self.raw_track_columns = col_names
         self.data = df
-
-    #Set features by individual or by group names
-    def add_features(self, feature_maker, featureset_name, add_to_features = False):
-        new_features = feature_maker(self.data, self.raw_track_columns, self.animal_setup)
-
-        #Prepend these column names w featureset-name__feature-name
-        new_feat_cols = list(new_features.columns)
-        new_feat_cols = [str(featureset_name) + str(i) for i in new_feat_cols]
-        new_features.columns = new_feat_cols
-
-        #Add
-        # TODO
-        # Figure out same indices problem here...
-        # Where did the frames column go?
-        # Might be because I use frame column as a pointer to index? or something...
-        self.data = pd.concat([self.data.reset_index(drop = True), new_features.reset_index(drop = True)], axis = 1)
-        if add_to_features:
-            self.feature_cols = list(self.feature_cols) + list(new_features.columns)
 
     def _load_labels(self, col_name = 'label', set_as_label = False):
         #For the moment only BORIS support
@@ -235,7 +248,7 @@ class VideosetDataFrame(MLDataFrame):
                 self.data.loc[self.data['filename'] == vid, col_name] = ground_truth
 
         if set_as_label:
-            self.label_col = col_name
+            self.label_cols = col_name
 
     
     def make_movie(self, prediction_column, fn_out, movie_in):

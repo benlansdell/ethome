@@ -47,14 +47,14 @@ def read_DLC_tracks(fn_in : str):
     dlc_tracks = dlc_tracks.reshape((n_rows, -1))
     final_df = pd.DataFrame(dlc_tracks, columns = colnames)
     final_df['filename'] = fn_in
-    final_df['frame'] = final_df.index
+    final_df['frame'] = final_df.index.copy()
 
     return final_df, body_parts, animals, colnames
 
-def save_DLC_tracks_h5(df, fn_out):
+def save_DLC_tracks_h5(df : pd.DataFrame, fn_out : str):
     df.to_hdf(fn_out, "df_with_missing", format = 'table', mode="w")
 
-def load_data(fn):
+def load_data(fn : str):
     """Load an object from a pickle file"""
     try:
         with open(fn, 'rb') as handle:

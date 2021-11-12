@@ -231,7 +231,6 @@ def convert_to_pandas_df(data, colnames = None):
     dfs = []
     for vid in data:
         df = pd.DataFrame(data[vid], columns = colnames)
-        df['filename'] = vid
         dfs.append(df)
     final_df = pd.concat(dfs, axis = 0)
     return final_df
@@ -276,7 +275,6 @@ def compute_dl_probability_features(df : pd.DataFrame, raw_col_names : list, ani
                                 use_callbacks = arguments['use_callbacks'],
                                 params = config)
 
-    #TODO
-    # Check this is in the same order as the input data.....
-    test_df = convert_to_pandas_df(all_test_probs)
+    colnames = [f'prob_{k}' for k in vocab.keys()]
+    test_df = convert_to_pandas_df(all_test_probs, colnames = colnames)
     return test_df

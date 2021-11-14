@@ -8,12 +8,12 @@ TEST_DATA_DIR = os.path.join(os.path.dirname(os.path.realpath(__file__)), "data"
 @pytest.fixture()
 def tracking_files():
     print('tracking files:', len(glob(os.path.join(TEST_DATA_DIR, 'dlc/*.csv'))))
-    return glob(os.path.join(TEST_DATA_DIR, 'dlc/*.csv'))
+    return sorted(glob(os.path.join(TEST_DATA_DIR, 'dlc/*.csv')))
 
 @pytest.fixture()
 def label_files():
     print('label files:', len(glob(os.path.join(TEST_DATA_DIR, 'boris/*.csv'))))
-    return glob(os.path.join(TEST_DATA_DIR, 'boris/*.csv'))
+    return sorted(glob(os.path.join(TEST_DATA_DIR, 'boris/*.csv')))
 
 @pytest.fixture()
 def metadata_params():
@@ -36,3 +36,13 @@ def metadata(tracking_files, label_files, metadata_params):
                             units = metadata_params['units'], 
                             resolution = metadata_params['resolution'])
     return metadata
+
+@pytest.fixture()
+def videodataset(metadata):
+    from behaveml import VideosetDataFrame
+    vdf = VideosetDataFrame(metadata)
+    return vdf
+
+@pytest.fixture
+def default_track_cols(videodataset):
+    return videodataset.raw_track_columns

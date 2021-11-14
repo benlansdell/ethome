@@ -6,4 +6,4 @@ coverage:
 		coverage report
 
 demo:
-		CUDA_VISIBLE_DEVICES= python examples/sample_workflow.py
+		CUDA_VISIBLE_DEVICES= python examples/sample_workflow.p

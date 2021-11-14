@@ -3,23 +3,34 @@
 #######################
 
 #TODO
-# * Write a bunch of tests... make sure it's behaving as it should
+# * Write a bunch of tests... make sure it's behaving as it should. Get coverage up to 90% (?)
+
 # * Clean up the MARS code...
+
 # * Rewrite stacking code in our new formalism... shouldn't need to use the MARS stacking code I wrote, 
 #   idea is that things are cleaner for that sort of thing now
+
 # * Make a cleaner feature creation interface? One that can support any animal config
+
 # * Check row order is preserved by DL model. Otherwise it's useless
-# * Better way of getting parameters to feature creation step...like frame width?
-# * Add a way to enforce, for each feature creation function, that it has the columns it needs
+
+# * Better way of getting parameters to feature creation step...like framewidth may be useful, for instance?
+
+# * Add a way to enforce, for each feature creation function, that it has the columns it needs.
 #   Add a 'req columns' field somewhere. The names should matter
-# * Add a column renamer -- say you labeled your columns differently in DLC, this will 
-#   name them as expected by the 'req_columns' field for the features you want.
+#   Perhaps there should be a 'Feature' class... that has property req features
+
 # * Get rid of warning messages when load CNN pre-trained parameters
+
 # * Move read BORIS function to io.py
-# * Make it so that raw tracking columns are not added as features by default
+
 # * Add HMM on top of all this jazz
+
 # * Add F1 optimizer on top of all this jazz
-# * Add our DLC filtering code
+
+# * Add DLC filtering code
+
+# * Documentation
 
 # Also want to do some EDA and QC. So let's check:
 # * Plots of the DLC tracks
@@ -28,6 +39,9 @@
 
 #DONE
 
+# * Make it so that raw tracking columns are not added as features by default
+# * Add a column renamer -- say you labeled your columns differently in DLC, this will 
+#   name them as expected by the 'req_columns' field for the features you want.
 
 ###########################
 ## Example analysis code ##

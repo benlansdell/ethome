@@ -7,7 +7,7 @@ from itertools import product
 from glob import glob 
 from sklearn.model_selection import PredefinedSplit
 
-from behaveml.io import read_DLC_tracks, XY_IDS
+from behaveml.io import read_DLC_tracks, XY_IDS, rename_df_cols
 
 class MLDataFrame(object):
     """
@@ -126,8 +126,13 @@ class VideosetDataFrame(MLDataFrame):
             for that video. Most easiest to create with 'clone_metadata'. 
             Required keys are: ['scale', 'fps', 'units', 'resolution', 'label_files']
         label_key: (dict) Default None. Dictionary whose keys are behavior labels and values are integers 
+        part_renamer: (dict) Default None. Dictionary that can rename body parts from tracking files if needed (for feature creation, e.g.)
+        animal_renamer: (dict) Default None. Dictionary that re rename animals from tracking files if needed
     """
-    def __init__(self, metadata : dict, label_key : dict = None):
+    def __init__(self, metadata : dict, 
+                       label_key : dict = None, 
+                       part_renamer : dict = None,
+                       animal_renamer : dict = None):
         self.req_cols = ['frame_length', 'fps', 'units', 'resolution']
 
         self.data = pd.DataFrame()
@@ -143,15 +148,15 @@ class VideosetDataFrame(MLDataFrame):
             raise ValueError("Metadata not properly formatted. See docstring.")
     
         if len(metadata) > 0:
-            self._load_tracks() 
+            self._load_tracks(part_renamer, animal_renamer) 
             #By default make these tracks the features... 
             #useless for ML but just to have something to start with
             #This will be updated once some features to do ML with have been computed
-            self.feature_cols = self.raw_track_columns
             self._load_labels(set_as_label = True)
         else:
-            self.feature_cols = None
             self.raw_track_columns = None
+
+        self.feature_cols = None
 
     def _setup_default_cv_folds(self):
         default_fold_cols = [f'fold{idx}' for idx in range(self.n_videos)]
@@ -197,18 +202,20 @@ class VideosetDataFrame(MLDataFrame):
         new_col_names = [i for i in self.feature_cols if i not in col_names]
         self.feature_cols = new_col_names
 
-    def _load_tracks(self):
+    def _load_tracks(self, part_renamer, animal_renamer):
         #For the moment only supports DLC
-        return self._load_dlc_tracks()
+        return self._load_dlc_tracks(part_renamer, animal_renamer)
 
-    def _load_dlc_tracks(self):
+    def _load_dlc_tracks(self, part_renamer, animal_renamer):
         """Add DLC tracks to DataFrame"""
         df = pd.DataFrame()
         dfs = []
         col_names_old = None
         #Go through each video file and load DLC tracks
         for fn in self.metadata.keys():
-            df_fn, body_parts, animals, col_names = read_DLC_tracks(fn)
+            df_fn, body_parts, animals, col_names = read_DLC_tracks(fn, 
+                                                                    part_renamer, 
+                                                                    animal_renamer)
             n_rows = len(df_fn)
             dfs.append(df_fn)
             self.metadata[fn]['duration'] = n_rows/self.metadata[fn]['fps']
@@ -250,7 +257,6 @@ class VideosetDataFrame(MLDataFrame):
         if set_as_label:
             self.label_cols = col_name
 
-    
     def make_movie(self, prediction_column, fn_out, movie_in):
         """Given a column indicating behavior predictions, make a video
         outputting those predictiions alongside true labels."""

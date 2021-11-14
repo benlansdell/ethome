@@ -8,7 +8,7 @@ from sklearn.model_selection import PredefinedSplit
 
 from behaveml.io import read_DLC_tracks, XY_IDS, read_boris_annotation
 
-class MLDataFrame(object):
+class MLDataFrame(object): # pragma: no cover
     """
     DataFrame useful for interfacing between pandas and sklearn. Stores a data
     table and metadata dictionary. When feature columns, label columns and fold columns are specified

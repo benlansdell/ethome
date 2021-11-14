@@ -6,6 +6,7 @@
 # * Write a bunch of tests... make sure it's behaving as it should. Get coverage up to 90% (?)
 
 # * Add DLC filtering code
+#   Need to read in probabilities too
 
 # * Clean up the MARS code...
 
@@ -13,10 +14,9 @@
 #   idea is that things are cleaner for that sort of thing now
 
 # * Make a cleaner feature creation interface? One that can support any animal config
+#   Better way of getting parameters to feature creation step...like framewidth may be useful, for instance?
 
-# * Check row order is preserved by DL model. Otherwise it's useless
-
-# * Better way of getting parameters to feature creation step...like framewidth may be useful, for instance?
+# * Check that row order is preserved by DL model. Otherwise it's useless. How do we do this?
 
 # * Add a way to enforce, for each feature creation function, that it has the columns it needs.
 #   Add a 'req columns' field somewhere. The names should matter
@@ -28,7 +28,7 @@
 
 # * Documentation
 
-# Also want to do some EDA and QC. So let's check:
+# Also want to do some EDA and QC. So let's add support to:
 # * Plots of the DLC tracks
 # * Filtering options for the DLC tracks
 # * Video of BORIS labels
@@ -72,16 +72,17 @@ metadata = clone_metadata(tracking_files,
 dataset = VideosetDataFrame(metadata)
 
 #Now create features on this dataset
-#By default this keras code will use CUDA. 
+print("Calculating MARS features")
+dataset.add_features(compute_mars_features, 
+                     featureset_name = 'MARS', 
+                     add_to_features = True)
+
+#Note: by default this keras code will try to use CUDA. 
 print("Calculating 1D CNN pretrained network features")
 dataset.add_features(compute_dl_probability_features, 
                      featureset_name = '1dcnn', 
                      add_to_features = True)
 
-print("Calculating MARS features")
-dataset.add_features(compute_mars_features, 
-                     featureset_name = 'MARS', 
-                     add_to_features = True)
 
 ####################
 # Works up to here # 

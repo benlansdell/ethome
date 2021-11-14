@@ -96,7 +96,7 @@ class Trainer(object):
                                       'pretrained_models', 
                                       f'task1_model_fold_{count}/the_model/variables/variables')
             loaded_model = self.model
-            loaded_model.load_weights(model_path)
+            loaded_model.load_weights(model_path).expect_partial()
             self.model = loaded_model 
 
             #Once trained we can do the inference on the test data:

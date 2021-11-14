@@ -184,6 +184,18 @@ class VideosetDataFrame(MLDataFrame):
 
     #Set features by individual or by group names
     def add_features(self, feature_maker, featureset_name, columns = None, add_to_features = False, **kwargs):
+        """
+        Houses DLC tracking data and behavior annotations in pandas DataFrame for ML, along with relevant metadata
+
+        Args:
+            featuremaker: (dict) Dictionary whose keys are DLC tracking csvs, and value is a dictionary of associated metadata
+                for that video. Most easiest to create with 'clone_metadata'. 
+                Required keys are: ['scale', 'fps', 'units', 'resolution', 'label_files']
+            label_key: (dict) Default None. Dictionary whose keys are behavior labels and values are integers 
+            part_renamer: (dict) Default None. Dictionary that can rename body parts from tracking files if needed (for feature creation, e.g.)
+        Returns:
+            None
+        """
         if columns is None:
             columns = self.raw_track_columns
         new_features = feature_maker(self.data, columns, self.animal_setup, **kwargs)
@@ -196,7 +208,10 @@ class VideosetDataFrame(MLDataFrame):
         self.data = pd.concat([self.data.reset_index(drop = True), 
                                new_features.reset_index(drop = True)], axis = 1)
         if add_to_features:
-            self.feature_cols = list(self.feature_cols) + list(new_features.columns)
+            if self.feature_cols:
+                self.feature_cols = list(self.feature_cols) + list(new_features.columns)
+            else:
+                self.feature_cols = new_features.columns
 
     def remove_feature_cols(self, col_names):
         new_col_names = [i for i in self.feature_cols if i not in col_names]

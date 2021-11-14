@@ -20,8 +20,6 @@
 #   Add a 'req columns' field somewhere. The names should matter
 #   Perhaps there should be a 'Feature' class... that has property req features
 
-# * Get rid of warning messages when load CNN pre-trained parameters
-
 # * Move read BORIS function to io.py
 
 # * Add HMM on top of all this jazz
@@ -42,6 +40,8 @@
 # * Make it so that raw tracking columns are not added as features by default
 # * Add a column renamer -- say you labeled your columns differently in DLC, this will 
 #   name them as expected by the 'req_columns' field for the features you want.
+# * Get rid of warning messages when load CNN pre-trained parameters
+#expect_partial() on the load status object, e.g. tf.train.Checkpoint.restore(...).expect_partial()
 
 ###########################
 ## Example analysis code ##
@@ -83,11 +83,6 @@ print("Calculating MARS features")
 dataset.add_features(compute_mars_features, 
                      featureset_name = 'MARS', 
                      add_to_features = True)
-
-#Remove the raw DLC track features from our featureset for ML
-dataset.remove_feature_cols(dataset.raw_track_columns)
-
-
 
 ####################
 # Works up to here # 
@@ -150,11 +145,3 @@ re = recall_score(dataset.labels, predictions)
 print("Acc", acc, "F1", f1, 'precision', pr, 'recall', re)
 
 #Now we have our model we can make a video of its predictions
-
-#It may be that the stacked models I haven't implemented yet are actually doing
-#a lot of the work. This makes sense, because there really aren't many interaction
-#frames for this thing to learn from in this dataset............
-#XGB on top of the stacked model may be beneficial. On the other hand... the CNN should be doing that already. 
-#Not sure why it isn't getting better performance. Perhaps it's just totally overfit... with the rest of the features
-#could just try using the 1dCNN features
-

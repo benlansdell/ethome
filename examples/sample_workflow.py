@@ -5,6 +5,8 @@
 #TODO
 # * Write a bunch of tests... make sure it's behaving as it should. Get coverage up to 90% (?)
 
+# * Add DLC filtering code
+
 # * Clean up the MARS code...
 
 # * Rewrite stacking code in our new formalism... shouldn't need to use the MARS stacking code I wrote, 
@@ -20,13 +22,9 @@
 #   Add a 'req columns' field somewhere. The names should matter
 #   Perhaps there should be a 'Feature' class... that has property req features
 
-# * Move read BORIS function to io.py
-
 # * Add HMM on top of all this jazz
 
 # * Add F1 optimizer on top of all this jazz
-
-# * Add DLC filtering code
 
 # * Documentation
 
@@ -37,6 +35,7 @@
 
 #DONE
 
+# * Move read BORIS function to io.py
 # * Make it so that raw tracking columns are not added as features by default
 # * Add a column renamer -- say you labeled your columns differently in DLC, this will 
 #   name them as expected by the 'req_columns' field for the features you want.

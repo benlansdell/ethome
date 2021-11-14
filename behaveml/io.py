@@ -85,3 +85,16 @@ def load_data(fn : str):
     with open(fn, 'rb') as handle:
         object = pickle.load(handle)
     return object 
+
+def read_boris_annotation(fn_in, fps, duration):
+    """Read behavior annotation from BORIS exported csv file"""
+    n_bins = int(duration*fps)
+    boris_labels = pd.read_csv(fn_in, skiprows = 15)
+    boris_labels['index'] = (boris_labels.index//2)
+    boris_labels = boris_labels.pivot_table(index = 'index', columns = 'Status', values = 'Time').reset_index()
+    boris_labels = list(np.array(boris_labels[['START', 'STOP']]))
+    boris_labels = [list(i) for i in boris_labels]
+    ground_truth = np.zeros(n_bins)
+    for start, end in boris_labels:
+        ground_truth[int(start*fps):int(end*fps)] = 1
+    return ground_truth

@@ -3,11 +3,10 @@
 import pandas as pd
 import pickle 
 import numpy as np
-from itertools import product
 from glob import glob 
 from sklearn.model_selection import PredefinedSplit
 
-from behaveml.io import read_DLC_tracks, XY_IDS, rename_df_cols
+from behaveml.io import read_DLC_tracks, XY_IDS, read_boris_annotation
 
 class MLDataFrame(object):
     """
@@ -255,17 +254,13 @@ class VideosetDataFrame(MLDataFrame):
 
         for vid in self.metadata:
             if 'label_files' in self.metadata[vid]:
+
                 fn_in = self.metadata[vid]['label_files']
                 fps = self.metadata[vid]['fps']
-                n_bins = int(self.metadata[vid]['duration']*fps)
-                boris_labels = pd.read_csv(fn_in, skiprows = 15)
-                boris_labels['index'] = (boris_labels.index//2)
-                boris_labels = boris_labels.pivot_table(index = 'index', columns = 'Status', values = 'Time').reset_index()
-                boris_labels = list(np.array(boris_labels[['START', 'STOP']]))
-                boris_labels = [list(i) for i in boris_labels]
-                ground_truth = np.zeros(n_bins)
-                for start, end in boris_labels:
-                    ground_truth[int(start*fps):int(end*fps)] = 1
+                duration = self.metadata[vid]['duration']
+
+                ground_truth = read_boris_annotation(fn_in, fps, duration)
+
                 #Add this to data
                 self.data.loc[self.data['filename'] == vid, col_name] = ground_truth
 

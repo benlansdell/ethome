@@ -1,0 +1,8 @@
+site_name: behaveML
+
+theme:
+  name: material
+
+plugins:
+    - search
+    - awesome-pages

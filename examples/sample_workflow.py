@@ -21,9 +21,7 @@
 
 # * Add HMM on top of all this jazz
 
-# * Add F1 optimizer on top of all this jazz
-
-# * Documentation
+# * Add F1 score optimizer on top of all this jazz
 
 # Also want to do some EDA and QC. So let's add support to:
 # * Plots of the DLC tracks
@@ -34,6 +32,7 @@
 
 #DONE
 
+# * Documentation
 # * Add a way to enforce, for each feature creation function, that it has the columns it needs.
 #   Add a 'req columns' field somewhere. The names should matter
 #   Perhaps there should be a 'Feature' class... that has property req features

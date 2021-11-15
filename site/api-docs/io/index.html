@@ -1,0 +1,731 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-7.3.6">
+    
+    
+      
+        <title>Io - behaveML</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.a57b2b03.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.3f5d1f46.min.css">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style>
+      
+    
+    
+    
+    
+      
+
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+  
+    
+    <script>function __prefix(e){return new URL("../..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#module-io" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="behaveML" class="md-header__button md-logo" aria-label="behaveML" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            behaveML
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Io
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="behaveML" class="md-nav__button md-logo" aria-label="behaveML" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    behaveML
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Welcome to MkDocs
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2">
+          API Reference
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="API Reference" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          API Reference
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        Overview
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../features/" class="md-nav__link">
+        Features
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Io
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Io
+      </a>
+      
+        
+
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#global-variables" class="md-nav__link">
+    Global Variables
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#function-read_dlc_tracks" class="md-nav__link">
+    function read_DLC_tracks
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#function-rename_df_cols" class="md-nav__link">
+    function rename_df_cols
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#function-save_dlc_tracks_h5" class="md-nav__link">
+    function save_DLC_tracks_h5
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#function-load_data" class="md-nav__link">
+    function load_data
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#function-read_boris_annotation" class="md-nav__link">
+    function read_boris_annotation
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#class-bufferediobase" class="md-nav__link">
+    class BufferedIOBase
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#class-iobase" class="md-nav__link">
+    class IOBase
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#class-rawiobase" class="md-nav__link">
+    class RawIOBase
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#class-textiobase" class="md-nav__link">
+    class TextIOBase
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#class-unsupportedoperation" class="md-nav__link">
+    class UnsupportedOperation
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mars_features/" class="md-nav__link">
+        Mars features
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ml/" class="md-nav__link">
+        Ml
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../video/" class="md-nav__link">
+        Video
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#global-variables" class="md-nav__link">
+    Global Variables
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#function-read_dlc_tracks" class="md-nav__link">
+    function read_DLC_tracks
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#function-rename_df_cols" class="md-nav__link">
+    function rename_df_cols
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#function-save_dlc_tracks_h5" class="md-nav__link">
+    function save_DLC_tracks_h5
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#function-load_data" class="md-nav__link">
+    function load_data
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#function-read_boris_annotation" class="md-nav__link">
+    function read_boris_annotation
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#class-bufferediobase" class="md-nav__link">
+    class BufferedIOBase
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#class-iobase" class="md-nav__link">
+    class IOBase
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#class-rawiobase" class="md-nav__link">
+    class RawIOBase
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#class-textiobase" class="md-nav__link">
+    class TextIOBase
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#class-unsupportedoperation" class="md-nav__link">
+    class UnsupportedOperation
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                <!-- markdownlint-disable -->
+
+<p><a href="https://github.com/benlansdell/behaveml/tree/master/behaveml/io.py#L0"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<h1 id="module-io"><kbd>module</kbd> <code>io</code></h1>
+<p>Loading and saving tracking and behavior annotation files  </p>
+<h2 id="global-variables"><strong>Global Variables</strong></h2>
+<ul>
+<li><strong>DEFAULT_BUFFER_SIZE</strong></li>
+<li><strong>SEEK_SET</strong></li>
+<li><strong>SEEK_CUR</strong></li>
+<li><strong>SEEK_END</strong></li>
+<li><strong>XY_IDS</strong></li>
+</ul>
+<hr />
+<p><a href="https://github.com/benlansdell/behaveml/tree/master/behaveml/io.py#L22"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<h2 id="function-read_dlc_tracks"><kbd>function</kbd> <code>read_DLC_tracks</code></h2>
+<pre><code class="language-python">read_DLC_tracks(
+    fn_in:str,
+    part_renamer:dict=None,
+    animal_renamer:dict=None
+) → tuple
+</code></pre>
+<p>Read in tracks from DLC. </p>
+<p><strong>Args:</strong></p>
+<ul>
+<li><b><code>fn_in</code></b>:  csv file that has DLC tracks </li>
+<li><b><code>part_renamer</code></b>:  dictionary to rename body parts, if needed  </li>
+<li><b><code>animal_renamer</code></b>:  dictionary to rename animals, if needed </li>
+</ul>
+<p><strong>Returns:</strong>
+ Pandas DataFrame with (n_animals<em>2</em>n_body_parts) columns plus with filename and frame,   List of body parts,  List of animals,  Columns names for DLC tracks </p>
+<hr />
+<p><a href="https://github.com/benlansdell/behaveml/tree/master/behaveml/io.py#L74"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<h2 id="function-rename_df_cols"><kbd>function</kbd> <code>rename_df_cols</code></h2>
+<pre><code class="language-python">rename_df_cols(df:DataFrame, renamer:dict) → DataFrame
+</code></pre>
+<p>Rename dataframe columns  </p>
+<p><strong>Args:</strong></p>
+<ul>
+<li><b><code>df</code></b>:  Pandas dataframe whose columns to rename </li>
+<li><b><code>renamer</code></b>:  dictionary whose key:value pairs define the substitutions to make </li>
+</ul>
+<p><strong>Returns:</strong>
+ The dataframe with renamed columns. </p>
+<hr />
+<p><a href="https://github.com/benlansdell/behaveml/tree/master/behaveml/io.py#L86"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<h2 id="function-save_dlc_tracks_h5"><kbd>function</kbd> <code>save_DLC_tracks_h5</code></h2>
+<pre><code class="language-python">save_DLC_tracks_h5(df:DataFrame, fn_out:str) → None
+</code></pre>
+<p>Save DLC tracks in h5 format. </p>
+<p><strong>Args:</strong></p>
+<ul>
+<li><b><code>df</code></b>:  Pandas dataframe to save </li>
+<li><b><code>fn_out</code></b>:  Where to save the dataframe </li>
+</ul>
+<hr />
+<p><a href="https://github.com/benlansdell/behaveml/tree/master/behaveml/io.py#L95"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<h2 id="function-load_data"><kbd>function</kbd> <code>load_data</code></h2>
+<pre><code class="language-python">load_data(fn:str)
+</code></pre>
+<p>Load an object from a pickle file </p>
+<p><strong>Args:</strong></p>
+<ul>
+<li><b><code>fn</code></b>:  The filename </li>
+</ul>
+<p><strong>Returns:</strong>
+ The pickled object. </p>
+<hr />
+<p><a href="https://github.com/benlansdell/behaveml/tree/master/behaveml/io.py#L108"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<h2 id="function-read_boris_annotation"><kbd>function</kbd> <code>read_boris_annotation</code></h2>
+<pre><code class="language-python">read_boris_annotation(fn_in:str, fps:int, duration:float) → ndarray
+</code></pre>
+<p>Read behavior annotation from BORIS exported csv file </p>
+<p><strong>Args:</strong></p>
+<ul>
+<li><b><code>fn_in</code></b>:  The filename with BORIS behavior annotations to load </li>
+<li><b><code>fps</code></b>:  Frames per second of video </li>
+<li><b><code>duration</code></b>:  Duration of video </li>
+</ul>
+<p><strong>Returns:</strong>
+ A numpy array which indicates, for all frames, if behavior is occuring (1) or not (0) </p>
+<hr />
+<p><a href="https://github.com/benlansdell/behaveml/tree/master/behaveml/io.py"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<h2 id="class-bufferediobase"><kbd>class</kbd> <code>BufferedIOBase</code></h2>
+<p>Base class for buffered IO objects. </p>
+<p>The main difference with RawIOBase is that the read() method supports omitting the size argument, and does not have a default implementation that defers to readinto(). </p>
+<p>In addition, read(), readinto() and write() may raise BlockingIOError if the underlying raw stream is in non-blocking mode and not ready; unlike their raw counterparts, they will never return None. </p>
+<p>A typical implementation should not inherit from a RawIOBase implementation, but wrap one. </p>
+<hr />
+<p><a href="https://github.com/benlansdell/behaveml/tree/master/behaveml/io.py"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<h2 id="class-iobase"><kbd>class</kbd> <code>IOBase</code></h2>
+<p>The abstract base class for all I/O classes, acting on streams of bytes. There is no public constructor. </p>
+<p>This class provides dummy implementations for many methods that derived classes can override selectively; the default implementations represent a file that cannot be read, written or seeked. </p>
+<p>Even though IOBase does not declare read, readinto, or write because their signatures will vary, implementations and clients should consider those methods part of the interface. Also, implementations may raise UnsupportedOperation when operations they do not support are called. </p>
+<p>The basic type used for binary data read from or written to a file is bytes. Other bytes-like objects are accepted as method arguments too. In some cases (such as readinto), a writable object is required. Text I/O classes work with str data. </p>
+<p>Note that calling any method (except additional calls to close(), which are ignored) on a closed stream should raise a ValueError. </p>
+<p>IOBase (and its subclasses) support the iterator protocol, meaning that an IOBase object can be iterated over yielding the lines in a stream. </p>
+<p>IOBase also supports the :keyword:<code>with</code> statement. In this example, fp is closed after the suite of the with statement is complete: </p>
+<p>with open('spam.txt', 'r') as fp:  fp.write('Spam and eggs!') </p>
+<hr />
+<p><a href="https://github.com/benlansdell/behaveml/tree/master/behaveml/io.py"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<h2 id="class-rawiobase"><kbd>class</kbd> <code>RawIOBase</code></h2>
+<p>Base class for raw binary I/O. </p>
+<hr />
+<p><a href="https://github.com/benlansdell/behaveml/tree/master/behaveml/io.py"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<h2 id="class-textiobase"><kbd>class</kbd> <code>TextIOBase</code></h2>
+<p>Base class for text I/O. </p>
+<p>This class provides a character and line based interface to stream I/O. There is no readinto method because Python's character strings are immutable. There is no public constructor. </p>
+<hr />
+<p><a href="https://github.com/benlansdell/behaveml/tree/master/behaveml/io.py"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<h2 id="class-unsupportedoperation"><kbd>class</kbd> <code>UnsupportedOperation</code></h2>
+<hr />
+<p><em>This file was automatically generated via <a href="https://github.com/ml-tooling/lazydocs">lazydocs</a>.</em></p>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        
+        <a href="../features/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Features" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Features
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../mars_features/" class="md-footer__link md-footer__link--next" aria-label="Next: Mars features" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Mars features
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        
+          Made with
+          <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+            Material for MkDocs
+          </a>
+        
+        
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../assets/javascripts/workers/search.fcfe8b6d.min.js", "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.b1047164.min.js"></script>
+      
+    
+  </body>
+</html>

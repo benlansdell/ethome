@@ -1,12 +1,13 @@
+"""Demo workflow showing a simple building of behavior classifier.
+
 #######################
 ## General todo list ##
 #######################
 
 #TODO
-# * Write a bunch of tests... make sure it's behaving as it should. Get coverage up to 90% (?)
 
 # * Add DLC filtering code
-#   Need to read in probabilities too
+#   Need to read in probabilities too for that
 
 # * Clean up the MARS code...
 
@@ -18,10 +19,6 @@
 
 # * Check that row order is preserved by DL model. Otherwise it's useless. How do we do this?
 
-# * Add a way to enforce, for each feature creation function, that it has the columns it needs.
-#   Add a 'req columns' field somewhere. The names should matter
-#   Perhaps there should be a 'Feature' class... that has property req features
-
 # * Add HMM on top of all this jazz
 
 # * Add F1 optimizer on top of all this jazz
@@ -30,11 +27,17 @@
 
 # Also want to do some EDA and QC. So let's add support to:
 # * Plots of the DLC tracks
-# * Filtering options for the DLC tracks
 # * Video of BORIS labels
+# * Video of BORIS labels and predictions
+
+#WORKING ON
 
 #DONE
 
+# * Add a way to enforce, for each feature creation function, that it has the columns it needs.
+#   Add a 'req columns' field somewhere. The names should matter
+#   Perhaps there should be a 'Feature' class... that has property req features
+# * Write a bunch of tests... make sure it's behaving as it should
 # * Move read BORIS function to io.py
 # * Make it so that raw tracking columns are not added as features by default
 # * Add a column renamer -- say you labeled your columns differently in DLC, this will 
@@ -42,13 +45,15 @@
 # * Get rid of warning messages when load CNN pre-trained parameters
 #expect_partial() on the load status object, e.g. tf.train.Checkpoint.restore(...).expect_partial()
 
+"""
+
 ###########################
 ## Example analysis code ##
 ###########################
 
 from glob import glob 
 from behaveml import VideosetDataFrame, clone_metadata
-from behaveml import compute_dl_probability_features, compute_mars_features
+from behaveml import mars_feature_maker, cnn_probability_feature_maker
 
 #A list of DLC tracking files
 tracking_files = sorted(glob('./tests/data/dlc/*.csv'))
@@ -73,13 +78,13 @@ dataset = VideosetDataFrame(metadata)
 
 #Now create features on this dataset
 print("Calculating MARS features")
-dataset.add_features(compute_mars_features, 
+dataset.add_features(mars_feature_maker, 
                      featureset_name = 'MARS', 
                      add_to_features = True)
 
 #Note: by default this keras code will try to use CUDA. 
 print("Calculating 1D CNN pretrained network features")
-dataset.add_features(compute_dl_probability_features, 
+dataset.add_features(cnn_probability_feature_maker, 
                      featureset_name = '1dcnn', 
                      add_to_features = True)
 

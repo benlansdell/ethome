@@ -2,7 +2,7 @@ from keras.models import Sequential
 import keras.layers as layers
 import keras
 
-from .fscores import F1Score
+#from .fscores import F1Score
 
 def build_baseline_model(input_dim, layer_channels=(512, 256), dropout_rate=0., 
                         learning_rate=1e-3, conv_size=5, num_classes = 4,
@@ -37,7 +37,8 @@ def build_baseline_model(input_dim, layer_channels=(512, 256), dropout_rate=0.,
     model.add(layers.Flatten())
     model.add(layers.Dense(num_classes, activation='softmax'))
 
-    metrics = [F1Score(num_classes=num_classes, average = 'macro', labels = [0,1,2]), 'accuracy']
+    #metrics = [F1Score(num_classes=num_classes, average = 'macro', labels = [0,1,2]), 'accuracy']
+    metrics = []
     optimizer = keras.optimizers.Adam(lr=learning_rate)
     model.compile(loss='categorical_crossentropy', 
                 optimizer=optimizer,

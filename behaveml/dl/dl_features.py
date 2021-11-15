@@ -235,7 +235,7 @@ def convert_to_pandas_df(data, colnames = None):
     final_df = pd.concat(dfs, axis = 0)
     return final_df
 
-def compute_dl_probability_features(df : pd.DataFrame, raw_col_names : list, animal_setup : dict):
+def compute_dl_probability_features(df : pd.DataFrame, raw_col_names : list, animal_setup : dict, **kwargs):
 
     test_data = convert_to_mars_format(df, raw_col_names, animal_setup)
     parametersweep = 'test_run_distances'

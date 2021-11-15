@@ -2,3 +2,4 @@ __pycache__
 .vscode
 behaveml/behaveml.egg-info/
 behaveml.egg-info/
+.coverage

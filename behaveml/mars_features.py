@@ -16,7 +16,7 @@ from behaveml.dl.feature_engineering import make_features_mars_w_1dcnn_features,
                                             make_features_mars_w_1dcnn_features_test, \
                                             make_features_mars_distr
 
-def compute_mars_features(df : pd.DataFrame, raw_col_names : list, animal_setup : dict) -> pd.DataFrame:
+def compute_mars_features(df : pd.DataFrame, raw_col_names : list, animal_setup : dict, **kwargs) -> pd.DataFrame:
     features_df, _, _ = make_features_mars_distr(df[raw_col_names], animal_setup) 
     return features_df
 

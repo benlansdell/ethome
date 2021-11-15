@@ -72,15 +72,15 @@ def test_df_renaming(metadata, default_track_cols):
     assert set(new_animals) == set(df.animals)
 
 def test_dl_features(videodataset):
-    from behaveml import compute_dl_probability_features
-    videodataset.add_features(compute_dl_probability_features, 
+    from behaveml import cnn_probability_feature_maker
+    videodataset.add_features(cnn_probability_feature_maker, 
                      featureset_name = '1dcnn', 
                      add_to_features = True)
     assert set(videodataset.feature_cols) == set(['1dcnn__prob_attack', '1dcnn__prob_investigation', '1dcnn__prob_mount', '1dcnn__prob_other'])
 
 def test_mars_features(videodataset):
-    from behaveml import compute_mars_features
-    videodataset.add_features(compute_mars_features, 
+    from behaveml import mars_feature_maker
+    videodataset.add_features(mars_feature_maker, 
                      featureset_name = 'MARS', 
                      add_to_features = True)
     #Check we made the right amount of new columns

@@ -1,8 +1,8 @@
 #These are brought into the behaveml namespace
 from behaveml.io import read_DLC_tracks, save_DLC_tracks_h5
 from behaveml.video import VideosetDataFrame, clone_metadata
-from behaveml.features import compute_dl_probability_features, compute_mars_features
+from behaveml.features import cnn_probability_feature_maker, mars_feature_maker
 
 #These are the functions imported when doing 'from behaveml import *'
 __all__ = [VideosetDataFrame, clone_metadata, read_DLC_tracks, 
-           save_DLC_tracks_h5, compute_dl_probability_features, compute_mars_features]
+           save_DLC_tracks_h5, mars_feature_maker, cnn_probability_feature_maker]

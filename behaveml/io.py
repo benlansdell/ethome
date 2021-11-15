@@ -19,19 +19,18 @@ def _list_replace(ls, renamer):
             ls[i] = renamer[word]
     return ls
 
-def read_DLC_tracks(fn_in : str, part_renamer : dict = None, animal_renamer : dict = None):
+def read_DLC_tracks(fn_in : str, part_renamer : dict = None, animal_renamer : dict = None) -> tuple:
     """Read in tracks from DLC.
 
     Args:
-        fn_in: (str) csv file that has DLC tracks
-        part_renamer: (dict) dictionary to rename body parts, if needed 
-        animal_renamer: (dict) dictionary to rename animals, if needed
+        fn_in: csv file that has DLC tracks
+        part_renamer: dictionary to rename body parts, if needed 
+        animal_renamer: dictionary to rename animals, if needed
 
     Returns:
-        A tuple: 
-            Pandas DataFrame with (n_animals*2*n_body_parts) columns, plus with filename and frame
-            List of body parts
-            List of animals
+        Pandas DataFrame with (n_animals*2*n_body_parts) columns plus with filename and frame, 
+            List of body parts,
+            List of animals,
             Columns names for DLC tracks
     """
     df = pd.read_csv(fn_in, header = [0,1,2,3], index_col = 0)
@@ -72,22 +71,51 @@ def read_DLC_tracks(fn_in : str, part_renamer : dict = None, animal_renamer : di
 
     return final_df, body_parts, animals, colnames
 
-def rename_df_cols(df : pd.DataFrame, renamer : dict):
-    """ Rename dataframe columns """
+def rename_df_cols(df : pd.DataFrame, renamer : dict) -> pd.DataFrame:
+    """Rename dataframe columns 
+    
+    Args:
+        df: Pandas dataframe whose columns to rename
+        renamer: dictionary whose key:value pairs define the substitutions to make
+
+    Returns:
+        The dataframe with renamed columns.
+    """
     return df.rename(columns = renamer)
 
-def save_DLC_tracks_h5(df : pd.DataFrame, fn_out : str):
-    """ Save DLC tracks in h5 format """
+def save_DLC_tracks_h5(df : pd.DataFrame, fn_out : str) -> None:
+    """Save DLC tracks in h5 format.
+    
+    Args:
+        df: Pandas dataframe to save
+        fn_out: Where to save the dataframe
+    """
     df.to_hdf(fn_out, "df_with_missing", format = 'table', mode="w")
 
 def load_data(fn : str):
-    """Load an object from a pickle file"""
+    """Load an object from a pickle file
+    
+    Args:
+        fn: The filename
+
+    Returns:
+        The pickled object.
+    """
     with open(fn, 'rb') as handle:
         object = pickle.load(handle)
     return object 
 
-def read_boris_annotation(fn_in, fps, duration):
-    """Read behavior annotation from BORIS exported csv file"""
+def read_boris_annotation(fn_in : str, fps : int, duration : float) -> np.ndarray:
+    """Read behavior annotation from BORIS exported csv file
+    
+    Args:
+        fn_in: The filename with BORIS behavior annotations to load
+        fps: Frames per second of video
+        duration: Duration of video
+    
+    Returns:
+        A numpy array which indicates, for all frames, if behavior is occuring (1) or not (0)
+    """
     n_bins = int(duration*fps)
     boris_labels = pd.read_csv(fn_in, skiprows = 15)
     boris_labels['index'] = (boris_labels.index//2)

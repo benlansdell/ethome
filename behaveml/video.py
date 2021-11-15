@@ -6,6 +6,8 @@ import numpy as np
 from glob import glob 
 from sklearn.model_selection import PredefinedSplit
 
+from behaveml.features import Features
+
 from behaveml.io import read_DLC_tracks, XY_IDS, read_boris_annotation
 
 class MLDataFrame(object): # pragma: no cover
@@ -80,7 +82,7 @@ def _add_items_to_dict(tracking_files, metadata, k, items):
     for fn, item in zip(tracking_files, items):
         metadata[fn][k] = item
 
-def clone_metadata(tracking_files, **kwargs):
+def clone_metadata(tracking_files : list, **kwargs) -> dict:
     """
     Prepare a metadata dictionary for defining a VideosetDataFrame. 
 
@@ -92,11 +94,11 @@ def clone_metadata(tracking_files, **kwargs):
     DLC file.
 
     Args:
-        tracking_files: (list) of DLC tracking .csvs
+        tracking_files: List of DLC tracking .csvs
         **kwargs: described as above
 
     Returns:
-        (dict) Dictionary whose keys are DLC tracking file names, and contains a dictionary with key,values containing
+        Dictionary whose keys are DLC tracking file names, and contains a dictionary with key,values containing
         the metadata provided
     """
 
@@ -117,21 +119,20 @@ def clone_metadata(tracking_files, **kwargs):
     return metadata
 
 class VideosetDataFrame(MLDataFrame):
-    """
-    Houses DLC tracking data and behavior annotations in pandas DataFrame for ML, along with relevant metadata
-
-    Args:
-        metadata: (dict) Dictionary whose keys are DLC tracking csvs, and value is a dictionary of associated metadata
-            for that video. Most easiest to create with 'clone_metadata'. 
-            Required keys are: ['scale', 'fps', 'units', 'resolution', 'label_files']
-        label_key: (dict) Default None. Dictionary whose keys are behavior labels and values are integers 
-        part_renamer: (dict) Default None. Dictionary that can rename body parts from tracking files if needed (for feature creation, e.g.)
-        animal_renamer: (dict) Default None. Dictionary that re rename animals from tracking files if needed
-    """
     def __init__(self, metadata : dict, 
                        label_key : dict = None, 
                        part_renamer : dict = None,
                        animal_renamer : dict = None):
+        """Houses DLC tracking data and behavior annotations in pandas DataFrame for ML, along with relevant metadata, features and behavior annotation labels.
+
+        Args:
+            metadata: Dictionary whose keys are DLC tracking csvs, and value is a dictionary of associated metadata
+                for that video. Most easiest to create with 'clone_metadata'. 
+                Required keys are: ['scale', 'fps', 'units', 'resolution', 'label_files']
+            label_key: Default None. Dictionary whose keys are behavior labels and values are integers 
+            part_renamer: Default None. Dictionary that can rename body parts from tracking files if needed (for feature creation, e.g.)
+            animal_renamer: Default None. Dictionary that re rename animals from tracking files if needed
+        """
         self.req_cols = ['frame_length', 'fps', 'units', 'resolution']
 
         self.data = pd.DataFrame()
@@ -182,9 +183,11 @@ class VideosetDataFrame(MLDataFrame):
         return self.data.filename.to_numpy()
 
     #Set features by individual or by group names
-    def add_features(self, feature_maker, featureset_name, columns = None, add_to_features = False, **kwargs):
-        """
-        Houses DLC tracking data and behavior annotations in pandas DataFrame for ML, along with relevant metadata
+    def add_features(self, feature_maker : Features, 
+                           featureset_name : str, 
+                           add_to_features = False, 
+                           **kwargs):
+        """Houses DLC tracking data and behavior annotations in pandas DataFrame for ML, along with relevant metadata
 
         Args:
             featuremaker: (dict) Dictionary whose keys are DLC tracking csvs, and value is a dictionary of associated metadata
@@ -195,9 +198,7 @@ class VideosetDataFrame(MLDataFrame):
         Returns:
             None
         """
-        if columns is None:
-            columns = self.raw_track_columns
-        new_features = feature_maker(self.data, columns, self.animal_setup, **kwargs)
+        new_features = feature_maker.make(self, **kwargs)
 
         #Prepend these column names w featureset-name__feature-name
         new_feat_cols = list(new_features.columns)

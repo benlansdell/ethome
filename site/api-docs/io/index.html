@@ -538,7 +538,7 @@
                 
                 <!-- markdownlint-disable -->
 
-<p><a href="https://github.com/benlansdell/behaveml/tree/master/behaveml/io.py#L0"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/io.py#L0"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h1 id="module-io"><kbd>module</kbd> <code>io</code></h1>
 <p>Loading and saving tracking and behavior annotation files  </p>
 <h2 id="global-variables"><strong>Global Variables</strong></h2>
@@ -550,7 +550,7 @@
 <li><strong>XY_IDS</strong></li>
 </ul>
 <hr />
-<p><a href="https://github.com/benlansdell/behaveml/tree/master/behaveml/io.py#L22"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/io.py#L22"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="function-read_dlc_tracks"><kbd>function</kbd> <code>read_DLC_tracks</code></h2>
 <pre><code class="language-python">read_DLC_tracks(
     fn_in:str,
@@ -568,7 +568,7 @@
 <p><strong>Returns:</strong>
  Pandas DataFrame with (n_animals<em>2</em>n_body_parts) columns plus with filename and frame,   List of body parts,  List of animals,  Columns names for DLC tracks </p>
 <hr />
-<p><a href="https://github.com/benlansdell/behaveml/tree/master/behaveml/io.py#L74"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/io.py#L74"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="function-rename_df_cols"><kbd>function</kbd> <code>rename_df_cols</code></h2>
 <pre><code class="language-python">rename_df_cols(df:DataFrame, renamer:dict) → DataFrame
 </code></pre>
@@ -581,7 +581,7 @@
 <p><strong>Returns:</strong>
  The dataframe with renamed columns. </p>
 <hr />
-<p><a href="https://github.com/benlansdell/behaveml/tree/master/behaveml/io.py#L86"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/io.py#L86"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="function-save_dlc_tracks_h5"><kbd>function</kbd> <code>save_DLC_tracks_h5</code></h2>
 <pre><code class="language-python">save_DLC_tracks_h5(df:DataFrame, fn_out:str) → None
 </code></pre>
@@ -592,7 +592,7 @@
 <li><b><code>fn_out</code></b>:  Where to save the dataframe </li>
 </ul>
 <hr />
-<p><a href="https://github.com/benlansdell/behaveml/tree/master/behaveml/io.py#L95"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/io.py#L95"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="function-load_data"><kbd>function</kbd> <code>load_data</code></h2>
 <pre><code class="language-python">load_data(fn:str)
 </code></pre>
@@ -604,7 +604,7 @@
 <p><strong>Returns:</strong>
  The pickled object. </p>
 <hr />
-<p><a href="https://github.com/benlansdell/behaveml/tree/master/behaveml/io.py#L108"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/io.py#L108"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="function-read_boris_annotation"><kbd>function</kbd> <code>read_boris_annotation</code></h2>
 <pre><code class="language-python">read_boris_annotation(fn_in:str, fps:int, duration:float) → ndarray
 </code></pre>
@@ -618,14 +618,14 @@
 <p><strong>Returns:</strong>
  A numpy array which indicates, for all frames, if behavior is occuring (1) or not (0) </p>
 <hr />
-<p><a href="https://github.com/benlansdell/behaveml/tree/master/behaveml/io.py"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/io.py"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="class-bufferediobase"><kbd>class</kbd> <code>BufferedIOBase</code></h2>
 <p>Base class for buffered IO objects. </p>
 <p>The main difference with RawIOBase is that the read() method supports omitting the size argument, and does not have a default implementation that defers to readinto(). </p>
 <p>In addition, read(), readinto() and write() may raise BlockingIOError if the underlying raw stream is in non-blocking mode and not ready; unlike their raw counterparts, they will never return None. </p>
 <p>A typical implementation should not inherit from a RawIOBase implementation, but wrap one. </p>
 <hr />
-<p><a href="https://github.com/benlansdell/behaveml/tree/master/behaveml/io.py"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/io.py"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="class-iobase"><kbd>class</kbd> <code>IOBase</code></h2>
 <p>The abstract base class for all I/O classes, acting on streams of bytes. There is no public constructor. </p>
 <p>This class provides dummy implementations for many methods that derived classes can override selectively; the default implementations represent a file that cannot be read, written or seeked. </p>
@@ -636,16 +636,16 @@
 <p>IOBase also supports the :keyword:<code>with</code> statement. In this example, fp is closed after the suite of the with statement is complete: </p>
 <p>with open('spam.txt', 'r') as fp:  fp.write('Spam and eggs!') </p>
 <hr />
-<p><a href="https://github.com/benlansdell/behaveml/tree/master/behaveml/io.py"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/io.py"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="class-rawiobase"><kbd>class</kbd> <code>RawIOBase</code></h2>
 <p>Base class for raw binary I/O. </p>
 <hr />
-<p><a href="https://github.com/benlansdell/behaveml/tree/master/behaveml/io.py"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/io.py"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="class-textiobase"><kbd>class</kbd> <code>TextIOBase</code></h2>
 <p>Base class for text I/O. </p>
 <p>This class provides a character and line based interface to stream I/O. There is no readinto method because Python's character strings are immutable. There is no public constructor. </p>
 <hr />
-<p><a href="https://github.com/benlansdell/behaveml/tree/master/behaveml/io.py"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/io.py"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="class-unsupportedoperation"><kbd>class</kbd> <code>UnsupportedOperation</code></h2>
 <hr />
 <p><em>This file was automatically generated via <a href="https://github.com/ml-tooling/lazydocs">lazydocs</a>.</em></p>

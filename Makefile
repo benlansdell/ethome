@@ -13,5 +13,6 @@ doc:
 		lazydocs \
 		    --output-path="./docs/api-docs" \
 		    --overview-file="README.md" \
-    		--src-base-url="https://github.com/benlansdell/behaveml/tree/master/" \
-    		behaveml	
+    		--src-base-url="https://github.com/benlansdell/behaveml/blob/master/" \
+    		behaveml
+		mkdocs build

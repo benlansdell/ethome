@@ -1,6 +1,6 @@
 <!-- markdownlint-disable -->
 
-<a href="https://github.com/benlansdell/behaveml/tree/master/behaveml/io.py#L0"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/io.py#L0"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 # <kbd>module</kbd> `io`
 Loading and saving tracking and behavior annotation files  
@@ -15,7 +15,7 @@ Loading and saving tracking and behavior annotation files
 
 ---
 
-<a href="https://github.com/benlansdell/behaveml/tree/master/behaveml/io.py#L22"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/io.py#L22"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `read_DLC_tracks`
 
@@ -45,7 +45,7 @@ Read in tracks from DLC.
 
 ---
 
-<a href="https://github.com/benlansdell/behaveml/tree/master/behaveml/io.py#L74"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/io.py#L74"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `rename_df_cols`
 
@@ -70,7 +70,7 @@ Rename dataframe columns
 
 ---
 
-<a href="https://github.com/benlansdell/behaveml/tree/master/behaveml/io.py#L86"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/io.py#L86"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `save_DLC_tracks_h5`
 
@@ -90,7 +90,7 @@ Save DLC tracks in h5 format.
 
 ---
 
-<a href="https://github.com/benlansdell/behaveml/tree/master/behaveml/io.py#L95"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/io.py#L95"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `load_data`
 
@@ -114,7 +114,7 @@ Load an object from a pickle file
 
 ---
 
-<a href="https://github.com/benlansdell/behaveml/tree/master/behaveml/io.py#L108"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/io.py#L108"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `read_boris_annotation`
 
@@ -140,7 +140,7 @@ Read behavior annotation from BORIS exported csv file
 
 ---
 
-<a href="https://github.com/benlansdell/behaveml/tree/master/behaveml/io.py"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/io.py"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>class</kbd> `BufferedIOBase`
 Base class for buffered IO objects. 
@@ -157,7 +157,7 @@ A typical implementation should not inherit from a RawIOBase implementation, but
 
 ---
 
-<a href="https://github.com/benlansdell/behaveml/tree/master/behaveml/io.py"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/io.py"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>class</kbd> `IOBase`
 The abstract base class for all I/O classes, acting on streams of bytes. There is no public constructor. 
@@ -182,7 +182,7 @@ with open('spam.txt', 'r') as fp:  fp.write('Spam and eggs!')
 
 ---
 
-<a href="https://github.com/benlansdell/behaveml/tree/master/behaveml/io.py"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/io.py"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>class</kbd> `RawIOBase`
 Base class for raw binary I/O. 
@@ -193,7 +193,7 @@ Base class for raw binary I/O.
 
 ---
 
-<a href="https://github.com/benlansdell/behaveml/tree/master/behaveml/io.py"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/io.py"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>class</kbd> `TextIOBase`
 Base class for text I/O. 
@@ -206,7 +206,7 @@ This class provides a character and line based interface to stream I/O. There is
 
 ---
 
-<a href="https://github.com/benlansdell/behaveml/tree/master/behaveml/io.py"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/io.py"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>class</kbd> `UnsupportedOperation`
 

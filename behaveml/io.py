@@ -19,6 +19,12 @@ def _list_replace(ls, renamer):
             ls[i] = renamer[word]
     return ls
 
+def interpolate_lowconf_points(vdf) -> None:
+    """Interpolate low-confidence DLC tracking points"""
+
+    #
+    pass
+
 def read_DLC_tracks(fn_in : str, part_renamer : dict = None, animal_renamer : dict = None) -> tuple:
     """Read in tracks from DLC.
 

@@ -1,5 +1,5 @@
 #These are brought into the behaveml namespace
-from behaveml.io import read_DLC_tracks, save_DLC_tracks_h5
+from behaveml.io import read_DLC_tracks, save_DLC_tracks_h5, interpolate_lowconf_points
 from behaveml.video import VideosetDataFrame, clone_metadata
 from behaveml.features import cnn_probability_feature_maker, mars_feature_maker
 

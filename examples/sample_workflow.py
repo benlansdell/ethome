@@ -6,9 +6,6 @@
 
 #TODO
 
-# * Add DLC filtering code
-#   Need to read in probabilities too for that
-
 # * Clean up the MARS code...
 
 # * Rewrite stacking code in our new formalism... shouldn't need to use the MARS stacking code I wrote, 
@@ -30,6 +27,9 @@
 
 #WORKING ON
 
+# * Add DLC filtering code
+#   Need to read in probabilities too for that
+
 #DONE
 
 # * Documentation
@@ -42,7 +42,7 @@
 # * Add a column renamer -- say you labeled your columns differently in DLC, this will 
 #   name them as expected by the 'req_columns' field for the features you want.
 # * Get rid of warning messages when load CNN pre-trained parameters
-#expect_partial() on the load status object, e.g. tf.train.Checkpoint.restore(...).expect_partial()
+#   expect_partial() on the load status object, e.g. tf.train.Checkpoint.restore(...).expect_partial()
 
 """
 
@@ -52,7 +52,7 @@
 
 from glob import glob 
 from behaveml import VideosetDataFrame, clone_metadata
-from behaveml import mars_feature_maker, cnn_probability_feature_maker
+from behaveml import mars_feature_maker, cnn_probability_feature_maker, interpolate_lowconf_points
 
 #A list of DLC tracking files
 tracking_files = sorted(glob('./tests/data/dlc/*.csv'))
@@ -74,6 +74,10 @@ metadata = clone_metadata(tracking_files,
                           resolution = resolution)
 
 dataset = VideosetDataFrame(metadata)
+
+#Filter out low-confidence DLC tracks and interpolate those points instead
+print("Interpolating low-confidence tracking points")
+interpolate_lowconf_points(dataset)
 
 #Now create features on this dataset
 print("Calculating MARS features")

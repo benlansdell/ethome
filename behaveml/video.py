@@ -208,7 +208,7 @@ class VideosetDataFrame(MLDataFrame):
         self.data = pd.concat([self.data.reset_index(drop = True), 
                                new_features.reset_index(drop = True)], axis = 1)
         if add_to_features:
-            if self.feature_cols:
+            if self.feature_cols is not None:
                 self.feature_cols = list(self.feature_cols) + list(new_features.columns)
             else:
                 self.feature_cols = new_features.columns

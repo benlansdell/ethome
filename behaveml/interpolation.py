@@ -21,7 +21,7 @@ def interpolate_lowconf_points(vdf : VideosetDataFrame,
         in_place: default True. Whether to replace data in place
 
     Returns:
-        Pandas dataframe with the filtered raw columns. Returned even if modified in place. 
+        Pandas dataframe with the filtered raw columns. Returns None if opted for in_place modification
     """
 
     df_filtered = []
@@ -40,6 +40,7 @@ def interpolate_lowconf_points(vdf : VideosetDataFrame,
                     low_conf = df_filter_low_conf.loc[vdf.data.filename == fn_in, '_'.join(['likelihood', m, bp])] < conf_threshold
                     df_filter_low_conf.loc[(vdf.data.filename == fn_in) & low_conf,'_'.join([m, 'x', bp])] = np.nan
                     df_filter_low_conf.loc[(vdf.data.filename == fn_in) & low_conf,'_'.join([m, 'y', bp])] = np.nan
+                    
             df_filter_low_conf.loc[(vdf.data.filename == fn_in)] = \
                 df_filter_low_conf.loc[(vdf.data.filename == fn_in)].\
                 interpolate(axis = 0, method = 'linear', limit_direction = 'both')            
@@ -69,7 +70,10 @@ def interpolate_lowconf_points(vdf : VideosetDataFrame,
 
     df_filtered = pd.concat(df_filtered, axis = 0)
 
-    return df_filtered
+    if not in_place:
+        return df_filtered
+    else:
+        return None
 
 #Try using the fancyimpute package....
 # #df_filter_low_conf = pd.DataFrame(NuclearNormMinimization().fit_transform(df_filter_low_conf.to_numpy()), 

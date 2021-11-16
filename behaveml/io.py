@@ -5,6 +5,7 @@ import numpy as np
 from itertools import product
 
 XY_IDS = ['x', 'y']
+XYLIKELIHOOD_IDS = ['x', 'y', 'likelihood']
 
 def _uniquifier(seq):
     """Return a sequence (e.g. list) with unique elements only, but maintaining original list order"""
@@ -19,28 +20,29 @@ def _list_replace(ls, renamer):
             ls[i] = renamer[word]
     return ls
 
-def interpolate_lowconf_points(vdf) -> None:
-    """Interpolate low-confidence DLC tracking points"""
-
-    #
-    pass
-
-def read_DLC_tracks(fn_in : str, part_renamer : dict = None, animal_renamer : dict = None) -> tuple:
+def read_DLC_tracks(fn_in : str, 
+                    part_renamer : dict = None, 
+                    animal_renamer : dict = None,
+                    read_likelihoods : bool = True) -> tuple:
     """Read in tracks from DLC.
 
     Args:
         fn_in: csv file that has DLC tracks
         part_renamer: dictionary to rename body parts, if needed 
         animal_renamer: dictionary to rename animals, if needed
+        read_likelihoods: default True. Whether to attach DLC likelihoods to table
 
     Returns:
         Pandas DataFrame with (n_animals*2*n_body_parts) columns plus with filename and frame, 
             List of body parts,
             List of animals,
-            Columns names for DLC tracks
+            Columns names for DLC tracks (excluding likelihoods, if read in),
+            Scorer
     """
     df = pd.read_csv(fn_in, header = [0,1,2,3], index_col = 0)
     df.columns = df.columns.set_names(['scorer', 'individuals', 'bodyparts', 'coords'])
+
+    scorer = df.columns.get_level_values(0)[0]
 
     cols = list(df.columns)
     animals = _uniquifier([i[1] for i in cols])
@@ -54,12 +56,18 @@ def read_DLC_tracks(fn_in : str, part_renamer : dict = None, animal_renamer : di
     selected_cols = [[3*i, 3*i+1] for i in range(n_body_parts*n_animals)]
     #This line flattens the array here... may be clearer using numpy reshape?
     selected_cols = [j for i in selected_cols for j in i]
+
+    prob_cols = [3*i+2 for i in range(n_body_parts*n_animals)]
+    dlc_probs = dlc_tracks[:,prob_cols]
     dlc_tracks = dlc_tracks[:,selected_cols]
 
     #Put in shape:
     # (frame, animal, x/y coord, body part)
     dlc_tracks = dlc_tracks.reshape((n_rows, n_animals, n_body_parts, 2))
     dlc_tracks = dlc_tracks.transpose([0, 1, 3, 2])
+
+    dlc_probs = dlc_probs.reshape((n_rows, n_animals, n_body_parts, 1))
+    dlc_probs = dlc_probs.transpose([0, 3, 1, 2])
 
     #If we're going to rename items in the list, do it here
     if part_renamer:
@@ -69,13 +77,21 @@ def read_DLC_tracks(fn_in : str, part_renamer : dict = None, animal_renamer : di
         animals = _list_replace(animals, animal_renamer)
 
     colnames = ['_'.join(a) for a in product(animals, XY_IDS, body_parts)]
+    prob_colnames = ['_'.join(a) for a in product(['likelihood'], animals, body_parts)]
+
+    dlc_probs = dlc_probs.reshape((n_rows, -1))
+    final_probs = pd.DataFrame(dlc_probs, columns = prob_colnames)
 
     dlc_tracks = dlc_tracks.reshape((n_rows, -1))
     final_df = pd.DataFrame(dlc_tracks, columns = colnames)
+
+    if read_likelihoods:
+        final_df = pd.concat([final_df, final_probs], axis = 1)
+
     final_df['filename'] = fn_in
     final_df['frame'] = final_df.index.copy()
 
-    return final_df, body_parts, animals, colnames
+    return final_df, body_parts, animals, colnames, scorer
 
 def rename_df_cols(df : pd.DataFrame, renamer : dict) -> pd.DataFrame:
     """Rename dataframe columns 

@@ -228,12 +228,13 @@ class VideosetDataFrame(MLDataFrame):
         col_names_old = None
         #Go through each video file and load DLC tracks
         for fn in self.metadata.keys():
-            df_fn, body_parts, animals, col_names = read_DLC_tracks(fn, 
-                                                                    part_renamer, 
-                                                                    animal_renamer)
+            df_fn, body_parts, animals, col_names, scorer = read_DLC_tracks(fn, 
+                                                                            part_renamer, 
+                                                                            animal_renamer)
             n_rows = len(df_fn)
             dfs.append(df_fn)
             self.metadata[fn]['duration'] = n_rows/self.metadata[fn]['fps']
+            self.metadata[fn]['scorer'] = scorer
             if col_names_old is not None:
                 if col_names != col_names_old:
                     raise RuntimeError("DLC files have different columns. Must all be from same project")

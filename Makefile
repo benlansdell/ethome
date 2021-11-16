@@ -9,6 +9,12 @@ coverage:
 demo:
 		CUDA_VISIBLE_DEVICES= python examples/sample_workflow.py
 
+#See:
+# https://www.mkdocs.org/getting-started/
+# https://github.com/squidfunk/mkdocs-material
+# https://github.com/lukasgeiter/mkdocs-awesome-pages-plugin
+# https://pythonrepo.com/repo/ml-tooling-lazydocs-python-documentation#mkdocs-integration
+
 doc:
 		lazydocs \
 		    --output-path="./docs/api-docs" \

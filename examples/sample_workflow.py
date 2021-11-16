@@ -15,6 +15,10 @@
 #   Better way of getting parameters to feature creation step...like framewidth may be useful, for instance?
 
 # * Check that row order is preserved by DL model. Otherwise it's useless. How do we do this?
+#   I have a good sign that it is: I now get 73% F1 score -- when I had the bug that swapped the videos
+#   I had around 13% F1 score -- so 13% is what I should expect for scrambled, out of order, annotation rows.
+#   But... I should check the performance of the DL features alone, and of the MARS features alone, to see
+#   what is contributing to the performance. Perhaps only the MARS features are getting me to 73%.
 
 # * Add HMM on top of all this jazz
 
@@ -27,11 +31,12 @@
 
 #WORKING ON
 
-# * Add DLC filtering code
-#   Need to read in probabilities too for that
+# * Tests for interpolation code
 
 #DONE
 
+# * Add DLC filtering code
+# * Read in probabilities from DLC
 # * Documentation
 # * Add a way to enforce, for each feature creation function, that it has the columns it needs.
 #   Add a 'req columns' field somewhere. The names should matter
@@ -65,7 +70,7 @@ units = None                     # (str) units frame_length is given in
 fps = 30                         # (int) frames per second
 resolution = (1200, 1600)        # (tuple) HxW in pixels
 
-#Metadata is a dictionary
+#Metadata is a dictionary that attaches each of the above parameters to the video/behavior annotations
 metadata = clone_metadata(tracking_files, 
                           label_files = boris_files, 
                           frame_length = frame_length, 
@@ -140,7 +145,7 @@ model = RandomForestClassifier()
 #model = LogisticRegression(solver = 'liblinear')
 #model = KNeighborsClassifier(metric = 'manhattan')
 
-print("Fitting ML model with LOO CV")
+print("Fitting ML model with (group) LOO CV")
 predictions = cross_val_predict(model, 
                                 dataset.features, 
                                 dataset.labels, 
@@ -153,3 +158,7 @@ re = recall_score(dataset.labels, predictions)
 print("Acc", acc, "F1", f1, 'precision', pr, 'recall', re)
 
 #Now we have our model we can make a video of its predictions
+
+#Also, we want to build a more sophisticated, stacking model
+
+#Also, we want to train a model and then do inference on another set of videos...

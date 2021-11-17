@@ -20,7 +20,7 @@ def compute_mars_features(df : pd.DataFrame, raw_col_names : list, animal_setup 
     features_df, _, _ = make_features_mars_distr(df[raw_col_names], animal_setup) 
     return features_df
 
-def make_stacked_features(train_df, test_df):
+def make_stacked_features(train_df, test_df): # pragma: no cover
 
     mars_features_df, reversemap, _ = make_features_mars_w_1dcnn_features(train_df)
     mars_features_df_test, reversemap_test, _ = make_features_mars_w_1dcnn_features_test(test_df)
@@ -145,7 +145,7 @@ def make_stacked_features(train_df, test_df):
 
     return mars_features_df, reversemap, name, mars_features_df_test, reversemap_test
 
-def compute_mars_features_(df : pd.DataFrame, raw_col_names : list, animal_setup : dict):
+def compute_mars_features_(df : pd.DataFrame, raw_col_names : list, animal_setup : dict): # pragma: no cover
 
     train_df = pd.read_csv('./data/intermediate/train_df.csv')
     test_df = pd.read_csv('./data/intermediate/test_df.csv')

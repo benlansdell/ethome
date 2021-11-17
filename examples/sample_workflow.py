@@ -31,10 +31,9 @@
 
 #WORKING ON
 
-# * Tests for interpolation code
-
 #DONE
 
+# * Tests for interpolation code
 # * Add DLC filtering code
 # * Read in probabilities from DLC
 # * Documentation

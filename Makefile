@@ -1,8 +1,8 @@
 test:
-		pytest
+		CUDA_VISIBLE_DEVICES= pytest
 
 coverage:
-		coverage run -m pytest
+		CUDA_VISIBLE_DEVICES= coverage run -m pytest
 		coverage report -i
 		coverage html -i
 

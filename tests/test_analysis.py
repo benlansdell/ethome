@@ -4,7 +4,8 @@
 
 import pytest
 
-from behaveml import VideosetDataFrame, clone_metadata
+from behaveml import VideosetDataFrame, clone_metadata, interpolate_lowconf_points, video
+import pandas as pd
 
 #Metadata is a dictionary
 def test_clone_metadata(tracking_files, label_files, metadata_params):
@@ -85,3 +86,8 @@ def test_mars_features(videodataset):
                      add_to_features = True)
     #Check we made the right amount of new columns
     assert len(videodataset.feature_cols) == 796
+
+def test_interpolate(videodataset):
+    interpolate_lowconf_points(videodataset)
+
+    assert pd.notnull(videodataset.data).all(axis = None)

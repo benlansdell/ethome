@@ -46,3 +46,11 @@ def videodataset(metadata):
 @pytest.fixture
 def default_track_cols(videodataset):
     return videodataset.raw_track_columns
+
+@pytest.fixture()
+def videodataset_mars(videodataset):
+    from behaveml import mars_feature_maker
+    videodataset.add_features(mars_feature_maker, 
+                     featureset_name = 'MARS', 
+                     add_to_features = True)
+    return videodataset

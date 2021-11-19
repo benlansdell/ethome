@@ -6,33 +6,43 @@
 
 #TODO
 
+# * Make some requirements 'optional'... they aren't specified as required in the package spec, but add tests that
+#   they are installed on the system before trying to use them. Add errors if the system doesn't support them. This way the package
+#   stays light weight. 
+#   Current list of unchecked optionals: tensorflow
+#   List of checked optionals: ssm, ffmpeg
+#  
+#   Another way to do this is to use pip install options. e.g. I would have a pip install behaveml[all] option
+
 # * Clean up the MARS code...
 
-# * Rewrite stacking code in our new formalism... shouldn't need to use the MARS stacking code I wrote, 
-#   idea is that things are cleaner for that sort of thing now
+# * Stacking example: I think this can all be done in sklearn... no behaveml code is needed.
 
 # * Make a cleaner feature creation interface? One that can support any animal config
 #   Better way of getting parameters to feature creation step...like framewidth may be useful, for instance?
-
-# * Check that row order is preserved by DL model. Otherwise it's useless. How do we do this?
-#   I have a good sign that it is: I now get 73% F1 score -- when I had the bug that swapped the videos
-#   I had around 13% F1 score -- so 13% is what I should expect for scrambled, out of order, annotation rows.
-#   But... I should check the performance of the DL features alone, and of the MARS features alone, to see
-#   what is contributing to the performance. Perhaps only the MARS features are getting me to 73%.
-
-# * Add HMM on top of all this jazz
-
-# * Add F1 score optimizer on top of all this jazz
 
 # Also want to do some EDA and QC. So let's add support to:
 # * Plots of the DLC tracks
 # * Video of BORIS labels
 # * Video of BORIS labels and predictions
 
+# * Tests for F1 optimizer and HMM
+
 #WORKING ON
+
+# * Add save/load functionality
 
 #DONE
 
+# * Add HMM on top of all this jazz
+# * Add F1 score optimizer on top of all this jazz
+#   Add these as extra sk-learn models
+# * Movie making with predictions. For QC... to inspect quality of predictions
+# * Check that row order is preserved by DL model. Otherwise it's useless. How do we do this?
+#   I have a good sign that it is: I now get 73% F1 score -- when I had the bug that swapped the videos
+#   I had around 13% F1 score -- so 13% is what I should expect for scrambled, out of order, annotation rows.
+#   But... I should check the performance of the DL features alone, and of the MARS features alone, to see
+#   what is contributing to the performance. Perhaps only the MARS features are getting me to 73%.
 # * Tests for interpolation code
 # * Add DLC filtering code
 # * Read in probabilities from DLC
@@ -64,6 +74,9 @@ tracking_files = sorted(glob('./tests/data/dlc/*.csv'))
 #A list of BORIS labeled files, ordered to correspond with DLC tracking file list
 boris_files = sorted(glob('./tests/data/boris/*.csv'))
 
+#A list of video files, ordered to correspond with DLC tracking file list
+video_files = sorted(glob('./tests/data/videos/*.avi'))
+
 frame_length = None              # (float) length of entire horizontal shot
 units = None                     # (str) units frame_length is given in
 fps = 30                         # (int) frames per second
@@ -72,6 +85,7 @@ resolution = (1200, 1600)        # (tuple) HxW in pixels
 #Metadata is a dictionary that attaches each of the above parameters to the video/behavior annotations
 metadata = clone_metadata(tracking_files, 
                           label_files = boris_files, 
+                          video_files = video_files,
                           frame_length = frame_length, 
                           fps = fps, 
                           units = units, 
@@ -125,8 +139,6 @@ dataset.add_features(cnn_probability_feature_maker,
 # dataset.group    #Used for group-level cross validation 
 #                   (by default, groups are set to filename, so this implements video-level CV)
 
-splitter = GroupKFold(n_splits = dataset.n_videos)
-
 ######################
 ## Machine learning ##
 ######################
@@ -138,26 +150,51 @@ from sklearn.neighbors import KNeighborsClassifier
 from xgboost import XGBClassifier
 from sklearn.model_selection import cross_val_predict, GroupKFold
 from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_score
+from sklearn.pipeline import Pipeline
 
-model = RandomForestClassifier()
+from behaveml.models import F1Optimizer, HMMSklearn, ModelTransformer
+
+splitter = GroupKFold(n_splits = dataset.n_videos)
+model = ModelTransformer(RandomForestClassifier)
 #model = XGBClassifier()
 #model = LogisticRegression(solver = 'liblinear')
 #model = KNeighborsClassifier(metric = 'manhattan')
 
+# pipeline = Pipeline([
+#                      ("rf", model),
+#                      ("f1max", F1Optimizer(N = 10)),
+#                      ("hmm", HMMSklearn(D = 2))
+#                     ])
+
+pipeline = Pipeline([
+                     ("rf", model),
+#                     ("f1max", F1Optimizer(N = 1000)),
+                     ("hmm", HMMSklearn(D = 2))
+                    ])
+
+
+# dataset.feature_cols = dataset.data.columns[28:42]
+# model = F1Optimizer(N = 10)
+# f1_optimized = model.fit_transform(dataset.features, dataset.labels)
+
 print("Fitting ML model with (group) LOO CV")
-predictions = cross_val_predict(model, 
+predictions = cross_val_predict(RandomForestClassifier(), 
                                 dataset.features, 
                                 dataset.labels, 
                                 groups = dataset.group, 
-                                cv = splitter)
+                                cv = splitter,
+                                verbose = 1,
+                                n_jobs = 5)
+
+#Append these for later use
+dataset.data['prediction'] = predictions
 acc = accuracy_score(dataset.labels, predictions)
 f1 = f1_score(dataset.labels, predictions)
 pr = precision_score(dataset.labels, predictions)
 re = recall_score(dataset.labels, predictions)
 print("Acc", acc, "F1", f1, 'precision', pr, 'recall', re)
 
-#Now we have our model we can make a video of its predictions
-
-#Also, we want to build a more sophisticated, stacking model
-
-#Also, we want to train a model and then do inference on another set of videos...
+#Now we have our model we can make a video of its predictions. 
+#Provide the column names whose state we're going to overlay on the video, along
+#with the directory to output the videos
+dataset.make_movie(['label', 'prediction'], '.')

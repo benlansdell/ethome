@@ -2,6 +2,7 @@
 
 import pandas as pd
 import pickle 
+import os
 import numpy as np
 from glob import glob 
 from sklearn.model_selection import PredefinedSplit
@@ -9,6 +10,7 @@ from sklearn.model_selection import PredefinedSplit
 from behaveml.features import Features
 
 from behaveml.io import read_DLC_tracks, XY_IDS, read_boris_annotation
+from behaveml.utils import checkFFMPEG
 
 class MLDataFrame(object): # pragma: no cover
     """
@@ -269,7 +271,82 @@ class VideosetDataFrame(MLDataFrame):
         if set_as_label:
             self.label_cols = col_name
 
-    def make_movie(self, prediction_column, fn_out, movie_in):
-        """Given a column indicating behavior predictions, make a video
-        outputting those predictiions alongside true labels."""
+    def save(self, fn_out):
+        """Serialize: """
         raise NotImplementedError
+
+    def make_movie(self, label_columns, path_out : str, video_filenames = None) -> None:
+        """Given columns indicating behavior predictions or whatever else, make a video
+        with these predictions overlaid. 
+
+        VideosetDataFrame must have the keys 'video_file', so that the video associated with each set of DLC tracks is known.
+
+        Args:
+            label_columns: list or dict of columns whose values to overlay on top of video. If dict, keys are the columns and values are the print-friendly version.
+            path_out: the directory to output the videos too
+            video_filenames: list or string. The 
+
+        Returns:
+            None. Videos are saved to 'path_out'
+        """
+
+        if not checkFFMPEG():
+            print("Cannot find ffmpeg in path. Please install.")
+            return
+
+        #Text parameters (units in pixels)
+        #TODO  
+        # Add these to some config.yaml (or json) file
+        y_offset = 60
+        y_inc = 30
+        text_color = 'green'
+        font_size = 36
+
+        if type(video_filenames) is str:
+            video_filenames = [video_filenames]
+        if not video_filenames:
+            video_filenames = self.videos
+        if type(label_columns) is list:
+            label_columns = {k:k for k in label_columns}
+
+        for video in video_filenames:
+            rate = 1/self.metadata[video]['fps']
+            vid_in = self.metadata[video]['video_files']
+            file_out = os.path.splitext(os.path.basename(vid_in))[0] + '_'.join(label_columns.keys()) + '.mp4'
+            vid_out = os.path.join(path_out, file_out)
+            label_strings = []
+            for idx, (col,print_label) in enumerate(label_columns.items()):
+                this_y_offset = y_offset + y_inc*idx
+                behavior_pairs = _make_dense_values_into_pairs(self.data.loc[self.data.filename == video, col], rate)
+                this_label_string = ','.join([f"drawtext=text=\'{print_label}\':x=90:y={this_y_offset}:fontsize={font_size}:fontcolor={text_color}:enable=\'between(t,{pair[0]},{pair[1]})\'" for pair in behavior_pairs])
+                label_strings.append(this_label_string)
+            label_string = ','.join(label_strings)
+
+            #ffmpeg is the fastest way to add this information to a video
+            #Prepare the ffmpeg command
+            cmd = f'ffmpeg -y -i {vid_in} -vf "{label_string}" {vid_out}'
+            os.system(cmd)
+            
+def load_videodataset(fn_in : str) -> VideosetDataFrame:
+    """Restore saved VideoDataset object"""
+    raise NotImplementedError
+
+def _make_dense_values_into_pairs(predictions, rate):
+    #Put into start/stop pairs
+    pairs = []
+    in_pair = False
+    start = 0
+    for idx, behavior in enumerate(predictions):
+        if behavior == 0:
+            if in_pair:
+                pairs.append([start, idx*rate])
+            in_pair = False
+        if behavior == 1:
+            if not in_pair:
+                start = idx*rate
+            in_pair = True
+
+    if in_pair:
+        pairs.append([start, idx*rate])
+    return pairs
+    

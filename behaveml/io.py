@@ -3,6 +3,7 @@ import pandas as pd
 import pickle
 import numpy as np
 from itertools import product
+from joblib import dump, load
 
 XY_IDS = ['x', 'y']
 XYLIKELIHOOD_IDS = ['x', 'y', 'likelihood']
@@ -19,6 +20,13 @@ def _list_replace(ls, renamer):
         if word in renamer.keys():
             ls[i] = renamer[word]
     return ls
+
+def save_sklearn_model(model, fn_out):
+    dump(model, fn_out) 
+
+def load_sklearn_model(fn_in):
+    model = load(fn_in)
+    return model 
 
 def read_DLC_tracks(fn_in : str, 
                     part_renamer : dict = None, 

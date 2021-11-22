@@ -304,8 +304,15 @@ class VideosetDataFrame(MLDataFrame):
             self.label_cols = col_name
 
     def save(self, fn_out):
-        """Serialize: """
-        raise NotImplementedError
+        """Save object"""
+        with open(fn_out,'wb') as file:
+            file.write(pickle.dumps(self.__dict__))
+
+    def load(self, fn_in):
+        """Load from file"""
+        with open(fn_in, 'rb') as file:
+            dataPickle = file.read()
+        self.__dict__ = pickle.loads(dataPickle)
 
     def make_movie(self, label_columns, path_out : str, video_filenames = None) -> None:
         """Given columns indicating behavior predictions or whatever else, make a video
@@ -360,8 +367,13 @@ class VideosetDataFrame(MLDataFrame):
             os.system(cmd)
             
 def load_videodataset(fn_in : str) -> VideosetDataFrame:
-    """Restore saved VideoDataset object"""
-    raise NotImplementedError
+    """Load from file"""
+    with open(fn_in, 'rb') as file:
+        dataPickle = file.read()
+    new_obj = VideosetDataFrame({})
+    new_obj.__dict__ = pickle.loads(dataPickle)
+    return new_obj
+
 
 def _make_dense_values_into_pairs(predictions, rate):
     #Put into start/stop pairs

@@ -18,8 +18,6 @@
 # * TSNE embeddings...colored by prediction label? Also can make it colored by predictor (attack/mount/investigate)
 #   With clustering...
 
-# * Add save/load functionality
-
 # Also want to do some EDA and QC. So let's add support to:
 # * Plots of the DLC tracks
 # * Video of BORIS labels
@@ -36,6 +34,7 @@
 
 #DONE
 
+# * Add save/load functionality
 # * Make some requirements 'optional'... they aren't specified as required in the package spec, but add tests that
 #   they are installed on the system before trying to use them. Add errors if the system doesn't support them. This way the package
 #   stays light weight. 
@@ -127,7 +126,7 @@ dataset.add_features(cnn_probability_feature_maker,
                      add_to_features = True)
 
 #print("Adding likelihood columns")
-#dataset.activate_features_by_name('likelihood')
+dataset.activate_features_by_name('likelihood')
 
 ####################
 # Works up to here # 

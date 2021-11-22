@@ -12,6 +12,15 @@ Interprets pose-tracking files (currently only from DLC), behavior annotations (
 pip install behaveml
 ```
 
+Can install optional extras with:
+
+```
+pip install numpy, cython
+pip install behaveml[all]
+```
+
+This includes matplotlib, keras, and Linderman lab's state-space model package, ssm. Note that installing ssm requires cython and numpy for the build, so must be already present in the environment. 
+
 ### Advantages
 
 * Can import data from a range of sources

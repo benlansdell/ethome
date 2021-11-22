@@ -25,6 +25,11 @@
 # * Video of BORIS labels
 # * Video of BORIS labels and predictions
 
+## LATER FEATURES TO ADD
+
+# * Support for additional input types
+# * Export back to DLC format (if only interested in the interpolation functions, e.g.)
+
 #WORKING ON
 
 
@@ -121,8 +126,8 @@ dataset.add_features(cnn_probability_feature_maker,
                      featureset_name = '1dcnn', 
                      add_to_features = True)
 
-print("Adding likelihood columns")
-dataset.activate_features_by_name('likelihood')
+#print("Adding likelihood columns")
+#dataset.activate_features_by_name('likelihood')
 
 ####################
 # Works up to here # 
@@ -192,7 +197,7 @@ pipeline = Pipeline([
 # f1_optimized = model.fit_transform(dataset.features, dataset.labels)
 
 print("Fitting ML model with (group) LOO CV")
-predictions = cross_val_predict(RandomForestClassifier(), 
+predictions = cross_val_predict(XGBClassifier(), 
                                 dataset.features, 
                                 dataset.labels, 
                                 groups = dataset.group, 

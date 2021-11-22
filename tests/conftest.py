@@ -30,11 +30,11 @@ def metadata(tracking_files, label_files, metadata_params):
     from behaveml import clone_metadata
 
     metadata = clone_metadata(tracking_files, 
-                            label_files = label_files, 
-                            frame_length = metadata_params['frame_length'], 
-                            fps = metadata_params['fps'], 
-                            units = metadata_params['units'], 
-                            resolution = metadata_params['resolution'])
+                              label_files = label_files, 
+                              frame_length = metadata_params['frame_length'], 
+                              fps = metadata_params['fps'], 
+                              units = metadata_params['units'], 
+                              resolution = metadata_params['resolution'])
     return metadata
 
 @pytest.fixture()

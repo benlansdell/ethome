@@ -9,10 +9,11 @@
 # * Make some requirements 'optional'... they aren't specified as required in the package spec, but add tests that
 #   they are installed on the system before trying to use them. Add errors if the system doesn't support them. This way the package
 #   stays light weight. 
-#   Current list of unchecked optionals: tensorflow
+#   Current list of unchecked optionals: tensorflow, matplotlib, TSNE
 #   List of checked optionals: ssm, ffmpeg
 #  
 #   Another way to do this is to use pip install options. e.g. I would have a pip install behaveml[all] option
+#   I think these can work alongside each other actually. I implement both...
 
 # * Clean up the MARS code...
 
@@ -21,19 +22,27 @@
 # * Make a cleaner feature creation interface? One that can support any animal config
 #   Better way of getting parameters to feature creation step...like framewidth may be useful, for instance?
 
+# * Tests for F1 optimizer and HMM. Doesn't seem to improve performance much right now...
+
+# * TSNE embeddings...colored by prediction label? Also can make it colored by predictor (attack/mount/investigate)
+#   With clustering...
+
+# * Add save/load functionality
+
 # Also want to do some EDA and QC. So let's add support to:
 # * Plots of the DLC tracks
 # * Video of BORIS labels
 # * Video of BORIS labels and predictions
 
-# * Tests for F1 optimizer and HMM
-
 #WORKING ON
 
-# * Add save/load functionality
+
 
 #DONE
 
+# * Tests for feature adder and removed by RE
+# * Add option to add features by pattern matching (regular expressions?)
+#   E.g. we want to add the features whose names start with 'likelihood'
 # * Add HMM on top of all this jazz
 # * Add F1 score optimizer on top of all this jazz
 #   Add these as extra sk-learn models
@@ -109,6 +118,8 @@ dataset.add_features(cnn_probability_feature_maker,
                      featureset_name = '1dcnn', 
                      add_to_features = True)
 
+print("Adding likelihood columns")
+dataset.activate_features_by_name('likelihood')
 
 ####################
 # Works up to here # 

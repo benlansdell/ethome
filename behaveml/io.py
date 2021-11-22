@@ -7,7 +7,7 @@ from itertools import product
 XY_IDS = ['x', 'y']
 XYLIKELIHOOD_IDS = ['x', 'y', 'likelihood']
 
-def _uniquifier(seq):
+def uniquifier(seq):
     """Return a sequence (e.g. list) with unique elements only, but maintaining original list order"""
     seen = set()
     seen_add = seen.add
@@ -45,8 +45,8 @@ def read_DLC_tracks(fn_in : str,
     scorer = df.columns.get_level_values(0)[0]
 
     cols = list(df.columns)
-    animals = _uniquifier([i[1] for i in cols])
-    body_parts = _uniquifier([i[2] for i in cols])
+    animals = uniquifier([i[1] for i in cols])
+    body_parts = uniquifier([i[2] for i in cols])
 
     n_body_parts = len(body_parts)
     n_animals = len(animals)

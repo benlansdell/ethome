@@ -4,12 +4,13 @@ import pandas as pd
 import pickle 
 import os
 import numpy as np
+import re
 from glob import glob 
 from sklearn.model_selection import PredefinedSplit
 
 from behaveml.features import Features
 
-from behaveml.io import read_DLC_tracks, XY_IDS, read_boris_annotation
+from behaveml.io import read_DLC_tracks, XY_IDS, read_boris_annotation, uniquifier
 from behaveml.utils import checkFFMPEG
 
 class MLDataFrame(object): # pragma: no cover
@@ -184,21 +185,49 @@ class VideosetDataFrame(MLDataFrame):
     def group(self):
         return self.data.filename.to_numpy()
 
+    def activate_features_by_name(self, name : str) -> list:
+        """Add already present columns in data frame to the feature set. 
+        
+        Args:
+            name: string for pattern matching -- any feature that starts with this string will be added
+
+        Returns:
+            List of matched columns (may include columns that were already activated).
+        """
+
+        matched_cols = [l for l in self.data.columns if re.match(f"^{name}", l)]
+        if self.feature_cols is not None:
+            self.feature_cols = uniquifier(list(self.feature_cols) + list(matched_cols))
+        else:
+            self.feature_cols = matched_cols
+        return matched_cols
+
+    def remove_features_by_name(self, name : str) -> list:
+        """Remove columns from the feature set. 
+        
+        Args:
+            name: string for pattern matching -- any feature that starts with this string will be removed
+
+        Returns:
+            List of removed columns.
+        """
+        matched_cols = [l for l in self.feature_cols if re.match(f"^{name}", l)]
+        removed_cols = self.remove_feature_cols(matched_cols)
+        return removed_cols
+
     #Set features by individual or by group names
     def add_features(self, feature_maker : Features, 
                            featureset_name : str, 
                            add_to_features = False, 
-                           **kwargs):
-        """Houses DLC tracking data and behavior annotations in pandas DataFrame for ML, along with relevant metadata
+                           **kwargs) -> list:
+        """Compute features to dataframe using Feature object. 'featureset_name' will be prepended to new columns, followed by a double underscore. 
 
         Args:
-            featuremaker: (dict) Dictionary whose keys are DLC tracking csvs, and value is a dictionary of associated metadata
-                for that video. Most easiest to create with 'clone_metadata'. 
-                Required keys are: ['scale', 'fps', 'units', 'resolution', 'label_files']
-            label_key: (dict) Default None. Dictionary whose keys are behavior labels and values are integers 
-            part_renamer: (dict) Default None. Dictionary that can rename body parts from tracking files if needed (for feature creation, e.g.)
+            featuremaker: A Feature object that houses the feature-making function to be executed and a list of required columns that must in the dataframe for this to work
+            featureset_name: Name to prepend to the added features 
+            add_to_features: Whether to add to list of active features (i.e. will be returned by the .features property)
         Returns:
-            None
+            List of new columns that are computed
         """
         new_features = feature_maker.make(self, **kwargs)
 
@@ -214,10 +243,13 @@ class VideosetDataFrame(MLDataFrame):
                 self.feature_cols = list(self.feature_cols) + list(new_features.columns)
             else:
                 self.feature_cols = new_features.columns
+        return list(new_features.columns)
 
     def remove_feature_cols(self, col_names):
         new_col_names = [i for i in self.feature_cols if i not in col_names]
+        removed = [i for i in self.feature_cols if i in col_names]
         self.feature_cols = new_col_names
+        return removed
 
     def _load_tracks(self, part_renamer, animal_renamer):
         #For the moment only supports DLC

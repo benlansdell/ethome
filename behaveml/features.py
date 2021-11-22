@@ -29,10 +29,5 @@ class Features(object):
         new_features = self.feature_maker(vdf.data, self.required_columns, vdf.animal_setup, **kwargs)
         return new_features
 
-#df : pd.DataFrame, raw_col_names : list, animal_setup : dict
-
 mars_feature_maker = Features(compute_mars_features, default_tracking_columns)
 cnn_probability_feature_maker = Features(compute_dl_probability_features, default_tracking_columns)
-
-#### Another solution to this would be with decorators? Maybe not because then you'd have to define a separate
-# function for every different set of columns you want to be required. Here that is a param into the object init.

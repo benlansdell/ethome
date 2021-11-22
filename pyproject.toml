@@ -1,14 +1,6 @@
 [build-system]
 requires = [
     "setuptools>=42",
-    "wheel",
-    "numpy",
-    "pandas",
-    "scikit-learn",
-    "tqdm",
-    "tensorflow==2.4.1",
-    "typeguard",
-    "typing",
-    "keras==2.4.3"
+    "wheel"
 ]
 build-backend = "setuptools.build_meta"

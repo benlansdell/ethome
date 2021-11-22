@@ -6,15 +6,6 @@
 
 #TODO
 
-# * Make some requirements 'optional'... they aren't specified as required in the package spec, but add tests that
-#   they are installed on the system before trying to use them. Add errors if the system doesn't support them. This way the package
-#   stays light weight. 
-#   Current list of unchecked optionals: tensorflow, matplotlib, TSNE
-#   List of checked optionals: ssm, ffmpeg
-#  
-#   Another way to do this is to use pip install options. e.g. I would have a pip install behaveml[all] option
-#   I think these can work alongside each other actually. I implement both...
-
 # * Clean up the MARS code...
 
 # * Stacking example: I think this can all be done in sklearn... no behaveml code is needed.
@@ -40,6 +31,14 @@
 
 #DONE
 
+# * Make some requirements 'optional'... they aren't specified as required in the package spec, but add tests that
+#   they are installed on the system before trying to use them. Add errors if the system doesn't support them. This way the package
+#   stays light weight. 
+#   Current list of unchecked optionals: tensorflow, matplotlib
+#   List of checked optionals: ssm, ffmpeg
+#  
+#   Another way to do this is to use pip install options. e.g. I would have a pip install behaveml[all] option
+#   I think these can work alongside each other actually. I implement both...
 # * Tests for feature adder and removed by RE
 # * Add option to add features by pattern matching (regular expressions?)
 #   E.g. we want to add the features whose names start with 'likelihood'
@@ -72,6 +71,10 @@
 ###########################
 ## Example analysis code ##
 ###########################
+
+#More reliable to not use GPU here. It's only doing inference with a small net, doesn't take long:
+import os
+os.environ["CUDA_VISIBLE_DEVICES"] = ''
 
 from glob import glob 
 from behaveml import VideosetDataFrame, clone_metadata

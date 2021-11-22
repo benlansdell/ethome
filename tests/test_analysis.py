@@ -69,7 +69,6 @@ def test_df_renaming(metadata, default_track_cols):
     new_animals = ['resident', 'intruder']
     animal_renamer = {'adult': 'resident', 'juvenile': 'intruder'}
     df = VideosetDataFrame(metadata, animal_renamer = animal_renamer)
-    print(df.animals)
     assert set(new_animals) == set(df.animals)
 
 def test_dl_features(videodataset):

@@ -3,3 +3,4 @@ __pycache__
 behaveml/behaveml.egg-info/
 behaveml.egg-info/
 .coverage
+build

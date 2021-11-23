@@ -7,30 +7,26 @@
 #TODO
 
 # * Clean up the MARS code...
-
 # * Stacking example: I think this can all be done in sklearn... no behaveml code is needed.
-
 # * Make a cleaner feature creation interface? One that can support any animal config
 #   Better way of getting parameters to feature creation step...like framewidth may be useful, for instance?
-
 # * Tests for F1 optimizer and HMM. Doesn't seem to improve performance much right now...
-
-# * TSNE embeddings...colored by prediction label? Also can make it colored by predictor (attack/mount/investigate)
-#   With clustering...
-
-# Also want to do some EDA and QC. So let's add support to:
 # * Plots of the DLC tracks
-# * Video of BORIS labels
-# * Video of BORIS labels and predictions
+# * Make it use the units! This must be supported before 'releasing'
+
+#### This will mark the end of the first 'release' version
 
 ## LATER FEATURES TO ADD
 
 # * Support for additional input types
 # * Export back to DLC format (if only interested in the interpolation functions, e.g.)
+# * GUI in napari?
 
 #WORKING ON
 
-
+# * TSNE embeddings...colored by prediction label? Also can make it colored by predictor (attack/mount/investigate)
+#   With clustering...
+#   Make a plots.py for plotting helper functions
 
 #DONE
 

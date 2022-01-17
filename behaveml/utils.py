@@ -3,12 +3,12 @@ def _exec_php(cmd):
     p = Popen(cmd, shell=False, stdout=PIPE, stderr=STDOUT)
     return [p.wait(), p.stdout.readlines()]
     
-def checkFFMPEG():
+def checkFFMPEG() -> bool:
     """
     Check for ffmpeg dependencies
 
-    :rtype: bool
-    :return: true if can find ffmpeg in path, false otherwise
+    Returns:
+        True if can find ffmpeg in path, false otherwise
     """
     try:
         return_value = _exec_php(['ffmpeg', '-version', '2>&1'])[0]

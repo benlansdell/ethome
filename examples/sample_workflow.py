@@ -11,25 +11,30 @@
 # * Make a cleaner feature creation interface? One that can support any animal config
 #   Better way of getting parameters to feature creation step...like framewidth may be useful, for instance?
 # * Tests for F1 optimizer and HMM. Doesn't seem to improve performance much right now...
-# * Plots of the DLC tracks
+# * Plots of the DLC tracks: heatmaps, velocity plots, 
 # * Make it use the units! This must be supported before 'releasing'
+# * Add a 'load_testdata' function
 
-#### This will mark the end of the first 'release' version
+#### This will mark the end of the first 'release' version, then:
+# * Add to PyPI?
 
 ## LATER FEATURES TO ADD
 
-# * Support for additional input types
+# * Support for additional input types: SimBA, SLEAP, 
 # * Export back to DLC format (if only interested in the interpolation functions, e.g.)
-# * GUI in napari?
+# * NWB behavior format... make it understands this
+# * GUI in napari? Message the guy who was working on this at Napari/image.sc forums
 
 #WORKING ON
 
-# * TSNE embeddings...colored by prediction label? Also can make it colored by predictor (attack/mount/investigate)
-#   With clustering...
-#   Make a plots.py for plotting helper functions
+# * With clustering of TSNE
+#     Watershed clustering of TSNE embedding?
 
 #DONE
 
+# * TSNE embeddings...colored by prediction label? Also can make it colored by predictor (attack/mount/investigate)
+#   Make a plots.py for plotting helper functions
+# * Make readme advertize who this is for, etc
 # * Add save/load functionality
 # * Make some requirements 'optional'... they aren't specified as required in the package spec, but add tests that
 #   they are installed on the system before trying to use them. Add errors if the system doesn't support them. This way the package
@@ -153,9 +158,9 @@ dataset.activate_features_by_name('likelihood')
 # dataset.group    #Used for group-level cross validation 
 #                   (by default, groups are set to filename, so this implements video-level CV)
 
-######################
-## Machine learning ##
-######################
+#########################
+## Supervised learning ##
+#########################
 
 ## Sample ML model
 from sklearn.ensemble import RandomForestClassifier
@@ -207,6 +212,55 @@ f1 = f1_score(dataset.labels, predictions)
 pr = precision_score(dataset.labels, predictions)
 re = recall_score(dataset.labels, predictions)
 print("Acc", acc, "F1", f1, 'precision', pr, 'recall', re)
+
+###########################
+## Unsupervised learning ##
+###########################
+
+#TSNE embedding
+tsne_cols = ['1dcnn__prob_attack',
+                '1dcnn__prob_investigation',
+                '1dcnn__prob_mount',
+                '1dcnn__prob_other',
+                'likelihood_adult_nose',
+                'likelihood_adult_leftear',
+                'likelihood_adult_rightear',
+                'likelihood_adult_neck',
+                'likelihood_adult_lefthip',
+                'likelihood_adult_righthip',
+                'likelihood_adult_tail',
+                'likelihood_juvenile_nose',
+                'likelihood_juvenile_leftear',
+                'likelihood_juvenile_rightear',
+                'likelihood_juvenile_neck',
+                'likelihood_juvenile_lefthip',
+                'likelihood_juvenile_righthip',
+                'likelihood_juvenile_tail']
+
+#Z-score before embedding
+N_rows = 20000
+row_filter = test_dataset.data['MARS__M0_M1_dist_nose_neck'] < 200
+tsne_data = test_dataset.data.loc[row_filter, tsne_cols + ['filename', 'prediction']]
+
+tsne_data_ = pd.merge(tsne_data, results[['filename', 'test_group_', 'repeat']], on = 'filename')
+tsne_data_
+
+tsne_data = StandardScaler().fit_transform(tsne_data[tsne_cols])
+
+random_indices = np.random.choice(tsne_data.shape[0], N_rows, replace = False)
+
+tsne_data = tsne_data[random_indices, :]
+
+tsne_embedding = TSNE(n_components=2, init = 'pca').fit_transform(tsne_data)
+fig, axes = plt.subplots(1,1, figsize = (8,8))
+axes.scatter(x = tsne_embedding[:,0], y = tsne_embedding[:,1], c = tsne_data_.loc[random_indices,'prediction'], s = 1)
+axes.set_xlabel('TSNE dim 1')
+axes.set_ylabel('TSNE dim 2')
+
+
+#####################
+## Post processing ##
+#####################
 
 #Now we have our model we can make a video of its predictions. 
 #Provide the column names whose state we're going to overlay on the video, along

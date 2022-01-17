@@ -1,76 +1,5 @@
 """Demo workflow showing a simple building of behavior classifier.
 
-#######################
-## General todo list ##
-#######################
-
-#TODO
-
-# * Clean up the MARS code...
-# * Stacking example: I think this can all be done in sklearn... no behaveml code is needed.
-# * Make a cleaner feature creation interface? One that can support any animal config
-#   Better way of getting parameters to feature creation step...like framewidth may be useful, for instance?
-# * Tests for F1 optimizer and HMM. Doesn't seem to improve performance much right now...
-# * Plots of the DLC tracks: heatmaps, velocity plots, 
-# * Make it use the units! This must be supported before 'releasing'
-# * Add a 'load_testdata' function
-
-#### This will mark the end of the first 'release' version, then:
-# * Add to PyPI?
-
-## LATER FEATURES TO ADD
-
-# * Support for additional input types: SimBA, SLEAP, 
-# * Export back to DLC format (if only interested in the interpolation functions, e.g.)
-# * NWB behavior format... make it understands this
-# * GUI in napari? Message the guy who was working on this at Napari/image.sc forums
-
-#WORKING ON
-
-# * With clustering of TSNE
-#     Watershed clustering of TSNE embedding?
-
-#DONE
-
-# * TSNE embeddings...colored by prediction label? Also can make it colored by predictor (attack/mount/investigate)
-#   Make a plots.py for plotting helper functions
-# * Make readme advertize who this is for, etc
-# * Add save/load functionality
-# * Make some requirements 'optional'... they aren't specified as required in the package spec, but add tests that
-#   they are installed on the system before trying to use them. Add errors if the system doesn't support them. This way the package
-#   stays light weight. 
-#   Current list of unchecked optionals: tensorflow, matplotlib
-#   List of checked optionals: ssm, ffmpeg
-#  
-#   Another way to do this is to use pip install options. e.g. I would have a pip install behaveml[all] option
-#   I think these can work alongside each other actually. I implement both...
-# * Tests for feature adder and removed by RE
-# * Add option to add features by pattern matching (regular expressions?)
-#   E.g. we want to add the features whose names start with 'likelihood'
-# * Add HMM on top of all this jazz
-# * Add F1 score optimizer on top of all this jazz
-#   Add these as extra sk-learn models
-# * Movie making with predictions. For QC... to inspect quality of predictions
-# * Check that row order is preserved by DL model. Otherwise it's useless. How do we do this?
-#   I have a good sign that it is: I now get 73% F1 score -- when I had the bug that swapped the videos
-#   I had around 13% F1 score -- so 13% is what I should expect for scrambled, out of order, annotation rows.
-#   But... I should check the performance of the DL features alone, and of the MARS features alone, to see
-#   what is contributing to the performance. Perhaps only the MARS features are getting me to 73%.
-# * Tests for interpolation code
-# * Add DLC filtering code
-# * Read in probabilities from DLC
-# * Documentation
-# * Add a way to enforce, for each feature creation function, that it has the columns it needs.
-#   Add a 'req columns' field somewhere. The names should matter
-#   Perhaps there should be a 'Feature' class... that has property req features
-# * Write a bunch of tests... make sure it's behaving as it should
-# * Move read BORIS function to io.py
-# * Make it so that raw tracking columns are not added as features by default
-# * Add a column renamer -- say you labeled your columns differently in DLC, this will 
-#   name them as expected by the 'req_columns' field for the features you want.
-# * Get rid of warning messages when load CNN pre-trained parameters
-#   expect_partial() on the load status object, e.g. tf.train.Checkpoint.restore(...).expect_partial()
-
 """
 
 ###########################
@@ -129,35 +58,6 @@ dataset.add_features(cnn_probability_feature_maker,
 #print("Adding likelihood columns")
 dataset.activate_features_by_name('likelihood')
 
-####################
-# Works up to here # 
-####################
-
-# dataset.add_features(compute_stacked_features, 
-#                      featureset_name = 'stacked', 
-#                      add_to_features = True)
-
-#You can also make your own 'feature maker':
-#The feature creation functions take:
-# * Pandas data frame (dataset.data)
-# * A list of column names that indicate which columns in the data frame 
-#   the features will be computed from. For basic feature, this will be the 'raw' pose-tracking column names
-#   For 'model stacking' models, this can be derivative column sets
-# * A dictionary, animal_setup, that contains details about the animals in the experiment
-# They return 
-# * Pandas data frame with the new features, in the same order as input data
-
-#dataset.add_features(create_custom_features, 
-#                     featureset_name = 'custom', 
-#                     add_to_feature_col = True)
-
-#Now all the work of the package is done, more or less, and 
-# we can do ML on this object in e.g. sklearn by using the following attributes:
-# dataset.features #The feature matrix setup for learning w
-# dataset.label    #The labels for supervision
-# dataset.group    #Used for group-level cross validation 
-#                   (by default, groups are set to filename, so this implements video-level CV)
-
 #########################
 ## Supervised learning ##
 #########################
@@ -175,26 +75,11 @@ from behaveml.models import F1Optimizer, HMMSklearn, ModelTransformer
 
 splitter = GroupKFold(n_splits = dataset.n_videos)
 model = ModelTransformer(RandomForestClassifier)
-#model = XGBClassifier()
-#model = LogisticRegression(solver = 'liblinear')
-#model = KNeighborsClassifier(metric = 'manhattan')
-
-# pipeline = Pipeline([
-#                      ("rf", model),
-#                      ("f1max", F1Optimizer(N = 10)),
-#                      ("hmm", HMMSklearn(D = 2))
-#                     ])
 
 pipeline = Pipeline([
                      ("rf", model),
-#                     ("f1max", F1Optimizer(N = 1000)),
                      ("hmm", HMMSklearn(D = 2))
                     ])
-
-
-# dataset.feature_cols = dataset.data.columns[28:42]
-# model = F1Optimizer(N = 10)
-# f1_optimized = model.fit_transform(dataset.features, dataset.labels)
 
 print("Fitting ML model with (group) LOO CV")
 predictions = cross_val_predict(XGBClassifier(), 
@@ -212,51 +97,6 @@ f1 = f1_score(dataset.labels, predictions)
 pr = precision_score(dataset.labels, predictions)
 re = recall_score(dataset.labels, predictions)
 print("Acc", acc, "F1", f1, 'precision', pr, 'recall', re)
-
-###########################
-## Unsupervised learning ##
-###########################
-
-#TSNE embedding
-tsne_cols = ['1dcnn__prob_attack',
-                '1dcnn__prob_investigation',
-                '1dcnn__prob_mount',
-                '1dcnn__prob_other',
-                'likelihood_adult_nose',
-                'likelihood_adult_leftear',
-                'likelihood_adult_rightear',
-                'likelihood_adult_neck',
-                'likelihood_adult_lefthip',
-                'likelihood_adult_righthip',
-                'likelihood_adult_tail',
-                'likelihood_juvenile_nose',
-                'likelihood_juvenile_leftear',
-                'likelihood_juvenile_rightear',
-                'likelihood_juvenile_neck',
-                'likelihood_juvenile_lefthip',
-                'likelihood_juvenile_righthip',
-                'likelihood_juvenile_tail']
-
-#Z-score before embedding
-N_rows = 20000
-row_filter = test_dataset.data['MARS__M0_M1_dist_nose_neck'] < 200
-tsne_data = test_dataset.data.loc[row_filter, tsne_cols + ['filename', 'prediction']]
-
-tsne_data_ = pd.merge(tsne_data, results[['filename', 'test_group_', 'repeat']], on = 'filename')
-tsne_data_
-
-tsne_data = StandardScaler().fit_transform(tsne_data[tsne_cols])
-
-random_indices = np.random.choice(tsne_data.shape[0], N_rows, replace = False)
-
-tsne_data = tsne_data[random_indices, :]
-
-tsne_embedding = TSNE(n_components=2, init = 'pca').fit_transform(tsne_data)
-fig, axes = plt.subplots(1,1, figsize = (8,8))
-axes.scatter(x = tsne_embedding[:,0], y = tsne_embedding[:,1], c = tsne_data_.loc[random_indices,'prediction'], s = 1)
-axes.set_xlabel('TSNE dim 1')
-axes.set_ylabel('TSNE dim 2')
-
 
 #####################
 ## Post processing ##

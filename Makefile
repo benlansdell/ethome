@@ -6,6 +6,15 @@ coverage:
 		coverage report -i
 		coverage html -i
 
+build:
+		python -m build
+
+deploy_test:
+		python -m twine upload --repository testpypi dist/*
+
+deploy:
+		python -m twine upload dist/*
+
 demo:
 		CUDA_VISIBLE_DEVICES= python examples/sample_workflow.py
 

@@ -1,5 +1,4 @@
 """ Functions to take pose tracks and compute a set of features from them """
-import pandas as pd
 
 from typing import Callable
 

@@ -1,12 +1,20 @@
-from keras.models import Sequential
-import keras.layers as layers
-import keras
+import warnings
 
-#from .fscores import F1Score
+try:
+    from keras.models import Sequential
+    import keras.layers as layers
+    import keras
+    has_keras = True
+except ImportError:
+    warnings.warn("Keras not found. Deep learning-based features are not available", RuntimeWarning)
+    has_keras = False
 
 def build_baseline_model(input_dim, layer_channels=(512, 256), dropout_rate=0., 
                         learning_rate=1e-3, conv_size=5, num_classes = 4,
                         class_weight = None):
+
+    if not has_keras:
+        raise RuntimeError("Keras not found. Deep learning-based features are not available")
 
     print("Building baseline 1D CNN model with parameters:")
     print(f"dropout_rate: {dropout_rate}, learning_rate: {learning_rate}, layer_channels: {layer_channels}, conv_size: {conv_size}")

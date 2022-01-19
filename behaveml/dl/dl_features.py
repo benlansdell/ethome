@@ -4,10 +4,18 @@ import pandas as pd
 import tqdm
 import os
 from copy import deepcopy
+import warnings
 
 from behaveml.dl.dl_models import build_baseline_model
 from behaveml.dl.dl_generators import MABe_Generator, features_identity
 from behaveml.dl.grid_searches import sweeps_baseline, feature_spaces
+
+try:
+    import keras
+    has_keras = True
+except ImportError:
+    warnings.warn("Keras not found. Deep learning-based features are not available", RuntimeWarning)
+    has_keras = False
 
 THIS_FILE_DIR = os.path.dirname(os.path.realpath(__file__))
 
@@ -236,6 +244,9 @@ def convert_to_pandas_df(data, colnames = None):
     return final_df
 
 def compute_dl_probability_features(df : pd.DataFrame, raw_col_names : list, animal_setup : dict, **kwargs):
+
+    if not has_keras:
+        raise RuntimeError("Keras not found. Deep learning-based features are not available")
 
     test_data = convert_to_mars_format(df, raw_col_names, animal_setup)
     parametersweep = 'test_run_distances'

@@ -71,7 +71,8 @@ from sklearn.model_selection import cross_val_predict, GroupKFold
 from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_score
 from sklearn.pipeline import Pipeline
 
-from behaveml.models import F1Optimizer, HMMSklearn, ModelTransformer
+#from behaveml.models import F1Optimizer, HMMSklearn, ModelTransformer
+from behaveml.models import F1Optimizer, ModelTransformer
 
 splitter = GroupKFold(n_splits = dataset.n_videos)
 model = ModelTransformer(RandomForestClassifier)

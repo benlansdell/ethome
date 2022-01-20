@@ -4,3 +4,5 @@ behaveml/behaveml.egg-info/
 behaveml.egg-info/
 .coverage
 build
+*.mp4
+dist

@@ -4,6 +4,8 @@ import pickle
 import numpy as np
 from itertools import product
 from joblib import dump, load
+import os
+from glob import glob
 
 XY_IDS = ['x', 'y']
 XYLIKELIHOOD_IDS = ['x', 'y', 'likelihood']
@@ -134,6 +136,42 @@ def load_data(fn : str):
     with open(fn, 'rb') as handle:
         object = pickle.load(handle)
     return object 
+
+def _make_sample_dataframe(fn_out = 'sample_dataframe.pkl'):
+    from behaveml import VideosetDataFrame, clone_metadata
+
+    cur_dir = os.path.dirname(os.path.abspath(__file__))
+    tracking_files = sorted(glob(cur_dir + '/data/dlc/*.csv'))
+    boris_files = sorted(glob(cur_dir + '/data/boris/*.csv'))
+    frame_length = None              # (float) length of entire horizontal shot
+    units = None                     # (str) units frame_length is given in
+    fps = 30                         # (int) frames per second
+    resolution = (1200, 1600)        # (tuple) HxW in pixels
+    metadata = clone_metadata(tracking_files, 
+                          label_files = boris_files, 
+                          frame_length = frame_length, 
+                          fps = fps, 
+                          units = units, 
+                          resolution = resolution)
+
+    dataset = VideosetDataFrame(metadata)
+    path_out = os.path.join(cur_dir, 'data', fn_out)
+    to_save = {'dataset': dataset, 'metadata': metadata}
+    with open(path_out, 'wb') as handle:
+        pickle.dump(to_save, handle, protocol=pickle.HIGHEST_PROTOCOL)
+
+def get_sample_data():
+    """Load a sample dataset of 5 mice social interaction videos. Each video is approx. 5 minutes in duration
+    
+    Returns:
+        (VideosetDataFrame) Data frame with the corresponding tracking and behavior annotation files
+    """
+
+    cur_dir = os.path.dirname(os.path.abspath(__file__))
+    path_in = os.path.join(cur_dir, 'data', 'sample_dataframe.pkl')
+    with open(path_in, 'rb') as handle:
+        b = pickle.load(handle)
+    return b['dataset']
 
 def read_boris_annotation(fn_in : str, fps : int, duration : float) -> np.ndarray:
     """Read behavior annotation from BORIS exported csv file

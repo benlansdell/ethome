@@ -9,11 +9,19 @@ coverage:
 build:
 		python -m build
 
-deploy_test:
+deploytest:
 		python -m twine upload --repository testpypi dist/*
+
+#Then test install w:
+#python3 -m pip install --index-url https://test.pypi.org/simple/ --no-deps behaveml
+#or with version number
+#python3 -m pip install --index-url https://test.pypi.org/simple/ behaveml==0.1.0b0
 
 deploy:
 		python -m twine upload dist/*
+
+#Then install w:
+#pip install behaveml
 
 demo:
 		CUDA_VISIBLE_DEVICES= python examples/sample_workflow.py

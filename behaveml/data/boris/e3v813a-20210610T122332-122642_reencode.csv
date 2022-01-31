@@ -1,0 +1,36 @@
+Observation id,DLC3,,,,,,,
+,,,,,,,,
+Media file(s),,,,,,,,
+,,,,,,,,
+Player #1,/home/bteubner/videos/new_wm_videos/DLC3/e3v813a-20210610T122332-122642_reencode.avi,,,,,,,
+,,,,,,,,
+Observation date,2021-06-15 13:41:51,,,,,,,
+,,,,,,,,
+Description,,,,,,,,
+,,,,,,,,
+Time offset (s),0.0,,,,,,,
+,,,,,,,,
+independent variables,,,,,,,,
+variable,value,,,,,,,
+,,,,,,,,
+Time,Media file path,Total length,FPS,Subject,Behavior,Behavioral category,Comment,Status
+29.850,/home/bteubner/videos/new_wm_videos/DLC3/e3v813a-20210610T122332-122642_reencode.avi,190.000,30.0,adult,interact,,,START
+34.725,/home/bteubner/videos/new_wm_videos/DLC3/e3v813a-20210610T122332-122642_reencode.avi,190.000,30.0,adult,interact,,,STOP
+41.950,/home/bteubner/videos/new_wm_videos/DLC3/e3v813a-20210610T122332-122642_reencode.avi,190.000,30.0,adult,interact,,,START
+43.600,/home/bteubner/videos/new_wm_videos/DLC3/e3v813a-20210610T122332-122642_reencode.avi,190.000,30.0,adult,interact,,,STOP
+52.929,/home/bteubner/videos/new_wm_videos/DLC3/e3v813a-20210610T122332-122642_reencode.avi,190.000,30.0,adult,interact,,,START
+53.625,/home/bteubner/videos/new_wm_videos/DLC3/e3v813a-20210610T122332-122642_reencode.avi,190.000,30.0,adult,interact,,,STOP
+61.225,/home/bteubner/videos/new_wm_videos/DLC3/e3v813a-20210610T122332-122642_reencode.avi,190.000,30.0,adult,interact,,,START
+62.100,/home/bteubner/videos/new_wm_videos/DLC3/e3v813a-20210610T122332-122642_reencode.avi,190.000,30.0,adult,interact,,,STOP
+63.475,/home/bteubner/videos/new_wm_videos/DLC3/e3v813a-20210610T122332-122642_reencode.avi,190.000,30.0,adult,interact,,,START
+64.875,/home/bteubner/videos/new_wm_videos/DLC3/e3v813a-20210610T122332-122642_reencode.avi,190.000,30.0,adult,interact,,,STOP
+117.725,/home/bteubner/videos/new_wm_videos/DLC3/e3v813a-20210610T122332-122642_reencode.avi,190.000,30.0,adult,interact,,,START
+117.925,/home/bteubner/videos/new_wm_videos/DLC3/e3v813a-20210610T122332-122642_reencode.avi,190.000,30.0,adult,interact,,,STOP
+119.525,/home/bteubner/videos/new_wm_videos/DLC3/e3v813a-20210610T122332-122642_reencode.avi,190.000,30.0,adult,interact,,,START
+124.250,/home/bteubner/videos/new_wm_videos/DLC3/e3v813a-20210610T122332-122642_reencode.avi,190.000,30.0,adult,interact,,,STOP
+124.950,/home/bteubner/videos/new_wm_videos/DLC3/e3v813a-20210610T122332-122642_reencode.avi,190.000,30.0,adult,interact,,,START
+125.800,/home/bteubner/videos/new_wm_videos/DLC3/e3v813a-20210610T122332-122642_reencode.avi,190.000,30.0,adult,interact,,,STOP
+173.325,/home/bteubner/videos/new_wm_videos/DLC3/e3v813a-20210610T122332-122642_reencode.avi,190.000,30.0,adult,interact,,,START
+173.750,/home/bteubner/videos/new_wm_videos/DLC3/e3v813a-20210610T122332-122642_reencode.avi,190.000,30.0,adult,interact,,,STOP
+174.150,/home/bteubner/videos/new_wm_videos/DLC3/e3v813a-20210610T122332-122642_reencode.avi,190.000,30.0,adult,interact,,,START
+180.550,/home/bteubner/videos/new_wm_videos/DLC3/e3v813a-20210610T122332-122642_reencode.avi,190.000,30.0,adult,interact,,,STOP

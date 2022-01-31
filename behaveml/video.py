@@ -202,6 +202,14 @@ class VideosetDataFrame(MLDataFrame):
             self.feature_cols = matched_cols
         return matched_cols
 
+    def get_columns_regex(self, pattern):
+        try:
+            compiled = re.compile(pattern)
+        except re.error:
+            raise ValueError("Couldn't parse re pattern.")
+        matched_cols = [l for l in self.data.columns if compiled.search(l) is not None]
+        return matched_cols
+
     def remove_features_by_name(self, name : str) -> list:
         """Remove columns from the feature set. 
         
@@ -306,7 +314,7 @@ class VideosetDataFrame(MLDataFrame):
     def save(self, fn_out):
         """Save object"""
         with open(fn_out,'wb') as file:
-            file.write(pickle.dumps(self.__dict__))
+            file.write(pickle.dumps(self.__dict__, protocol = 4))
 
     def load(self, fn_in):
         """Load from file"""

@@ -3,7 +3,7 @@
 from typing import Callable
 
 from behaveml.dl.dl_features import compute_dl_probability_features
-from behaveml.mars_features import compute_mars_features
+from behaveml.mars_features import compute_mars_features, compute_distance_features, compute_velocity_features
 
 default_tracking_columns = ['adult_x_nose', 'adult_x_leftear', 'adult_x_rightear', 'adult_x_neck',
                             'adult_x_lefthip', 'adult_x_righthip', 'adult_x_tail', 'adult_y_nose',
@@ -30,3 +30,5 @@ class Features(object):
 
 mars_feature_maker = Features(compute_mars_features, default_tracking_columns)
 cnn_probability_feature_maker = Features(compute_dl_probability_features, default_tracking_columns)
+distance_feature_maker = Features(compute_distance_features, default_tracking_columns)
+velocity_feature_maker = Features(compute_velocity_features, default_tracking_columns)

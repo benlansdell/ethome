@@ -132,6 +132,47 @@ def make_features_distances(df, animal_setup):
 
     return features_df, reversemap, feature_set_name
 
+def make_features_unsup(df, animal_setup, n_shifts = 2, mode = 'diff', feature_set_name = 'features_unsup'):
+
+    features_df = df.copy()
+
+    #######################
+    ## Position features ##
+    #######################
+    features_df = _compute_centroid(features_df, 'all', animal_setup, n_shifts = n_shifts, mode = mode)
+    features_df = _compute_centroid(features_df, 'head', animal_setup, ['nose', 'leftear', 'rightear', 'neck'], n_shifts = n_shifts, mode = mode)
+    features_df = _compute_centroid(features_df, 'hips', animal_setup, ['lefthip', 'tail', 'righthip'], n_shifts = n_shifts, mode = mode)
+    features_df = _compute_centroid(features_df, 'body', animal_setup, ['neck', 'lefthip', 'righthip', 'tail'], n_shifts = n_shifts, mode = mode)
+
+    #####################
+    #Appearance features#
+    #####################
+
+    ## absolute orientation of mice
+    features_df = _compute_abs_angle(features_df, 'head_hips', animal_setup, ['centroid_head', 'centroid_hips'], n_shifts = n_shifts, mode = mode)
+    features_df = _compute_abs_angle(features_df, 'head_nose', animal_setup, ['neck', 'nose'], centroid = False, n_shifts = n_shifts, mode = mode)
+    features_df = _compute_abs_angle(features_df, 'tail_neck', animal_setup, ['tail', 'neck'], centroid = False, n_shifts = n_shifts, mode = mode)
+    ## relative orientation of mice
+    features_df = _compute_rel_angle(features_df, 'leftear_neck_rightear', animal_setup, ['leftear', 'neck', 'rightear'], n_shifts = n_shifts, mode = mode)
+    ## major axis len, minor axis len of ellipse fit to mouses body
+    features_df = _compute_ellipsoid(features_df, animal_setup, n_shifts = n_shifts, mode = mode)
+
+    #####################
+    #Locomotion features#
+    #####################
+
+    features_df = _compute_kinematics(features_df, ['all', 'head', 'hips', 'body'], animal_setup)
+
+    #Intersection of union of bounding boxes of two mice
+    features_df = _compute_iou(features_df, animal_setup, n_shifts = n_shifts, mode = mode)
+
+    ## distance between all pairs of keypoints of each mouse
+    features_df, reversemap, _ = make_features_distances(features_df, animal_setup)
+
+    return features_df, reversemap, feature_set_name
+
+make_features_velocities = make_features_unsup
+
 @augment_features()
 def _compute_centroid(df, name, animal_setup, body_parts = None, n_shifts = 3, mode = 'shift'):
     bodypart_ids = animal_setup['bodypart_ids']
@@ -399,29 +440,31 @@ def make_features_mars(df, animal_setup, n_shifts = 3, mode = 'shift', feature_s
 
 make_features_mars_distr = lambda x, y: make_features_mars(x, y, n_shifts = 3, mode = 'distr', feature_set_name = 'features_mars_distr')
 
-def make_features_mars_w_1dcnn_features(df, animal_setup, n_shifts = 3, mode = 'shift', 
-                                         feature_set_name = 'features_mars_distr_w_1dcnn',
-                                         fn_in = './data/intermediate/deep_learning_stacking_prediction_probabilities_baseline_test_run_distances.npy'):
+## TODO
+#Remove this... not needed
+# def make_features_mars_w_1dcnn_features(df, animal_setup, n_shifts = 3, mode = 'shift', 
+#                                          feature_set_name = 'features_mars_distr_w_1dcnn',
+#                                          fn_in = './data/intermediate/deep_learning_stacking_prediction_probabilities_baseline_test_run_distances.npy'):
 
-    features_df, reversemap, _ = make_features_mars_distr(df, animal_setup)
-    forwardmap = {i:k for k,i in reversemap.items()}
+#     features_df, reversemap, _ = make_features_mars_distr(df, animal_setup)
+#     forwardmap = {i:k for k,i in reversemap.items()}
 
-    #Probabilities
-    all_pred_probs = np.load(fn_in, allow_pickle = True).item()
-    #Rewrite these keys
-    keys = list(all_pred_probs.keys())
-    for k in keys:
-        all_pred_probs[forwardmap[k]] = all_pred_probs[k]
-        del all_pred_probs[k]
+#     #Probabilities
+#     all_pred_probs = np.load(fn_in, allow_pickle = True).item()
+#     #Rewrite these keys
+#     keys = list(all_pred_probs.keys())
+#     for k in keys:
+#         all_pred_probs[forwardmap[k]] = all_pred_probs[k]
+#         del all_pred_probs[k]
 
-    new_cols = ['1dcnn_prob_0', '1dcnn_prob_1', '1dcnn_prob_2', '1dcnn_prob_3']
+#     new_cols = ['1dcnn_prob_0', '1dcnn_prob_1', '1dcnn_prob_2', '1dcnn_prob_3']
 
-    features_df[new_cols] = np.nan
+#     features_df[new_cols] = np.nan
 
-    for k,v in all_pred_probs.items():
-        features_df.loc[features_df['seq_id'] == k,new_cols] = v
+#     for k,v in all_pred_probs.items():
+#         features_df.loc[features_df['seq_id'] == k,new_cols] = v
 
-    return features_df, reversemap, feature_set_name
+#     return features_df, reversemap, feature_set_name
 
-make_features_mars_w_1dcnn_features_test = lambda x,y: make_features_mars_w_1dcnn_features(x, y, n_shifts = 3, mode = 'shift', feature_set_name = 'features_mars_distr_w_1dcnn',
-                                         fn_in = './data/intermediate/deep_learning_stacking_prediction_probabilities_test_baseline_test_run_distances.npy')
+# make_features_mars_w_1dcnn_features_test = lambda x,y: make_features_mars_w_1dcnn_features(x, y, n_shifts = 3, mode = 'shift', feature_set_name = 'features_mars_distr_w_1dcnn',
+#                                          fn_in = './data/intermediate/deep_learning_stacking_prediction_probabilities_test_baseline_test_run_distances.npy')

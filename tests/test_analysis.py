@@ -72,6 +72,8 @@ def test_df_renaming(metadata, default_track_cols):
     assert set(new_animals) == set(df.animals)
 
 def test_dl_features(videodataset):
+    import os
+    os.environ["CUDA_VISIBLE_DEVICES"] = ''
     from behaveml import cnn_probability_feature_maker
     videodataset.add_features(cnn_probability_feature_maker, 
                      featureset_name = '1dcnn', 
@@ -94,6 +96,14 @@ def test_mars_features(videodataset):
                      add_to_features = True)
     #Check we made the right amount of new columns
     assert len(videodataset.feature_cols) == 796
+
+def test_distance_features(videodataset):
+    from behaveml import distance_feature_maker
+    videodataset.add_features(distance_feature_maker, 
+                     featureset_name = 'distances', 
+                     add_to_features = True)
+    #Check we made the right amount of new columns
+    assert len(videodataset.feature_cols) == 91
 
 def test_interpolate(videodataset):
     interpolate_lowconf_points(videodataset)

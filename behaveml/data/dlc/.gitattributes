@@ -1,0 +1,5 @@
+e3v813a-20210610T121558-122141DLC_dlcrnetms5_pilot_studySep24shuffle1_100000_el_filtered.csv filter=lfs diff=lfs merge=lfs -text
+e3v813a-20210610T122332-122642DLC_dlcrnetms5_pilot_studySep24shuffle1_100000_el_filtered.csv filter=lfs diff=lfs merge=lfs -text
+e3v813a-20210610T122758-123309DLC_dlcrnetms5_pilot_studySep24shuffle1_100000_el_filtered.csv filter=lfs diff=lfs merge=lfs -text
+e3v813a-20210610T123521-124106DLC_dlcrnetms5_pilot_studySep24shuffle1_100000_el_filtered.csv filter=lfs diff=lfs merge=lfs -text
+e3v813a-20210610T120637-121213DLC_dlcrnetms5_pilot_studySep24shuffle1_100000_el_filtered.csv filter=lfs diff=lfs merge=lfs -text

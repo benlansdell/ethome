@@ -3,7 +3,8 @@
 from typing import Callable
 
 from behaveml.dl.dl_features import compute_dl_probability_features
-from behaveml.mars_features import compute_mars_features, compute_distance_features, compute_velocity_features
+from behaveml.mars_features import compute_mars_features, compute_distance_features, compute_velocity_features, \
+                                   compute_mars_reduced_features, compute_social_features
 
 default_tracking_columns = ['adult_x_nose', 'adult_x_leftear', 'adult_x_rightear', 'adult_x_neck',
                             'adult_x_lefthip', 'adult_x_righthip', 'adult_x_tail', 'adult_y_nose',
@@ -24,11 +25,15 @@ class Features(object):
         #Validate columns:
         checks = [col in self.required_columns for col in vdf.data.columns]
         if sum(checks) < len(self.required_columns):
-            raise RuntimeError("VideoDataFrame doesn't have necessary columns to compute this set of features.")
+            raise RuntimeError("VideosetDataFrame doesn't have necessary columns to compute this set of features.")
         new_features = self.feature_maker(vdf.data, self.required_columns, vdf.animal_setup, **kwargs)
         return new_features
 
 mars_feature_maker = Features(compute_mars_features, default_tracking_columns)
 cnn_probability_feature_maker = Features(compute_dl_probability_features, default_tracking_columns)
 distance_feature_maker = Features(compute_distance_features, default_tracking_columns)
+
+marsreduced_feature_maker = Features(compute_mars_reduced_features, default_tracking_columns)
+
+social_feature_maker = Features(compute_social_features, default_tracking_columns)
 velocity_feature_maker = Features(compute_velocity_features, default_tracking_columns)

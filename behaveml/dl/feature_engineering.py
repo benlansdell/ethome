@@ -90,89 +90,6 @@ def boiler_plate(features_df):
             features_df[col] = features_df[col].fillna(features_df[col].mean())
     return features_df, reversemap
 
-def make_features_distances(df, animal_setup):
-
-    bodypart_ids = animal_setup['bodypart_ids']
-    mouse_ids = animal_setup['mouse_ids']
-    colnames = animal_setup['colnames']
-
-    feature_set_name = 'features_distances'
-
-    features_df = df.copy()
-
-    ##Make the distance features
-    for i, bp1 in enumerate(bodypart_ids):
-        for j, bp2 in enumerate(bodypart_ids):
-            if i < j:
-                for mouse_id in mouse_ids:
-                    #We can compute the intra-mouse difference
-                    f1x = '_'.join([mouse_id, 'x', bp1])
-                    f2x = '_'.join([mouse_id, 'x', bp2])
-                    f1y = '_'.join([mouse_id, 'y', bp1])
-                    f2y = '_'.join([mouse_id, 'y', bp2])
-                    f_new = '_'.join([mouse_id, 'dist', bp1, bp2])
-                    features_df[f_new] = \
-                        np.sqrt((features_df[f1x] - features_df[f2x])**2 + 
-                                (features_df[f1y] - features_df[f2y])**2)
-            #Inter-mouse difference
-            f1x = '_'.join([mouse_ids[0], 'x', bp1])
-            f2x = '_'.join([mouse_ids[1], 'x', bp2])
-            f1y = '_'.join([mouse_ids[0], 'y', bp1])
-            f2y = '_'.join([mouse_ids[1], 'y', bp2])
-            f_new = '_'.join(['M0_M1', 'dist', bp1, bp2])
-            features_df[f_new] = \
-                        np.sqrt((features_df[f1x] - features_df[f2x])**2 + 
-                                (features_df[f1y] - features_df[f2y])**2)
-
-    #Remove base features
-    features_df = features_df.drop(columns = colnames)
-
-    ##Clean up seq_id columns
-    features_df, reversemap = boiler_plate(features_df)
-
-    return features_df, reversemap, feature_set_name
-
-def make_features_unsup(df, animal_setup, n_shifts = 2, mode = 'diff', feature_set_name = 'features_unsup'):
-
-    features_df = df.copy()
-
-    #######################
-    ## Position features ##
-    #######################
-    features_df = _compute_centroid(features_df, 'all', animal_setup, n_shifts = n_shifts, mode = mode)
-    features_df = _compute_centroid(features_df, 'head', animal_setup, ['nose', 'leftear', 'rightear', 'neck'], n_shifts = n_shifts, mode = mode)
-    features_df = _compute_centroid(features_df, 'hips', animal_setup, ['lefthip', 'tail', 'righthip'], n_shifts = n_shifts, mode = mode)
-    features_df = _compute_centroid(features_df, 'body', animal_setup, ['neck', 'lefthip', 'righthip', 'tail'], n_shifts = n_shifts, mode = mode)
-
-    #####################
-    #Appearance features#
-    #####################
-
-    ## absolute orientation of mice
-    features_df = _compute_abs_angle(features_df, 'head_hips', animal_setup, ['centroid_head', 'centroid_hips'], n_shifts = n_shifts, mode = mode)
-    features_df = _compute_abs_angle(features_df, 'head_nose', animal_setup, ['neck', 'nose'], centroid = False, n_shifts = n_shifts, mode = mode)
-    features_df = _compute_abs_angle(features_df, 'tail_neck', animal_setup, ['tail', 'neck'], centroid = False, n_shifts = n_shifts, mode = mode)
-    ## relative orientation of mice
-    features_df = _compute_rel_angle(features_df, 'leftear_neck_rightear', animal_setup, ['leftear', 'neck', 'rightear'], n_shifts = n_shifts, mode = mode)
-    ## major axis len, minor axis len of ellipse fit to mouses body
-    features_df = _compute_ellipsoid(features_df, animal_setup, n_shifts = n_shifts, mode = mode)
-
-    #####################
-    #Locomotion features#
-    #####################
-
-    features_df = _compute_kinematics(features_df, ['all', 'head', 'hips', 'body'], animal_setup)
-
-    #Intersection of union of bounding boxes of two mice
-    features_df = _compute_iou(features_df, animal_setup, n_shifts = n_shifts, mode = mode)
-
-    ## distance between all pairs of keypoints of each mouse
-    features_df, reversemap, _ = make_features_distances(features_df, animal_setup)
-
-    return features_df, reversemap, feature_set_name
-
-make_features_velocities = make_features_unsup
-
 @augment_features()
 def _compute_centroid(df, name, animal_setup, body_parts = None, n_shifts = 3, mode = 'shift'):
     bodypart_ids = animal_setup['bodypart_ids']
@@ -390,7 +307,49 @@ def _compute_cage_distances(features_df, animal_setup, n_shifts = 3, mode = 'shi
         features_df = features_df.drop(columns = [f'centroid_all_{m_id}_x_inverted', f'centroid_all_{m_id}_y_inverted'])
     return features_df
 
-def make_features_mars(df, animal_setup, n_shifts = 3, mode = 'shift', feature_set_name = 'features_mars'):
+def make_features_distances(df, animal_setup):
+
+    bodypart_ids = animal_setup['bodypart_ids']
+    mouse_ids = animal_setup['mouse_ids']
+    colnames = animal_setup['colnames']
+
+    feature_set_name = 'features_distances'
+
+    features_df = df.copy()
+
+    ##Make the distance features
+    for i, bp1 in enumerate(bodypart_ids):
+        for j, bp2 in enumerate(bodypart_ids):
+            if i < j:
+                for mouse_id in mouse_ids:
+                    #We can compute the intra-mouse difference
+                    f1x = '_'.join([mouse_id, 'x', bp1])
+                    f2x = '_'.join([mouse_id, 'x', bp2])
+                    f1y = '_'.join([mouse_id, 'y', bp1])
+                    f2y = '_'.join([mouse_id, 'y', bp2])
+                    f_new = '_'.join([mouse_id, 'dist', bp1, bp2])
+                    features_df[f_new] = \
+                        np.sqrt((features_df[f1x] - features_df[f2x])**2 + 
+                                (features_df[f1y] - features_df[f2y])**2)
+            #Inter-mouse difference
+            f1x = '_'.join([mouse_ids[0], 'x', bp1])
+            f2x = '_'.join([mouse_ids[1], 'x', bp2])
+            f1y = '_'.join([mouse_ids[0], 'y', bp1])
+            f2y = '_'.join([mouse_ids[1], 'y', bp2])
+            f_new = '_'.join(['M0_M1', 'dist', bp1, bp2])
+            features_df[f_new] = \
+                        np.sqrt((features_df[f1x] - features_df[f2x])**2 + 
+                                (features_df[f1y] - features_df[f2y])**2)
+
+    #Remove base features
+    features_df = features_df.drop(columns = colnames)
+
+    ##Clean up seq_id columns
+    features_df, _ = boiler_plate(features_df)
+
+    return features_df
+
+def make_features_mars(df, animal_setup, n_shifts = 3, mode = 'shift'):
 
     features_df = df.copy()
 
@@ -434,37 +393,101 @@ def make_features_mars(df, animal_setup, n_shifts = 3, mode = 'shift', feature_s
     features_df = _compute_iou(features_df, animal_setup, n_shifts = n_shifts, mode = mode)
 
     ## distance between all pairs of keypoints of each mouse
-    features_df, reversemap, _ = make_features_distances(features_df, animal_setup)
+    features_df = make_features_distances(features_df, animal_setup)
 
-    return features_df, reversemap, feature_set_name
+    return features_df
 
-make_features_mars_distr = lambda x, y: make_features_mars(x, y, n_shifts = 3, mode = 'distr', feature_set_name = 'features_mars_distr')
+make_features_mars_distr = lambda x, y: make_features_mars(x, y, n_shifts = 3, mode = 'distr')
 
-## TODO
-#Remove this... not needed
-# def make_features_mars_w_1dcnn_features(df, animal_setup, n_shifts = 3, mode = 'shift', 
-#                                          feature_set_name = 'features_mars_distr_w_1dcnn',
-#                                          fn_in = './data/intermediate/deep_learning_stacking_prediction_probabilities_baseline_test_run_distances.npy'):
+def make_features_mars_reduced(df, animal_setup, n_shifts = 2, mode = 'diff'):
 
-#     features_df, reversemap, _ = make_features_mars_distr(df, animal_setup)
-#     forwardmap = {i:k for k,i in reversemap.items()}
+    features_df = df.copy()
 
-#     #Probabilities
-#     all_pred_probs = np.load(fn_in, allow_pickle = True).item()
-#     #Rewrite these keys
-#     keys = list(all_pred_probs.keys())
-#     for k in keys:
-#         all_pred_probs[forwardmap[k]] = all_pred_probs[k]
-#         del all_pred_probs[k]
+    #######################
+    ## Position features ##
+    #######################
+    features_df = _compute_centroid(features_df, 'all', animal_setup, n_shifts = n_shifts, mode = mode)
+    features_df = _compute_centroid(features_df, 'head', animal_setup, ['nose', 'leftear', 'rightear', 'neck'], n_shifts = n_shifts, mode = mode)
+    features_df = _compute_centroid(features_df, 'hips', animal_setup, ['lefthip', 'tail', 'righthip'], n_shifts = n_shifts, mode = mode)
+    features_df = _compute_centroid(features_df, 'body', animal_setup, ['neck', 'lefthip', 'righthip', 'tail'], n_shifts = n_shifts, mode = mode)
 
-#     new_cols = ['1dcnn_prob_0', '1dcnn_prob_1', '1dcnn_prob_2', '1dcnn_prob_3']
+    #####################
+    #Appearance features#
+    #####################
 
-#     features_df[new_cols] = np.nan
+    ## absolute orientation of mice
+    features_df = _compute_abs_angle(features_df, 'head_hips', animal_setup, ['centroid_head', 'centroid_hips'], n_shifts = n_shifts, mode = mode)
+    features_df = _compute_abs_angle(features_df, 'head_nose', animal_setup, ['neck', 'nose'], centroid = False, n_shifts = n_shifts, mode = mode)
+    features_df = _compute_abs_angle(features_df, 'tail_neck', animal_setup, ['tail', 'neck'], centroid = False, n_shifts = n_shifts, mode = mode)
+    ## relative orientation of mice
+    features_df = _compute_rel_angle(features_df, 'leftear_neck_rightear', animal_setup, ['leftear', 'neck', 'rightear'], n_shifts = n_shifts, mode = mode)
+    ## major axis len, minor axis len of ellipse fit to mouses body
+    features_df = _compute_ellipsoid(features_df, animal_setup, n_shifts = n_shifts, mode = mode)
 
-#     for k,v in all_pred_probs.items():
-#         features_df.loc[features_df['seq_id'] == k,new_cols] = v
+    #####################
+    #Locomotion features#
+    #####################
 
-#     return features_df, reversemap, feature_set_name
+    features_df = _compute_kinematics(features_df, ['all', 'head', 'hips', 'body'], animal_setup)
 
-# make_features_mars_w_1dcnn_features_test = lambda x,y: make_features_mars_w_1dcnn_features(x, y, n_shifts = 3, mode = 'shift', feature_set_name = 'features_mars_distr_w_1dcnn',
-#                                          fn_in = './data/intermediate/deep_learning_stacking_prediction_probabilities_test_baseline_test_run_distances.npy')
+    #Intersection of union of bounding boxes of two mice
+    features_df = _compute_iou(features_df, animal_setup, n_shifts = n_shifts, mode = mode)
+
+    ## distance between all pairs of keypoints of each mouse
+    features_df = make_features_distances(features_df, animal_setup)
+
+    return features_df
+
+def make_features_velocities(df, animal_setup, n_shifts = 5):
+
+    bodypart_ids = animal_setup['bodypart_ids']
+    mouse_ids = animal_setup['mouse_ids']
+    colnames = animal_setup['colnames']
+
+    features_df = df.copy()
+
+    ##Make the distance features
+    for i, bp1 in enumerate(bodypart_ids):
+        for j, bp2 in enumerate(bodypart_ids):
+            if i < j:
+                for mouse_id in mouse_ids:
+                    #We can compute the intra-mouse difference
+                    f1x = '_'.join([mouse_id, 'x', bp1])
+                    f2x = '_'.join([mouse_id, 'x', bp2])
+                    f1y = '_'.join([mouse_id, 'y', bp1])
+                    f2y = '_'.join([mouse_id, 'y', bp2])
+                    f_new = '_'.join([mouse_id, 'speed', bp1, bp2])
+                    features_df[f_new] = \
+                        np.sqrt((features_df[f1x].diff(periods = n_shifts) - features_df[f2x].diff(periods = n_shifts))**2 + 
+                                (features_df[f1y].diff(periods = n_shifts) - features_df[f2y].diff(periods = n_shifts))**2)
+            #Inter-mouse difference
+            f1x = '_'.join([mouse_ids[0], 'x', bp1])
+            f2x = '_'.join([mouse_ids[1], 'x', bp2])
+            f1y = '_'.join([mouse_ids[0], 'y', bp1])
+            f2y = '_'.join([mouse_ids[1], 'y', bp2])
+            f_new = '_'.join(['M0_M1', 'speed', bp1, bp2])
+            features_df[f_new] = \
+                        np.sqrt((features_df[f1x].diff(periods = n_shifts) - features_df[f2x].diff(periods = n_shifts))**2 + 
+                                (features_df[f1y].diff(periods = n_shifts) - features_df[f2y].diff(periods = n_shifts))**2)
+
+    #Remove base features
+    features_df = features_df.drop(columns = colnames)
+
+    ##Clean up seq_id columns
+    features_df, _ = boiler_plate(features_df)
+
+    return features_df
+
+def make_features_social(df, animal_setup, n_shifts = 3, mode = 'shift'):
+
+    features_df = df.copy()
+
+    features_df = _compute_relative_body_motions(features_df, animal_setup, n_shifts = n_shifts, mode = mode)
+    features_df = _compute_relative_body_angles(features_df, animal_setup, n_shifts = n_shifts, mode = mode)
+
+    #Intersection of union of bounding boxes of two mice
+    features_df = _compute_iou(features_df, animal_setup, n_shifts = n_shifts, mode = mode)
+
+    features_df, _ = boiler_plate(features_df)
+
+    return features_df

@@ -1,3 +1,8 @@
+"""Small helper utilities"""
+
+#TODO
+# Make ffmpeg support windows friendly
+
 def _exec_php(cmd):
     from subprocess import Popen, PIPE, STDOUT
     p = Popen(cmd, shell=False, stdout=PIPE, stderr=STDOUT)

@@ -5,13 +5,14 @@ import pickle
 import os
 import numpy as np
 import re
-from glob import glob 
 from sklearn.model_selection import PredefinedSplit
 
 from behaveml.features import Features
 
-from behaveml.io import read_DLC_tracks, XY_IDS, read_boris_annotation, uniquifier
+from behaveml.io import read_DLC_tracks, read_boris_annotation, uniquifier
 from behaveml.utils import checkFFMPEG
+
+from behaveml.config import global_config
 
 class MLDataFrame(object): # pragma: no cover
     """
@@ -202,7 +203,15 @@ class VideosetDataFrame(MLDataFrame):
             self.feature_cols = matched_cols
         return matched_cols
 
-    def get_columns_regex(self, pattern):
+    def get_columns_regex(self, pattern : str) -> list:
+        """Return a list of column names that match the provided regex pattern.
+        
+        Args:
+            pattern: a regex pattern to match column names to
+            
+        Returns:
+            list of column names
+        """
         try:
             compiled = re.compile(pattern)
         except re.error:
@@ -253,7 +262,14 @@ class VideosetDataFrame(MLDataFrame):
                 self.feature_cols = new_features.columns
         return list(new_features.columns)
 
-    def remove_feature_cols(self, col_names):
+    def remove_feature_cols(self, col_names : list) -> list:
+        """Remove provided columns from set of feature columns.
+        
+        Args:
+            col_names: list of column names
+            
+        Returns:
+            The columns that were removed from those designated as features."""
         new_col_names = [i for i in self.feature_cols if i not in col_names]
         removed = [i for i in self.feature_cols if i in col_names]
         self.feature_cols = new_col_names
@@ -311,13 +327,26 @@ class VideosetDataFrame(MLDataFrame):
         if set_as_label:
             self.label_cols = col_name
 
-    def save(self, fn_out):
-        """Save object"""
+    def save(self, fn_out : str) -> None:
+        """Save VideosetDataFrame object with pickle.
+        
+        Args:
+            fn_out: location to write pickle file to
+            
+        Returns:
+            None. File is saved to path.
+        """
         with open(fn_out,'wb') as file:
             file.write(pickle.dumps(self.__dict__, protocol = 4))
 
-    def load(self, fn_in):
-        """Load from file"""
+    def load(self, fn_in : str) -> None:
+        """Load VideosetDataFrame object from pickle file.
+        
+        Args:
+            fn_in: path to load pickle file from. 
+            
+        Returns:
+            None. Data in this object is populated with contents of file."""
         with open(fn_in, 'rb') as file:
             dataPickle = file.read()
         self.__dict__ = pickle.loads(dataPickle)
@@ -342,12 +371,10 @@ class VideosetDataFrame(MLDataFrame):
             return
 
         #Text parameters (units in pixels)
-        #TODO  
-        # Add these to some config.yaml (or json) file
-        y_offset = 60
-        y_inc = 30
-        text_color = 'green'
-        font_size = 36
+        y_offset = global_config['make_movie__y_offset']
+        y_inc = global_config['make_movie__y_inc']
+        text_color = global_config['make_movie__text_color']
+        font_size = global_config['make_movie__font_size']
 
         if type(video_filenames) is str:
             video_filenames = [video_filenames]
@@ -375,7 +402,14 @@ class VideosetDataFrame(MLDataFrame):
             os.system(cmd)
             
 def load_videodataset(fn_in : str) -> VideosetDataFrame:
-    """Load from file"""
+    """Load VideosetDataFrame from file.
+    
+    Args:
+        fn_in: path to file to load
+        
+    Returns:
+        VideosetDataFrame object from pickle file
+    """
     with open(fn_in, 'rb') as file:
         dataPickle = file.read()
     new_obj = VideosetDataFrame({})

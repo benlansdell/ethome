@@ -6,6 +6,9 @@ from glob import glob
 from behaveml.config import global_config
 
 def plot_embedding(dataset, figsize = (10,10)):
+    """Plot a 2D TSNE or UMAP embedding from the dataset"""
+
+
     fig, axes = plt.subplots(1,1, figsize = figsize)
     axes.scatter(x = dataset['embedding_0'], y = dataset['embedding_1'], s = 1)
     axes.set_xlabel('Embedding dim 1')
@@ -103,10 +106,8 @@ def create_sample_videos(dataset, video_dir, out_dir, query_col = 'unsup_behavio
                 ffmpeg_cmd = f'ffmpeg -ss {start_time_str} -i {os.path.join(video_dir, vid_file)} -t 00:00:{2*window_size} -threads 4 {out_file}'
                 os.system(ffmpeg_cmd)
                 
-#Define some functions
-## Make them into a mosaic
 #TODO
-#Make the dimension variable here
+#Make the dimension not hard coded here
 def create_mosaic_video(vid_dir, output_file, ndim = ('1600','1200')):
     max_mosaic_vids = global_config['create_mosaic_video__max_mosaic_vids']
     mosaic_vid_files = glob(vid_dir)[:max_mosaic_vids]

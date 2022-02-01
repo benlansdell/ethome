@@ -25,7 +25,7 @@ def compute_tsne_embedding(dataset : VideosetDataFrame,
     """
     
     tsne_data = StandardScaler().fit_transform(dataset.data[cols])
-    random_indices = np.random.choice(tsne_data.shape[0], N_rows, replace = False)
+    random_indices = np.random.choice(tsne_data.shape[0], min(N_rows, tsne_data.shape[0]), replace = False)
     tsne_data = tsne_data[random_indices, :]
     tsne_embedding = TSNE(n_components=n_components, init = 'pca', perplexity = perplexity).fit_transform(tsne_data)
     return tsne_embedding, random_indices
@@ -37,10 +37,9 @@ def compute_morlet(data : np.ndarray,
     fs = 1/dt
     freq = np.geomspace(1, fs/2, n_freq)
     widths = w*fs / (2*freq*np.pi)
-    pca_data = data 
     morlet = []
-    for idx in tqdm(range(pca_data.shape[1])):
-        morlet.append(np.abs(signal.cwt(pca_data[:,idx], signal.morlet2, widths, w=w)))
+    for idx in tqdm(range(data.shape[1])):
+        morlet.append(np.abs(signal.cwt(data[:,idx], signal.morlet2, widths, w=w)))
     morlet = np.stack(morlet)
     return morlet    
 
@@ -66,7 +65,7 @@ def compute_density(dataset : VideosetDataFrame,
     X_plot = np.array(np.meshgrid(np.linspace(xmin, xmax, n_pts), np.linspace(ymin, ymax, n_pts))).T.reshape(-1, 2)
     dens = den_est.score_samples(X_plot)
     dens = np.exp(dens)
-    dens_matrix = dens.reshape(n_pts,n_pts).T
+    dens_matrix = dens.reshape(n_pts, n_pts).T
     return dens_matrix
 
 def compute_watershed(dens_matrix : np.ndarray, 
@@ -104,12 +103,12 @@ def cluster_behaviors(dataset,
     """
 
     #If running interactively, can set default params here
-    N_rows = 200000
-    subsample = True 
-    use_morlet = False
-    use_umap = True
-    n_pts = 300
-    bandwidth = 0.5
+    # N_rows = 200000
+    # subsample = True 
+    # use_morlet = False
+    # use_umap = True
+    # n_pts = 300
+    # bandwidth = 0.5
 
     #TODO
     # Should be autodetected, separate for x and y
@@ -132,7 +131,7 @@ def cluster_behaviors(dataset,
         embedding_data = StandardScaler().fit_transform(data)
 
     if subsample:
-        random_indices = np.random.choice(embedding_data.shape[0], N_rows, replace = False)
+        random_indices = np.random.choice(embedding_data.shape[0], min(N_rows, embedding_data.shape[0]), replace = False)
         embedding_data_fit = embedding_data[random_indices, :]
     else:
         embedding_data_fit = embedding_data
@@ -146,8 +145,8 @@ def cluster_behaviors(dataset,
 
     dataset.data[['embedding_0', 'embedding_1']] = embedding
 
-    dens_matrix = compute_density(dataset, xmin, xmax, bandwidth = bandwidth, n_pts = n_pts)
-    labels, _ = compute_watershed(dens_matrix, positive_only = False, cutoff = 0)
+    dens_matrix = compute_density(dataset, embedding_extent, bandwidth = bandwidth, n_pts = n_pts)
+    labels = compute_watershed(dens_matrix, positive_only = False, cutoff = 0)
 
     #Save data
     dataset.data['embedding_index_0'] = dataset.data['embedding_0'].apply(lambda x: int(max(0, min(n_pts-1, n_pts*(x-xmin)/(xmax-xmin)))))

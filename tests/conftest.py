@@ -2,7 +2,6 @@ import os
 import pytest
 from glob import glob
 
-
 TEST_DATA_DIR = os.path.join(os.path.dirname(os.path.realpath(__file__)), "data")
 
 @pytest.fixture()
@@ -54,3 +53,16 @@ def videodataset_mars(videodataset):
                      featureset_name = 'MARS', 
                      add_to_features = True)
     return videodataset
+
+@pytest.fixture()
+def dens_matrix(videodataset):
+
+    from behaveml.unsupervised import compute_density
+    import numpy as np
+    n_pts = 200
+    extent = (-50, 50, -50, 50)
+    videodataset.data = videodataset.data.iloc[:200,:]
+    embedding = np.random.randn(200, 2)
+    videodataset.data[['embedding_0', 'embedding_1']] = embedding
+    dens_matrix = compute_density(videodataset, extent, n_pts = n_pts)
+    return dens_matrix

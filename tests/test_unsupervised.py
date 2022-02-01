@@ -44,4 +44,4 @@ def test_cluster_behaviors(videodataset, default_track_cols):
 
     assert 'embedding_index_0' in videodataset.data.columns
     assert 'embedding_index_1' in videodataset.data.columns
-    assert 'unsup_behavior_labels' in videodataset.data.columns
+    assert 'unsup_behavior_label' in videodataset.data.columns

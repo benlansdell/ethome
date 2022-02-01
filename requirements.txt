@@ -10,3 +10,5 @@ tensorflow-addons
 typing
 keras==2.4.3
 matplotlib
+umap
+scikit-image

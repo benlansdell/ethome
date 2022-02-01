@@ -6,3 +6,6 @@ behaveml.egg-info/
 build
 *.mp4
 dist
+*.avi
+pypi_token.txt
+test_pypi_token.txt

@@ -13,7 +13,7 @@
     
     
       
-        <title>Mars features - behaveML</title>
+        <title>Unsupervised - behaveML</title>
       
     
     
@@ -58,7 +58,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#module-mars_features" class="md-skip">
+        <a href="#module-unsupervised" class="md-skip">
           Skip to content
         </a>
       
@@ -91,7 +91,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Mars features
+              Unsupervised
             
           </span>
         </div>
@@ -344,66 +344,11 @@
               
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          Mars features
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../mars_features/" class="md-nav__link">
         Mars features
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#function-compute_mars_features" class="md-nav__link">
-    function compute_mars_features
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#function-compute_distance_features" class="md-nav__link">
-    function compute_distance_features
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#function-compute_velocity_features" class="md-nav__link">
-    function compute_velocity_features
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -441,11 +386,80 @@
               
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../unsupervised/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Unsupervised
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         Unsupervised
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#function-compute_tsne_embedding" class="md-nav__link">
+    function compute_tsne_embedding
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#function-compute_morlet" class="md-nav__link">
+    function compute_morlet
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#function-compute_density" class="md-nav__link">
+    function compute_density
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#function-compute_watershed" class="md-nav__link">
+    function compute_watershed
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#function-cluster_behaviors" class="md-nav__link">
+    function cluster_behaviors
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -512,22 +526,36 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#function-compute_mars_features" class="md-nav__link">
-    function compute_mars_features
+  <a href="#function-compute_tsne_embedding" class="md-nav__link">
+    function compute_tsne_embedding
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#function-compute_distance_features" class="md-nav__link">
-    function compute_distance_features
+  <a href="#function-compute_morlet" class="md-nav__link">
+    function compute_morlet
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#function-compute_velocity_features" class="md-nav__link">
-    function compute_velocity_features
+  <a href="#function-compute_density" class="md-nav__link">
+    function compute_density
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#function-compute_watershed" class="md-nav__link">
+    function compute_watershed
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#function-cluster_behaviors" class="md-nav__link">
+    function cluster_behaviors
   </a>
   
 </li>
@@ -547,38 +575,91 @@
 
 <!-- markdownlint-disable -->
 
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/mars_features.py#L0"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
-<h1 id="module-mars_features"><kbd>module</kbd> <code>mars_features</code></h1>
+<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/unsupervised.py#L0"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<h1 id="module-unsupervised"><kbd>module</kbd> <code>unsupervised</code></h1>
 <hr />
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/mars_features.py#L5"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
-<h2 id="function-compute_mars_features"><kbd>function</kbd> <code>compute_mars_features</code></h2>
-<pre><code class="language-python">compute_mars_features(
-    df: DataFrame,
-    raw_col_names: list,
-    animal_setup: dict,
-    **kwargs
-) → DataFrame
+<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/unsupervised.py#L11"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<h2 id="function-compute_tsne_embedding"><kbd>function</kbd> <code>compute_tsne_embedding</code></h2>
+<pre><code class="language-python">compute_tsne_embedding(
+    dataset: VideosetDataFrame,
+    cols: list,
+    N_rows: int = 20000,
+    n_components=2,
+    perplexity=30
+) → tuple
+</code></pre>
+<p>Compute TSNE embedding.  </p>
+<p><strong>Args:</strong></p>
+<ul>
+<li><b><code>dataset</code></b>:  Input data </li>
+<li><b><code>cols</code></b>:  A list of column names to produce the embedding for </li>
+<li><b><code>N_rows</code></b>:  A number of rows to randomly sample for the embedding. Only these rows are embedded. </li>
+</ul>
+<p><strong>Returns:</strong>
+ The tuple:  </p>
+<hr />
+<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/unsupervised.py#L33"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<h2 id="function-compute_morlet"><kbd>function</kbd> <code>compute_morlet</code></h2>
+<pre><code class="language-python">compute_morlet(
+    data: ndarray,
+    dt: float = 0.03333333333333333,
+    n_freq: int = 5,
+    w: float = 3
+) → ndarray
 </code></pre>
 <hr />
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/mars_features.py#L9"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
-<h2 id="function-compute_distance_features"><kbd>function</kbd> <code>compute_distance_features</code></h2>
-<pre><code class="language-python">compute_distance_features(
-    df: DataFrame,
-    raw_col_names: list,
-    animal_setup: dict,
-    **kwargs
-) → DataFrame
+<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/unsupervised.py#L46"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<h2 id="function-compute_density"><kbd>function</kbd> <code>compute_density</code></h2>
+<pre><code class="language-python">compute_density(
+    dataset: VideosetDataFrame,
+    embedding_extent: tuple,
+    bandwidth: float = 0.5,
+    n_pts: int = 300
+) → ndarray
 </code></pre>
+<p>Compute kernel density estimate of embedding. </p>
+<p><strong>Args:</strong></p>
+<ul>
+<li><b><code>dataset</code></b>:  VideosetDataFrame with embedding data loaded in it. (Must have already populated columns named 'embedding_0', 'embedding_1') </li>
+<li><b><code>embedding_extent</code></b>:  the bounds in which to apply the density estimate </li>
+<li><b><code>bandwidth</code></b>:  the Gaussian kernel bandwidth. Will depend on the scale of the embedding. Can be changed to affect the number of clusters pulled out </li>
+<li><b><code>n_pts</code></b>:  number of points over which to evaluate the KDE </li>
+</ul>
+<p><strong>Returns:</strong>
+ Numpy array with KDE over the specified square region in the embedding space, with dimensions (n_pts x n_pts)     </p>
 <hr />
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/mars_features.py#L13"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
-<h2 id="function-compute_velocity_features"><kbd>function</kbd> <code>compute_velocity_features</code></h2>
-<pre><code class="language-python">compute_velocity_features(
-    df: DataFrame,
-    raw_col_names: list,
-    animal_setup: dict,
-    **kwargs
-) → DataFrame
+<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/unsupervised.py#L71"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<h2 id="function-compute_watershed"><kbd>function</kbd> <code>compute_watershed</code></h2>
+<pre><code class="language-python">compute_watershed(
+    dens_matrix: ndarray,
+    positive_only: bool = False,
+    cutoff: float = 0
+) → tuple
 </code></pre>
+<p>Compute watershed clustering of a density matrix.  </p>
+<p><strong>Args:</strong></p>
+<ul>
+<li><b><code>dens_matrix</code></b>:  A square 2D numpy array, output from compute_density, containing the kernel density estimate of the embedding. </li>
+<li><b><code>positive_only</code></b>:  Whether to apply a threshold, 'cutoff'. If applied, 'cutoff' is subtracted from dens_matrix, and any value below zero is set to zero. Useful for only focusing on high density clusters. </li>
+<li><b><code>cutoff</code></b>:  The cutoff value to apply if positive_only = True </li>
+</ul>
+<p><strong>Returns:</strong>
+ A numpy array with the same dimensions as dens_matrix. Each value in the array is the cluster ID for that coordinate. </p>
+<hr />
+<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/unsupervised.py#L93"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<h2 id="function-cluster_behaviors"><kbd>function</kbd> <code>cluster_behaviors</code></h2>
+<pre><code class="language-python">cluster_behaviors(
+    dataset,
+    feature_cols,
+    N_rows=200000,
+    subsample=True,
+    use_morlet=False,
+    use_umap=True,
+    n_pts=300,
+    bandwidth=0.5
+)
+</code></pre>
+<p>Cluster behaviors based on dimensionality reduction, kernel density estimation, and watershed clustering.  </p>
 <hr />
 <p><em>This file was automatically generated via <a href="https://github.com/ml-tooling/lazydocs">lazydocs</a>.</em></p>
 
@@ -594,7 +675,7 @@
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
         
-        <a href="../io/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Io" rel="prev">
+        <a href="../plot/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Plot" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
           </div>
@@ -603,20 +684,20 @@
               <span class="md-footer__direction">
                 Previous
               </span>
-              Io
+              Plot
             </div>
           </div>
         </a>
       
       
         
-        <a href="../ml/" class="md-footer__link md-footer__link--next" aria-label="Next: Ml" rel="next">
+        <a href="../utils/" class="md-footer__link md-footer__link--next" aria-label="Next: Utils" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              Ml
+              Utils
             </div>
           </div>
           <div class="md-footer__button md-icon">

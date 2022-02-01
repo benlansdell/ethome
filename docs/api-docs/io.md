@@ -12,18 +12,63 @@ Loading and saving tracking and behavior annotation files
 - **SEEK_CUR**
 - **SEEK_END**
 - **XY_IDS**
+- **XYLIKELIHOOD_IDS**
 
 ---
 
-<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/io.py#L22"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/io.py#L13"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+
+## <kbd>function</kbd> `uniquifier`
+
+```python
+uniquifier(seq)
+```
+
+Return a sequence (e.g. list) with unique elements only, but maintaining original list order 
+
+
+---
+
+<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/io.py#L26"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+
+## <kbd>function</kbd> `save_sklearn_model`
+
+```python
+save_sklearn_model(model, fn_out)
+```
+
+
+
+
+
+
+---
+
+<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/io.py#L29"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+
+## <kbd>function</kbd> `load_sklearn_model`
+
+```python
+load_sklearn_model(fn_in)
+```
+
+
+
+
+
+
+---
+
+<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/io.py#L33"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `read_DLC_tracks`
 
 ```python
 read_DLC_tracks(
-    fn_in:str,
-    part_renamer:dict=None,
-    animal_renamer:dict=None
+    fn_in: str,
+    part_renamer: dict = None,
+    animal_renamer: dict = None,
+    read_likelihoods: bool = True
 ) → tuple
 ```
 
@@ -36,21 +81,22 @@ Read in tracks from DLC.
  - <b>`fn_in`</b>:  csv file that has DLC tracks 
  - <b>`part_renamer`</b>:  dictionary to rename body parts, if needed  
  - <b>`animal_renamer`</b>:  dictionary to rename animals, if needed 
+ - <b>`read_likelihoods`</b>:  default True. Whether to attach DLC likelihoods to table 
 
 
 
 **Returns:**
- Pandas DataFrame with (n_animals*2*n_body_parts) columns plus with filename and frame,   List of body parts,  List of animals,  Columns names for DLC tracks 
+ Pandas DataFrame with (n_animals*2*n_body_parts) columns plus with filename and frame,   List of body parts,  List of animals,  Columns names for DLC tracks (excluding likelihoods, if read in),  Scorer 
 
 
 ---
 
-<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/io.py#L74"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/io.py#L106"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `rename_df_cols`
 
 ```python
-rename_df_cols(df:DataFrame, renamer:dict) → DataFrame
+rename_df_cols(df: DataFrame, renamer: dict) → DataFrame
 ```
 
 Rename dataframe columns  
@@ -70,12 +116,12 @@ Rename dataframe columns
 
 ---
 
-<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/io.py#L86"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/io.py#L118"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `save_DLC_tracks_h5`
 
 ```python
-save_DLC_tracks_h5(df:DataFrame, fn_out:str) → None
+save_DLC_tracks_h5(df: DataFrame, fn_out: str) → None
 ```
 
 Save DLC tracks in h5 format. 
@@ -90,12 +136,12 @@ Save DLC tracks in h5 format.
 
 ---
 
-<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/io.py#L95"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/io.py#L127"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `load_data`
 
 ```python
-load_data(fn:str)
+load_data(fn: str)
 ```
 
 Load an object from a pickle file 
@@ -114,12 +160,30 @@ Load an object from a pickle file
 
 ---
 
-<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/io.py#L108"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/io.py#L163"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+
+## <kbd>function</kbd> `get_sample_data`
+
+```python
+get_sample_data()
+```
+
+Load a sample dataset of 5 mice social interaction videos. Each video is approx. 5 minutes in duration 
+
+
+
+**Returns:**
+  (VideosetDataFrame) Data frame with the corresponding tracking and behavior annotation files 
+
+
+---
+
+<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/io.py#L176"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `read_boris_annotation`
 
 ```python
-read_boris_annotation(fn_in:str, fps:int, duration:float) → ndarray
+read_boris_annotation(fn_in: str, fps: int, duration: float) → ndarray
 ```
 
 Read behavior annotation from BORIS exported csv file 

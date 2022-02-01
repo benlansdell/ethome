@@ -10,15 +10,15 @@
 
 ---
 
-<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/mars_features.py#L19"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/mars_features.py#L5"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `compute_mars_features`
 
 ```python
 compute_mars_features(
-    df:DataFrame,
-    raw_col_names:list,
-    animal_setup:dict,
+    df: DataFrame,
+    raw_col_names: list,
+    animal_setup: dict,
     **kwargs
 ) → DataFrame
 ```
@@ -30,12 +30,17 @@ compute_mars_features(
 
 ---
 
-<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/mars_features.py#L23"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/mars_features.py#L9"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
-## <kbd>function</kbd> `make_stacked_features`
+## <kbd>function</kbd> `compute_distance_features`
 
 ```python
-make_stacked_features(train_df, test_df)
+compute_distance_features(
+    df: DataFrame,
+    raw_col_names: list,
+    animal_setup: dict,
+    **kwargs
+) → DataFrame
 ```
 
 
@@ -45,12 +50,17 @@ make_stacked_features(train_df, test_df)
 
 ---
 
-<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/mars_features.py#L148"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/mars_features.py#L13"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
-## <kbd>function</kbd> `compute_mars_features_`
+## <kbd>function</kbd> `compute_velocity_features`
 
 ```python
-compute_mars_features_(df:DataFrame, raw_col_names:list, animal_setup:dict)
+compute_velocity_features(
+    df: DataFrame,
+    raw_col_names: list,
+    animal_setup: dict,
+    **kwargs
+) → DataFrame
 ```
 
 

@@ -13,7 +13,7 @@
     
     
       
-        <title>Mars features - behaveML</title>
+        <title>Interpolation - behaveML</title>
       
     
     
@@ -58,7 +58,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#module-mars_features" class="md-skip">
+        <a href="#module-interpolation" class="md-skip">
           Skip to content
         </a>
       
@@ -91,7 +91,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Mars features
+              Interpolation
             
           </span>
         </div>
@@ -316,11 +316,52 @@
               
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../interpolation/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Interpolation
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         Interpolation
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#function-interpolate_lowconf_points" class="md-nav__link">
+    function interpolate_lowconf_points
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -344,66 +385,11 @@
               
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          Mars features
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../mars_features/" class="md-nav__link">
         Mars features
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#function-compute_mars_features" class="md-nav__link">
-    function compute_mars_features
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#function-compute_distance_features" class="md-nav__link">
-    function compute_distance_features
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#function-compute_velocity_features" class="md-nav__link">
-    function compute_velocity_features
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -512,22 +498,8 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#function-compute_mars_features" class="md-nav__link">
-    function compute_mars_features
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#function-compute_distance_features" class="md-nav__link">
-    function compute_distance_features
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#function-compute_velocity_features" class="md-nav__link">
-    function compute_velocity_features
+  <a href="#function-interpolate_lowconf_points" class="md-nav__link">
+    function interpolate_lowconf_points
   </a>
   
 </li>
@@ -547,38 +519,34 @@
 
 <!-- markdownlint-disable -->
 
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/mars_features.py#L0"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
-<h1 id="module-mars_features"><kbd>module</kbd> <code>mars_features</code></h1>
+<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/interpolation.py#L0"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<h1 id="module-interpolation"><kbd>module</kbd> <code>interpolation</code></h1>
 <hr />
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/mars_features.py#L5"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
-<h2 id="function-compute_mars_features"><kbd>function</kbd> <code>compute_mars_features</code></h2>
-<pre><code class="language-python">compute_mars_features(
-    df: DataFrame,
-    raw_col_names: list,
-    animal_setup: dict,
-    **kwargs
+<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/interpolation.py#L5"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<h2 id="function-interpolate_lowconf_points"><kbd>function</kbd> <code>interpolate_lowconf_points</code></h2>
+<pre><code class="language-python">interpolate_lowconf_points(
+    vdf: VideosetDataFrame,
+    filter_out_lowconf: bool = True,
+    filter_out_toofast: bool = True,
+    conf_threshold: float = 0.9,
+    jump_dur: int = 5,
+    speed_threshold: float = 5,
+    in_place=True
 ) → DataFrame
 </code></pre>
-<hr />
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/mars_features.py#L9"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
-<h2 id="function-compute_distance_features"><kbd>function</kbd> <code>compute_distance_features</code></h2>
-<pre><code class="language-python">compute_distance_features(
-    df: DataFrame,
-    raw_col_names: list,
-    animal_setup: dict,
-    **kwargs
-) → DataFrame
-</code></pre>
-<hr />
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/mars_features.py#L13"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
-<h2 id="function-compute_velocity_features"><kbd>function</kbd> <code>compute_velocity_features</code></h2>
-<pre><code class="language-python">compute_velocity_features(
-    df: DataFrame,
-    raw_col_names: list,
-    animal_setup: dict,
-    **kwargs
-) → DataFrame
-</code></pre>
+<p>Interpolate raw tracking points if their probabilities are available. </p>
+<p><strong>Args:</strong></p>
+<ul>
+<li><b><code>vdf</code></b>:  VideosetDataFrame containing the tracks to interpolate </li>
+<li><b><code>filter_out_lowconf</code></b>:  default True. Whether to filter out low confidence points </li>
+<li><b><code>filter_out_toofast</code></b>:  default True. Whether to filter out tracks that jump too far in a number of frames </li>
+<li><b><code>conf_threshold</code></b>:  default 0.9. Confidence below which to count as uncertain, and to interpolate its value instead </li>
+<li><b><code>jump_dur</code></b>:  default 5. Number of frames to compute velocity which is used as basis for filtering out jumps </li>
+<li><b><code>speed_threshold</code></b>:  default 5. Number of pixels to  </li>
+<li><b><code>in_place</code></b>:  default True. Whether to replace data in place </li>
+</ul>
+<p><strong>Returns:</strong>
+ Pandas dataframe with the filtered raw columns. Returns None if opted for in_place modification </p>
 <hr />
 <p><em>This file was automatically generated via <a href="https://github.com/ml-tooling/lazydocs">lazydocs</a>.</em></p>
 
@@ -594,7 +562,7 @@
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
         
-        <a href="../io/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Io" rel="prev">
+        <a href="../features/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Features" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
           </div>
@@ -603,20 +571,20 @@
               <span class="md-footer__direction">
                 Previous
               </span>
-              Io
+              Features
             </div>
           </div>
         </a>
       
       
         
-        <a href="../ml/" class="md-footer__link md-footer__link--next" aria-label="Next: Ml" rel="next">
+        <a href="../io/" class="md-footer__link md-footer__link--next" aria-label="Next: Io" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              Ml
+              Io
             </div>
           </div>
           <div class="md-footer__button md-icon">

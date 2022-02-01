@@ -5,12 +5,16 @@ import numpy as np
 from glob import glob
 from behaveml.config import global_config
 
-def plot_embedding(dataset, figsize = (10,10)):
+def plot_embedding(dataset, color_col = None, figsize = (10,10)):
     """Plot a 2D TSNE or UMAP embedding from the dataset"""
 
+    if color_col is not None:
+        c = dataset[color_col]
+    else:
+        c = None
 
     fig, axes = plt.subplots(1,1, figsize = figsize)
-    axes.scatter(x = dataset['embedding_0'], y = dataset['embedding_1'], s = 1)
+    axes.scatter(x = dataset['embedding_0'], y = dataset['embedding_1'], s = 1, c = c)
     axes.set_xlabel('Embedding dim 1')
     axes.set_ylabel('Embedding dim 2')
     return fig, axes
@@ -26,6 +30,8 @@ def plot_ethogram(dataset, vid_key, query_label = 'unsup_behavior_label', frame_
     plt.xlim([0, frame_limit])
     return fig, ax
 
+#TODO
+# Bug with trimming the jpg here. 
 def create_ethogram_video(dataset, vid_key, query_label, out_file, frame_limit = 4000, im_dim = 16, min_frames = 3):
     vid_file = dataset.metadata[vid_key]['video_files']
     fps = dataset.metadata[vid_key]['fps']
@@ -48,6 +54,7 @@ def create_ethogram_video(dataset, vid_key, query_label, out_file, frame_limit =
 
     b = np.zeros((plot_data.size, plot_data.max()+1))
     b[np.arange(plot_data.size),plot_data] = plot_data
+    plt.ioff()
     plt.imshow(b.T, aspect = 'auto', origin = 'lower', interpolation = 'none', alpha = (b.T > 0).astype(float))
     plt.axis('off')
     plt.tight_layout(pad = 0)
@@ -57,6 +64,8 @@ def create_ethogram_video(dataset, vid_key, query_label, out_file, frame_limit =
     trimmed_fn = fn_out.replace('.jpg', '_trimmed.jpg')
     dpi = 2000/im_dim
     fig.savefig(fn_out, dpi = dpi)
+    plt.close()
+    plt.ioff()
     trim_cmd = f'convert {fn_out} -fuzz 7% -trim -resize 1600x1600 {trimmed_fn}'
     os.system(trim_cmd)
     vid_path = vid_file
@@ -67,7 +76,7 @@ def create_ethogram_video(dataset, vid_key, query_label, out_file, frame_limit =
         behav_text = f",drawtext=text='{behav_label}':fontcolor=black:fontsize=30:y=10:x=10:enable='between(t,{str_time},{end_time})'"
         text_filter += behav_text
 
-    ffmpeg_cmd = f'''ffmpeg -y -i {vid_path} -i {trimmed_fn} \
+    ffmpeg_cmd = f'''ffmpeg -y -hide_banner -loglevel error -i {vid_path} -i {trimmed_fn} \
     -filter_complex "[0:v][1:v]overlay=0:0,{text_filter}" \
     -t {start_time_str} \
     -threads 8 -q:v 3 {out_file}'''
@@ -103,50 +112,51 @@ def create_sample_videos(dataset, video_dir, out_dir, query_col = 'unsup_behavio
                 out_file = os.path.join(out_dir_vid, f'{vid_name}_second_{behavior_time}.avi')
                 start_time = max(0, behavior_time - window_size)
                 start_time_str = time.strftime('%H:%M:%S', time.gmtime(start_time))
-                ffmpeg_cmd = f'ffmpeg -ss {start_time_str} -i {os.path.join(video_dir, vid_file)} -t 00:00:{2*window_size} -threads 4 {out_file}'
+                ffmpeg_cmd = f'ffmpeg -y -hide_banner -loglevel error -ss {start_time_str} -i {os.path.join(video_dir, vid_file)} -t 00:00:{2*window_size} -threads 4 {out_file}'
                 os.system(ffmpeg_cmd)
                 
-#TODO
-#Make the dimension not hard coded here
 def create_mosaic_video(vid_dir, output_file, ndim = ('1600','1200')):
     max_mosaic_vids = global_config['create_mosaic_video__max_mosaic_vids']
     mosaic_vid_files = glob(vid_dir)[:max_mosaic_vids]
 
-    mosaic_cmd = f'''ffmpeg -y \
+    block_size_x = int(ndim[0])/np.sqrt(max_mosaic_vids)
+    block_size_y = int(ndim[1])/np.sqrt(max_mosaic_vids)
+
+    mosaic_cmd = f'''ffmpeg -y -hide_banner -loglevel error \
     {' '.join([f'-i {f}' for f in mosaic_vid_files])} \
     -filter_complex " \
         nullsrc=size={'x'.join(ndim)} [base]; \
-        [0:v] setpts=PTS-STARTPTS, scale=400x300 [upper1]; \
-        [1:v] setpts=PTS-STARTPTS, scale=400x300 [upper2]; \
-        [2:v] setpts=PTS-STARTPTS, scale=400x300 [upper3]; \
-        [3:v] setpts=PTS-STARTPTS, scale=400x300 [upper4]; \
-        [4:v] setpts=PTS-STARTPTS, scale=400x300 [uppermid1]; \
-        [5:v] setpts=PTS-STARTPTS, scale=400x300 [uppermid2]; \
-        [6:v] setpts=PTS-STARTPTS, scale=400x300 [uppermid3]; \
-        [7:v] setpts=PTS-STARTPTS, scale=400x300 [uppermid4]; \
-        [8:v] setpts=PTS-STARTPTS, scale=400x300 [lowermid1]; \
-        [9:v] setpts=PTS-STARTPTS, scale=400x300 [lowermid2]; \
-        [10:v] setpts=PTS-STARTPTS, scale=400x300 [lowermid3]; \
-        [11:v] setpts=PTS-STARTPTS, scale=400x300 [lowermid4]; \
-        [12:v] setpts=PTS-STARTPTS, scale=400x300 [lower1]; \
-        [13:v] setpts=PTS-STARTPTS, scale=400x300 [lower2]; \
-        [14:v] setpts=PTS-STARTPTS, scale=400x300 [lower3]; \
-        [15:v] setpts=PTS-STARTPTS, scale=400x300 [lower4]; \
+        [0:v] setpts=PTS-STARTPTS, scale={block_size_x}x{block_size_y} [upper1]; \
+        [1:v] setpts=PTS-STARTPTS, scale={block_size_x}x{block_size_y} [upper2]; \
+        [2:v] setpts=PTS-STARTPTS, scale={block_size_x}x{block_size_y} [upper3]; \
+        [3:v] setpts=PTS-STARTPTS, scale={block_size_x}x{block_size_y} [upper4]; \
+        [4:v] setpts=PTS-STARTPTS, scale={block_size_x}x{block_size_y} [uppermid1]; \
+        [5:v] setpts=PTS-STARTPTS, scale={block_size_x}x{block_size_y} [uppermid2]; \
+        [6:v] setpts=PTS-STARTPTS, scale={block_size_x}x{block_size_y} [uppermid3]; \
+        [7:v] setpts=PTS-STARTPTS, scale={block_size_x}x{block_size_y} [uppermid4]; \
+        [8:v] setpts=PTS-STARTPTS, scale={block_size_x}x{block_size_y} [lowermid1]; \
+        [9:v] setpts=PTS-STARTPTS, scale={block_size_x}x{block_size_y} [lowermid2]; \
+        [10:v] setpts=PTS-STARTPTS, scale={block_size_x}x{block_size_y} [lowermid3]; \
+        [11:v] setpts=PTS-STARTPTS, scale={block_size_x}x{block_size_y} [lowermid4]; \
+        [12:v] setpts=PTS-STARTPTS, scale={block_size_x}x{block_size_y} [lower1]; \
+        [13:v] setpts=PTS-STARTPTS, scale={block_size_x}x{block_size_y} [lower2]; \
+        [14:v] setpts=PTS-STARTPTS, scale={block_size_x}x{block_size_y} [lower3]; \
+        [15:v] setpts=PTS-STARTPTS, scale={block_size_x}x{block_size_y} [lower4]; \
         [base][upper1] overlay=shortest=1 [tmp1]; \
-        [tmp1][upper2] overlay=shortest=1:x=400 [tmp2]; \
-        [tmp2][upper3] overlay=shortest=1:x=800 [tmp3]; \
-        [tmp3][upper4] overlay=shortest=1:x=1200 [tmp4];\
-        [tmp4][uppermid1] overlay=shortest=1:y=300 [tmp5]; \
-        [tmp5][uppermid2] overlay=shortest=1:x=400:y=300 [tmp6]; \
-        [tmp6][uppermid3] overlay=shortest=1:x=800:y=300 [tmp7]; \
-        [tmp7][uppermid4] overlay=shortest=1:x=1200:y=300 [tmp8];\
-        [tmp8][lowermid1] overlay=shortest=1:y=600 [tmp9]; \
-        [tmp9][lowermid2] overlay=shortest=1:x=400:y=600 [tmp10]; \
-        [tmp10][lowermid3] overlay=shortest=1:x=800:y=600 [tmp11]; \
-        [tmp11][lowermid4] overlay=shortest=1:x=1200:y=600 [tmp12];\
-        [tmp12][lower1] overlay=shortest=1:y=900 [tmp13]; \
-        [tmp13][lower2] overlay=shortest=1:x=400:y=900 [tmp14]; \
-        [tmp14][lower3] overlay=shortest=1:x=800:y=900 [tmp15]; \
-        [tmp15][lower4] overlay=shortest=1:x=1200:y=900 \
+        [tmp1][upper2] overlay=shortest=1:x={block_size_x} [tmp2]; \
+        [tmp2][upper3] overlay=shortest=1:x={2*block_size_x} [tmp3]; \
+        [tmp3][upper4] overlay=shortest=1:x={3*block_size_x} [tmp4];\
+        [tmp4][uppermid1] overlay=shortest=1:y={block_size_y} [tmp5]; \
+        [tmp5][uppermid2] overlay=shortest=1:x={block_size_x}:y={block_size_y} [tmp6]; \
+        [tmp6][uppermid3] overlay=shortest=1:x={2*block_size_x}:y={block_size_y} [tmp7]; \
+        [tmp7][uppermid4] overlay=shortest=1:x={3*block_size_x}:y={block_size_y} [tmp8];\
+        [tmp8][lowermid1] overlay=shortest=1:y={2*block_size_y} [tmp9]; \
+        [tmp9][lowermid2] overlay=shortest=1:x={block_size_x}:y={2*block_size_y} [tmp10]; \
+        [tmp10][lowermid3] overlay=shortest=1:x={2*block_size_x}:y={2*block_size_y} [tmp11]; \
+        [tmp11][lowermid4] overlay=shortest=1:x={3*block_size_x}:y={2*block_size_y} [tmp12];\
+        [tmp12][lower1] overlay=shortest=1:y={3*block_size_y} [tmp13]; \
+        [tmp13][lower2] overlay=shortest=1:x={block_size_x}:y={3*block_size_y} [tmp14]; \
+        [tmp14][lower3] overlay=shortest=1:x={2*block_size_x}:y={3*block_size_y} [tmp15]; \
+        [tmp15][lower4] overlay=shortest=1:x={3*block_size_x}:y={3*block_size_y} \
     " -c:v libx264 {output_file}'''
     os.system(mosaic_cmd)

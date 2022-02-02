@@ -4,22 +4,53 @@ import time
 import numpy as np
 from glob import glob
 from behaveml.config import global_config
+from behaveml import VideosetDataFrame
+import pandas as pd
 
-def plot_embedding(dataset, color_col = None, figsize = (10,10)):
-    """Plot a 2D TSNE or UMAP embedding from the dataset"""
+def plot_embedding(dataset : VideosetDataFrame, 
+                   color_col : str = None, 
+                   figsize : tuple = (10,10),
+                   **kwargs) -> tuple:
+    """Scatterplot of a 2D TSNE or UMAP embedding from the dataset.
+    
+    Args:
+        dataset: data, must have columns named 'embedding_0' and 'embedding_1'
+        color_col: if provided, a column that will be used to color the points in the scatter plot
+        figsize: tuple with the dimensions of the plot (in inches)
+        kwargs: All other keyword pairs are sent to Matplotlib's scatter function
+
+    Returns:
+        tuple (fig, axes). The Figure and Axes objects. 
+    """
 
     if color_col is not None:
-        c = dataset[color_col]
+        c = dataset.data[color_col]
     else:
         c = None
 
     fig, axes = plt.subplots(1,1, figsize = figsize)
-    axes.scatter(x = dataset['embedding_0'], y = dataset['embedding_1'], s = 1, c = c)
+    axes.scatter(x = dataset.data['embedding_0'], y = dataset.data['embedding_1'], s = 1, c = c, **kwargs)
     axes.set_xlabel('Embedding dim 1')
     axes.set_ylabel('Embedding dim 2')
     return fig, axes
 
-def plot_ethogram(dataset, vid_key, query_label = 'unsup_behavior_label', frame_limit = 4000, figsize = (16,2)):
+def plot_ethogram(dataset : VideosetDataFrame, 
+                  vid_key : str, 
+                  query_label : str = 'unsup_behavior_label', 
+                  frame_limit : int = 4000, 
+                  figsize : tuple = (16,2)) -> tuple:
+    """Simple ethogram of one video, up to a certain frame number.
+
+    Args:
+        dataset: 
+        vid_key: key (in dataset.metadata) pointing to the video to make ethogram for
+        query_label: the column containing the behavior labels to plot
+        frame_limit: only make the ethogram for frames between [0, frame_limit]
+        figsize: tuple with figure size (in inches)
+
+    Returns:
+        tuple (fig, axes). The Figure and Axes objects
+    """
     fig, ax = plt.subplots(1,1,figsize = figsize)
     plot_data = dataset.data.loc[dataset.data['filename'] == vid_key, query_label][:frame_limit].to_numpy()
     b = np.zeros((plot_data.size, plot_data.max()+1))
@@ -32,7 +63,27 @@ def plot_ethogram(dataset, vid_key, query_label = 'unsup_behavior_label', frame_
 
 #TODO
 # Bug with trimming the jpg here. 
-def create_ethogram_video(dataset, vid_key, query_label, out_file, frame_limit = 4000, im_dim = 16, min_frames = 3):
+def create_ethogram_video(dataset : VideosetDataFrame, 
+                          vid_key : str, 
+                          query_label : str, 
+                          out_file : str, 
+                          frame_limit : int = 4000, 
+                          im_dim : float = 16, 
+                          min_frames : int = 3) -> None:
+    """Overlay ethogram on top of source video with ffmpeg
+
+    Args:
+        dataset: source dataset
+        vid_key: the key (in dataset.metadata) pointing to the video to make ethogram for. metadata must have field 'video_files' that points to the source video location
+        query_label: the column containing the behavior labels to plot
+        out_file: output path for created video
+        frame_limit: only make the ethogram/video for frames [0, frame_limit]
+        in_dim: x dimension (in inches) of ethogram
+        min_frames: any behaviors occurring for less than this number of frames are not labeled
+
+    Returns:
+        None
+    """
     vid_file = dataset.metadata[vid_key]['video_files']
     fps = dataset.metadata[vid_key]['fps']
     time_limit = frame_limit/fps
@@ -83,27 +134,83 @@ def create_ethogram_video(dataset, vid_key, query_label, out_file, frame_limit =
     os.system(ffmpeg_cmd)
 
 
-def create_sample_videos(dataset, video_dir, out_dir, query_col = 'unsup_behavior_label', N_sample_rows = 16, window_size = 2, fps = 30):
+def create_sample_videos(dataset : VideosetDataFrame, 
+                         video_dir : str, 
+                         out_dir : str, 
+                         query_col : str = 'unsup_behavior_label', 
+                         N_sample_rows : int = 16, 
+                         window_size : int = 2, 
+                         fps : float = 30,
+                         N_supersample_rows : int = 1000) -> None:
+    """Create a sample of videos displaying the labeled behaviors using ffmpeg. 
 
-    n_labels = 0
+    For each behavior label, randomly choose frames from the entire dataset and extract short clips from source videos based around those points. Tries to select frames where the labeled behavior is exhibited in many frames of the clip.
+
+    Args:
+        dataset: source dataset
+        video_dir: location of source video files
+        out_dir: base output directory to save videos. Videos are saved in the form: [out_dir]/[behavior_label]/[video_name]_[time in seconds].avi
+        query_label: the column containing the behavior labels to extract clips for. Each unique value in this column is treated as a separate behavior
+        N_sample_rows: number of clips to extract per behavior
+        window_size: amount of video to extract on either side of the sampled frame, in seconds
+        fps: frames per second of videos
+        N_supersample_rows: this many rows are randomly sampled for each behavior label, and the top N_sample_rows are returned (in terms of number of adjacent frames also exhibiting that behavior). Shouldn't need to play with this.
+
+    Returns:
+        None
+    """
+    labels = dataset.data[query_col].unique()
+    labels = labels[labels >= 0]
+    n_labels = len(labels)
+
+    def get_window_size(label_idx, sample_row, max_size = 500):
+        s_m = 0
+        for idx in range(max_size):
+            try:
+                if dataset.data.loc[sample_row-idx, query_col] == label_idx:
+                    s_m += 1
+                else:
+                    break
+            except ValueError:
+                break
+                    
+        s_p = 0
+        for idx in range(max_size):
+            try:
+                if dataset.data.loc[sample_row+idx, query_col] == label_idx:
+                    s_p += 1
+                else:
+                    break
+            except ValueError:
+                break
+        return sample_row-s_m, s_p+sample_row, sample_row, s_m+s_p
+
+
     for label_idx in range(n_labels):
+        #label_idx = 1
         print(f"Making sample videos for behavior label {label_idx}")
-        label_indices = dataset[query_col] == label_idx
+        label_indices = dataset.data[query_col] == label_idx
         if sum(label_indices) == 0: continue
 
         ## Pull out some sample frames from each video for this behavior
-        behavior_rows = dataset[dataset[query_col] == label_idx]
-        random_sample_indices = np.random.choice(behavior_rows.index, N_sample_rows, replace = False)
-        behavior_rows_sample = behavior_rows.loc[random_sample_indices].reset_index(drop = True)
+        behavior_rows = dataset.data[dataset.data[query_col] == label_idx]
+        random_sample_indices = np.random.choice(behavior_rows.index, min(len(behavior_rows.index), N_supersample_rows), replace = False)
+        window_sizes = [get_window_size(label_idx, i) \
+                        for i in random_sample_indices]
+        window_sizes = sorted(window_sizes, key = lambda x: x[3], reverse = True)
+        window_sizes = pd.DataFrame(window_sizes, columns = ['start', 'end', 'pt', 'len']).drop_duplicates(subset = ['start', 'end'])
 
+        random_sample_indices = window_sizes['pt'].to_numpy()[:N_sample_rows]
+
+        behavior_rows_sample = behavior_rows.loc[random_sample_indices].reset_index(drop = True)
         #For each filename in this list of samples, extract a part of that video with ffmpeg
         filenames = behavior_rows_sample.filename.unique()
         video_files = [os.path.basename(p).split('DLC')[0]+'.avi' for p in filenames]
 
         out_dir_vid = os.path.join(out_dir, f'behavior_label_{label_idx}')
         os.makedirs(out_dir_vid, exist_ok = True)
-            
-        for vid_file, fn in zip(video_files, filenames):
+
+        for r_idx, (vid_file, fn) in enumerate(zip(video_files, filenames)):
             behave_rows_sample_vid = behavior_rows_sample[behavior_rows_sample['filename'] == fn]
             vid_name = os.path.basename(vid_file).split('.')[0]
             for idx in range(len(behave_rows_sample_vid)):
@@ -112,20 +219,39 @@ def create_sample_videos(dataset, video_dir, out_dir, query_col = 'unsup_behavio
                 out_file = os.path.join(out_dir_vid, f'{vid_name}_second_{behavior_time}.avi')
                 start_time = max(0, behavior_time - window_size)
                 start_time_str = time.strftime('%H:%M:%S', time.gmtime(start_time))
-                ffmpeg_cmd = f'ffmpeg -y -hide_banner -loglevel error -ss {start_time_str} -i {os.path.join(video_dir, vid_file)} -t 00:00:{2*window_size} -threads 4 {out_file}'
+                #TODO
+                # Get the times right on this line...
+                text_filter = "drawtext=text='{label_idx}':fontcolor=black:fontsize=30:y=10:x=10:enable='between(t,{str_time},{end_time})'"
+                ffmpeg_cmd = f'''ffmpeg -y -hide_banner -loglevel error -ss {start_time_str} -i {os.path.join(video_dir, vid_file)} -t 00:00:{2*window_size} \
+                    -filter_complex "[0:v][1:v]overlay=0:0,{text_filter}" \
+                    -threads 4 {out_file}'''
                 os.system(ffmpeg_cmd)
-                
-def create_mosaic_video(vid_dir, output_file, ndim = ('1600','1200')):
+
+def create_mosaic_video(vid_dir : str, 
+                        output_file : str, 
+                        ndim : tuple = (1600, 1200)) -> None:
+    """Take a set of video clips and turn them into a mosaic using ffmpeg 
+    
+    16 videos are tiled.
+
+    Args:
+        vid_dir: source directory with videos in it
+        output_file: output video path
+        ndim: tuple with the output video dimensions, in pixels
+    
+    Returns:
+        None    
+    """
     max_mosaic_vids = global_config['create_mosaic_video__max_mosaic_vids']
     mosaic_vid_files = glob(vid_dir)[:max_mosaic_vids]
 
-    block_size_x = int(ndim[0])/np.sqrt(max_mosaic_vids)
-    block_size_y = int(ndim[1])/np.sqrt(max_mosaic_vids)
+    block_size_x = ndim[0]/np.sqrt(max_mosaic_vids)
+    block_size_y = ndim[1]/np.sqrt(max_mosaic_vids)
 
     mosaic_cmd = f'''ffmpeg -y -hide_banner -loglevel error \
     {' '.join([f'-i {f}' for f in mosaic_vid_files])} \
     -filter_complex " \
-        nullsrc=size={'x'.join(ndim)} [base]; \
+        nullsrc=size={'x'.join([str(i) for i in ndim])} [base]; \
         [0:v] setpts=PTS-STARTPTS, scale={block_size_x}x{block_size_y} [upper1]; \
         [1:v] setpts=PTS-STARTPTS, scale={block_size_x}x{block_size_y} [upper2]; \
         [2:v] setpts=PTS-STARTPTS, scale={block_size_x}x{block_size_y} [upper3]; \

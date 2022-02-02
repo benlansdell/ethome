@@ -313,8 +313,6 @@ def make_features_distances(df, animal_setup):
     mouse_ids = animal_setup['mouse_ids']
     colnames = animal_setup['colnames']
 
-    feature_set_name = 'features_distances'
-
     features_df = df.copy()
 
     ##Make the distance features
@@ -481,12 +479,46 @@ def make_features_velocities(df, animal_setup, n_shifts = 5):
 def make_features_social(df, animal_setup, n_shifts = 3, mode = 'shift'):
 
     features_df = df.copy()
+    colnames = animal_setup['colnames']
+
+    #######################
+    ## Position features ##
+    #######################
+    features_df = _compute_centroid(features_df, 'all', animal_setup, n_shifts = n_shifts, mode = mode)
+    features_df = _compute_centroid(features_df, 'head', animal_setup, ['nose', 'leftear', 'rightear', 'neck'], n_shifts = n_shifts, mode = mode)
+    features_df = _compute_centroid(features_df, 'hips', animal_setup, ['lefthip', 'tail', 'righthip'], n_shifts = n_shifts, mode = mode)
+    features_df = _compute_centroid(features_df, 'body', animal_setup, ['neck', 'lefthip', 'righthip', 'tail'], n_shifts = n_shifts, mode = mode)
+
+    #####################
+    #Appearance features#
+    #####################
+
+    ## absolute orientation of mice
+    features_df = _compute_abs_angle(features_df, 'head_hips', animal_setup, ['centroid_head', 'centroid_hips'], n_shifts = n_shifts, mode = mode)
+    features_df = _compute_abs_angle(features_df, 'head_nose', animal_setup, ['neck', 'nose'], centroid = False, n_shifts = n_shifts, mode = mode)
+    features_df = _compute_abs_angle(features_df, 'tail_neck', animal_setup, ['tail', 'neck'], centroid = False, n_shifts = n_shifts, mode = mode)
+    ## relative orientation of mice
+    features_df = _compute_rel_angle(features_df, 'leftear_neck_rightear', animal_setup, ['leftear', 'neck', 'rightear'], n_shifts = n_shifts, mode = mode)
+
+    ## major axis len, minor axis len of ellipse fit to mouses body
+    features_df = _compute_ellipsoid(features_df, animal_setup, n_shifts = n_shifts, mode = mode)
+
+    #################
+    #Social features#
+    #################
+
+    #Added columns 
+    added_cols = list(set(features_df.columns).difference(set(df.columns)))
 
     features_df = _compute_relative_body_motions(features_df, animal_setup, n_shifts = n_shifts, mode = mode)
     features_df = _compute_relative_body_angles(features_df, animal_setup, n_shifts = n_shifts, mode = mode)
 
     #Intersection of union of bounding boxes of two mice
     features_df = _compute_iou(features_df, animal_setup, n_shifts = n_shifts, mode = mode)
+
+    features_df = features_df.drop(columns = added_cols)
+    colnames = [c for c in colnames if c in features_df.columns]
+    features_df = features_df.drop(columns = colnames)
 
     features_df, _ = boiler_plate(features_df)
 

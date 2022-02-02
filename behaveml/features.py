@@ -32,8 +32,6 @@ class Features(object):
 mars_feature_maker = Features(compute_mars_features, default_tracking_columns)
 cnn_probability_feature_maker = Features(compute_dl_probability_features, default_tracking_columns)
 distance_feature_maker = Features(compute_distance_features, default_tracking_columns)
-
 marsreduced_feature_maker = Features(compute_mars_reduced_features, default_tracking_columns)
-
 social_feature_maker = Features(compute_social_features, default_tracking_columns)
 velocity_feature_maker = Features(compute_velocity_features, default_tracking_columns)

@@ -105,6 +105,30 @@ def test_distance_features(videodataset):
     #Check we made the right amount of new columns
     assert len(videodataset.feature_cols) == 91
 
+def test_velocity_features(videodataset):
+    from behaveml import velocity_feature_maker
+    videodataset.add_features(velocity_feature_maker, 
+                     featureset_name = 'speeds', 
+                     add_to_features = True)
+    #Check we made the right amount of new columns
+    assert len(videodataset.feature_cols) == 91
+
+def test_social_features(videodataset):
+    from behaveml import social_feature_maker
+    videodataset.add_features(social_feature_maker, 
+                     featureset_name = 'social', 
+                     add_to_features = True)
+    #Check we made the right amount of new columns
+    assert len(videodataset.feature_cols) == 98
+
+def test_marsreduced_features(videodataset):
+    from behaveml import marsreduced_feature_maker
+    videodataset.add_features(marsreduced_feature_maker, 
+                     featureset_name = 'social', 
+                     add_to_features = True)
+    #Check we made the right amount of new columns
+    assert len(videodataset.feature_cols) == 277
+
 def test_interpolate(videodataset):
     interpolate_lowconf_points(videodataset)
 

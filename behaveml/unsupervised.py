@@ -94,13 +94,13 @@ def compute_watershed(dens_matrix : np.ndarray,
     labels = watershed(-dm, None, mask = image>0)
     return labels
 
-def cluster_behaviors(dataset, 
-                      feature_cols, 
-                      N_rows = 200000, 
-                      use_morlet = False, 
-                      use_umap = True, 
-                      n_pts = 300, 
-                      bandwidth = 0.5,
+def cluster_behaviors(dataset : VideosetDataFrame, 
+                      feature_cols : list, 
+                      N_rows : int = 200000, 
+                      use_morlet : bool = False, 
+                      use_umap :bool = True, 
+                      n_pts : int = 300, 
+                      bandwidth : float = 0.5,
                       **kwargs) -> tuple:
     """Cluster behaviors based on dimensionality reduction, kernel density estimation, and watershed clustering.
     

@@ -47,7 +47,8 @@ def compute_density(dataset : VideosetDataFrame,
                     embedding_extent : tuple, 
                     bandwidth : float = 0.5, 
                     n_pts : int = 300,
-                    N_sample_rows = 50000) -> np.ndarray:
+                    N_sample_rows : int = 50000,
+                    rows : list = None) -> np.ndarray:
     """Compute kernel density estimate of embedding.
     
     Args:
@@ -55,6 +56,8 @@ def compute_density(dataset : VideosetDataFrame,
         embedding_extent: the bounds in which to apply the density estimate. Has the form (xmin, xmax, ymin, ymax)
         bandwidth: the Gaussian kernel bandwidth. Will depend on the scale of the embedding. Can be changed to affect the number of clusters pulled out
         n_pts: number of points over which to evaluate the KDE
+        N_sample_rows: number of rows to randomly sample to generate estimate
+        rows: If provided, use these rows instead of a random sample
 
     Returns:
         Numpy array with KDE over the specified square region in the embedding space, with dimensions (n_pts x n_pts)    
@@ -62,7 +65,10 @@ def compute_density(dataset : VideosetDataFrame,
 
     xmin, xmax, ymin, ymax = embedding_extent
     den_est = KernelDensity(bandwidth = bandwidth)
-    sample_rows = np.random.choice(dataset.data.index, min(N_sample_rows, len(dataset.data)), replace = False)
+    if rows is not None:
+        sample_rows = rows
+    else:
+        sample_rows = np.random.choice(dataset.data.index, min(N_sample_rows, len(dataset.data)), replace = False)
     print("Fitting KDE")
     den_est.fit(dataset.data.loc[sample_rows, ['embedding_0', 'embedding_1']])
     X_plot = np.array(np.meshgrid(np.linspace(xmin, xmax, n_pts), np.linspace(ymin, ymax, n_pts))).T.reshape(-1, 2)

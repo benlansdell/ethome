@@ -1,4 +1,6 @@
 import matplotlib.pyplot as plt
+import matplotlib as mpl
+from matplotlib import cm
 import os
 import time
 import numpy as np
@@ -32,6 +34,62 @@ def plot_embedding(dataset : VideosetDataFrame,
     axes.scatter(x = dataset.data['embedding_0'], y = dataset.data['embedding_1'], s = 1, c = c, **kwargs)
     axes.set_xlabel('Embedding dim 1')
     axes.set_ylabel('Embedding dim 2')
+    return fig, axes
+
+class MplColorHelper:
+
+    def __init__(self, cmap_name, start_val, stop_val):
+        self.cmap_name = cmap_name
+        self.cmap = plt.get_cmap(cmap_name)
+        self.norm = mpl.colors.Normalize(vmin=start_val, vmax=stop_val)
+        self.scalarMap = cm.ScalarMappable(norm=self.norm, cmap=self.cmap)
+
+    def get_rgb(self, val):
+        return self.scalarMap.to_rgba(val)
+    
+
+def plot_unsupervised_results(dataset, cluster_results, figsize = (15,4), **kwargs):
+    """Set of plots for unsupervised behavior clustering results
+    
+    Args:
+        dataset: data, must have columns named 'embedding_0' and 'embedding_1'
+        cluster_results: tuple output by 'cluster_behaviors'
+        figsize: tuple with the plot dimensions, in inches
+        kwargs: all other keyword pairs are sent to Matplotlib's scatter function
+
+    Returns:
+        tuple (fig, axes). The Figure and Axes objects. 
+    """    
+    dens_matrix, labels, extent = cluster_results
+
+    fig, axes = plt.subplots(1, 3, figsize = figsize)
+    axes[0].scatter(x = dataset.data['embedding_0'], y = dataset.data['embedding_1'], s = 1, **kwargs)
+    axes[0].set_xlabel('Embedding dim 1')
+    axes[0].set_ylabel('Embedding dim 2')
+    axes[0].set_title('Embedding')
+    rectangle = plt.Rectangle((extent[0],extent[2]), extent[1]-extent[0], extent[3]-extent[2], fill=False,ec="red")
+    axes[0].add_patch(rectangle)
+    axes[1].imshow(dens_matrix, origin = 'lower')
+    axes[1].set_title('Density estimate')
+    axes[1].axis('off')
+    axes[2].imshow(labels, origin = 'lower')
+    axes[2].axis('off')
+    axes[2].set_title('Watershed clustering')
+
+    #For each label, find the mean location
+    all_labels = np.unique(labels)
+    all_labels = all_labels[all_labels != 0]
+    colhelper = MplColorHelper('viridis', 0, max(all_labels))
+
+    for lb in all_labels:
+        locs = np.where(labels == lb)
+        mean_y = np.mean(locs[0])
+        mean_x = np.mean(locs[1])
+        lab_col = colhelper.get_rgb(lb)
+        lab_bright = lab_col[0]*0.299 + lab_col[1]*0.587 + lab_col[2]*0.114 > (120/255)
+        text_col = 'black' if lab_bright else 'white'
+        axes[2].text(mean_x-8, mean_y-4, str(lb), c = text_col)
+
     return fig, axes
 
 def plot_ethogram(dataset : VideosetDataFrame, 
@@ -161,7 +219,7 @@ def create_sample_videos(dataset : VideosetDataFrame,
     """
     labels = dataset.data[query_col].unique()
     labels = labels[labels >= 0]
-    n_labels = len(labels)
+    #all_labels = np.unique(labels)
 
     def get_window_size(label_idx, sample_row, max_size = 500):
         s_m = 0
@@ -186,8 +244,8 @@ def create_sample_videos(dataset : VideosetDataFrame,
         return sample_row-s_m, s_p+sample_row, sample_row, s_m+s_p
 
 
-    for label_idx in range(n_labels):
-        #label_idx = 1
+    for label_idx in labels:
+
         print(f"Making sample videos for behavior label {label_idx}")
         label_indices = dataset.data[query_col] == label_idx
         if sum(label_indices) == 0: continue

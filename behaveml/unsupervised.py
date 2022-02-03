@@ -7,6 +7,7 @@ from sklearn.neighbors import KernelDensity
 import umap
 from skimage.segmentation import watershed
 from behaveml import VideosetDataFrame
+import pandas as pd
 
 def compute_tsne_embedding(dataset : VideosetDataFrame, 
                            cols : list, 
@@ -34,6 +35,8 @@ def compute_morlet(data : np.ndarray,
                    dt : float = 1/30, 
                    n_freq : int = 5, 
                    w : float = 3) -> np.ndarray:
+    if type(data) is pd.DataFrame:
+        data = data.to_numpy()
     fs = 1/dt
     freq = np.geomspace(1, fs/2, n_freq)
     widths = w*fs / (2*freq*np.pi)

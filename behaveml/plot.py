@@ -191,7 +191,6 @@ def create_ethogram_video(dataset : VideosetDataFrame,
     -threads 8 -q:v 3 {out_file}'''
     os.system(ffmpeg_cmd)
 
-
 def create_sample_videos(dataset : VideosetDataFrame, 
                          video_dir : str, 
                          out_dir : str, 
@@ -229,7 +228,7 @@ def create_sample_videos(dataset : VideosetDataFrame,
                     s_m += 1
                 else:
                     break
-            except ValueError:
+            except:
                 break
                     
         s_p = 0
@@ -239,7 +238,7 @@ def create_sample_videos(dataset : VideosetDataFrame,
                     s_p += 1
                 else:
                     break
-            except ValueError:
+            except:
                 break
         return sample_row-s_m, s_p+sample_row, sample_row, s_m+s_p
 
@@ -268,10 +267,18 @@ def create_sample_videos(dataset : VideosetDataFrame,
         out_dir_vid = os.path.join(out_dir, f'behavior_label_{label_idx}')
         os.makedirs(out_dir_vid, exist_ok = True)
 
+
         for r_idx, (vid_file, fn) in enumerate(zip(video_files, filenames)):
             behave_rows_sample_vid = behavior_rows_sample[behavior_rows_sample['filename'] == fn]
             vid_name = os.path.basename(vid_file).split('.')[0]
             for idx in range(len(behave_rows_sample_vid)):
+
+                sampl_window = window_sizes.iloc[r_idx,:].to_numpy()
+                str_time = window_size + (sampl_window[0] - sampl_window[2])/fps
+                end_time = window_size + (sampl_window[1] - sampl_window[2])/fps
+                #str_time = 0
+                #end_time = 2
+
                 frame_number = behave_rows_sample_vid.reset_index().loc[idx, 'frame']
                 behavior_time = int(frame_number/fps)
                 out_file = os.path.join(out_dir_vid, f'{vid_name}_second_{behavior_time}.avi')
@@ -279,9 +286,9 @@ def create_sample_videos(dataset : VideosetDataFrame,
                 start_time_str = time.strftime('%H:%M:%S', time.gmtime(start_time))
                 #TODO
                 # Get the times right on this line...
-                text_filter = "drawtext=text='{label_idx}':fontcolor=black:fontsize=30:y=10:x=10:enable='between(t,{str_time},{end_time})'"
+                text_filter = f"drawtext=text='{label_idx} active':fontcolor=red:fontsize=100:y=10:x=10:box=1:boxcolor=white:enable='between(t,{str_time},{end_time})'"
                 ffmpeg_cmd = f'''ffmpeg -y -hide_banner -loglevel error -ss {start_time_str} -i {os.path.join(video_dir, vid_file)} -t 00:00:{2*window_size} \
-                    -filter_complex "[0:v][1:v]overlay=0:0,{text_filter}" \
+                    -filter_complex "{text_filter}" \
                     -threads 4 {out_file}'''
                 os.system(ffmpeg_cmd)
 

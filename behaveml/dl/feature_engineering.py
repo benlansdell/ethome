@@ -312,6 +312,7 @@ def make_features_distances(df, animal_setup):
     bodypart_ids = animal_setup['bodypart_ids']
     mouse_ids = animal_setup['mouse_ids']
     colnames = animal_setup['colnames']
+    print(colnames)
 
     features_df = df.copy()
 

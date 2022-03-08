@@ -132,12 +132,15 @@ class VideosetDataFrame(MLDataFrame):
         Args:
             metadata: Dictionary whose keys are DLC tracking csvs, and value is a dictionary of associated metadata
                 for that video. Most easiest to create with 'clone_metadata'. 
-                Required keys are: ['scale', 'fps', 'units', 'resolution', 'label_files']
+                Required keys are: ['fps', 'label_files']
             label_key: Default None. Dictionary whose keys are behavior labels and values are integers 
             part_renamer: Default None. Dictionary that can rename body parts from tracking files if needed (for feature creation, e.g.)
-            animal_renamer: Default None. Dictionary that re rename animals from tracking files if needed
+            animal_renamer: Default None. Dictionary that can rename animals from tracking files if needed
         """
-        self.req_cols = ['frame_length', 'fps', 'units', 'resolution']
+
+        #TODO make it make use of all of these
+        #self.req_cols = ['frame_length', 'fps', 'units', 'resolution']
+        self.req_cols = ['fps']
 
         self.data = pd.DataFrame()
         self.label_key = label_key

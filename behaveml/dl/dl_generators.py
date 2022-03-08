@@ -5,7 +5,10 @@ import warnings
 
 try:
     import keras
-    has_keras = True
+    if hasattr(keras.utils, 'Sequence'):
+        has_keras = True
+    else:
+        has_keras = False
 except ImportError:
     warnings.warn("Keras not found. Deep learning-based features are not available", RuntimeWarning)
     has_keras = False

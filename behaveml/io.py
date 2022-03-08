@@ -160,6 +160,17 @@ def _make_sample_dataframe(fn_out = 'sample_dataframe.pkl'):
     with open(path_out, 'wb') as handle:
         pickle.dump(to_save, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
+def get_sample_data_paths():
+    """Get path to sample data files provided with package. 
+    
+    Returns:
+        (tuple) list of DLC tracking file, list of boris annotation files
+    """
+    cur_dir = os.path.dirname(os.path.abspath(__file__))
+    tracking_files = sorted(glob(cur_dir + '/data/dlc/*.csv'))
+    boris_files = sorted(glob(cur_dir + '/data/boris/*.csv'))
+    return tracking_files, boris_files
+
 def get_sample_data():
     """Load a sample dataset of 5 mice social interaction videos. Each video is approx. 5 minutes in duration
     

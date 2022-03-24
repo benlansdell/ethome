@@ -256,6 +256,10 @@ class VideosetDataFrame(MLDataFrame):
         new_feat_cols = [str(featureset_name) + '__' + str(i) for i in new_feat_cols]
         new_features.columns = new_feat_cols
 
+        #Don't add duplicated columns:
+        notdupcols = [col for col in new_feat_cols if col not in self.data.columns]
+        new_features = new_features[notdupcols]
+
         self.data = pd.concat([self.data.reset_index(drop = True), 
                                new_features.reset_index(drop = True)], axis = 1)
         if add_to_features:

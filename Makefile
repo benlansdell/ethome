@@ -15,7 +15,7 @@ deploytest:
 #Then test install w:
 #python3 -m pip install --index-url https://test.pypi.org/simple/ --no-deps behaveml
 #or with version number
-#python3 -m pip install --index-url https://test.pypi.org/simple/ behaveml==0.1.0b0
+#python3 -m pip install --index-url https://test.pypi.org/simple/ behaveml==0.2.1
 
 deploy:
 		python -m twine upload dist/*

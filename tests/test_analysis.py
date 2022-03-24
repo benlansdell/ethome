@@ -95,7 +95,26 @@ def test_mars_features(videodataset):
                      featureset_name = 'MARS', 
                      add_to_features = True)
     #Check we made the right amount of new columns
-    assert len(videodataset.feature_cols) == 796
+    assert len(videodataset.feature_cols) == 804
+
+def test_mars_then_interpolate(videodataset):
+    from behaveml import mars_feature_maker
+    videodataset.add_features(mars_feature_maker, 
+                     featureset_name = 'MARS', 
+                     add_to_features = True)
+    interpolate_lowconf_points(videodataset)
+    assert len(videodataset.feature_cols) == 804
+
+def test_duplicate_mars_features(videodataset):
+    from behaveml import mars_feature_maker
+    videodataset.add_features(mars_feature_maker, 
+                     featureset_name = 'MARS', 
+                     add_to_features = True)
+    videodataset.add_features(mars_feature_maker, 
+                     featureset_name = 'MARS', 
+                     add_to_features = True)
+    #Check we made the right amount of new columns
+    assert len(videodataset.feature_cols) == 804
 
 def test_distance_features(videodataset):
     from behaveml import distance_feature_maker

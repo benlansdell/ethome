@@ -35,3 +35,20 @@ distance_feature_maker = Features(compute_distance_features, default_tracking_co
 marsreduced_feature_maker = Features(compute_mars_reduced_features, default_tracking_columns)
 social_feature_maker = Features(compute_social_features, default_tracking_columns)
 velocity_feature_maker = Features(compute_velocity_features, default_tracking_columns)
+
+#To make your own:
+# Create a function 'create_custom_features' and provide the Features class a list of columns
+# that are needed by this function to compute the features.
+# 'create_custom_features' should take:
+# compute_social_features(<df>, <raw_col_names>, <animal_setup>, **kwargs)
+# where:
+# 'df' is the dataframe to compute the features on
+# 'raw_col_names' is a list of the names of the columns in the dataframe that contain the raw data used for the feature creation. These are required for the model.
+# 'animal_setup' is a dictionary with keys 'bodypart_ids', 'mouse_ids', 'colnames'.
+#    'bodypart_ids' is a list of the bodypart ids that are used in the dataframe
+#    'mouse_ids' is a list of the mouse ids that are used in the dataframe
+#    'colnames' is the list product(animals, XY_IDS, body_parts) 
+# **kwargs are extra arguments passed onto the feature creation function.
+# The function returns:
+# A dataframe with the new features. These will be added to the VideosetDataFrame as columns.
+

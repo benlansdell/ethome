@@ -188,7 +188,7 @@ def _compute_kinematics(df, names, animal_setup, window_size = 5, n_shifts = 3):
             dx = df[f'centroid_{name}_{mouse_id}_x'].diff(window_size)
             dy = df[f'centroid_{name}_{mouse_id}_y'].diff(window_size)
             df[f'centroid_{name}_{mouse_id}_speed'] = np.sqrt(dx**2 + dy**2)
-            colnames.append(f'centroid_{name}_{mouse_id}_speed')
+            #colnames.append(f'centroid_{name}_{mouse_id}_speed')
             ## Acceleration of centroids
             ddx = dx.diff(window_size)
             ddy = dy.diff(window_size)

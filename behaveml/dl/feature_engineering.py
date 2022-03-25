@@ -396,7 +396,8 @@ def make_features_mars(df, animal_setup, n_shifts = 3, mode = 'shift'):
 
     return features_df
 
-make_features_mars_distr = lambda x, y: make_features_mars(x, y, n_shifts = 3, mode = 'distr')
+def make_features_mars_distr(x, y):
+    return make_features_mars(x, y, n_shifts = 3, mode = 'distr')
 
 def make_features_mars_reduced(df, animal_setup, n_shifts = 2, mode = 'diff'):
 

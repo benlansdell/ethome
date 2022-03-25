@@ -1,3 +1,4 @@
 include README.md
 include LICENSE
 include behaveml/data/sample_dataframe.pkl
+recursive-include behaveml/dl/pretrained_models *

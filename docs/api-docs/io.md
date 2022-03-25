@@ -162,6 +162,24 @@ Load an object from a pickle file
 
 <a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/io.py#L163"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
+## <kbd>function</kbd> `get_sample_data_paths`
+
+```python
+get_sample_data_paths()
+```
+
+Get path to sample data files provided with package.  
+
+
+
+**Returns:**
+  (tuple) list of DLC tracking file, list of boris annotation files 
+
+
+---
+
+<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/io.py#L174"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+
 ## <kbd>function</kbd> `get_sample_data`
 
 ```python
@@ -178,7 +196,7 @@ Load a sample dataset of 5 mice social interaction videos. Each video is approx.
 
 ---
 
-<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/io.py#L176"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/io.py#L187"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `read_boris_annotation`
 

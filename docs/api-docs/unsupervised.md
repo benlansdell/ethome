@@ -10,7 +10,7 @@
 
 ---
 
-<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/unsupervised.py#L11"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/unsupervised.py#L12"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `compute_tsne_embedding`
 
@@ -42,7 +42,7 @@ Compute TSNE embedding.
 
 ---
 
-<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/unsupervised.py#L33"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/unsupervised.py#L34"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `compute_morlet`
 
@@ -62,7 +62,7 @@ compute_morlet(
 
 ---
 
-<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/unsupervised.py#L46"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/unsupervised.py#L49"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `compute_density`
 
@@ -71,7 +71,9 @@ compute_density(
     dataset: VideosetDataFrame,
     embedding_extent: tuple,
     bandwidth: float = 0.5,
-    n_pts: int = 300
+    n_pts: int = 300,
+    N_sample_rows: int = 50000,
+    rows: list = None
 ) → ndarray
 ```
 
@@ -82,9 +84,11 @@ Compute kernel density estimate of embedding.
 **Args:**
  
  - <b>`dataset`</b>:  VideosetDataFrame with embedding data loaded in it. (Must have already populated columns named 'embedding_0', 'embedding_1') 
- - <b>`embedding_extent`</b>:  the bounds in which to apply the density estimate 
+ - <b>`embedding_extent`</b>:  the bounds in which to apply the density estimate. Has the form (xmin, xmax, ymin, ymax) 
  - <b>`bandwidth`</b>:  the Gaussian kernel bandwidth. Will depend on the scale of the embedding. Can be changed to affect the number of clusters pulled out 
  - <b>`n_pts`</b>:  number of points over which to evaluate the KDE 
+ - <b>`N_sample_rows`</b>:  number of rows to randomly sample to generate estimate 
+ - <b>`rows`</b>:  If provided, use these rows instead of a random sample 
 
 
 
@@ -94,7 +98,7 @@ Compute kernel density estimate of embedding.
 
 ---
 
-<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/unsupervised.py#L71"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/unsupervised.py#L84"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `compute_watershed`
 
@@ -124,28 +128,49 @@ Compute watershed clustering of a density matrix.
 
 ---
 
-<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/unsupervised.py#L93"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/unsupervised.py#L106"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `cluster_behaviors`
 
 ```python
 cluster_behaviors(
-    dataset,
-    feature_cols,
-    N_rows=200000,
-    subsample=True,
-    use_morlet=False,
-    use_umap=True,
-    n_pts=300,
-    bandwidth=0.5
-)
+    dataset: VideosetDataFrame,
+    feature_cols: list,
+    N_rows: int = 200000,
+    use_morlet: bool = False,
+    use_umap: bool = True,
+    n_pts: int = 300,
+    bandwidth: float = 0.5,
+    **kwargs
+) → tuple
 ```
 
-Cluster behaviors based on dimensionality reduction, kernel density estimation, and watershed clustering.  
+Cluster behaviors based on dimensionality reduction, kernel density estimation, and watershed clustering. 
 
+**Note that this will modify the dataset dataframe in place.** 
+
+The following columns are added to dataset:   'embedding_index_[0/1]': the coordinates of each embedding coordinate in the returned density matrix  'unsup_behavior_label': the Watershed transform label for that row, based on its embedding coordinates. Rows whose embedding coordinate has no watershed cluster, or which fall outside the domain have value -1. 
+
+
+
+**Args:**
  
+ - <b>`dataset`</b>:  the VideosetDataFrame with the features of interest 
+ - <b>`feature_cols`</b>:  list of column names to perform the clustering on 
+ - <b>`N_rows`</b>:  number of rows to perform the embedding on. If 'None', then all rows are used. 
+ - <b>`use_morlet`</b>:  Apply Morlet wavelet transform to the feature cols before computing the embedding 
+ - <b>`use_umap`</b>:  If True will use UMAP dimensionality reduction, if False will use TSNE 
+ - <b>`n_pts`</b>:  dimension of grid the kernel density estimate is evaluated on.  
+ - <b>`bandwidth`</b>:  Gaussian kernel bandwidth for kernel estimate 
+ - <b>`**kwargs`</b>:  All other keyword parameters are sent to dimensionality reduction call (either TSNE or UMAP) 
 
 
+
+**Returns:**
+ A tuple with components: 
+ - <b>`dens_matrix`</b>:  the (n_pts x n_pts) numpy array with the density estimate of the 2D embedding 
+ - <b>`labels`</b>:  numpy array with same dimensions are dens_matrix, but with values the watershed cluster IDs 
+ - <b>`embedding_extent`</b>:  the coordinates in embedding space that dens_matrix is approximating the density over 
 
 
 

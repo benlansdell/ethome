@@ -58,7 +58,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#welcome-to-mkdocs" class="md-skip">
+        <a href="#behaveml" class="md-skip">
           Skip to content
         </a>
       
@@ -91,7 +91,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Welcome to MkDocs
+              Home
             
           </span>
         </div>
@@ -187,12 +187,12 @@
       
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
-          Welcome to MkDocs
+          Home
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <a href="." class="md-nav__link md-nav__link--active">
-        Welcome to MkDocs
+        Home
       </a>
       
         
@@ -211,15 +211,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#commands" class="md-nav__link">
-    Commands
+  <a href="#installation" class="md-nav__link">
+    Installation
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#project-layout" class="md-nav__link">
-    Project layout
+  <a href="#quickstart" class="md-nav__link">
+    Quickstart
   </a>
   
 </li>
@@ -308,8 +308,36 @@
   
   
     <li class="md-nav__item">
+      <a href="api-docs/dl.dl_generators/" class="md-nav__link">
+        Dl.dl generators
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="api-docs/dl.dl_models/" class="md-nav__link">
         Dl.dl models
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="api-docs/dl.feature_engineering/" class="md-nav__link">
+        Dl.feature engineering
       </a>
     </li>
   
@@ -503,15 +531,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#commands" class="md-nav__link">
-    Commands
+  <a href="#installation" class="md-nav__link">
+    Installation
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#project-layout" class="md-nav__link">
-    Project layout
+  <a href="#quickstart" class="md-nav__link">
+    Quickstart
   </a>
   
 </li>
@@ -529,20 +557,61 @@
               
                 
 
-<h1 id="welcome-to-mkdocs">Welcome to MkDocs</h1>
-<p>For full documentation visit <a href="https://www.mkdocs.org">mkdocs.org</a>.</p>
-<h2 id="commands">Commands</h2>
-<ul>
-<li><code>mkdocs new [dir-name]</code> - Create a new project.</li>
-<li><code>mkdocs serve</code> - Start the live-reloading docs server.</li>
-<li><code>mkdocs build</code> - Build the documentation site.</li>
-<li><code>mkdocs -h</code> - Print help message and exit.</li>
-</ul>
-<h2 id="project-layout">Project layout</h2>
-<pre><code>mkdocs.yml    # The configuration file.
-docs/
-    index.md  # The documentation homepage.
-    ...       # Other markdown pages, images and other files.
+<p><a href="https://codecov.io/gh/benlansdell/behaveml"><img alt="codecov" src="https://codecov.io/gh/benlansdell/behaveml/branch/master/graph/badge.svg?token=PN52Q3UH3G" /></a></p>
+<h1 id="behaveml">BehaveML</h1>
+<p>Supervised learning for animal behavior.</p>
+<p>Interprets pose-tracking files (currently only from DLC), behavior annotations (currently only from BORIS) to train a behavior classifier. </p>
+<h2 id="installation">Installation</h2>
+<pre><code>pip install behaveml
+</code></pre>
+<p>Can install optional extras with:</p>
+<pre><code>pip install numpy, cython
+pip install behaveml[all]
+</code></pre>
+<p>This includes matplotlib, keras, and Linderman lab's state-space model package, ssm. Note that installing ssm requires cython and numpy for the build, so must be already present in the environment. </p>
+<h2 id="quickstart">Quickstart</h2>
+<p>Import</p>
+<pre><code>from glob import glob 
+from behaveml import VideosetDataFrame, clone_metadata
+from behaveml import compute_dl_probability_features, compute_mars_features
+</code></pre>
+<p>Gather the DLC and BORIS tracking and annotation files</p>
+<pre><code>tracking_files = glob('./tests/data/dlc/*.csv')
+boris_files = glob('./tests/data/boris/*.csv')
+</code></pre>
+<p>Setup some parameters</p>
+<pre><code>frame_length = None              # (float) length of entire horizontal shot
+units = None                     # (str) units frame_length is given in
+fps = 30                         # (int) frames per second
+resolution = (1200, 1600)        # (tuple) HxW in pixels
+</code></pre>
+<p>Create a parameter object and video dataset</p>
+<pre><code>metadata = clone_metadata(tracking_files, 
+                          label_files = boris_files, 
+                          frame_length = frame_length, 
+                          fps = fps, 
+                          units = units, 
+                          resolution = resolution)
+dataset = VideosetDataFrame(metadata)
+</code></pre>
+<p>Now create features on this dataset</p>
+<pre><code>dataset.add_features(compute_dl_probability_features, 
+                     featureset_name = '1dcnn', 
+                     add_to_features = True)
+
+dataset.add_features(compute_mars_features, 
+                     featureset_name = 'MARS', 
+                     add_to_features = True)
+</code></pre>
+<p>Now access a features table, labels, and groups for learning with <code>dataset.features, dataset.labels, dataset.groups</code>.
+For example:</p>
+<pre><code>from sklearn.ensemble import ExtraTreesClassifier, RandomForestClassifier
+from sklearn.model_selection import cross_val_predict
+from sklearn.metrics import accuracy_score
+
+model = RandomForestClassifier()
+predictions = cross_val_predict(model, dataset.features, dataset.labels, dataset.groups)
+score = accuracy_score(dataset.labels, predictions)
 </code></pre>
 
               

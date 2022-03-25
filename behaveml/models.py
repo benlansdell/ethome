@@ -1,8 +1,8 @@
 """ Basic video tracking and behavior class that houses data """
 
-import numpy as np
 from sklearn.base import ClassifierMixin, TransformerMixin
 from sklearn.metrics import f1_score
+import numpy as np
 
 def _logit(p):
     return np.log(p / (1 - p))

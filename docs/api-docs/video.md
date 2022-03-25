@@ -40,7 +40,7 @@ Any other keyword argument must be either a non-iterable object (e.g. a scalar p
 
 ---
 
-<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/video.py#L404"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/video.py#L411"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `load_videodataset`
 
@@ -180,10 +180,10 @@ Houses DLC tracking data and behavior annotations in pandas DataFrame for ML, al
 **Args:**
  
  - <b>`metadata`</b>:  Dictionary whose keys are DLC tracking csvs, and value is a dictionary of associated metadata  for that video. Most easiest to create with 'clone_metadata'.  
- - <b>`Required keys are`</b>:  ['scale', 'fps', 'units', 'resolution', 'label_files'] 
+ - <b>`Required keys are`</b>:  ['fps', 'label_files'] 
  - <b>`label_key`</b>:  Default None. Dictionary whose keys are behavior labels and values are integers  
  - <b>`part_renamer`</b>:  Default None. Dictionary that can rename body parts from tracking files if needed (for feature creation, e.g.) 
- - <b>`animal_renamer`</b>:  Default None. Dictionary that re rename animals from tracking files if needed 
+ - <b>`animal_renamer`</b>:  Default None. Dictionary that can rename animals from tracking files if needed 
 
 
 ---
@@ -246,7 +246,7 @@ Houses DLC tracking data and behavior annotations in pandas DataFrame for ML, al
 
 ---
 
-<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/video.py#L189"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/video.py#L192"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `activate_features_by_name`
 
@@ -283,7 +283,7 @@ add_data(new_data, col_names)
 
 ---
 
-<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/video.py#L236"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/video.py#L239"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `add_features`
 
@@ -311,7 +311,7 @@ Compute features to dataframe using Feature object. 'featureset_name' will be pr
 
 ---
 
-<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/video.py#L206"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/video.py#L209"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `get_columns_regex`
 
@@ -334,7 +334,7 @@ Return a list of column names that match the provided regex pattern.
 
 ---
 
-<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/video.py#L342"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/video.py#L349"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `load`
 
@@ -357,7 +357,7 @@ Load VideosetDataFrame object from pickle file.
 
 ---
 
-<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/video.py#L354"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/video.py#L361"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `make_movie`
 
@@ -384,7 +384,7 @@ VideosetDataFrame must have the keys 'video_file', so that the video associated 
 
 ---
 
-<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/video.py#L265"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/video.py#L272"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `remove_feature_cols`
 
@@ -407,7 +407,7 @@ Remove provided columns from set of feature columns.
 
 ---
 
-<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/video.py#L222"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/video.py#L225"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `remove_features_by_name`
 
@@ -430,7 +430,7 @@ Remove columns from the feature set.
 
 ---
 
-<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/video.py#L330"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/video.py#L337"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `save`
 

@@ -146,7 +146,7 @@ def test_marsreduced_features(videodataset):
                      featureset_name = 'social', 
                      add_to_features = True)
     #Check we made the right amount of new columns
-    assert len(videodataset.feature_cols) == 277
+    assert len(videodataset.feature_cols) == 285
 
 def test_interpolate(videodataset):
     interpolate_lowconf_points(videodataset)

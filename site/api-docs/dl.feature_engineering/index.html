@@ -13,7 +13,7 @@
     
     
       
-        <title>Ml - behaveML</title>
+        <title>Dl.feature engineering - behaveML</title>
       
     
     
@@ -58,7 +58,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#module-ml" class="md-skip">
+        <a href="#module-dlfeature_engineering" class="md-skip">
           Skip to content
         </a>
       
@@ -91,7 +91,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Ml
+              Dl.feature engineering
             
           </span>
         </div>
@@ -288,11 +288,108 @@
               
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../dl.feature_engineering/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Dl.feature engineering
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         Dl.feature engineering
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#global-variables" class="md-nav__link">
+    Global Variables
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#function-augment_features" class="md-nav__link">
+    function augment_features
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#function-boiler_plate" class="md-nav__link">
+    function boiler_plate
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#function-make_features_distances" class="md-nav__link">
+    function make_features_distances
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#function-make_features_mars" class="md-nav__link">
+    function make_features_mars
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#function-make_features_mars_distr" class="md-nav__link">
+    function make_features_mars_distr
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#function-make_features_mars_reduced" class="md-nav__link">
+    function make_features_mars_reduced
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#function-make_features_velocities" class="md-nav__link">
+    function make_features_velocities
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#function-make_features_social" class="md-nav__link">
+    function make_features_social
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -386,21 +483,11 @@
               
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../ml/" class="md-nav__link">
         Ml
       </a>
-      
     </li>
   
 
@@ -488,6 +575,77 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#global-variables" class="md-nav__link">
+    Global Variables
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#function-augment_features" class="md-nav__link">
+    function augment_features
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#function-boiler_plate" class="md-nav__link">
+    function boiler_plate
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#function-make_features_distances" class="md-nav__link">
+    function make_features_distances
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#function-make_features_mars" class="md-nav__link">
+    function make_features_mars
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#function-make_features_mars_distr" class="md-nav__link">
+    function make_features_mars_distr
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#function-make_features_mars_reduced" class="md-nav__link">
+    function make_features_mars_reduced
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#function-make_features_velocities" class="md-nav__link">
+    function make_features_velocities
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#function-make_features_social" class="md-nav__link">
+    function make_features_social
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -501,9 +659,54 @@
 
 <!-- markdownlint-disable -->
 
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/ml.py#L0"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
-<h1 id="module-ml"><kbd>module</kbd> <code>ml</code></h1>
-<p>Machine learning functions  </p>
+<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/dl/feature_engineering.py#L0"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<h1 id="module-dlfeature_engineering"><kbd>module</kbd> <code>dl.feature_engineering</code></h1>
+<h2 id="global-variables"><strong>Global Variables</strong></h2>
+<ul>
+<li><strong>XY_IDS</strong></li>
+<li><strong>WIDTH</strong></li>
+<li><strong>HEIGHT</strong></li>
+</ul>
+<hr />
+<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/dl/feature_engineering.py#L23"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<h2 id="function-augment_features"><kbd>function</kbd> <code>augment_features</code></h2>
+<pre><code class="language-python">augment_features(window_size=5, n_shifts=3, mode='shift')
+</code></pre>
+<hr />
+<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/dl/feature_engineering.py#L75"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<h2 id="function-boiler_plate"><kbd>function</kbd> <code>boiler_plate</code></h2>
+<pre><code class="language-python">boiler_plate(features_df)
+</code></pre>
+<hr />
+<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/dl/feature_engineering.py#L310"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<h2 id="function-make_features_distances"><kbd>function</kbd> <code>make_features_distances</code></h2>
+<pre><code class="language-python">make_features_distances(df, animal_setup)
+</code></pre>
+<hr />
+<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/dl/feature_engineering.py#L351"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<h2 id="function-make_features_mars"><kbd>function</kbd> <code>make_features_mars</code></h2>
+<pre><code class="language-python">make_features_mars(df, animal_setup, n_shifts=3, mode='shift')
+</code></pre>
+<hr />
+<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/dl/feature_engineering.py#L399"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<h2 id="function-make_features_mars_distr"><kbd>function</kbd> <code>make_features_mars_distr</code></h2>
+<pre><code class="language-python">make_features_mars_distr(x, y)
+</code></pre>
+<hr />
+<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/dl/feature_engineering.py#L402"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<h2 id="function-make_features_mars_reduced"><kbd>function</kbd> <code>make_features_mars_reduced</code></h2>
+<pre><code class="language-python">make_features_mars_reduced(df, animal_setup, n_shifts=2, mode='diff')
+</code></pre>
+<hr />
+<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/dl/feature_engineering.py#L441"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<h2 id="function-make_features_velocities"><kbd>function</kbd> <code>make_features_velocities</code></h2>
+<pre><code class="language-python">make_features_velocities(df, animal_setup, n_shifts=5)
+</code></pre>
+<hr />
+<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/dl/feature_engineering.py#L481"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<h2 id="function-make_features_social"><kbd>function</kbd> <code>make_features_social</code></h2>
+<pre><code class="language-python">make_features_social(df, animal_setup, n_shifts=3, mode='shift')
+</code></pre>
 <hr />
 <p><em>This file was automatically generated via <a href="https://github.com/ml-tooling/lazydocs">lazydocs</a>.</em></p>
 
@@ -519,7 +722,7 @@
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
         
-        <a href="../mars_features/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Mars features" rel="prev">
+        <a href="../dl.dl_models/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Dl.dl models" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
           </div>
@@ -528,20 +731,20 @@
               <span class="md-footer__direction">
                 Previous
               </span>
-              Mars features
+              Dl.dl models
             </div>
           </div>
         </a>
       
       
         
-        <a href="../plot/" class="md-footer__link md-footer__link--next" aria-label="Next: Plot" rel="next">
+        <a href="../dl.grid_searches/" class="md-footer__link md-footer__link--next" aria-label="Next: Dl.grid searches" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              Plot
+              Dl.grid searches
             </div>
           </div>
           <div class="md-footer__button md-icon">

@@ -178,7 +178,7 @@
   
     <li class="md-nav__item">
       <a href=".." class="md-nav__link">
-        Welcome to MkDocs
+        Home
       </a>
     </li>
   
@@ -317,8 +317,36 @@
   
   
     <li class="md-nav__item">
+      <a href="dl.dl_generators/" class="md-nav__link">
+        Dl.dl generators
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="dl.dl_models/" class="md-nav__link">
         Dl.dl models
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="dl.feature_engineering/" class="md-nav__link">
+        Dl.feature engineering
       </a>
     </li>
   
@@ -553,9 +581,9 @@
 <li><a href="config/#module-config"><code>config</code></a>: Configuration options for behaveml functions.</li>
 <li><a href="dl/#module-dl"><code>dl</code></a></li>
 <li><a href="dl.dl_features/#module-dldl_features"><code>dl.dl_features</code></a></li>
-<li><a href="./dl.dl_generators.md#module-dldl_generators"><code>dl.dl_generators</code></a></li>
+<li><a href="dl.dl_generators/#module-dldl_generators"><code>dl.dl_generators</code></a></li>
 <li><a href="dl.dl_models/#module-dldl_models"><code>dl.dl_models</code></a></li>
-<li><a href="./dl.feature_engineering.md#module-dlfeature_engineering"><code>dl.feature_engineering</code></a></li>
+<li><a href="dl.feature_engineering/#module-dlfeature_engineering"><code>dl.feature_engineering</code></a></li>
 <li><a href="dl.grid_searches/#module-dlgrid_searches"><code>dl.grid_searches</code></a></li>
 <li><a href="features/#module-features"><code>features</code></a>: Functions to take pose tracks and compute a set of features from them </li>
 <li><a href="interpolation/#module-interpolation"><code>interpolation</code></a></li>
@@ -570,13 +598,14 @@
 <h2 id="classes">Classes</h2>
 <ul>
 <li><a href="dl.dl_features/#class-trainer"><code>dl_features.Trainer</code></a></li>
-<li><a href="./dl.dl_generators.md#class-mabe_generator"><code>dl_generators.MABe_Generator</code></a></li>
+<li><a href="dl.dl_generators/#class-mabe_generator"><code>dl_generators.MABe_Generator</code></a></li>
 <li><a href="features/#class-features"><code>features.Features</code></a></li>
 <li><a href="io/#class-bufferediobase"><code>io.BufferedIOBase</code></a>: Base class for buffered IO objects.</li>
 <li><a href="io/#class-iobase"><code>io.IOBase</code></a>: The abstract base class for all I/O classes, acting on streams of</li>
 <li><a href="io/#class-rawiobase"><code>io.RawIOBase</code></a>: Base class for raw binary I/O.</li>
 <li><a href="io/#class-textiobase"><code>io.TextIOBase</code></a>: Base class for text I/O.</li>
 <li><a href="io/#class-unsupportedoperation"><code>io.UnsupportedOperation</code></a></li>
+<li><a href="plot/#class-mplcolorhelper"><code>plot.MplColorHelper</code></a></li>
 <li><a href="video/#class-mldataframe"><code>video.MLDataFrame</code></a>: DataFrame useful for interfacing between pandas and sklearn. Stores a data</li>
 <li><a href="video/#class-videosetdataframe"><code>video.VideosetDataFrame</code></a></li>
 </ul>
@@ -589,16 +618,25 @@
 <li><a href="dl.dl_features/#function-normalize_data"><code>dl_features.normalize_data</code></a></li>
 <li><a href="dl.dl_features/#function-run_task"><code>dl_features.run_task</code></a></li>
 <li><a href="dl.dl_features/#function-seed_everything"><code>dl_features.seed_everything</code></a></li>
-<li><a href="./dl.dl_generators.md#function-features_distances"><code>dl_generators.features_distances</code></a></li>
-<li><a href="./dl.dl_generators.md#function-features_distances_normalized"><code>dl_generators.features_distances_normalized</code></a></li>
-<li><a href="./dl.dl_generators.md#function-features_identity"><code>dl_generators.features_identity</code></a></li>
+<li><a href="dl.dl_generators/#function-features_distances"><code>dl_generators.features_distances</code></a></li>
+<li><a href="dl.dl_generators/#function-features_distances_normalized"><code>dl_generators.features_distances_normalized</code></a></li>
+<li><a href="dl.dl_generators/#function-features_identity"><code>dl_generators.features_identity</code></a></li>
+<li><a href="dl.dl_generators/#function-features_mars"><code>dl_generators.features_mars</code></a></li>
+<li><a href="dl.dl_generators/#function-features_mars_distr"><code>dl_generators.features_mars_distr</code></a></li>
+<li><a href="dl.dl_generators/#function-features_via_sklearn"><code>dl_generators.features_via_sklearn</code></a></li>
+<li><a href="dl.dl_generators/#function-make_df"><code>dl_generators.make_df</code></a></li>
 <li><a href="dl.dl_models/#function-build_baseline_model"><code>dl_models.build_baseline_model</code></a></li>
-<li><a href="./dl.feature_engineering.md#function-augment_features"><code>feature_engineering.augment_features</code></a></li>
-<li><a href="./dl.feature_engineering.md#function-boiler_plate"><code>feature_engineering.boiler_plate</code></a></li>
-<li><a href="./dl.feature_engineering.md#function-make_features_distances"><code>feature_engineering.make_features_distances</code></a></li>
-<li><a href="./dl.feature_engineering.md#function-make_features_mars"><code>feature_engineering.make_features_mars</code></a></li>
+<li><a href="dl.feature_engineering/#function-augment_features"><code>feature_engineering.augment_features</code></a></li>
+<li><a href="dl.feature_engineering/#function-boiler_plate"><code>feature_engineering.boiler_plate</code></a></li>
+<li><a href="dl.feature_engineering/#function-make_features_distances"><code>feature_engineering.make_features_distances</code></a></li>
+<li><a href="dl.feature_engineering/#function-make_features_mars"><code>feature_engineering.make_features_mars</code></a></li>
+<li><a href="dl.feature_engineering/#function-make_features_mars_distr"><code>feature_engineering.make_features_mars_distr</code></a></li>
+<li><a href="dl.feature_engineering/#function-make_features_mars_reduced"><code>feature_engineering.make_features_mars_reduced</code></a></li>
+<li><a href="dl.feature_engineering/#function-make_features_social"><code>feature_engineering.make_features_social</code></a></li>
+<li><a href="dl.feature_engineering/#function-make_features_velocities"><code>feature_engineering.make_features_velocities</code></a></li>
 <li><a href="interpolation/#function-interpolate_lowconf_points"><code>interpolation.interpolate_lowconf_points</code></a>: Interpolate raw tracking points if their probabilities are available.</li>
 <li><a href="io/#function-get_sample_data"><code>io.get_sample_data</code></a>: Load a sample dataset of 5 mice social interaction videos. Each video is approx. 5 minutes in duration</li>
+<li><a href="io/#function-get_sample_data_paths"><code>io.get_sample_data_paths</code></a>: Get path to sample data files provided with package. </li>
 <li><a href="io/#function-load_data"><code>io.load_data</code></a>: Load an object from a pickle file</li>
 <li><a href="io/#function-load_sklearn_model"><code>io.load_sklearn_model</code></a></li>
 <li><a href="io/#function-read_dlc_tracks"><code>io.read_DLC_tracks</code></a>: Read in tracks from DLC.</li>
@@ -609,12 +647,15 @@
 <li><a href="io/#function-uniquifier"><code>io.uniquifier</code></a>: Return a sequence (e.g. list) with unique elements only, but maintaining original list order</li>
 <li><a href="mars_features/#function-compute_distance_features"><code>mars_features.compute_distance_features</code></a></li>
 <li><a href="mars_features/#function-compute_mars_features"><code>mars_features.compute_mars_features</code></a></li>
+<li><a href="mars_features/#function-compute_mars_reduced_features"><code>mars_features.compute_mars_reduced_features</code></a></li>
+<li><a href="mars_features/#function-compute_social_features"><code>mars_features.compute_social_features</code></a></li>
 <li><a href="mars_features/#function-compute_velocity_features"><code>mars_features.compute_velocity_features</code></a></li>
-<li><a href="plot/#function-create_ethogram_video"><code>plot.create_ethogram_video</code></a></li>
-<li><a href="plot/#function-create_mosaic_video"><code>plot.create_mosaic_video</code></a></li>
-<li><a href="plot/#function-create_sample_videos"><code>plot.create_sample_videos</code></a></li>
-<li><a href="plot/#function-plot_embedding"><code>plot.plot_embedding</code></a>: Plot a 2D TSNE or UMAP embedding from the dataset</li>
-<li><a href="plot/#function-plot_ethogram"><code>plot.plot_ethogram</code></a></li>
+<li><a href="plot/#function-create_ethogram_video"><code>plot.create_ethogram_video</code></a>: Overlay ethogram on top of source video with ffmpeg</li>
+<li><a href="plot/#function-create_mosaic_video"><code>plot.create_mosaic_video</code></a>: Take a set of video clips and turn them into a mosaic using ffmpeg </li>
+<li><a href="plot/#function-create_sample_videos"><code>plot.create_sample_videos</code></a>: Create a sample of videos displaying the labeled behaviors using ffmpeg. </li>
+<li><a href="plot/#function-plot_embedding"><code>plot.plot_embedding</code></a>: Scatterplot of a 2D TSNE or UMAP embedding from the dataset.</li>
+<li><a href="plot/#function-plot_ethogram"><code>plot.plot_ethogram</code></a>: Simple ethogram of one video, up to a certain frame number.</li>
+<li><a href="plot/#function-plot_unsupervised_results"><code>plot.plot_unsupervised_results</code></a>: Set of plots for unsupervised behavior clustering results</li>
 <li><a href="unsupervised/#function-cluster_behaviors"><code>unsupervised.cluster_behaviors</code></a>: Cluster behaviors based on dimensionality reduction, kernel density estimation, and watershed clustering.</li>
 <li><a href="unsupervised/#function-compute_density"><code>unsupervised.compute_density</code></a>: Compute kernel density estimate of embedding.</li>
 <li><a href="unsupervised/#function-compute_morlet"><code>unsupervised.compute_morlet</code></a></li>
@@ -639,7 +680,7 @@
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
         
-        <a href=".." class="md-footer__link md-footer__link--prev" aria-label="Previous: Welcome to MkDocs" rel="prev">
+        <a href=".." class="md-footer__link md-footer__link--prev" aria-label="Previous: Home" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
           </div>
@@ -648,7 +689,7 @@
               <span class="md-footer__direction">
                 Previous
               </span>
-              Welcome to MkDocs
+              Home
             </div>
           </div>
         </a>

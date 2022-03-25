@@ -178,7 +178,7 @@
   
     <li class="md-nav__item">
       <a href="../.." class="md-nav__link">
-        Welcome to MkDocs
+        Home
       </a>
     </li>
   
@@ -262,8 +262,36 @@
   
   
     <li class="md-nav__item">
+      <a href="../dl.dl_generators/" class="md-nav__link">
+        Dl.dl generators
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../dl.dl_models/" class="md-nav__link">
         Dl.dl models
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dl.feature_engineering/" class="md-nav__link">
+        Dl.feature engineering
       </a>
     </li>
   
@@ -578,7 +606,7 @@
 <p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/unsupervised.py#L0"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h1 id="module-unsupervised"><kbd>module</kbd> <code>unsupervised</code></h1>
 <hr />
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/unsupervised.py#L11"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/unsupervised.py#L12"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="function-compute_tsne_embedding"><kbd>function</kbd> <code>compute_tsne_embedding</code></h2>
 <pre><code class="language-python">compute_tsne_embedding(
     dataset: VideosetDataFrame,
@@ -598,7 +626,7 @@
 <p><strong>Returns:</strong>
  The tuple:  </p>
 <hr />
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/unsupervised.py#L33"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/unsupervised.py#L34"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="function-compute_morlet"><kbd>function</kbd> <code>compute_morlet</code></h2>
 <pre><code class="language-python">compute_morlet(
     data: ndarray,
@@ -608,27 +636,31 @@
 ) → ndarray
 </code></pre>
 <hr />
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/unsupervised.py#L46"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/unsupervised.py#L49"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="function-compute_density"><kbd>function</kbd> <code>compute_density</code></h2>
 <pre><code class="language-python">compute_density(
     dataset: VideosetDataFrame,
     embedding_extent: tuple,
     bandwidth: float = 0.5,
-    n_pts: int = 300
+    n_pts: int = 300,
+    N_sample_rows: int = 50000,
+    rows: list = None
 ) → ndarray
 </code></pre>
 <p>Compute kernel density estimate of embedding. </p>
 <p><strong>Args:</strong></p>
 <ul>
 <li><b><code>dataset</code></b>:  VideosetDataFrame with embedding data loaded in it. (Must have already populated columns named 'embedding_0', 'embedding_1') </li>
-<li><b><code>embedding_extent</code></b>:  the bounds in which to apply the density estimate </li>
+<li><b><code>embedding_extent</code></b>:  the bounds in which to apply the density estimate. Has the form (xmin, xmax, ymin, ymax) </li>
 <li><b><code>bandwidth</code></b>:  the Gaussian kernel bandwidth. Will depend on the scale of the embedding. Can be changed to affect the number of clusters pulled out </li>
 <li><b><code>n_pts</code></b>:  number of points over which to evaluate the KDE </li>
+<li><b><code>N_sample_rows</code></b>:  number of rows to randomly sample to generate estimate </li>
+<li><b><code>rows</code></b>:  If provided, use these rows instead of a random sample </li>
 </ul>
 <p><strong>Returns:</strong>
  Numpy array with KDE over the specified square region in the embedding space, with dimensions (n_pts x n_pts)     </p>
 <hr />
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/unsupervised.py#L71"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/unsupervised.py#L84"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="function-compute_watershed"><kbd>function</kbd> <code>compute_watershed</code></h2>
 <pre><code class="language-python">compute_watershed(
     dens_matrix: ndarray,
@@ -646,20 +678,38 @@
 <p><strong>Returns:</strong>
  A numpy array with the same dimensions as dens_matrix. Each value in the array is the cluster ID for that coordinate. </p>
 <hr />
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/unsupervised.py#L93"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/unsupervised.py#L106"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="function-cluster_behaviors"><kbd>function</kbd> <code>cluster_behaviors</code></h2>
 <pre><code class="language-python">cluster_behaviors(
-    dataset,
-    feature_cols,
-    N_rows=200000,
-    subsample=True,
-    use_morlet=False,
-    use_umap=True,
-    n_pts=300,
-    bandwidth=0.5
-)
+    dataset: VideosetDataFrame,
+    feature_cols: list,
+    N_rows: int = 200000,
+    use_morlet: bool = False,
+    use_umap: bool = True,
+    n_pts: int = 300,
+    bandwidth: float = 0.5,
+    **kwargs
+) → tuple
 </code></pre>
-<p>Cluster behaviors based on dimensionality reduction, kernel density estimation, and watershed clustering.  </p>
+<p>Cluster behaviors based on dimensionality reduction, kernel density estimation, and watershed clustering. </p>
+<p><strong>Note that this will modify the dataset dataframe in place.</strong> </p>
+<p>The following columns are added to dataset:   'embedding_index_[0/1]': the coordinates of each embedding coordinate in the returned density matrix  'unsup_behavior_label': the Watershed transform label for that row, based on its embedding coordinates. Rows whose embedding coordinate has no watershed cluster, or which fall outside the domain have value -1. </p>
+<p><strong>Args:</strong></p>
+<ul>
+<li><b><code>dataset</code></b>:  the VideosetDataFrame with the features of interest </li>
+<li><b><code>feature_cols</code></b>:  list of column names to perform the clustering on </li>
+<li><b><code>N_rows</code></b>:  number of rows to perform the embedding on. If 'None', then all rows are used. </li>
+<li><b><code>use_morlet</code></b>:  Apply Morlet wavelet transform to the feature cols before computing the embedding </li>
+<li><b><code>use_umap</code></b>:  If True will use UMAP dimensionality reduction, if False will use TSNE </li>
+<li><b><code>n_pts</code></b>:  dimension of grid the kernel density estimate is evaluated on.  </li>
+<li><b><code>bandwidth</code></b>:  Gaussian kernel bandwidth for kernel estimate </li>
+<li><b><code>**kwargs</code></b>:  All other keyword parameters are sent to dimensionality reduction call (either TSNE or UMAP) </li>
+</ul>
+<p><strong>Returns:</strong>
+ A tuple with components: 
+ - <b><code>dens_matrix</code></b>:  the (n_pts x n_pts) numpy array with the density estimate of the 2D embedding 
+ - <b><code>labels</code></b>:  numpy array with same dimensions are dens_matrix, but with values the watershed cluster IDs 
+ - <b><code>embedding_extent</code></b>:  the coordinates in embedding space that dens_matrix is approximating the density over </p>
 <hr />
 <p><em>This file was automatically generated via <a href="https://github.com/ml-tooling/lazydocs">lazydocs</a>.</em></p>
 

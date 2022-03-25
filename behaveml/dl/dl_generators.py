@@ -36,11 +36,13 @@ def features_via_sklearn(inputs, featurizer):
     features = np.array(features_df)
     return features, features.shape
 
-features_mars = lambda x: features_via_sklearn(x, make_features_mars)
+def features_mars(x): 
+    return features_via_sklearn(x, make_features_mars)
 
 #features_mars_no_shift = lambda x: features_via_sklearn(x, make_features_mars_no_shift)
 
-features_mars_distr = lambda x: features_via_sklearn(x, make_features_mars_distr)
+def features_mars_distr(x):
+    return features_via_sklearn(x, make_features_mars_distr)
 
 def features_distances(inputs):
 

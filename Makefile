@@ -10,7 +10,7 @@ build:
 		python -m build
 
 deploytest:
-		python -m twine upload --repository testpypi dist/*
+		python -m twine upload --repository testpypi --skip-existing dist/* 
 
 #Then test install w:
 #python3 -m pip install --index-url https://test.pypi.org/simple/ --no-deps behaveml

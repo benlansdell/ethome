@@ -13,15 +13,21 @@ os.environ["CUDA_VISIBLE_DEVICES"] = ''
 from glob import glob 
 from behaveml import VideosetDataFrame, clone_metadata
 from behaveml import mars_feature_maker, cnn_probability_feature_maker, interpolate_lowconf_points
+from behaveml.io import get_sample_data_paths
 
 #A list of DLC tracking files
-tracking_files = sorted(glob('./tests/data/dlc/*.csv'))
+#tracking_files = sorted(glob('./tests/data/dlc/*.csv'))
 
 #A list of BORIS labeled files, ordered to correspond with DLC tracking file list
-boris_files = sorted(glob('./tests/data/boris/*.csv'))
+#boris_files = sorted(glob('./tests/data/boris/*.csv'))
+
+tracking_files, boris_files = get_sample_data_paths()
 
 #A list of video files, ordered to correspond with DLC tracking file list
 video_files = sorted(glob('./tests/data/videos/*.avi'))
+
+#Get test data:
+
 
 frame_length = None              # (float) length of entire horizontal shot
 units = None                     # (str) units frame_length is given in
@@ -29,9 +35,9 @@ fps = 30                         # (int) frames per second
 resolution = (1200, 1600)        # (tuple) HxW in pixels
 
 #Metadata is a dictionary that attaches each of the above parameters to the video/behavior annotations
+#                          video_files = video_files,
 metadata = clone_metadata(tracking_files, 
                           label_files = boris_files, 
-                          video_files = video_files,
                           frame_length = frame_length, 
                           fps = fps, 
                           units = units, 

@@ -10,7 +10,7 @@
 
 ---
 
-<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/mars_features.py#L5"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/mars_features.py#L6"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `compute_mars_features`
 
@@ -30,7 +30,7 @@ compute_mars_features(
 
 ---
 
-<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/mars_features.py#L9"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/mars_features.py#L10"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `compute_distance_features`
 
@@ -50,7 +50,47 @@ compute_distance_features(
 
 ---
 
-<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/mars_features.py#L13"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/mars_features.py#L14"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+
+## <kbd>function</kbd> `compute_mars_reduced_features`
+
+```python
+compute_mars_reduced_features(
+    df: DataFrame,
+    raw_col_names: list,
+    animal_setup: dict,
+    **kwargs
+) → DataFrame
+```
+
+
+
+
+
+
+---
+
+<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/mars_features.py#L18"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+
+## <kbd>function</kbd> `compute_social_features`
+
+```python
+compute_social_features(
+    df: DataFrame,
+    raw_col_names: list,
+    animal_setup: dict,
+    **kwargs
+) → DataFrame
+```
+
+
+
+
+
+
+---
+
+<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/mars_features.py#L22"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `compute_velocity_features`
 

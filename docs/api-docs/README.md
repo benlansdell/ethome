@@ -31,6 +31,7 @@
 - [`io.RawIOBase`](./io.md#class-rawiobase): Base class for raw binary I/O.
 - [`io.TextIOBase`](./io.md#class-textiobase): Base class for text I/O.
 - [`io.UnsupportedOperation`](./io.md#class-unsupportedoperation)
+- [`plot.MplColorHelper`](./plot.md#class-mplcolorhelper)
 - [`video.MLDataFrame`](./video.md#class-mldataframe): DataFrame useful for interfacing between pandas and sklearn. Stores a data
 - [`video.VideosetDataFrame`](./video.md#class-videosetdataframe)
 
@@ -46,13 +47,22 @@
 - [`dl_generators.features_distances`](./dl.dl_generators.md#function-features_distances)
 - [`dl_generators.features_distances_normalized`](./dl.dl_generators.md#function-features_distances_normalized)
 - [`dl_generators.features_identity`](./dl.dl_generators.md#function-features_identity)
+- [`dl_generators.features_mars`](./dl.dl_generators.md#function-features_mars)
+- [`dl_generators.features_mars_distr`](./dl.dl_generators.md#function-features_mars_distr)
+- [`dl_generators.features_via_sklearn`](./dl.dl_generators.md#function-features_via_sklearn)
+- [`dl_generators.make_df`](./dl.dl_generators.md#function-make_df)
 - [`dl_models.build_baseline_model`](./dl.dl_models.md#function-build_baseline_model)
 - [`feature_engineering.augment_features`](./dl.feature_engineering.md#function-augment_features)
 - [`feature_engineering.boiler_plate`](./dl.feature_engineering.md#function-boiler_plate)
 - [`feature_engineering.make_features_distances`](./dl.feature_engineering.md#function-make_features_distances)
 - [`feature_engineering.make_features_mars`](./dl.feature_engineering.md#function-make_features_mars)
+- [`feature_engineering.make_features_mars_distr`](./dl.feature_engineering.md#function-make_features_mars_distr)
+- [`feature_engineering.make_features_mars_reduced`](./dl.feature_engineering.md#function-make_features_mars_reduced)
+- [`feature_engineering.make_features_social`](./dl.feature_engineering.md#function-make_features_social)
+- [`feature_engineering.make_features_velocities`](./dl.feature_engineering.md#function-make_features_velocities)
 - [`interpolation.interpolate_lowconf_points`](./interpolation.md#function-interpolate_lowconf_points): Interpolate raw tracking points if their probabilities are available.
 - [`io.get_sample_data`](./io.md#function-get_sample_data): Load a sample dataset of 5 mice social interaction videos. Each video is approx. 5 minutes in duration
+- [`io.get_sample_data_paths`](./io.md#function-get_sample_data_paths): Get path to sample data files provided with package. 
 - [`io.load_data`](./io.md#function-load_data): Load an object from a pickle file
 - [`io.load_sklearn_model`](./io.md#function-load_sklearn_model)
 - [`io.read_DLC_tracks`](./io.md#function-read_dlc_tracks): Read in tracks from DLC.
@@ -63,12 +73,15 @@
 - [`io.uniquifier`](./io.md#function-uniquifier): Return a sequence (e.g. list) with unique elements only, but maintaining original list order
 - [`mars_features.compute_distance_features`](./mars_features.md#function-compute_distance_features)
 - [`mars_features.compute_mars_features`](./mars_features.md#function-compute_mars_features)
+- [`mars_features.compute_mars_reduced_features`](./mars_features.md#function-compute_mars_reduced_features)
+- [`mars_features.compute_social_features`](./mars_features.md#function-compute_social_features)
 - [`mars_features.compute_velocity_features`](./mars_features.md#function-compute_velocity_features)
-- [`plot.create_ethogram_video`](./plot.md#function-create_ethogram_video)
-- [`plot.create_mosaic_video`](./plot.md#function-create_mosaic_video)
-- [`plot.create_sample_videos`](./plot.md#function-create_sample_videos)
-- [`plot.plot_embedding`](./plot.md#function-plot_embedding): Plot a 2D TSNE or UMAP embedding from the dataset
-- [`plot.plot_ethogram`](./plot.md#function-plot_ethogram)
+- [`plot.create_ethogram_video`](./plot.md#function-create_ethogram_video): Overlay ethogram on top of source video with ffmpeg
+- [`plot.create_mosaic_video`](./plot.md#function-create_mosaic_video): Take a set of video clips and turn them into a mosaic using ffmpeg 
+- [`plot.create_sample_videos`](./plot.md#function-create_sample_videos): Create a sample of videos displaying the labeled behaviors using ffmpeg. 
+- [`plot.plot_embedding`](./plot.md#function-plot_embedding): Scatterplot of a 2D TSNE or UMAP embedding from the dataset.
+- [`plot.plot_ethogram`](./plot.md#function-plot_ethogram): Simple ethogram of one video, up to a certain frame number.
+- [`plot.plot_unsupervised_results`](./plot.md#function-plot_unsupervised_results): Set of plots for unsupervised behavior clustering results
 - [`unsupervised.cluster_behaviors`](./unsupervised.md#function-cluster_behaviors): Cluster behaviors based on dimensionality reduction, kernel density estimation, and watershed clustering.
 - [`unsupervised.compute_density`](./unsupervised.md#function-compute_density): Compute kernel density estimate of embedding.
 - [`unsupervised.compute_morlet`](./unsupervised.md#function-compute_morlet)

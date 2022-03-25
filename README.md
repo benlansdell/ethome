@@ -2,7 +2,7 @@
 
 # BehaveML
 
-Supervised learning for animal behavior.
+Machine learning for animal behavior.
 
 Interprets pose-tracking files (currently only from DLC), behavior annotations (currently only from BORIS) to train a behavior classifier. 
 

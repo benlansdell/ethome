@@ -178,7 +178,7 @@
   
     <li class="md-nav__item">
       <a href="../.." class="md-nav__link">
-        Welcome to MkDocs
+        Home
       </a>
     </li>
   
@@ -262,8 +262,36 @@
   
   
     <li class="md-nav__item">
+      <a href="../dl.dl_generators/" class="md-nav__link">
+        Dl.dl generators
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../dl.dl_models/" class="md-nav__link">
         Dl.dl models
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dl.feature_engineering/" class="md-nav__link">
+        Dl.feature engineering
       </a>
     </li>
   
@@ -422,6 +450,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#function-plot_unsupervised_results" class="md-nav__link">
+    function plot_unsupervised_results
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#function-plot_ethogram" class="md-nav__link">
     function plot_ethogram
   </a>
@@ -446,6 +481,33 @@
   <a href="#function-create_mosaic_video" class="md-nav__link">
     function create_mosaic_video
   </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#class-mplcolorhelper" class="md-nav__link">
+    class MplColorHelper
+  </a>
+  
+    <nav class="md-nav" aria-label="class MplColorHelper">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#method-__init__" class="md-nav__link">
+    method __init__
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#method-get_rgb" class="md-nav__link">
+    method get_rgb
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -547,6 +609,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#function-plot_unsupervised_results" class="md-nav__link">
+    function plot_unsupervised_results
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#function-plot_ethogram" class="md-nav__link">
     function plot_ethogram
   </a>
@@ -574,6 +643,33 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#class-mplcolorhelper" class="md-nav__link">
+    class MplColorHelper
+  </a>
+  
+    <nav class="md-nav" aria-label="class MplColorHelper">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#method-__init__" class="md-nav__link">
+    method __init__
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#method-get_rgb" class="md-nav__link">
+    method get_rgb
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -596,52 +692,145 @@
 <li><strong>global_config</strong></li>
 </ul>
 <hr />
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/plot.py#L8"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/plot.py#L12"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="function-plot_embedding"><kbd>function</kbd> <code>plot_embedding</code></h2>
-<pre><code class="language-python">plot_embedding(dataset, figsize=(10, 10))
+<pre><code class="language-python">plot_embedding(
+    dataset: VideosetDataFrame,
+    color_col: str = None,
+    figsize: tuple = (10, 10),
+    **kwargs
+) → tuple
 </code></pre>
-<p>Plot a 2D TSNE or UMAP embedding from the dataset </p>
+<p>Scatterplot of a 2D TSNE or UMAP embedding from the dataset. </p>
+<p><strong>Args:</strong></p>
+<ul>
+<li><b><code>dataset</code></b>:  data, must have columns named 'embedding_0' and 'embedding_1' </li>
+<li><b><code>color_col</code></b>:  if provided, a column that will be used to color the points in the scatter plot </li>
+<li><b><code>figsize</code></b>:  tuple with the dimensions of the plot (in inches) </li>
+<li><b><code>kwargs</code></b>:  All other keyword pairs are sent to Matplotlib's scatter function </li>
+</ul>
+<p><strong>Returns:</strong>
+ tuple (fig, axes). The Figure and Axes objects.  </p>
 <hr />
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/plot.py#L18"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/plot.py#L51"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<h2 id="function-plot_unsupervised_results"><kbd>function</kbd> <code>plot_unsupervised_results</code></h2>
+<pre><code class="language-python">plot_unsupervised_results(dataset, cluster_results, figsize=(15, 4), **kwargs)
+</code></pre>
+<p>Set of plots for unsupervised behavior clustering results </p>
+<p><strong>Args:</strong></p>
+<ul>
+<li><b><code>dataset</code></b>:  data, must have columns named 'embedding_0' and 'embedding_1' </li>
+<li><b><code>cluster_results</code></b>:  tuple output by 'cluster_behaviors' </li>
+<li><b><code>figsize</code></b>:  tuple with the plot dimensions, in inches </li>
+<li><b><code>kwargs</code></b>:  all other keyword pairs are sent to Matplotlib's scatter function </li>
+</ul>
+<p><strong>Returns:</strong>
+ tuple (fig, axes). The Figure and Axes objects.  </p>
+<hr />
+<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/plot.py#L95"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="function-plot_ethogram"><kbd>function</kbd> <code>plot_ethogram</code></h2>
 <pre><code class="language-python">plot_ethogram(
-    dataset,
-    vid_key,
-    query_label='unsup_behavior_label',
-    frame_limit=4000,
-    figsize=(16, 2)
-)
+    dataset: VideosetDataFrame,
+    vid_key: str,
+    query_label: str = 'unsup_behavior_label',
+    frame_limit: int = 4000,
+    figsize: tuple = (16, 2)
+) → tuple
 </code></pre>
+<p>Simple ethogram of one video, up to a certain frame number. </p>
+<p><strong>Args:</strong>
+  dataset:<br />
+ - <b><code>vid_key</code></b>:  key (in dataset.metadata) pointing to the video to make ethogram for 
+ - <b><code>query_label</code></b>:  the column containing the behavior labels to plot 
+ - <b><code>frame_limit</code></b>:  only make the ethogram for frames between [0, frame_limit] 
+ - <b><code>figsize</code></b>:  tuple with figure size (in inches) </p>
+<p><strong>Returns:</strong>
+ tuple (fig, axes). The Figure and Axes objects </p>
 <hr />
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/plot.py#L29"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/plot.py#L124"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="function-create_ethogram_video"><kbd>function</kbd> <code>create_ethogram_video</code></h2>
 <pre><code class="language-python">create_ethogram_video(
-    dataset,
-    vid_key,
-    query_label,
-    out_file,
-    frame_limit=4000,
-    im_dim=16,
-    min_frames=3
-)
+    dataset: VideosetDataFrame,
+    vid_key: str,
+    query_label: str,
+    out_file: str,
+    frame_limit: int = 4000,
+    im_dim: float = 16,
+    min_frames: int = 3
+) → None
 </code></pre>
+<p>Overlay ethogram on top of source video with ffmpeg </p>
+<p><strong>Args:</strong></p>
+<ul>
+<li><b><code>dataset</code></b>:  source dataset </li>
+<li><b><code>vid_key</code></b>:  the key (in dataset.metadata) pointing to the video to make ethogram for. metadata must have field 'video_files' that points to the source video location </li>
+<li><b><code>query_label</code></b>:  the column containing the behavior labels to plot </li>
+<li><b><code>out_file</code></b>:  output path for created video </li>
+<li><b><code>frame_limit</code></b>:  only make the ethogram/video for frames [0, frame_limit] </li>
+<li><b><code>in_dim</code></b>:  x dimension (in inches) of ethogram </li>
+<li><b><code>min_frames</code></b>:  any behaviors occurring for less than this number of frames are not labeled </li>
+</ul>
+<p><strong>Returns:</strong>
+ None </p>
 <hr />
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/plot.py#L77"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/plot.py#L194"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="function-create_sample_videos"><kbd>function</kbd> <code>create_sample_videos</code></h2>
 <pre><code class="language-python">create_sample_videos(
-    dataset,
-    video_dir,
-    out_dir,
-    query_col='unsup_behavior_label',
-    N_sample_rows=16,
-    window_size=2,
-    fps=30
-)
+    dataset: VideosetDataFrame,
+    video_dir: str,
+    out_dir: str,
+    query_col: str = 'unsup_behavior_label',
+    N_sample_rows: int = 16,
+    window_size: int = 2,
+    fps: float = 30,
+    N_supersample_rows: int = 1000
+) → None
+</code></pre>
+<p>Create a sample of videos displaying the labeled behaviors using ffmpeg.  </p>
+<p>For each behavior label, randomly choose frames from the entire dataset and extract short clips from source videos based around those points. Tries to select frames where the labeled behavior is exhibited in many frames of the clip. </p>
+<p><strong>Args:</strong></p>
+<ul>
+<li><b><code>dataset</code></b>:  source dataset </li>
+<li><b><code>video_dir</code></b>:  location of source video files </li>
+<li><b><code>out_dir</code></b>:  base output directory to save videos. Videos are saved in the form: [out_dir]/[behavior_label]/[video_name]_[time in seconds].avi </li>
+<li><b><code>query_label</code></b>:  the column containing the behavior labels to extract clips for. Each unique value in this column is treated as a separate behavior </li>
+<li><b><code>N_sample_rows</code></b>:  number of clips to extract per behavior </li>
+<li><b><code>window_size</code></b>:  amount of video to extract on either side of the sampled frame, in seconds </li>
+<li><b><code>fps</code></b>:  frames per second of videos </li>
+<li><b><code>N_supersample_rows</code></b>:  this many rows are randomly sampled for each behavior label, and the top N_sample_rows are returned (in terms of number of adjacent frames also exhibiting that behavior). Shouldn't need to play with this. </li>
+</ul>
+<p><strong>Returns:</strong>
+ None </p>
+<hr />
+<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/plot.py#L295"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<h2 id="function-create_mosaic_video"><kbd>function</kbd> <code>create_mosaic_video</code></h2>
+<pre><code class="language-python">create_mosaic_video(
+    vid_dir: str,
+    output_file: str,
+    ndim: tuple = (1600, 1200)
+) → None
+</code></pre>
+<p>Take a set of video clips and turn them into a mosaic using ffmpeg  </p>
+<p>16 videos are tiled. </p>
+<p><strong>Args:</strong></p>
+<ul>
+<li><b><code>vid_dir</code></b>:  source directory with videos in it </li>
+<li><b><code>output_file</code></b>:  output video path </li>
+<li><b><code>ndim</code></b>:  tuple with the output video dimensions, in pixels </li>
+</ul>
+<p><strong>Returns:</strong>
+ None     </p>
+<hr />
+<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/plot.py#L39"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<h2 id="class-mplcolorhelper"><kbd>class</kbd> <code>MplColorHelper</code></h2>
+<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/plot.py#L41"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<h3 id="method-__init__"><kbd>method</kbd> <code>__init__</code></h3>
+<pre><code class="language-python">__init__(cmap_name, start_val, stop_val)
 </code></pre>
 <hr />
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/plot.py#L111"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
-<h2 id="function-create_mosaic_video"><kbd>function</kbd> <code>create_mosaic_video</code></h2>
-<pre><code class="language-python">create_mosaic_video(vid_dir, output_file, ndim=('1600', '1200'))
+<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/plot.py#L47"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<h3 id="method-get_rgb"><kbd>method</kbd> <code>get_rgb</code></h3>
+<pre><code class="language-python">get_rgb(val)
 </code></pre>
 <hr />
 <p><em>This file was automatically generated via <a href="https://github.com/ml-tooling/lazydocs">lazydocs</a>.</em></p>

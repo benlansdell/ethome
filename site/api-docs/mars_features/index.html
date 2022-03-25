@@ -178,7 +178,7 @@
   
     <li class="md-nav__item">
       <a href="../.." class="md-nav__link">
-        Welcome to MkDocs
+        Home
       </a>
     </li>
   
@@ -262,8 +262,36 @@
   
   
     <li class="md-nav__item">
+      <a href="../dl.dl_generators/" class="md-nav__link">
+        Dl.dl generators
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../dl.dl_models/" class="md-nav__link">
         Dl.dl models
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dl.feature_engineering/" class="md-nav__link">
+        Dl.feature engineering
       </a>
     </li>
   
@@ -389,6 +417,20 @@
         <li class="md-nav__item">
   <a href="#function-compute_distance_features" class="md-nav__link">
     function compute_distance_features
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#function-compute_mars_reduced_features" class="md-nav__link">
+    function compute_mars_reduced_features
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#function-compute_social_features" class="md-nav__link">
+    function compute_social_features
   </a>
   
 </li>
@@ -526,6 +568,20 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#function-compute_mars_reduced_features" class="md-nav__link">
+    function compute_mars_reduced_features
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#function-compute_social_features" class="md-nav__link">
+    function compute_social_features
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#function-compute_velocity_features" class="md-nav__link">
     function compute_velocity_features
   </a>
@@ -550,7 +606,7 @@
 <p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/mars_features.py#L0"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h1 id="module-mars_features"><kbd>module</kbd> <code>mars_features</code></h1>
 <hr />
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/mars_features.py#L5"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/mars_features.py#L6"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="function-compute_mars_features"><kbd>function</kbd> <code>compute_mars_features</code></h2>
 <pre><code class="language-python">compute_mars_features(
     df: DataFrame,
@@ -560,7 +616,7 @@
 ) → DataFrame
 </code></pre>
 <hr />
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/mars_features.py#L9"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/mars_features.py#L10"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="function-compute_distance_features"><kbd>function</kbd> <code>compute_distance_features</code></h2>
 <pre><code class="language-python">compute_distance_features(
     df: DataFrame,
@@ -570,7 +626,27 @@
 ) → DataFrame
 </code></pre>
 <hr />
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/mars_features.py#L13"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/mars_features.py#L14"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<h2 id="function-compute_mars_reduced_features"><kbd>function</kbd> <code>compute_mars_reduced_features</code></h2>
+<pre><code class="language-python">compute_mars_reduced_features(
+    df: DataFrame,
+    raw_col_names: list,
+    animal_setup: dict,
+    **kwargs
+) → DataFrame
+</code></pre>
+<hr />
+<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/mars_features.py#L18"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<h2 id="function-compute_social_features"><kbd>function</kbd> <code>compute_social_features</code></h2>
+<pre><code class="language-python">compute_social_features(
+    df: DataFrame,
+    raw_col_names: list,
+    animal_setup: dict,
+    **kwargs
+) → DataFrame
+</code></pre>
+<hr />
+<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/mars_features.py#L22"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="function-compute_velocity_features"><kbd>function</kbd> <code>compute_velocity_features</code></h2>
 <pre><code class="language-python">compute_velocity_features(
     df: DataFrame,

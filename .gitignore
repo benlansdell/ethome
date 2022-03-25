@@ -9,3 +9,5 @@ dist
 *.avi
 pypi_token.txt
 test_pypi_token.txt
+examples/.ipynb_checkpoints
+build_

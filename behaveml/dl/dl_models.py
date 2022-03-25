@@ -19,13 +19,13 @@ def build_baseline_model(input_dim, layer_channels=(512, 256), dropout_rate=0.,
     print("Building baseline 1D CNN model with parameters:")
     print(f"dropout_rate: {dropout_rate}, learning_rate: {learning_rate}, layer_channels: {layer_channels}, conv_size: {conv_size}")
 
-    def add_dense_bn_activate(model, out_dim, activation='relu', drop=0.):
-        model.add(layers.Dense(out_dim))
-        model.add(layers.BatchNormalization())
-        model.add(layers.Activation('relu'))
-        if drop > 0:
-            model.add(layers.Dropout(rate=drop))
-        return model
+    # def add_dense_bn_activate(model, out_dim, activation='relu', drop=0.):
+    #     model.add(layers.Dense(out_dim))
+    #     model.add(layers.BatchNormalization())
+    #     model.add(layers.Activation('relu'))
+    #     if drop > 0:
+    #         model.add(layers.Dropout(rate=drop))
+    #     return model
 
     def add_conv_bn_activate(model, out_dim, activation='relu', conv_size=3, drop=0.):
         model.add(layers.Conv1D(out_dim, conv_size))

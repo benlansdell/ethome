@@ -137,7 +137,7 @@ def load_data(fn : str):
         object = pickle.load(handle)
     return object 
 
-def _make_sample_dataframe(fn_out = 'sample_dataframe.pkl'):
+def _make_sample_dataframe(fn_out = 'sample_dataframe.pkl'): # pragma: no cover
     from behaveml import VideosetDataFrame, clone_metadata
 
     cur_dir = os.path.dirname(os.path.abspath(__file__))

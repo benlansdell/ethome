@@ -16,7 +16,7 @@ except ImportError:
 #from lib.helper import colnames 
 from .feature_engineering import make_features_mars, make_features_mars_distr
 
-def make_df(pts, colnames = None):
+def make_df(pts, colnames = None): # pragma: no cover
     df = []
     for idx in range(len(pts)):
         data = pts[idx].flatten()
@@ -26,22 +26,22 @@ def make_df(pts, colnames = None):
     else:
         return pd.DataFrame(df)
 
-def features_identity(inputs):
+def features_identity(inputs): # pragma: no cover
     return inputs, inputs.shape[1:]
 
-def features_via_sklearn(inputs, featurizer):
+def features_via_sklearn(inputs, featurizer): # pragma: no cover
     #Use the ML functions to turn this into a pandas data table
     df = make_df(inputs)
     features_df, _, _ = featurizer(df)
     features = np.array(features_df)
     return features, features.shape
 
-def features_mars(x): 
+def features_mars(x):  # pragma: no cover
     return features_via_sklearn(x, make_features_mars)
 
-#features_mars_no_shift = lambda x: features_via_sklearn(x, make_features_mars_no_shift)
+# #features_mars_no_shift = lambda x: features_via_sklearn(x, make_features_mars_no_shift)
 
-def features_mars_distr(x):
+def features_mars_distr(x): # pragma: no cover
     return features_via_sklearn(x, make_features_mars_distr)
 
 def features_distances(inputs):
@@ -128,8 +128,6 @@ if has_keras:
             self.video_indexes = []
             self.frame_indexes = []
             self.X = {}
-            if self.mode == 'fit':
-                self.y = []
             self.pad = self.past_frames * self.frame_gap
             future_pad = self.future_frames * self.frame_gap
             pad_width = (self.pad, future_pad), (0, 0), (0, 0), (0, 0)
@@ -144,17 +142,7 @@ if has_keras:
                 self.X[key],_ = self.featurize(np.pad(pose_dict[key]['keypoints'], pad_width))
                 self.seq_lengths[key] = nframes
             
-            if self.mode == 'fit':
-                self.y = np.array(self.y)
-                #Compute class weights:
-                class_weights = np.zeros(self.num_classes)
-                counts = Counter(self.y)
-                for c in range(num_classes):
-                    class_weights[c] = counts[c]
-                class_weights /= np.sum(class_weights)
-                self.class_weights = class_weights
-            else:
-                self.class_weights = np.ones(num_classes)
+            self.class_weights = np.ones(num_classes)
             
             self.X_dtype = self.X[key].dtype
 
@@ -204,14 +192,7 @@ if has_keras:
                     Xi = self.augment_fn(Xi)
                 X[bi] = np.reshape(Xi, self.dim)
 
-            if self.mode == 'fit':
-                y_vals = self.y[indexes]
-                # Converting to one hot because F1 callback needs one hot
-                y = np.zeros( (bs,self.num_classes), np.float32)
-                y[np.arange(bs), y_vals] = 1
-                return X, y
-
-            elif self.mode == 'predict':
+            if self.mode == 'predict':
                 return X, vkey_fi_list
 
         def on_epoch_end(self):

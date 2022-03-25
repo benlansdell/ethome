@@ -2,10 +2,6 @@
 
 """
 
-###########################
-## Example analysis code ##
-###########################
-
 #More reliable to not use GPU here. It's only doing inference with a small net, doesn't take long:
 import os
 os.environ["CUDA_VISIBLE_DEVICES"] = ''
@@ -15,32 +11,22 @@ from behaveml import VideosetDataFrame, clone_metadata
 from behaveml import mars_feature_maker, cnn_probability_feature_maker, interpolate_lowconf_points
 from behaveml.io import get_sample_data_paths
 
-#A list of DLC tracking files
-#tracking_files = sorted(glob('./tests/data/dlc/*.csv'))
-
-#A list of BORIS labeled files, ordered to correspond with DLC tracking file list
-#boris_files = sorted(glob('./tests/data/boris/*.csv'))
-
 tracking_files, boris_files = get_sample_data_paths()
 
 #A list of video files, ordered to correspond with DLC tracking file list
 video_files = sorted(glob('./tests/data/videos/*.avi'))
 
-#Get test data:
-
-
-frame_length = None              # (float) length of entire horizontal shot
-units = None                     # (str) units frame_length is given in
+frame_width = None               # (float) length of entire horizontal shot
+frame_width_units = None         # (str) units frame_width is given in
 fps = 30                         # (int) frames per second
 resolution = (1200, 1600)        # (tuple) HxW in pixels
 
 #Metadata is a dictionary that attaches each of the above parameters to the video/behavior annotations
-#                          video_files = video_files,
 metadata = clone_metadata(tracking_files, 
                           label_files = boris_files, 
-                          frame_length = frame_length, 
+                          frame_width = frame_width, 
                           fps = fps, 
-                          units = units, 
+                          frame_width_units = frame_width_units, 
                           resolution = resolution)
 
 dataset = VideosetDataFrame(metadata)
@@ -69,24 +55,11 @@ dataset.activate_features_by_name('likelihood')
 #########################
 
 ## Sample ML model
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.linear_model import LogisticRegression
-from sklearn.neighbors import KNeighborsClassifier
 from xgboost import XGBClassifier
 from sklearn.model_selection import cross_val_predict, GroupKFold
 from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_score
-from sklearn.pipeline import Pipeline
-
-#from behaveml.models import F1Optimizer, HMMSklearn, ModelTransformer
-from behaveml.models import F1Optimizer, ModelTransformer
 
 splitter = GroupKFold(n_splits = dataset.n_videos)
-model = ModelTransformer(RandomForestClassifier)
-
-pipeline = Pipeline([
-                     ("rf", model),
-                     ("hmm", HMMSklearn(D = 2))
-                    ])
 
 print("Fitting ML model with (group) LOO CV")
 predictions = cross_val_predict(XGBClassifier(), 
@@ -112,4 +85,4 @@ print("Acc", acc, "F1", f1, 'precision', pr, 'recall', re)
 #Now we have our model we can make a video of its predictions. 
 #Provide the column names whose state we're going to overlay on the video, along
 #with the directory to output the videos
-dataset.make_movie(['label', 'prediction'], '.')
+#dataset.make_movie(['label', 'prediction'], '.')

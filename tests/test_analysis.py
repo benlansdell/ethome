@@ -13,9 +13,9 @@ def test_clone_metadata(tracking_files, label_files, metadata_params):
 
     metadata = clone_metadata(tracking_files, 
                                 label_files = label_files, 
-                                frame_length = metadata_params['frame_length'], 
+                                frame_width = metadata_params['frame_width'], 
                                 fps = metadata_params['fps'], 
-                                units = metadata_params['units'], 
+                                frame_width_units = metadata_params['frame_width_units'], 
                                 resolution = metadata_params['resolution'])
 
     assert len(metadata) == 5
@@ -27,9 +27,9 @@ def test_VideoDataFrame(tracking_files, label_files, metadata, metadata_params):
     """ Test creation of VideoDataFrame object """
     # metadata = clone_metadata(tracking_files, 
     #                             label_files = label_files, 
-    #                             frame_length = metadata_params['frame_length'], 
+    #                             frame_width = metadata_params['frame_width'], 
     #                             fps = metadata_params['fps'], 
-    #                             units = metadata_params['units'], 
+    #                             frame_width_units = metadata_params['frame_width_units'], 
     #                             resolution = metadata_params['resolution'])
 
     #Eventually, check we can make it without error
@@ -40,9 +40,9 @@ def test_VideoDataFrame(tracking_files, label_files, metadata, metadata_params):
     except: assert False, "Failed to make empty VideosetDataFrame object"
 
     metadata_no_labels = clone_metadata(tracking_files, 
-                                frame_length = metadata_params['frame_length'], 
+                                frame_width = metadata_params['frame_width'], 
                                 fps = metadata_params['fps'], 
-                                units = metadata_params['units'], 
+                                frame_width_units = metadata_params['frame_width_units'], 
                                 resolution = metadata_params['resolution'])
                                 
     try: df = VideosetDataFrame(metadata_no_labels)

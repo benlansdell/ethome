@@ -38,8 +38,8 @@ boris_files = glob('./tests/data/boris/*.csv')
 
 Setup some parameters
 ```
-frame_length = None              # (float) length of entire horizontal shot
-units = None                     # (str) units frame_length is given in
+frame_width = None              # (float) length of entire horizontal shot
+ = None                     # (str) units frame_width is given in
 fps = 30                         # (int) frames per second
 resolution = (1200, 1600)        # (tuple) HxW in pixels
 ```
@@ -48,9 +48,9 @@ Create a parameter object and video dataset
 ```
 metadata = clone_metadata(tracking_files, 
                           label_files = boris_files, 
-                          frame_length = frame_length, 
+                          frame_width = frame_width, 
                           fps = fps, 
-                          units = units, 
+                           = , 
                           resolution = resolution)
 dataset = VideosetDataFrame(metadata)
 ```

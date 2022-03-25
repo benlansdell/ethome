@@ -17,8 +17,8 @@ def label_files():
 @pytest.fixture()
 def metadata_params():
     params = {
-        'frame_length': None,
-        'units': None,
+        'frame_width': None,
+        'frame_width_units': None,
         'fps': 30,
         'resolution': (1200, 1600),
     }
@@ -30,9 +30,9 @@ def metadata(tracking_files, label_files, metadata_params):
 
     metadata = clone_metadata(tracking_files, 
                               label_files = label_files, 
-                              frame_length = metadata_params['frame_length'], 
+                              frame_width = metadata_params['frame_width'], 
                               fps = metadata_params['fps'], 
-                              units = metadata_params['units'], 
+                              frame_width_units = metadata_params['frame_width_units'], 
                               resolution = metadata_params['resolution'])
     return metadata
 

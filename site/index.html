@@ -580,17 +580,17 @@ from behaveml import compute_dl_probability_features, compute_mars_features
 boris_files = glob('./tests/data/boris/*.csv')
 </code></pre>
 <p>Setup some parameters</p>
-<pre><code>frame_length = None              # (float) length of entire horizontal shot
-units = None                     # (str) units frame_length is given in
+<pre><code>frame_width = None              # (float) length of entire horizontal shot
+frame_width_units = None                     # (str) units frame_width is given in
 fps = 30                         # (int) frames per second
 resolution = (1200, 1600)        # (tuple) HxW in pixels
 </code></pre>
 <p>Create a parameter object and video dataset</p>
 <pre><code>metadata = clone_metadata(tracking_files, 
                           label_files = boris_files, 
-                          frame_length = frame_length, 
+                          frame_width = frame_width, 
                           fps = fps, 
-                          units = units, 
+                          frame_width_units = frame_width_units, 
                           resolution = resolution)
 dataset = VideosetDataFrame(metadata)
 </code></pre>

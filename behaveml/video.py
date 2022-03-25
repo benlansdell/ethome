@@ -14,6 +14,13 @@ from behaveml.utils import checkFFMPEG
 
 from behaveml.config import global_config
 
+#This converts everything to mm, or leaves them as pixels
+UNIT_DICT = {'mm':1, 'cm':10, 'm':1000, 'in':25.4, 'ft':304.8,
+             'millimeters':1, 'centimeters':10, 'meters':1000, 'inches':25.4, 'feet':304.8,
+             'millimeter':1, 'centimeter':10, 'meter':1000, 'inch':25.4, 'foot':304.8,
+             'millimetres':1, 'centimetres':10, 'metres':1000,
+             'millimetre':1, 'centimetre':10, 'metre':1000}
+
 class MLDataFrame(object): # pragma: no cover
     """
     DataFrame useful for interfacing between pandas and sklearn. Stores a data
@@ -132,7 +139,7 @@ class VideosetDataFrame(MLDataFrame):
         Args:
             metadata: Dictionary whose keys are DLC tracking csvs, and value is a dictionary of associated metadata
                 for that video. Most easiest to create with 'clone_metadata'. 
-                Required keys are: ['fps', 'label_files']
+                Required keys are: ['fps']
             label_key: Default None. Dictionary whose keys are behavior labels and values are integers 
             part_renamer: Default None. Dictionary that can rename body parts from tracking files if needed (for feature creation, e.g.)
             animal_renamer: Default None. Dictionary that can rename animals from tracking files if needed
@@ -166,10 +173,10 @@ class VideosetDataFrame(MLDataFrame):
         self.feature_cols = None
 
     def _convert_units(self):
-        # if 'frame_length', 'resolution' and 'units' are provided, then we convert DLC tracks to these units.
+        # if 'frame_width', 'resolution' and 'frame_width_units' are provided, then we convert DLC tracks to these units.
         if len(self.metadata) == 0:
             return 
-        if 'frame_length' not in self.metadata[list(self.metadata.keys())[0]]:
+        if 'frame_width' not in self.metadata[list(self.metadata.keys())[0]]:
             return 
         for col in self.data.columns:
             is_dlc_feature = False
@@ -178,7 +185,8 @@ class VideosetDataFrame(MLDataFrame):
                     is_dlc_feature = True
                     break
             if is_dlc_feature:
-                self.data[col] = self.data[col]*self.metadata[list(self.metadata.keys())[0]]['frame_length']/self.metadata[list(self.metadata.keys())[0]]['resolution']
+                self.data[col] = self.data[col]*self.data['scale_factor']
+        self.data = self.data.drop(columns = 'scale_factor')
 
     def _setup_default_cv_folds(self):
         default_fold_cols = [f'fold{idx}' for idx in range(self.n_videos)]
@@ -189,20 +197,37 @@ class VideosetDataFrame(MLDataFrame):
 
         has_all_dim_cols_count = 0
 
+        import numbers
+
         for fn in metadata:
 
-            n_dim_cols = sum([x in metadata[fn].keys() for x in ['frame_length', 'resolution', 'units']])
+            n_dim_cols = sum([x in metadata[fn].keys() for x in ['frame_width', 'resolution']])
             if (n_dim_cols > 0) and (n_dim_cols < 3):
-                print("Each metadata must contain all of 'frame_length', 'resolution', and 'units' or none of them.")
+                print("Each metadata must contain 'frame_width', 'resolution', 'frame_width_units' or none of them.")
                 return False
             if (n_dim_cols == 3):
                 has_all_dim_cols_count += 1
+
+                if not isinstance(metadata[fn]['frame_width'], numbers.Number):
+                    print("'frame_width' must be a number.")
+                    return False
+                if type(metadata[fn]['frame_width_units']) is not str:
+                    print("'frame_width_units' must be a string.")
+                    return False
+                if hasattr(metadata[fn]['resolution'], '__len__'):
+                    if len(metadata[fn]['resolution']) != 2:
+                        print("'resolution' must be a list-like object of length 2.")
+                        return False
+
+                if metadata[fn]['frame_width_units'].lower() not in UNIT_DICT:
+                    print(f"Units must be one of the following: {','.join(UNIT_DICT.keys())}")
+                    return False
             checks = [col in metadata[fn].keys() for col in self.req_cols]
             if sum(checks) < len(self.req_cols):
                 return False
 
         if (has_all_dim_cols_count > 0) and (has_all_dim_cols_count < len(metadata)):
-            print("Each metadata must contain all of 'frame_length', 'resolution', and 'units' or none of them.")
+            print("Each metadata must contain 'frame_width', 'resolution', 'frame_width_units' or none of them.")
             return False
 
         return True
@@ -328,8 +353,18 @@ class VideosetDataFrame(MLDataFrame):
                                                                             animal_renamer)
             n_rows = len(df_fn)
             df_fn['time'] = df_fn['frame']/self.metadata[fn]['fps']
+    
+            if ('frame_width_units' in self.metadata[fn]) and ('frame_width' in self.metadata[fn]) and ('resolution' in self.metadata[fn]):
+                if self.metadata[fn]['frame_width_units'].lower() not in UNIT_DICT:
+                    raise RuntimeError(f"Units must be one of {','.join(UNIT_DICT)}")
+                unit_scale_factor = UNIT_DICT[self.metadata[fn]['frame_width_units'].lower()]
+                df_fn['scale_factor'] = self.metadata[fn]['frame_width']/self.metadata[fn]['resolution'][1]*unit_scale_factor
+                self.metadata[fn]['units'] = 'mm'
+            else:
+                df_fn['scale_factor'] = 1
+
             dfs.append(df_fn)
-            self.metadata[fn]['duration'] = n_rows/self.metadata[fn]['fps']
+            self.metadata[fn]['duration'] = (n_rows)/self.metadata[fn]['fps']
             self.metadata[fn]['scorer'] = scorer
             if col_names_old is not None:
                 if col_names != col_names_old:
@@ -343,6 +378,9 @@ class VideosetDataFrame(MLDataFrame):
         self.animal_setup = {'mouse_ids': animals, 'bodypart_ids': body_parts, 'colnames': col_names}
         self.raw_track_columns = col_names
         self.data = df
+        for animal in self.animals:
+            if animal in ['filename', 'frame', 'time', 'label']:
+                print(f"One of the animal names is protected ({animal}), unexpected behavior may occur.")
 
     def _load_labels(self, col_name = 'label', set_as_label = False):
         #For the moment only BORIS support

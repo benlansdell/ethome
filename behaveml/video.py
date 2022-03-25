@@ -138,8 +138,6 @@ class VideosetDataFrame(MLDataFrame):
             animal_renamer: Default None. Dictionary that can rename animals from tracking files if needed
         """
 
-        #TODO make it make use of all of these
-        #self.req_cols = ['frame_length', 'fps', 'units', 'resolution']
         self.req_cols = ['fps']
 
         self.data = pd.DataFrame()
@@ -163,7 +161,24 @@ class VideosetDataFrame(MLDataFrame):
         else:
             self.raw_track_columns = None
 
+        self._convert_units()
+
         self.feature_cols = None
+
+    def _convert_units(self):
+        # if 'frame_length', 'resolution' and 'units' are provided, then we convert DLC tracks to these units.
+        if len(self.metadata) == 0:
+            return 
+        if 'frame_length' not in self.metadata[list(self.metadata.keys())[0]]:
+            return 
+        for col in self.data.columns:
+            is_dlc_feature = False
+            for ani in self.animals:
+                if col.startswith(ani):
+                    is_dlc_feature = True
+                    break
+            if is_dlc_feature:
+                self.data[col] = self.data[col]*self.metadata[list(self.metadata.keys())[0]]['frame_length']/self.metadata[list(self.metadata.keys())[0]]['resolution']
 
     def _setup_default_cv_folds(self):
         default_fold_cols = [f'fold{idx}' for idx in range(self.n_videos)]
@@ -171,10 +186,25 @@ class VideosetDataFrame(MLDataFrame):
         raise NotImplementedError
 
     def _validate_metadata(self, metadata):
+
+        has_all_dim_cols_count = 0
+
         for fn in metadata:
+
+            n_dim_cols = sum([x in metadata[fn].keys() for x in ['frame_length', 'resolution', 'units']])
+            if (n_dim_cols > 0) and (n_dim_cols < 3):
+                print("Each metadata must contain all of 'frame_length', 'resolution', and 'units' or none of them.")
+                return False
+            if (n_dim_cols == 3):
+                has_all_dim_cols_count += 1
             checks = [col in metadata[fn].keys() for col in self.req_cols]
             if sum(checks) < len(self.req_cols):
                 return False
+
+        if (has_all_dim_cols_count > 0) and (has_all_dim_cols_count < len(metadata)):
+            print("Each metadata must contain all of 'frame_length', 'resolution', and 'units' or none of them.")
+            return False
+
         return True
 
     @property
@@ -297,6 +327,7 @@ class VideosetDataFrame(MLDataFrame):
                                                                             part_renamer, 
                                                                             animal_renamer)
             n_rows = len(df_fn)
+            df_fn['time'] = df_fn['frame']/self.metadata[fn]['fps']
             dfs.append(df_fn)
             self.metadata[fn]['duration'] = n_rows/self.metadata[fn]['fps']
             self.metadata[fn]['scorer'] = scorer
@@ -304,6 +335,7 @@ class VideosetDataFrame(MLDataFrame):
                 if col_names != col_names_old:
                     raise RuntimeError("DLC files have different columns. Must all be from same project")
             col_names_old = col_names
+
         df = pd.concat(dfs, axis = 0)
         df = df.reset_index(drop = True)
         self.body_parts = body_parts

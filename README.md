@@ -38,7 +38,7 @@ boris_files = glob('./tests/data/boris/*.csv')
 
 Setup some parameters
 ```
-frame_width = 20                # (float) length of entire horizontal shot
+frame_width = 20                 # (float) length of entire horizontal shot
 frame_width_units = 'in'         # (str) units frame_width is given in
 fps = 30                         # (int) frames per second
 resolution = (1200, 1600)        # (tuple) HxW in pixels
@@ -52,7 +52,10 @@ metadata = clone_metadata(tracking_files,
                           fps = fps, 
                           frame_width_units = frame_width_units, 
                           resolution = resolution)
-dataset = VideosetDataFrame(metadata)
+
+animal_renamer = {'adult': 'resident', 'juvenile':'intruder'}
+
+dataset = VideosetDataFrame(metadata, animal_renamer=animal_renamer)
 ```
 
 Now create features on this dataset

@@ -6,15 +6,25 @@ from behaveml.dl.dl_features import compute_dl_probability_features
 from behaveml.mars_features import compute_mars_features, compute_distance_features, compute_velocity_features, \
                                    compute_mars_reduced_features, compute_social_features
 
-default_tracking_columns = ['adult_x_nose', 'adult_x_leftear', 'adult_x_rightear', 'adult_x_neck',
-                            'adult_x_lefthip', 'adult_x_righthip', 'adult_x_tail', 'adult_y_nose',
-                            'adult_y_leftear', 'adult_y_rightear', 'adult_y_neck',
-                            'adult_y_lefthip', 'adult_y_righthip', 'adult_y_tail',
-                            'juvenile_x_nose', 'juvenile_x_leftear', 'juvenile_x_rightear',
-                            'juvenile_x_neck', 'juvenile_x_lefthip', 'juvenile_x_righthip',
-                            'juvenile_x_tail', 'juvenile_y_nose', 'juvenile_y_leftear',
-                            'juvenile_y_rightear', 'juvenile_y_neck', 'juvenile_y_lefthip',
-                            'juvenile_y_righthip', 'juvenile_y_tail']
+# default_tracking_columns = ['adult_x_nose', 'adult_x_leftear', 'adult_x_rightear', 'adult_x_neck',
+#                             'adult_x_lefthip', 'adult_x_righthip', 'adult_x_tail', 'adult_y_nose',
+#                             'adult_y_leftear', 'adult_y_rightear', 'adult_y_neck',
+#                             'adult_y_lefthip', 'adult_y_righthip', 'adult_y_tail',
+#                             'juvenile_x_nose', 'juvenile_x_leftear', 'juvenile_x_rightear',
+#                             'juvenile_x_neck', 'juvenile_x_lefthip', 'juvenile_x_righthip',
+#                             'juvenile_x_tail', 'juvenile_y_nose', 'juvenile_y_leftear',
+#                             'juvenile_y_rightear', 'juvenile_y_neck', 'juvenile_y_lefthip',
+#                             'juvenile_y_righthip', 'juvenile_y_tail']
+
+default_tracking_columns = ['resident_x_nose', 'resident_x_leftear', 'resident_x_rightear', 'resident_x_neck',
+                            'resident_x_lefthip', 'resident_x_righthip', 'resident_x_tail', 'resident_y_nose',
+                            'resident_y_leftear', 'resident_y_rightear', 'resident_y_neck',
+                            'resident_y_lefthip', 'resident_y_righthip', 'resident_y_tail',
+                            'intruder_x_nose', 'intruder_x_leftear', 'intruder_x_rightear',
+                            'intruder_x_neck', 'intruder_x_lefthip', 'intruder_x_righthip',
+                            'intruder_x_tail', 'intruder_y_nose', 'intruder_y_leftear',
+                            'intruder_y_rightear', 'intruder_y_neck', 'intruder_y_lefthip',
+                            'intruder_y_righthip', 'intruder_y_tail']
 
 class Features(object):
     def __init__(self, feature_maker : Callable, required_columns : list, **kwargs):

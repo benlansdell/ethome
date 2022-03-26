@@ -5,15 +5,6 @@ from behaveml.io import XY_IDS
 
 from itertools import product
 
-#Original MABE dataset
-#WIDTH = 1024
-#HEIGHT = 570
-
-#TODO 
-# Allow these to change per video? Would be annoying to implement.
-WIDTH = 1600
-HEIGHT = 1200
-
 #Shift decorator
 #If a feature creation function has this applied then the features are
 #automatically shifted/differences/had distribution stats computed and
@@ -291,7 +282,7 @@ def _compute_iou(df, animal_setup, n_shifts = 3, mode = 'shift'):
 ## and closest horizontal edge
 ##Distance to the closest edge
 #These depend on the video you're applying it to...
-#Which can change from video to video, train to test, etc. So perhaps not be 
+#Which can change from video to video, train to test, etc. So perhaps not useful
 @augment_features()
 def _compute_cage_distances(features_df, animal_setup, n_shifts = 3, mode = 'shift'):
     bodypart_ids = animal_setup['bodypart_ids']
@@ -360,7 +351,9 @@ def make_features_mars(df, animal_setup, n_shifts = 3, mode = 'shift'):
     features_df = _compute_centroid(features_df, 'hips', animal_setup, ['lefthip', 'tail', 'righthip'], n_shifts = n_shifts, mode = mode)
     features_df = _compute_centroid(features_df, 'body', animal_setup, ['neck', 'lefthip', 'righthip', 'tail'], n_shifts = n_shifts, mode = mode)
 
-    features_df = _compute_cage_distances(features_df, animal_setup, n_shifts = n_shifts, mode = mode)
+    #This is too specific to the particular cage setup, and requires knowing the cage (or image) dimensions, 
+    #so we'll remove it.
+    #features_df = _compute_cage_distances(features_df, animal_setup, n_shifts = n_shifts, mode = mode)
 
     #####################
     #Appearance features#

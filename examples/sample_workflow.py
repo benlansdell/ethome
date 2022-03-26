@@ -29,7 +29,9 @@ metadata = clone_metadata(tracking_files,
                           frame_width_units = frame_width_units, 
                           resolution = resolution)
 
-dataset = VideosetDataFrame(metadata)
+animal_renamer = {'adult': 'resident', 'juvenile':'intruder'}
+
+dataset = VideosetDataFrame(metadata, animal_renamer=animal_renamer)
 
 #Filter out low-confidence DLC tracks and interpolate those points instead
 print("Interpolating low-confidence tracking points")

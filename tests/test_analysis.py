@@ -57,7 +57,8 @@ def test_VideoDataFrame_object(videodataset):
 
 def test_df_renaming(metadata, default_track_cols):
     none_renamer = {}
-    df = VideosetDataFrame(metadata, part_renamer = none_renamer)
+    animal_renamer = {'adult': 'resident', 'juvenile': 'intruder'}
+    df = VideosetDataFrame(metadata, part_renamer = none_renamer, animal_renamer=animal_renamer)
     df.feature_cols = df.raw_track_columns
     assert df.feature_cols == default_track_cols
 
@@ -95,7 +96,7 @@ def test_mars_features(videodataset):
                      featureset_name = 'MARS', 
                      add_to_features = True)
     #Check we made the right amount of new columns
-    assert len(videodataset.feature_cols) == 804
+    assert len(videodataset.feature_cols) == 726
 
 def test_mars_then_interpolate(videodataset):
     from behaveml import mars_feature_maker
@@ -103,7 +104,7 @@ def test_mars_then_interpolate(videodataset):
                      featureset_name = 'MARS', 
                      add_to_features = True)
     interpolate_lowconf_points(videodataset)
-    assert len(videodataset.feature_cols) == 804
+    assert len(videodataset.feature_cols) == 726
 
 def test_duplicate_mars_features(videodataset):
     from behaveml import mars_feature_maker
@@ -114,7 +115,7 @@ def test_duplicate_mars_features(videodataset):
                      featureset_name = 'MARS', 
                      add_to_features = True)
     #Check we made the right amount of new columns
-    assert len(videodataset.feature_cols) == 804
+    assert len(videodataset.feature_cols) == 726
 
 def test_distance_features(videodataset):
     from behaveml import distance_feature_maker

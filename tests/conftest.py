@@ -39,7 +39,8 @@ def metadata(tracking_files, label_files, metadata_params):
 @pytest.fixture()
 def videodataset(metadata):
     from behaveml import VideosetDataFrame
-    vdf = VideosetDataFrame(metadata)
+    animal_renamer = {'adult': 'resident', 'juvenile': 'intruder'}
+    vdf = VideosetDataFrame(metadata, animal_renamer=animal_renamer)
     return vdf
 
 @pytest.fixture

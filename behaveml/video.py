@@ -21,6 +21,20 @@ UNIT_DICT = {'mm':1, 'cm':10, 'm':1000, 'in':25.4, 'ft':304.8,
              'millimetres':1, 'centimetres':10, 'metres':1000,
              'millimetre':1, 'centimetre':10, 'metre':1000}
 
+"""
+For the rescaling... If the dlc/tracking file is already in desired units, either in physical distances, or pixels, then don't provide all of 'frame_width', 'resolution', 
+and 'frame_width_units'. If you want to keep track of the units, you can add a 'units' key to the metadata. This could be 'pixels', or 'cm', as appropriate.
+
+If the tracking is in pixels and you want to rescale it to some physical distance, you should provide 
+'frame_width', 'frame_width_units' and 'resolution' for all videos. This ensures the entire dataset is using the same units.
+Package will use these values for each video to rescale the (presumed) pixel coordinates to physical coordinates. 
+Resolution is a tuple (H,W) in pixels of the videos. 'frame_width' is the width of the image, in units 'frame_width_units'
+
+When this is done, all coordinates are converted to 'mm'. the pair 'units':'mm' is added to the metadata dictionary for each video
+
+If any of the provided parameters are provided, but are not the right format, or some values are missing, a warning is given and the rescaling is not performed.
+"""
+
 class MLDataFrame(object): # pragma: no cover
     """
     DataFrame useful for interfacing between pandas and sklearn. Stores a data
@@ -154,13 +168,14 @@ class VideosetDataFrame(MLDataFrame):
         else: 
             self.reverse_label_key = None
 
-        if self._validate_metadata(metadata):   
+        is_valid, should_rescale = self._validate_metadata(metadata)
+        if is_valid:   
             self.metadata = metadata
         else:
             raise ValueError("Metadata not properly formatted. See docstring.")
     
         if len(metadata) > 0:
-            self._load_tracks(part_renamer, animal_renamer) 
+            self._load_tracks(part_renamer, animal_renamer, rescale = should_rescale) 
             #By default make these tracks the features... 
             #useless for ML but just to have something to start with
             #This will be updated once some features to do ML with have been computed
@@ -168,15 +183,14 @@ class VideosetDataFrame(MLDataFrame):
         else:
             self.raw_track_columns = None
 
-        self._convert_units()
+        if should_rescale:
+            self._convert_units()
 
         self.feature_cols = None
 
     def _convert_units(self):
         # if 'frame_width', 'resolution' and 'frame_width_units' are provided, then we convert DLC tracks to these units.
         if len(self.metadata) == 0:
-            return 
-        if 'frame_width' not in self.metadata[list(self.metadata.keys())[0]]:
             return 
         for col in self.data.columns:
             is_dlc_feature = False
@@ -197,40 +211,50 @@ class VideosetDataFrame(MLDataFrame):
 
         has_all_dim_cols_count = 0
 
+        should_rescale = None
+        valid = True
+
         import numbers
+        import warnings
 
         for fn in metadata:
 
-            n_dim_cols = sum([x in metadata[fn].keys() for x in ['frame_width', 'resolution']])
+            n_dim_cols = sum([x in metadata[fn].keys() for x in ['frame_width', 'resolution', 'frame_width_units']])
             if (n_dim_cols > 0) and (n_dim_cols < 3):
-                print("Each metadata must contain 'frame_width', 'resolution', 'frame_width_units' or none of them.")
-                return False
+                warnings.warn("Must provide all of 'frame_width', 'resolution' and 'frame_width_units' to rescale")
+                should_rescale = False
             if (n_dim_cols == 3):
                 has_all_dim_cols_count += 1
+                if should_rescale is not False:
+                    should_rescale = True
 
                 if not isinstance(metadata[fn]['frame_width'], numbers.Number):
-                    print("'frame_width' must be a number.")
-                    return False
+                    warnings.warn("'frame_width' must be a number to rescale.")
+                    should_rescale = False
                 if type(metadata[fn]['frame_width_units']) is not str:
-                    print("'frame_width_units' must be a string.")
-                    return False
+                    warnings.warn("'frame_width_units' must be a string to rescale.")
+                    should_rescale = False
                 if hasattr(metadata[fn]['resolution'], '__len__'):
                     if len(metadata[fn]['resolution']) != 2:
-                        print("'resolution' must be a list-like object of length 2.")
-                        return False
+                        warnings.warn("'resolution' must be a list-like object of length 2 to rescale.")
+                        should_rescale = False
 
                 if metadata[fn]['frame_width_units'].lower() not in UNIT_DICT:
-                    print(f"Units must be one of the following: {','.join(UNIT_DICT.keys())}")
-                    return False
+                    warnings.warn(f"Units must be one of the following to rescale: {','.join(UNIT_DICT.keys())}")
+                    should_rescale = False
             checks = [col in metadata[fn].keys() for col in self.req_cols]
             if sum(checks) < len(self.req_cols):
-                return False
+                valid = False
 
         if (has_all_dim_cols_count > 0) and (has_all_dim_cols_count < len(metadata)):
-            print("Each metadata must contain 'frame_width', 'resolution', 'frame_width_units' or none of them.")
-            return False
+            warnings.warn("Must provide all of 'frame_width', 'resolution' and 'frame_width_units' to rescale")
+            should_rescale = False
 
-        return True
+        if should_rescale is None: should_rescale = False
+        if should_rescale:
+            print("Rescaling to 'mm'")
+
+        return valid, should_rescale
 
     @property
     def videos(self):
@@ -337,11 +361,11 @@ class VideosetDataFrame(MLDataFrame):
         self.feature_cols = new_col_names
         return removed
 
-    def _load_tracks(self, part_renamer, animal_renamer):
+    def _load_tracks(self, part_renamer, animal_renamer, rescale = False):
         #For the moment only supports DLC
-        return self._load_dlc_tracks(part_renamer, animal_renamer)
+        return self._load_dlc_tracks(part_renamer, animal_renamer, rescale = rescale)
 
-    def _load_dlc_tracks(self, part_renamer, animal_renamer):
+    def _load_dlc_tracks(self, part_renamer, animal_renamer, rescale = False):
         """Add DLC tracks to DataFrame"""
         df = pd.DataFrame()
         dfs = []
@@ -354,9 +378,10 @@ class VideosetDataFrame(MLDataFrame):
             n_rows = len(df_fn)
             df_fn['time'] = df_fn['frame']/self.metadata[fn]['fps']
     
-            if ('frame_width_units' in self.metadata[fn]) and ('frame_width' in self.metadata[fn]) and ('resolution' in self.metadata[fn]):
-                if self.metadata[fn]['frame_width_units'].lower() not in UNIT_DICT:
-                    raise RuntimeError(f"Units must be one of {','.join(UNIT_DICT)}")
+            if rescale and ('frame_width_units' in self.metadata[fn]) and \
+                    ('frame_width' in self.metadata[fn]) and \
+                    ('resolution' in self.metadata[fn]) and \
+                    self.metadata[fn]['frame_width_units'].lower() in UNIT_DICT:
                 unit_scale_factor = UNIT_DICT[self.metadata[fn]['frame_width_units'].lower()]
                 df_fn['scale_factor'] = self.metadata[fn]['frame_width']/self.metadata[fn]['resolution'][1]*unit_scale_factor
                 self.metadata[fn]['units'] = 'mm'

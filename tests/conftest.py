@@ -17,8 +17,8 @@ def label_files():
 @pytest.fixture()
 def metadata_params():
     params = {
-        'frame_width': None,
-        'frame_width_units': None,
+        'frame_width': 20,
+        'frame_width_units': 'in',
         'fps': 30,
         'resolution': (1200, 1600),
     }

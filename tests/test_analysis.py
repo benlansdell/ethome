@@ -44,7 +44,7 @@ def test_VideoDataFrame(tracking_files, label_files, metadata, metadata_params):
                                 fps = metadata_params['fps'], 
                                 frame_width_units = metadata_params['frame_width_units'], 
                                 resolution = metadata_params['resolution'])
-                                
+
     try: df = VideosetDataFrame(metadata_no_labels)
     except: assert False, "Failed to make VideosetDataFrame object without labels"
 
@@ -152,3 +152,41 @@ def test_interpolate(videodataset):
     interpolate_lowconf_points(videodataset)
 
     assert pd.notnull(videodataset.data).all(axis = None)
+
+def test_rescaling_metadataparams(tracking_files, metadata_params):
+    """ Test creation of VideoDataFrame object with more varied metadata key combinations"""
+
+    #Should have 'frame_width', 'resolution' and 'frame_width_units' to make conversion. here we shouldn't
+    metadata_no_width = clone_metadata(tracking_files, 
+                                fps = metadata_params['fps'], 
+                                frame_width_units = metadata_params['frame_width_units'], 
+                                resolution = metadata_params['resolution'])
+    df = VideosetDataFrame(metadata_no_width)
+    assert 'units' not in list(df.metadata.values())[0]
+
+    #Should have 'frame_width', 'resolution' and 'frame_width_units' to make conversion. here we shouldn't
+    metadata_no_widthunits = clone_metadata(tracking_files, 
+                                fps = metadata_params['fps'], 
+                                resolution = metadata_params['resolution'])
+    df = VideosetDataFrame(metadata_no_widthunits)
+    assert 'units' not in list(df.metadata.values())[0]
+
+    #Should have 'frame_width', 'resolution' and 'frame_width_units' to make conversion. here we should
+    metadata_no_labels = clone_metadata(tracking_files, 
+                                frame_width = metadata_params['frame_width'], 
+                                fps = metadata_params['fps'], 
+                                frame_width_units = metadata_params['frame_width_units'], 
+                                resolution = metadata_params['resolution'])
+    df = VideosetDataFrame(metadata_no_labels)
+    assert list(df.metadata.values())[0]['units'] == 'mm'
+
+    #Should have 'frame_width', 'resolution' and 'frame_width_units' to make conversion. here we shouldn't
+    # Because we're just missing one value in one rec
+    metadata_no_labels = clone_metadata(tracking_files, 
+                                frame_width = metadata_params['frame_width'], 
+                                fps = metadata_params['fps'], 
+                                frame_width_units = metadata_params['frame_width_units'], 
+                                resolution = metadata_params['resolution'])
+    del list(metadata_no_labels.values())[1]['frame_width']
+    df = VideosetDataFrame(metadata_no_labels)
+    assert 'units' not in list(df.metadata.values())[0]

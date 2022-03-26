@@ -143,7 +143,7 @@ __init__(
     frame_gap=1,
     shuffle=False,
     mode='fit',
-    featurize=<function features_identity at 0x7f00422d4560>
+    featurize=<function features_identity at 0x7f6c44e03710>
 )
 ```
 
@@ -156,7 +156,7 @@ __init__(
 
 ---
 
-<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/dl/dl_generators.py#L173"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/dl/dl_generators.py#L161"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `augment_fn`
 
@@ -170,7 +170,7 @@ augment_fn(x)
 
 ---
 
-<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/dl/dl_generators.py#L217"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/dl/dl_generators.py#L198"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `on_epoch_end`
 

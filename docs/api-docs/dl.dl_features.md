@@ -158,11 +158,11 @@ __init__(
     future_frames=0,
     frame_gap=1,
     use_conv=False,
-    build_model=<function build_baseline_model at 0x7eff32a9cd40>,
+    build_model=<function build_baseline_model at 0x7f6b2f491050>,
     Generator=<class 'behaveml.dl.dl_generators.MABe_Generator'>,
     use_callbacks=False,
     learning_decay_freq=10,
-    featurizer=<function features_identity at 0x7f0071865cb0>
+    featurizer=<function features_identity at 0x7f6c6c23cdd0>
 )
 ```
 

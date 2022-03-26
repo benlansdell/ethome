@@ -993,9 +993,10 @@
 <h2 id="global-variables"><strong>Global Variables</strong></h2>
 <ul>
 <li><strong>global_config</strong></li>
+<li><strong>UNIT_DICT</strong></li>
 </ul>
 <hr />
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/video.py#L89"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/video.py#L110"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="function-clone_metadata"><kbd>function</kbd> <code>clone_metadata</code></h2>
 <pre><code class="language-python">clone_metadata(tracking_files: list, **kwargs) → dict
 </code></pre>
@@ -1010,7 +1011,7 @@
 <p><strong>Returns:</strong>
  Dictionary whose keys are DLC tracking file names, and contains a dictionary with key,values containing the metadata provided </p>
 <hr />
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/video.py#L411"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/video.py#L506"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="function-load_videodataset"><kbd>function</kbd> <code>load_videodataset</code></h2>
 <pre><code class="language-python">load_videodataset(fn_in: str) → VideosetDataFrame
 </code></pre>
@@ -1022,10 +1023,10 @@
 <p><strong>Returns:</strong>
  VideosetDataFrame object from pickle file </p>
 <hr />
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/video.py#L17"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/video.py#L38"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="class-mldataframe"><kbd>class</kbd> <code>MLDataFrame</code></h2>
 <p>DataFrame useful for interfacing between pandas and sklearn. Stores a data table and metadata dictionary. When feature columns, label columns and fold columns are specified then creates properties features, labels, folds and splitter that sklearn accepts for ML. </p>
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/video.py#L23"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/video.py#L44"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h3 id="method-__init__"><kbd>method</kbd> <code>__init__</code></h3>
 <pre><code class="language-python">__init__(
     data: DataFrame,
@@ -1044,19 +1045,19 @@
 <hr />
 <h4 id="property-splitter"><kbd>property</kbd> splitter</h4>
 <hr />
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/video.py#L34"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/video.py#L55"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h3 id="method-add_data"><kbd>method</kbd> <code>add_data</code></h3>
 <pre><code class="language-python">add_data(new_data, col_names)
 </code></pre>
 <hr />
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/video.py#L74"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/video.py#L95"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h3 id="method-save"><kbd>method</kbd> <code>save</code></h3>
 <pre><code class="language-python">save(fn)
 </code></pre>
 <hr />
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/video.py#L125"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/video.py#L146"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="class-videosetdataframe"><kbd>class</kbd> <code>VideosetDataFrame</code></h2>
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/video.py#L126"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/video.py#L147"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h3 id="method-__init___1"><kbd>method</kbd> <code>__init__</code></h3>
 <pre><code class="language-python">__init__(
     metadata: dict,
@@ -1069,7 +1070,7 @@
 <p><strong>Args:</strong></p>
 <ul>
 <li><b><code>metadata</code></b>:  Dictionary whose keys are DLC tracking csvs, and value is a dictionary of associated metadata  for that video. Most easiest to create with 'clone_metadata'.  </li>
-<li><b><code>Required keys are</code></b>:  ['fps', 'label_files'] </li>
+<li><b><code>Required keys are</code></b>:  ['fps'] </li>
 <li><b><code>label_key</code></b>:  Default None. Dictionary whose keys are behavior labels and values are integers  </li>
 <li><b><code>part_renamer</code></b>:  Default None. Dictionary that can rename body parts from tracking files if needed (for feature creation, e.g.) </li>
 <li><b><code>animal_renamer</code></b>:  Default None. Dictionary that can rename animals from tracking files if needed </li>
@@ -1089,7 +1090,7 @@
 <hr />
 <h4 id="property-videos"><kbd>property</kbd> videos</h4>
 <hr />
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/video.py#L192"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/video.py#L271"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h3 id="method-activate_features_by_name"><kbd>method</kbd> <code>activate_features_by_name</code></h3>
 <pre><code class="language-python">activate_features_by_name(name: str) → list
 </code></pre>
@@ -1101,12 +1102,12 @@
 <p><strong>Returns:</strong>
  List of matched columns (may include columns that were already activated). </p>
 <hr />
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/video.py#L34"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/video.py#L55"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h3 id="method-add_data_1"><kbd>method</kbd> <code>add_data</code></h3>
 <pre><code class="language-python">add_data(new_data, col_names)
 </code></pre>
 <hr />
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/video.py#L239"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/video.py#L318"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h3 id="method-add_features"><kbd>method</kbd> <code>add_features</code></h3>
 <pre><code class="language-python">add_features(
     feature_maker: Features,
@@ -1125,7 +1126,7 @@
 <p><strong>Returns:</strong>
  List of new columns that are computed </p>
 <hr />
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/video.py#L209"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/video.py#L288"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h3 id="method-get_columns_regex"><kbd>method</kbd> <code>get_columns_regex</code></h3>
 <pre><code class="language-python">get_columns_regex(pattern: str) → list
 </code></pre>
@@ -1137,7 +1138,7 @@
 <p><strong>Returns:</strong>
  list of column names </p>
 <hr />
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/video.py#L349"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/video.py#L444"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h3 id="method-load"><kbd>method</kbd> <code>load</code></h3>
 <pre><code class="language-python">load(fn_in: str) → None
 </code></pre>
@@ -1149,7 +1150,7 @@
 <p><strong>Returns:</strong>
  None. Data in this object is populated with contents of file. </p>
 <hr />
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/video.py#L361"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/video.py#L456"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h3 id="method-make_movie"><kbd>method</kbd> <code>make_movie</code></h3>
 <pre><code class="language-python">make_movie(label_columns, path_out: str, video_filenames=None) → None
 </code></pre>
@@ -1164,7 +1165,7 @@
 <p><strong>Returns:</strong>
  None. Videos are saved to 'path_out' </p>
 <hr />
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/video.py#L272"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/video.py#L351"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h3 id="method-remove_feature_cols"><kbd>method</kbd> <code>remove_feature_cols</code></h3>
 <pre><code class="language-python">remove_feature_cols(col_names: list) → list
 </code></pre>
@@ -1176,7 +1177,7 @@
 <p><strong>Returns:</strong>
  The columns that were removed from those designated as features. </p>
 <hr />
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/video.py#L225"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/video.py#L304"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h3 id="method-remove_features_by_name"><kbd>method</kbd> <code>remove_features_by_name</code></h3>
 <pre><code class="language-python">remove_features_by_name(name: str) → list
 </code></pre>
@@ -1188,7 +1189,7 @@
 <p><strong>Returns:</strong>
  List of removed columns. </p>
 <hr />
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/video.py#L337"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/video.py#L432"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h3 id="method-save_1"><kbd>method</kbd> <code>save</code></h3>
 <pre><code class="language-python">save(fn_out: str) → None
 </code></pre>

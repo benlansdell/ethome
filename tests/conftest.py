@@ -43,6 +43,11 @@ def videodataset(metadata):
     vdf = VideosetDataFrame(metadata, animal_renamer=animal_renamer)
     return vdf
 
+@pytest.fixture()
+def openfield_sample():
+    from behaveml.video import get_sample_openfield_data
+    return get_sample_openfield_data()
+
 @pytest.fixture
 def default_track_cols(videodataset):
     return videodataset.raw_track_columns

@@ -49,14 +49,27 @@ def read_DLC_tracks(fn_in : str,
             Columns names for DLC tracks (excluding likelihoods, if read in),
             Scorer
     """
+
     df = pd.read_csv(fn_in, header = [0,1,2,3], index_col = 0)
-    df.columns = df.columns.set_names(['scorer', 'individuals', 'bodyparts', 'coords'])
+
+    if 'individuals' in df.columns.names:
+        df.columns = df.columns.set_names(['scorer', 'individuals', 'bodyparts', 'coords'])
+        multi_animal = True
+    else:
+        df = pd.read_csv(fn_in, header = [0,1,2], index_col = 0)
+        df.columns = df.columns.set_names(['scorer', 'bodyparts', 'coords'])
+        multi_animal = False
 
     scorer = df.columns.get_level_values(0)[0]
 
     cols = list(df.columns)
-    animals = uniquifier([i[1] for i in cols])
-    body_parts = uniquifier([i[2] for i in cols])
+
+    if multi_animal:
+        animals = uniquifier([i[1] for i in cols])
+        body_parts = uniquifier([i[2] for i in cols])
+    else:
+        animals = ['ind1']
+        body_parts = uniquifier([i[1] for i in cols])
 
     n_body_parts = len(body_parts)
     n_animals = len(animals)

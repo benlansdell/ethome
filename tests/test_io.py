@@ -16,3 +16,9 @@ def test_sample_paths():
     assert type(tracking_files) is list
     assert type(boris_files) is list
     assert len(tracking_files) == len(boris_files)
+
+def test_sample_singlemouse_data():
+    from behaveml.video import get_sample_openfield_data
+    df = get_sample_openfield_data()
+    assert df.animals == ['ind1']
+    assert len(df.data.columns) == 15

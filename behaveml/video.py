@@ -5,6 +5,7 @@ import pickle
 import os
 import numpy as np
 import re
+from glob import glob
 from sklearn.model_selection import PredefinedSplit
 
 from behaveml.features import Features
@@ -185,6 +186,8 @@ class VideosetDataFrame(MLDataFrame):
 
         if should_rescale:
             self._convert_units()
+        elif 'scale_factor' in self.data.columns: 
+            self.data = self.data.drop(columns = 'scale_factor')
 
         self.feature_cols = None
 
@@ -518,6 +521,27 @@ def load_videodataset(fn_in : str) -> VideosetDataFrame:
     new_obj.__dict__ = pickle.loads(dataPickle)
     return new_obj
 
+def get_sample_openfield_data():
+    """Load a sample dataset of 1 mouse in openfield setup. The video is the sample that comes with DLC.
+    
+    Returns:
+        (VideosetDataFrame) Data frame with the corresponding tracking and behavior annotation files
+    """
+
+    cur_dir = os.path.dirname(os.path.abspath(__file__))
+    tracking_files = glob(os.path.join(cur_dir, 'data', 'dlc', 'openfield', '*.csv'))
+    video_files = glob(os.path.join(cur_dir, 'data', 'videos', '*.mp4'))
+    fps = 30                         # (int) frames per second
+    resolution = (480, 640)        # (tuple) HxW in pixels
+    #Metadata is a dictionary that attaches each of the above parameters to the video/behavior annotations
+    metadata = clone_metadata(tracking_files, 
+                            video_files = video_files,
+                            fps = fps, 
+                            resolution = resolution)
+
+    vdf = VideosetDataFrame(metadata)
+
+    return vdf
 
 def _make_dense_values_into_pairs(predictions, rate):
     #Put into start/stop pairs

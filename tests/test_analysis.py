@@ -106,6 +106,10 @@ def test_mars_then_interpolate(videodataset):
     interpolate_lowconf_points(videodataset)
     assert len(videodataset.feature_cols) == 726
 
+def test_singleanimal_interpolate(openfield_sample):
+    interpolate_lowconf_points(openfield_sample)
+    assert len(openfield_sample.data.columns) == 15
+
 def test_duplicate_mars_features(videodataset):
     from behaveml import mars_feature_maker
     videodataset.add_features(mars_feature_maker, 

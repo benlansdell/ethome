@@ -81,6 +81,17 @@ def test_dl_features(videodataset):
                      add_to_features = True)
     assert set(videodataset.feature_cols) == set(['1dcnn__prob_attack', '1dcnn__prob_investigation', '1dcnn__prob_mount', '1dcnn__prob_other'])
 
+def test_dl_features_with_missing(videodataset):
+    import os
+    import numpy as np
+    os.environ["CUDA_VISIBLE_DEVICES"] = ''
+    from behaveml import cnn_probability_feature_maker
+    videodataset.data.iloc[:10,0] = np.nan
+    videodataset.add_features(cnn_probability_feature_maker, 
+                     featureset_name = '1dcnn', 
+                     add_to_features = True)
+    assert set(videodataset.feature_cols) == set(['1dcnn__prob_attack', '1dcnn__prob_investigation', '1dcnn__prob_mount', '1dcnn__prob_other'])
+
 def test_add_likelihood(videodataset):
     new_cols = videodataset.activate_features_by_name('likelihood')
     assert len(new_cols) == 14
@@ -92,6 +103,18 @@ def test_remove_likelihood(videodataset):
 
 def test_mars_features(videodataset):
     from behaveml import mars_feature_maker
+    videodataset.add_features(mars_feature_maker, 
+                     featureset_name = 'MARS', 
+                     add_to_features = True)
+    #Check we made the right amount of new columns
+    assert len(videodataset.feature_cols) == 726
+
+def test_mars_features_with_missing(videodataset):
+    import numpy as np
+    from behaveml import mars_feature_maker
+    #Give the df missing data:
+    videodataset.data.iloc[:10,0] = np.nan
+
     videodataset.add_features(mars_feature_maker, 
                      featureset_name = 'MARS', 
                      add_to_features = True)

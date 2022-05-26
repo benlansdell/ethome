@@ -529,7 +529,7 @@ def get_sample_openfield_data():
     """
 
     cur_dir = os.path.dirname(os.path.abspath(__file__))
-    tracking_files = glob(os.path.join(cur_dir, 'data', 'dlc', 'openfield', '*.csv'))
+    tracking_files = glob(os.path.join(cur_dir, 'data', 'dlc', 'openfield', '*example.csv'))
     video_files = glob(os.path.join(cur_dir, 'data', 'videos', '*.mp4'))
     fps = 30                         # (int) frames per second
     resolution = (480, 640)        # (tuple) HxW in pixels

@@ -1,6 +1,7 @@
 """ Functions to take pose tracks and compute a set of features from them """
 
 from typing import Callable
+import warnings
 
 from behaveml.dl.dl_features import compute_dl_probability_features
 from behaveml.mars_features import compute_mars_features, compute_distance_features, compute_velocity_features, \
@@ -36,6 +37,8 @@ class Features(object):
         checks = [col in self.required_columns for col in vdf.data.columns]
         if sum(checks) < len(self.required_columns):
             raise RuntimeError("VideosetDataFrame doesn't have necessary columns to compute this set of features.")
+        if vdf.data[self.required_columns].isnull().values.any():
+            warnings.warn("Missing values in required data columns. May result in unexpected behavior. Consider interpolating or imputing missind data first.")
         new_features = self.feature_maker(vdf.data, self.required_columns, vdf.animal_setup, **kwargs)
         return new_features
 

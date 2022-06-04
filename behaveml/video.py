@@ -10,7 +10,7 @@ from sklearn.model_selection import PredefinedSplit
 
 from behaveml.features import Features
 
-from behaveml.io import read_DLC_tracks, read_boris_annotation, uniquifier
+from behaveml.io import read_DLC_tracks, read_boris_annotation, uniquifier, create_behavior_labels
 from behaveml.utils import checkFFMPEG
 
 from behaveml.config import global_config
@@ -155,7 +155,7 @@ class VideosetDataFrame(MLDataFrame):
             metadata: Dictionary whose keys are DLC tracking csvs, and value is a dictionary of associated metadata
                 for that video. Most easiest to create with 'clone_metadata'. 
                 Required keys are: ['fps']
-            label_key: Default None. Dictionary whose keys are behavior labels and values are integers 
+            label_key: Default None. Dictionary whose keys are positive integers and values are behavior labels. If none, then this is inferred from the behavior annotation files provided.  
             part_renamer: Default None. Dictionary that can rename body parts from tracking files if needed (for feature creation, e.g.)
             animal_renamer: Default None. Dictionary that can rename animals from tracking files if needed
         """
@@ -164,10 +164,6 @@ class VideosetDataFrame(MLDataFrame):
 
         self.data = pd.DataFrame()
         self.label_key = label_key
-        if self.label_key:
-            self.reverse_label_key = {v:k for k,v in self.label_key.items()}
-        else: 
-            self.reverse_label_key = None
 
         is_valid, should_rescale = self._validate_metadata(metadata)
         if is_valid:   
@@ -177,12 +173,14 @@ class VideosetDataFrame(MLDataFrame):
     
         if len(metadata) > 0:
             self._load_tracks(part_renamer, animal_renamer, rescale = should_rescale) 
-            #By default make these tracks the features... 
-            #useless for ML but just to have something to start with
-            #This will be updated once some features to do ML with have been computed
             self._load_labels(set_as_label = True)
         else:
             self.raw_track_columns = None
+
+        if self.label_key:
+            self.reverse_label_key = {v:k for k,v in self.label_key.items()}
+        else: 
+            self.reverse_label_key = None
 
         if should_rescale:
             self._convert_units()
@@ -417,6 +415,13 @@ class VideosetDataFrame(MLDataFrame):
     def _load_labels_boris(self, col_name = 'label', set_as_label = False):
         """Add behavior label data to DataFrame"""
 
+        if self.label_key is None:
+            label_files = []
+            for fn in self.metadata.keys():
+                if 'label_files' in self.metadata[fn]:
+                    label_files.append(self.metadata[fn]['label_files'])
+            self.label_key = create_behavior_labels(label_files)
+
         for vid in self.metadata:
             if 'label_files' in self.metadata[vid]:
 
@@ -424,9 +429,8 @@ class VideosetDataFrame(MLDataFrame):
                 fps = self.metadata[vid]['fps']
                 duration = self.metadata[vid]['duration']
 
-                ground_truth = read_boris_annotation(fn_in, fps, duration)
+                ground_truth, _ = read_boris_annotation(fn_in, fps, duration, self.label_key)
 
-                #Add this to data
                 self.data.loc[self.data['filename'] == vid, col_name] = ground_truth
 
         if set_as_label:

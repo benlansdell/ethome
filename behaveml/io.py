@@ -6,6 +6,7 @@ from itertools import product
 from joblib import dump, load
 import os
 from glob import glob
+import warnings
 
 XY_IDS = ['x', 'y']
 XYLIKELIHOOD_IDS = ['x', 'y', 'likelihood']
@@ -197,24 +198,58 @@ def get_sample_data():
         b = pickle.load(handle)
     return b['dataset']
 
-def read_boris_annotation(fn_in : str, fps : int, duration : float) -> np.ndarray:
-    """Read behavior annotation from BORIS exported csv file
+def read_boris_annotation(fn_in : str, fps : int, duration : float, behav_labels : dict = None) -> tuple:
+    """Read behavior annotation from BORIS exported csv file. 
+
+    This will import behavior types specified (or all types, if behavior_list is None) and assign a numerical label to each. Overlapping annotations (those occurring simulataneously) are not supported. Any time the video is annotated as being in multiple states, the last state will be the one labeled.
     
     Args:
         fn_in: The filename with BORIS behavior annotations to load
-        fps: Frames per second of video
-        duration: Duration of video
+        fps: The frames per second of the video
+        duration: The duration of the video in seconds
+        behav_labels: If provided, only import behaviors with these names. Default = None = import everything. 
     
     Returns:
-        A numpy array which indicates, for all frames, if behavior is occuring (1) or not (0)
+        A numpy array which indicates, for all frames, which behavior is occuring. 0 = no behavior, 1 and above are the labels of the behaviors.
+        A dictionary with keys the numerical labels and values the names of the behaviors. 
     """
-    n_bins = int(duration*fps)
+
     boris_labels = pd.read_csv(fn_in, skiprows = 15)
-    boris_labels['index'] = (boris_labels.index//2)
-    boris_labels = boris_labels.pivot_table(index = 'index', columns = 'Status', values = 'Time').reset_index()
-    boris_labels = list(np.array(boris_labels[['START', 'STOP']]))
-    boris_labels = [list(i) for i in boris_labels]
+    if len(boris_labels) == 0:
+        print("No data found in BORIS file,", fn_in)
+        return np.array([]), {}
+    fps_boris = int(boris_labels['FPS'][0])
+    duration_boris = boris_labels['Total length'][0]
+    if fps_boris != fps:
+        warnings.warn(f"Warning: BORIS FPS is {fps_boris} but video is {fps} frames per second. Are the DLC and BORIS files from the same video?")
+    if not np.isclose(duration_boris, duration, rtol = 0.01, atol = 0.01):
+        warnings.warn(f"Warning: BORIS duration is {duration_boris} but video is {duration} seconds. Are the DLC and BORIS files from the same video?")
+
+    n_bins = int(duration*fps)
     ground_truth = np.zeros(n_bins)
-    for start, end in boris_labels:
-        ground_truth[int(start*fps):int(end*fps)] = 1
-    return ground_truth
+
+    if behav_labels is None:
+        behaviors = boris_labels['Behavior'].unique()
+        behav_labels = {i+1:k for i,k in enumerate(behaviors)}
+
+    for behav_idx, behavior in behav_labels.items():
+        labels = boris_labels[boris_labels['Behavior'] == behavior]
+        starts = labels.loc[labels['Status'] == 'START', 'Time']
+        ends = labels.loc[labels['Status'] == 'STOP', 'Time']
+        if len(ends) > len(starts)+1:
+            raise ValueError(f"Too many {behavior} behaviors started and not stopped.")
+        elif len(ends) == len(starts) + 1:
+            ends.append(duration)
+        for start, end in zip(starts, ends):
+            ground_truth[int(start*fps):int(end*fps)] = behav_idx
+
+    return ground_truth, behav_labels
+
+def create_behavior_labels(boris_files):
+    """Create behavior labels from BORIS exported csv files."""
+    behaviors = set()
+    for fn in boris_files:
+        boris_labels = pd.read_csv(fn, skiprows = 15)
+        behaviors = behaviors | set(boris_labels['Behavior'].unique())
+    behavior_labels = {i+1:k for i,k in enumerate(behaviors)}
+    return behavior_labels

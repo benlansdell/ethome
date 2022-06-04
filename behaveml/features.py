@@ -38,15 +38,16 @@ class Features(object):
         if sum(checks) < len(self.required_columns):
             raise RuntimeError("VideosetDataFrame doesn't have necessary columns to compute this set of features.")
         if vdf.data[self.required_columns].isnull().values.any():
-            warnings.warn("Missing values in required data columns. May result in unexpected behavior. Consider interpolating or imputing missind data first.")
+            warnings.warn("Missing values in required data columns. May result in unexpected behavior. Consider interpolating or imputing missing data first.")
         new_features = self.feature_maker(vdf.data, self.required_columns, vdf.animal_setup, **kwargs)
         return new_features
 
 mars_feature_maker = Features(compute_mars_features, default_tracking_columns)
-cnn_probability_feature_maker = Features(compute_dl_probability_features, default_tracking_columns)
-distance_feature_maker = Features(compute_distance_features, default_tracking_columns)
 marsreduced_feature_maker = Features(compute_mars_reduced_features, default_tracking_columns)
+cnn_probability_feature_maker = Features(compute_dl_probability_features, default_tracking_columns)
 social_feature_maker = Features(compute_social_features, default_tracking_columns)
+
+distance_feature_maker = Features(compute_distance_features, default_tracking_columns)
 velocity_feature_maker = Features(compute_velocity_features, default_tracking_columns)
 
 #To make your own:

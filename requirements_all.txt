@@ -4,6 +4,7 @@ numpy
 pandas
 scikit-learn
 tqdm
+protobuf==3.20.0
 tensorflow==2.4.1
 typeguard
 tensorflow-addons

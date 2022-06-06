@@ -48,23 +48,6 @@ def interpolate_lowconf_points(vdf : VideosetDataFrame,
             df_filter_low_conf.loc[(vdf.data.filename == fn_in), vdf.raw_track_columns] = \
                 df_filter_low_conf.loc[(vdf.data.filename == fn_in), vdf.raw_track_columns].rolling(window = 3, min_periods = 1).mean()
             
-        #TODO
-        # Get this working...
-        # if filter_out_toofast:
-        #     for m in vdf.animals:
-        #         for bp in vdf.body_parts:
-        #             too_quick = (df_filter_low_conf.loc[:,'_'.join([m, 'x', bp])].diff(jump_dur).abs() > speed_threshold) | \
-        #                         (df_filter_low_conf.loc[:,'_'.join([m, 'y', bp])].diff(jump_dur).abs() > speed_threshold) | \
-        #                         (df_filter_low_conf.loc[:,'_'.join([m, 'x', bp])].diff(-jump_dur).abs() > speed_threshold) | \
-        #                         (df_filter_low_conf.loc[:,'_'.join([m, 'y', bp])].diff(-jump_dur).abs() > speed_threshold)
-
-        #             df_filter_low_conf.loc[too_quick,'_'.join([m, 'x', bp])] = np.nan
-        #             df_filter_low_conf.loc[too_quick,'_'.join([m, 'y', bp])] = np.nan
-
-        #     #And now filter again
-        #     df_filter_low_conf = df_filter_low_conf.interpolate(axis = 0, method = 'polynomial', order = 1)
-        #     df_filter_low_conf = df_filter_low_conf.rolling(window = 3, min_periods = 1).mean()
-
         df_filter_low_conf = df_filter_low_conf[vdf.raw_track_columns + ['filename', 'frame']]
         df_filtered.append(df_filter_low_conf)
 
@@ -74,6 +57,23 @@ def interpolate_lowconf_points(vdf : VideosetDataFrame,
         return df_filtered
     else:
         return None
+
+#TODO
+# Get this working...
+# if filter_out_toofast:
+#     for m in vdf.animals:
+#         for bp in vdf.body_parts:
+#             too_quick = (df_filter_low_conf.loc[:,'_'.join([m, 'x', bp])].diff(jump_dur).abs() > speed_threshold) | \
+#                         (df_filter_low_conf.loc[:,'_'.join([m, 'y', bp])].diff(jump_dur).abs() > speed_threshold) | \
+#                         (df_filter_low_conf.loc[:,'_'.join([m, 'x', bp])].diff(-jump_dur).abs() > speed_threshold) | \
+#                         (df_filter_low_conf.loc[:,'_'.join([m, 'y', bp])].diff(-jump_dur).abs() > speed_threshold)
+
+#             df_filter_low_conf.loc[too_quick,'_'.join([m, 'x', bp])] = np.nan
+#             df_filter_low_conf.loc[too_quick,'_'.join([m, 'y', bp])] = np.nan
+
+#     #And now filter again
+#     df_filter_low_conf = df_filter_low_conf.interpolate(axis = 0, method = 'polynomial', order = 1)
+#     df_filter_low_conf = df_filter_low_conf.rolling(window = 3, min_periods = 1).mean()
 
 #Try using the fancyimpute package....
 # #df_filter_low_conf = pd.DataFrame(NuclearNormMinimization().fit_transform(df_filter_low_conf.to_numpy()), 

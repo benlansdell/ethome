@@ -235,14 +235,15 @@ class VideosetDataFrame(MLDataFrame):
                 if type(metadata[fn]['frame_width_units']) is not str:
                     warnings.warn("'frame_width_units' must be a string to rescale.")
                     should_rescale = False
+                elif metadata[fn]['frame_width_units'].lower() not in UNIT_DICT:
+                    warnings.warn(f"Units must be one of the following to rescale: {','.join(UNIT_DICT.keys())}")
+                    should_rescale = False
+
                 if hasattr(metadata[fn]['resolution'], '__len__'):
                     if len(metadata[fn]['resolution']) != 2:
                         warnings.warn("'resolution' must be a list-like object of length 2 to rescale.")
                         should_rescale = False
 
-                if metadata[fn]['frame_width_units'].lower() not in UNIT_DICT:
-                    warnings.warn(f"Units must be one of the following to rescale: {','.join(UNIT_DICT.keys())}")
-                    should_rescale = False
             checks = [col in metadata[fn].keys() for col in self.req_cols]
             if sum(checks) < len(self.req_cols):
                 valid = False
@@ -447,6 +448,38 @@ class VideosetDataFrame(MLDataFrame):
         """
         with open(fn_out,'wb') as file:
             file.write(pickle.dumps(self.__dict__, protocol = 4))
+
+    def to_dlc_csv(self, base_dir : str, save_h5_too = False) -> None:
+        """Save VideosetDataFrame tracking files to DLC csv format.
+        
+        Args:
+            base_dir: base_dir to write DLC csv files to
+            save_h5_too: if True, also save the data as an h5 file
+            
+        Returns:
+            None. Files are saved to path.
+        """
+        from itertools import product
+        fns = list(self.metadata.keys())
+        for fn in fns:
+            df = self.data.loc[self.data['filename'] == fn].copy().reset_index(drop = True)
+            #Make a multi column object and rearrange table to be in DLC format
+            scorer = self.metadata[fn]['scorer']
+            selected_cols = []
+            for animal, bp, component in product(self.animals, self.body_parts, ['x', 'y', 'likelihood']):
+                if component == 'likelihood':
+                    old_col_name = f"{component}_{animal}_{bp}"
+                else:
+                    old_col_name = f"{animal}_{component}_{bp}"
+                new_col_name = (scorer, animal, bp, component)
+                df = df.rename(columns = {old_col_name: new_col_name})
+                selected_cols.append(new_col_name)
+            df = df[selected_cols]
+            df.columns = pd.MultiIndex.from_tuples(df.columns, names=['scorer', 'individuals', 'bodyparts', 'coords'])
+            fn_out = os.path.join(base_dir, os.path.basename(fn))
+            df.to_csv(fn_out)
+            if save_h5_too:
+                df.to_hdf(fn_out.replace('.csv', '.h5'), "df_with_missing", format = 'table', mode="w")
 
     def load(self, fn_in : str) -> None:
         """Load VideosetDataFrame object from pickle file.

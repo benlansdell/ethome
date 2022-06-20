@@ -218,3 +218,63 @@ def test_rescaling_metadataparams(tracking_files, metadata_params):
     del list(metadata_no_labels.values())[1]['frame_width']
     df = VideosetDataFrame(metadata_no_labels)
     assert 'units' not in list(df.metadata.values())[0]
+
+def test_save_to_dlc_csv(videodataset, tmp_path_factory):
+    import os
+    from glob import glob
+    fn = tmp_path_factory.mktemp('dlc_csv')
+    videodataset.to_dlc_csv(fn)
+    created_files = glob(os.path.join(fn, '*.csv'))
+    assert len(created_files) > 0
+
+###########################
+## Test generic features ##
+###########################
+
+def test_centerofmass_interanimal_features(videodataset):
+    from behaveml import com_interanimal_feature_maker
+    videodataset.add_features(com_interanimal_feature_maker, 
+                     featureset_name = 'com_interanimal', 
+                     add_to_features = True)
+    #Check we made the right amount of new columns
+    assert len(videodataset.feature_cols) == 1
+
+def test_centerofmass_interanimal_speed_features(videodataset):
+    from behaveml import com_interanimal_speed_feature_maker
+    videodataset.add_features(com_interanimal_speed_feature_maker, 
+                     featureset_name = 'com_interanimal_speed', 
+                     add_to_features = True)
+    #Check we made the right amount of new columns
+    assert len(videodataset.feature_cols) == 1
+
+def test_centerofmass_features(videodataset):
+    from behaveml import com_feature_maker
+    videodataset.add_features(com_feature_maker, 
+                     featureset_name = 'com', 
+                     add_to_features = True)
+    #Check we made the right amount of new columns
+    assert len(videodataset.feature_cols) == 4
+
+def test_centerofmass_vel_features(videodataset):
+    from behaveml import com_velocity_feature_maker
+    videodataset.add_features(com_velocity_feature_maker, 
+                     featureset_name = 'com_vel', 
+                     add_to_features = True)
+    #Check we made the right amount of new columns
+    assert len(videodataset.feature_cols) == 4
+
+def test_speed_features(videodataset):
+    from behaveml import speed_feature_maker
+    videodataset.add_features(speed_feature_maker, 
+                     featureset_name = 'speed', 
+                     add_to_features = True)
+    #Check we made the right amount of new columns
+    assert len(videodataset.feature_cols) == 91
+
+def test_dist_features(videodataset):
+    from behaveml import distance_feature_maker
+    videodataset.add_features(distance_feature_maker, 
+                     featureset_name = 'dist', 
+                     add_to_features = True)
+    #Check we made the right amount of new columns
+    assert len(videodataset.feature_cols) == 91

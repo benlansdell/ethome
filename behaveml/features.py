@@ -4,18 +4,13 @@ from typing import Callable
 import warnings
 
 from behaveml.dl.dl_features import compute_dl_probability_features
-from behaveml.mars_features import compute_mars_features, compute_distance_features, compute_velocity_features, \
-                                   compute_mars_reduced_features, compute_social_features
-
-# default_tracking_columns = ['adult_x_nose', 'adult_x_leftear', 'adult_x_rightear', 'adult_x_neck',
-#                             'adult_x_lefthip', 'adult_x_righthip', 'adult_x_tail', 'adult_y_nose',
-#                             'adult_y_leftear', 'adult_y_rightear', 'adult_y_neck',
-#                             'adult_y_lefthip', 'adult_y_righthip', 'adult_y_tail',
-#                             'juvenile_x_nose', 'juvenile_x_leftear', 'juvenile_x_rightear',
-#                             'juvenile_x_neck', 'juvenile_x_lefthip', 'juvenile_x_righthip',
-#                             'juvenile_x_tail', 'juvenile_y_nose', 'juvenile_y_leftear',
-#                             'juvenile_y_rightear', 'juvenile_y_neck', 'juvenile_y_lefthip',
-#                             'juvenile_y_righthip', 'juvenile_y_tail']
+from behaveml.mars_features import compute_mars_features, compute_mars_reduced_features, compute_social_features
+from behaveml.generic_features import compute_centerofmass_interanimal_distances, \
+                                        compute_centerofmass_interanimal_speed, \
+                                        compute_centerofmass, \
+                                        compute_centerofmass_velocity, \
+                                        compute_speed_features, \
+                                        compute_distance_features
 
 default_tracking_columns = ['resident_x_nose', 'resident_x_leftear', 'resident_x_rightear', 'resident_x_neck',
                             'resident_x_lefthip', 'resident_x_righthip', 'resident_x_tail', 'resident_y_nose',
@@ -42,13 +37,20 @@ class Features(object):
         new_features = self.feature_maker(vdf.data, self.required_columns, vdf.animal_setup, **kwargs)
         return new_features
 
+## MARS features
 mars_feature_maker = Features(compute_mars_features, default_tracking_columns)
 marsreduced_feature_maker = Features(compute_mars_reduced_features, default_tracking_columns)
 cnn_probability_feature_maker = Features(compute_dl_probability_features, default_tracking_columns)
 social_feature_maker = Features(compute_social_features, default_tracking_columns)
 
+## Generic features
+
+com_interanimal_feature_maker = Features(compute_centerofmass_interanimal_distances, default_tracking_columns)
+com_interanimal_speed_feature_maker = Features(compute_centerofmass_interanimal_speed, default_tracking_columns)
+com_feature_maker = Features(compute_centerofmass, default_tracking_columns)
+com_velocity_feature_maker = Features(compute_centerofmass_velocity, default_tracking_columns)
+speed_feature_maker = Features(compute_speed_features, default_tracking_columns)
 distance_feature_maker = Features(compute_distance_features, default_tracking_columns)
-velocity_feature_maker = Features(compute_velocity_features, default_tracking_columns)
 
 #To make your own:
 # Create a function 'create_custom_features' and provide the Features class a list of columns
@@ -65,4 +67,3 @@ velocity_feature_maker = Features(compute_velocity_features, default_tracking_co
 # **kwargs are extra arguments passed onto the feature creation function.
 # The function returns:
 # A dataframe with the new features. These will be added to the VideosetDataFrame as columns.
-

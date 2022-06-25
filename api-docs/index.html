@@ -401,6 +401,20 @@
   
   
     <li class="md-nav__item">
+      <a href="generic_features/" class="md-nav__link">
+        Generic features
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="interpolation/" class="md-nav__link">
         Interpolation
       </a>
@@ -585,7 +599,8 @@
 <li><a href="dl.dl_models/#module-dldl_models"><code>dl.dl_models</code></a></li>
 <li><a href="dl.feature_engineering/#module-dlfeature_engineering"><code>dl.feature_engineering</code></a></li>
 <li><a href="dl.grid_searches/#module-dlgrid_searches"><code>dl.grid_searches</code></a></li>
-<li><a href="features/#module-features"><code>features</code></a>: Functions to take pose tracks and compute a set of features from them </li>
+<li><a href="features/#module-features"><code>features</code></a>: Functions to take pose tracks and compute a set of features from them.</li>
+<li><a href="generic_features/#module-generic_features"><code>generic_features</code></a>: Functions to take pose tracks and compute a set of features from them </li>
 <li><a href="interpolation/#module-interpolation"><code>interpolation</code></a></li>
 <li><a href="io/#module-io"><code>io</code></a>: Loading and saving tracking and behavior annotation files </li>
 <li><a href="mars_features/#module-mars_features"><code>mars_features</code></a></li>
@@ -593,7 +608,7 @@
 <li><a href="plot/#module-plot"><code>plot</code></a></li>
 <li><a href="unsupervised/#module-unsupervised"><code>unsupervised</code></a></li>
 <li><a href="utils/#module-utils"><code>utils</code></a>: Small helper utilities</li>
-<li><a href="video/#module-video"><code>video</code></a>: Basic video tracking and behavior class that houses data </li>
+<li><a href="video/#module-video"><code>video</code></a>: Basic video tracking and behavior class that houses data. </li>
 </ul>
 <h2 id="classes">Classes</h2>
 <ul>
@@ -634,16 +649,23 @@
 <li><a href="dl.feature_engineering/#function-make_features_mars_reduced"><code>feature_engineering.make_features_mars_reduced</code></a></li>
 <li><a href="dl.feature_engineering/#function-make_features_social"><code>feature_engineering.make_features_social</code></a></li>
 <li><a href="dl.feature_engineering/#function-make_features_velocities"><code>feature_engineering.make_features_velocities</code></a></li>
+<li><a href="generic_features/#function-compute_centerofmass"><code>generic_features.compute_centerofmass</code></a></li>
+<li><a href="generic_features/#function-compute_centerofmass_interanimal_distances"><code>generic_features.compute_centerofmass_interanimal_distances</code></a></li>
+<li><a href="generic_features/#function-compute_centerofmass_interanimal_speed"><code>generic_features.compute_centerofmass_interanimal_speed</code></a></li>
+<li><a href="generic_features/#function-compute_centerofmass_velocity"><code>generic_features.compute_centerofmass_velocity</code></a></li>
+<li><a href="generic_features/#function-compute_distance_features"><code>generic_features.compute_distance_features</code></a></li>
+<li><a href="generic_features/#function-compute_speed_features"><code>generic_features.compute_speed_features</code></a></li>
 <li><a href="interpolation/#function-interpolate_lowconf_points"><code>interpolation.interpolate_lowconf_points</code></a>: Interpolate raw tracking points if their probabilities are available.</li>
+<li><a href="io/#function-create_behavior_labels"><code>io.create_behavior_labels</code></a>: Create behavior labels from BORIS exported csv files.</li>
 <li><a href="io/#function-get_sample_data"><code>io.get_sample_data</code></a>: Load a sample dataset of 5 mice social interaction videos. Each video is approx. 5 minutes in duration</li>
 <li><a href="io/#function-get_sample_data_paths"><code>io.get_sample_data_paths</code></a>: Get path to sample data files provided with package. </li>
 <li><a href="io/#function-load_data"><code>io.load_data</code></a>: Load an object from a pickle file</li>
-<li><a href="io/#function-load_sklearn_model"><code>io.load_sklearn_model</code></a></li>
+<li><a href="io/#function-load_sklearn_model"><code>io.load_sklearn_model</code></a>: Load sklearn model from file</li>
 <li><a href="io/#function-read_dlc_tracks"><code>io.read_DLC_tracks</code></a>: Read in tracks from DLC.</li>
-<li><a href="io/#function-read_boris_annotation"><code>io.read_boris_annotation</code></a>: Read behavior annotation from BORIS exported csv file</li>
+<li><a href="io/#function-read_boris_annotation"><code>io.read_boris_annotation</code></a>: Read behavior annotation from BORIS exported csv file. </li>
 <li><a href="io/#function-rename_df_cols"><code>io.rename_df_cols</code></a>: Rename dataframe columns </li>
 <li><a href="io/#function-save_dlc_tracks_h5"><code>io.save_DLC_tracks_h5</code></a>: Save DLC tracks in h5 format.</li>
-<li><a href="io/#function-save_sklearn_model"><code>io.save_sklearn_model</code></a></li>
+<li><a href="io/#function-save_sklearn_model"><code>io.save_sklearn_model</code></a>: Save sklearn model to file</li>
 <li><a href="io/#function-uniquifier"><code>io.uniquifier</code></a>: Return a sequence (e.g. list) with unique elements only, but maintaining original list order</li>
 <li><a href="mars_features/#function-compute_distance_features"><code>mars_features.compute_distance_features</code></a></li>
 <li><a href="mars_features/#function-compute_mars_features"><code>mars_features.compute_mars_features</code></a></li>
@@ -658,11 +680,12 @@
 <li><a href="plot/#function-plot_unsupervised_results"><code>plot.plot_unsupervised_results</code></a>: Set of plots for unsupervised behavior clustering results</li>
 <li><a href="unsupervised/#function-cluster_behaviors"><code>unsupervised.cluster_behaviors</code></a>: Cluster behaviors based on dimensionality reduction, kernel density estimation, and watershed clustering.</li>
 <li><a href="unsupervised/#function-compute_density"><code>unsupervised.compute_density</code></a>: Compute kernel density estimate of embedding.</li>
-<li><a href="unsupervised/#function-compute_morlet"><code>unsupervised.compute_morlet</code></a></li>
-<li><a href="unsupervised/#function-compute_tsne_embedding"><code>unsupervised.compute_tsne_embedding</code></a>: Compute TSNE embedding. </li>
+<li><a href="unsupervised/#function-compute_morlet"><code>unsupervised.compute_morlet</code></a>: Compute morlet wavelet transform of a time series.</li>
+<li><a href="unsupervised/#function-compute_tsne_embedding"><code>unsupervised.compute_tsne_embedding</code></a>: Compute TSNE embedding. Only for a random subset of rows.</li>
 <li><a href="unsupervised/#function-compute_watershed"><code>unsupervised.compute_watershed</code></a>: Compute watershed clustering of a density matrix. </li>
 <li><a href="utils/#function-checkffmpeg"><code>utils.checkFFMPEG</code></a>: Check for ffmpeg dependencies</li>
 <li><a href="video/#function-clone_metadata"><code>video.clone_metadata</code></a>: Prepare a metadata dictionary for defining a VideosetDataFrame. </li>
+<li><a href="video/#function-get_sample_openfield_data"><code>video.get_sample_openfield_data</code></a>: Load a sample dataset of 1 mouse in openfield setup. The video is the sample that comes with DLC.</li>
 <li><a href="video/#function-load_videodataset"><code>video.load_videodataset</code></a>: Load VideosetDataFrame from file.</li>
 </ul>
 <hr />

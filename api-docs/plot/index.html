@@ -346,6 +346,20 @@
   
   
     <li class="md-nav__item">
+      <a href="../generic_features/" class="md-nav__link">
+        Generic features
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../interpolation/" class="md-nav__link">
         Interpolation
       </a>
@@ -696,6 +710,7 @@
 <h2 id="function-plot_embedding"><kbd>function</kbd> <code>plot_embedding</code></h2>
 <pre><code class="language-python">plot_embedding(
     dataset: VideosetDataFrame,
+    col_names: list = ['embedding_0', 'embedding_1'],
     color_col: str = None,
     figsize: tuple = (10, 10),
     **kwargs
@@ -704,7 +719,8 @@
 <p>Scatterplot of a 2D TSNE or UMAP embedding from the dataset. </p>
 <p><strong>Args:</strong></p>
 <ul>
-<li><b><code>dataset</code></b>:  data, must have columns named 'embedding_0' and 'embedding_1' </li>
+<li><b><code>dataset</code></b>:  data </li>
+<li><b><code>col_names</code></b>:  list of column names to use for the x and y axes </li>
 <li><b><code>color_col</code></b>:  if provided, a column that will be used to color the points in the scatter plot </li>
 <li><b><code>figsize</code></b>:  tuple with the dimensions of the plot (in inches) </li>
 <li><b><code>kwargs</code></b>:  All other keyword pairs are sent to Matplotlib's scatter function </li>
@@ -712,22 +728,29 @@
 <p><strong>Returns:</strong>
  tuple (fig, axes). The Figure and Axes objects.  </p>
 <hr />
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/plot.py#L51"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/plot.py#L54"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="function-plot_unsupervised_results"><kbd>function</kbd> <code>plot_unsupervised_results</code></h2>
-<pre><code class="language-python">plot_unsupervised_results(dataset, cluster_results, figsize=(15, 4), **kwargs)
+<pre><code class="language-python">plot_unsupervised_results(
+    dataset: VideosetDataFrame,
+    cluster_results: tuple,
+    col_names: list = ['embedding_0', 'embedding_1'],
+    figsize: tuple = (15, 4),
+    **kwargs
+)
 </code></pre>
 <p>Set of plots for unsupervised behavior clustering results </p>
 <p><strong>Args:</strong></p>
 <ul>
-<li><b><code>dataset</code></b>:  data, must have columns named 'embedding_0' and 'embedding_1' </li>
+<li><b><code>dataset</code></b>:  data </li>
 <li><b><code>cluster_results</code></b>:  tuple output by 'cluster_behaviors' </li>
+<li><b><code>col_names</code></b>:  list of column names to use for the x and y axes </li>
 <li><b><code>figsize</code></b>:  tuple with the plot dimensions, in inches </li>
 <li><b><code>kwargs</code></b>:  all other keyword pairs are sent to Matplotlib's scatter function </li>
 </ul>
 <p><strong>Returns:</strong>
  tuple (fig, axes). The Figure and Axes objects.  </p>
 <hr />
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/plot.py#L95"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/plot.py#L104"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="function-plot_ethogram"><kbd>function</kbd> <code>plot_ethogram</code></h2>
 <pre><code class="language-python">plot_ethogram(
     dataset: VideosetDataFrame,
@@ -747,7 +770,7 @@
 <p><strong>Returns:</strong>
  tuple (fig, axes). The Figure and Axes objects </p>
 <hr />
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/plot.py#L124"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/plot.py#L133"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="function-create_ethogram_video"><kbd>function</kbd> <code>create_ethogram_video</code></h2>
 <pre><code class="language-python">create_ethogram_video(
     dataset: VideosetDataFrame,
@@ -773,7 +796,7 @@
 <p><strong>Returns:</strong>
  None </p>
 <hr />
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/plot.py#L194"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/plot.py#L203"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="function-create_sample_videos"><kbd>function</kbd> <code>create_sample_videos</code></h2>
 <pre><code class="language-python">create_sample_videos(
     dataset: VideosetDataFrame,
@@ -802,7 +825,7 @@
 <p><strong>Returns:</strong>
  None </p>
 <hr />
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/plot.py#L295"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/plot.py#L304"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="function-create_mosaic_video"><kbd>function</kbd> <code>create_mosaic_video</code></h2>
 <pre><code class="language-python">create_mosaic_video(
     vid_dir: str,
@@ -821,14 +844,14 @@
 <p><strong>Returns:</strong>
  None     </p>
 <hr />
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/plot.py#L39"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/plot.py#L42"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="class-mplcolorhelper"><kbd>class</kbd> <code>MplColorHelper</code></h2>
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/plot.py#L41"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/plot.py#L44"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h3 id="method-__init__"><kbd>method</kbd> <code>__init__</code></h3>
 <pre><code class="language-python">__init__(cmap_name, start_val, stop_val)
 </code></pre>
 <hr />
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/plot.py#L47"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/plot.py#L50"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h3 id="method-get_rgb"><kbd>method</kbd> <code>get_rgb</code></h3>
 <pre><code class="language-python">get_rgb(val)
 </code></pre>

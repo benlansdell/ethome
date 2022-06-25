@@ -344,6 +344,20 @@
               
   
   
+  
+    <li class="md-nav__item">
+      <a href="../generic_features/" class="md-nav__link">
+        Generic features
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
     
   
   
@@ -554,24 +568,20 @@
 <h2 id="function-interpolate_lowconf_points"><kbd>function</kbd> <code>interpolate_lowconf_points</code></h2>
 <pre><code class="language-python">interpolate_lowconf_points(
     vdf: VideosetDataFrame,
-    filter_out_lowconf: bool = True,
-    filter_out_toofast: bool = True,
     conf_threshold: float = 0.9,
-    jump_dur: int = 5,
-    speed_threshold: float = 5,
-    in_place=True
+    in_place: bool = True,
+    rolling_window: bool = True,
+    window_size: int = 3
 ) → DataFrame
 </code></pre>
 <p>Interpolate raw tracking points if their probabilities are available. </p>
 <p><strong>Args:</strong></p>
 <ul>
 <li><b><code>vdf</code></b>:  VideosetDataFrame containing the tracks to interpolate </li>
-<li><b><code>filter_out_lowconf</code></b>:  default True. Whether to filter out low confidence points </li>
-<li><b><code>filter_out_toofast</code></b>:  default True. Whether to filter out tracks that jump too far in a number of frames </li>
 <li><b><code>conf_threshold</code></b>:  default 0.9. Confidence below which to count as uncertain, and to interpolate its value instead </li>
-<li><b><code>jump_dur</code></b>:  default 5. Number of frames to compute velocity which is used as basis for filtering out jumps </li>
-<li><b><code>speed_threshold</code></b>:  default 5. Number of pixels to  </li>
 <li><b><code>in_place</code></b>:  default True. Whether to replace data in place </li>
+<li><b><code>rolling_window</code></b>:  default True. Whether to use a rolling window to interpolate </li>
+<li><b><code>window_size</code></b>:  default 3. The size of the rolling window to use </li>
 </ul>
 <p><strong>Returns:</strong>
  Pandas dataframe with the filtered raw columns. Returns None if opted for in_place modification </p>
@@ -590,7 +600,7 @@
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
         
-        <a href="../features/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Features" rel="prev">
+        <a href="../generic_features/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Generic features" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
           </div>
@@ -599,7 +609,7 @@
               <span class="md-footer__direction">
                 Previous
               </span>
-              Features
+              Generic features
             </div>
           </div>
         </a>

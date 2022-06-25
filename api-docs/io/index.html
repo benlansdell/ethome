@@ -346,6 +346,20 @@
   
   
     <li class="md-nav__item">
+      <a href="../generic_features/" class="md-nav__link">
+        Generic features
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../interpolation/" class="md-nav__link">
         Interpolation
       </a>
@@ -466,6 +480,13 @@
         <li class="md-nav__item">
   <a href="#function-read_boris_annotation" class="md-nav__link">
     function read_boris_annotation
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#function-create_behavior_labels" class="md-nav__link">
+    function create_behavior_labels
   </a>
   
 </li>
@@ -708,6 +729,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#function-create_behavior_labels" class="md-nav__link">
+    function create_behavior_labels
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#class-bufferediobase" class="md-nav__link">
     class BufferedIOBase
   </a>
@@ -770,23 +798,36 @@
 <li><strong>XYLIKELIHOOD_IDS</strong></li>
 </ul>
 <hr />
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/io.py#L13"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/io.py#L14"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="function-uniquifier"><kbd>function</kbd> <code>uniquifier</code></h2>
 <pre><code class="language-python">uniquifier(seq)
 </code></pre>
 <p>Return a sequence (e.g. list) with unique elements only, but maintaining original list order </p>
 <hr />
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/io.py#L26"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/io.py#L27"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="function-save_sklearn_model"><kbd>function</kbd> <code>save_sklearn_model</code></h2>
 <pre><code class="language-python">save_sklearn_model(model, fn_out)
 </code></pre>
+<p>Save sklearn model to file </p>
+<p><strong>Args:</strong></p>
+<ul>
+<li><b><code>model</code></b>:  sklearn model to save </li>
+<li><b><code>fn_out</code></b>:  filename to save to </li>
+</ul>
 <hr />
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/io.py#L29"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/io.py#L36"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="function-load_sklearn_model"><kbd>function</kbd> <code>load_sklearn_model</code></h2>
 <pre><code class="language-python">load_sklearn_model(fn_in)
 </code></pre>
+<p>Load sklearn model from file </p>
+<p><strong>Args:</strong></p>
+<ul>
+<li><b><code>fn_in</code></b>:  filename to load from </li>
+</ul>
+<p><strong>Returns:</strong>
+ the loaded sklearn model </p>
 <hr />
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/io.py#L33"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/io.py#L48"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="function-read_dlc_tracks"><kbd>function</kbd> <code>read_DLC_tracks</code></h2>
 <pre><code class="language-python">read_DLC_tracks(
     fn_in: str,
@@ -806,7 +847,7 @@
 <p><strong>Returns:</strong>
  Pandas DataFrame with (n_animals<em>2</em>n_body_parts) columns plus with filename and frame,   List of body parts,  List of animals,  Columns names for DLC tracks (excluding likelihoods, if read in),  Scorer </p>
 <hr />
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/io.py#L106"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/io.py#L134"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="function-rename_df_cols"><kbd>function</kbd> <code>rename_df_cols</code></h2>
 <pre><code class="language-python">rename_df_cols(df: DataFrame, renamer: dict) → DataFrame
 </code></pre>
@@ -819,7 +860,7 @@
 <p><strong>Returns:</strong>
  The dataframe with renamed columns. </p>
 <hr />
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/io.py#L118"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/io.py#L146"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="function-save_dlc_tracks_h5"><kbd>function</kbd> <code>save_DLC_tracks_h5</code></h2>
 <pre><code class="language-python">save_DLC_tracks_h5(df: DataFrame, fn_out: str) → None
 </code></pre>
@@ -830,7 +871,7 @@
 <li><b><code>fn_out</code></b>:  Where to save the dataframe </li>
 </ul>
 <hr />
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/io.py#L127"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/io.py#L155"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="function-load_data"><kbd>function</kbd> <code>load_data</code></h2>
 <pre><code class="language-python">load_data(fn: str)
 </code></pre>
@@ -842,7 +883,7 @@
 <p><strong>Returns:</strong>
  The pickled object. </p>
 <hr />
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/io.py#L163"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/io.py#L191"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="function-get_sample_data_paths"><kbd>function</kbd> <code>get_sample_data_paths</code></h2>
 <pre><code class="language-python">get_sample_data_paths()
 </code></pre>
@@ -850,7 +891,7 @@
 <p><strong>Returns:</strong>
   (tuple) list of DLC tracking file, list of boris annotation files </p>
 <hr />
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/io.py#L174"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/io.py#L202"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="function-get_sample_data"><kbd>function</kbd> <code>get_sample_data</code></h2>
 <pre><code class="language-python">get_sample_data()
 </code></pre>
@@ -858,19 +899,38 @@
 <p><strong>Returns:</strong>
   (VideosetDataFrame) Data frame with the corresponding tracking and behavior annotation files </p>
 <hr />
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/io.py#L187"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/io.py#L215"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="function-read_boris_annotation"><kbd>function</kbd> <code>read_boris_annotation</code></h2>
-<pre><code class="language-python">read_boris_annotation(fn_in: str, fps: int, duration: float) → ndarray
+<pre><code class="language-python">read_boris_annotation(
+    fn_in: str,
+    fps: int,
+    duration: float,
+    behav_labels: dict = None
+) → tuple
 </code></pre>
-<p>Read behavior annotation from BORIS exported csv file </p>
+<p>Read behavior annotation from BORIS exported csv file.  </p>
+<p>This will import behavior types specified (or all types, if behavior_list is None) and assign a numerical label to each. Overlapping annotations (those occurring simulataneously) are not supported. Any time the video is annotated as being in multiple states, the last state will be the one labeled. </p>
 <p><strong>Args:</strong></p>
 <ul>
 <li><b><code>fn_in</code></b>:  The filename with BORIS behavior annotations to load </li>
-<li><b><code>fps</code></b>:  Frames per second of video </li>
-<li><b><code>duration</code></b>:  Duration of video </li>
+<li><b><code>fps</code></b>:  The frames per second of the video </li>
+<li><b><code>duration</code></b>:  The duration of the video in seconds </li>
+<li><b><code>behav_labels</code></b>:  If provided, only import behaviors with these names. Default = None = import everything.  </li>
 </ul>
 <p><strong>Returns:</strong>
- A numpy array which indicates, for all frames, if behavior is occuring (1) or not (0) </p>
+ A numpy array which indicates, for all frames, which behavior is occuring. 0 = no behavior, 1 and above are the labels of the behaviors. A dictionary with keys the numerical labels and values the names of the behaviors.  </p>
+<hr />
+<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/io.py#L262"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<h2 id="function-create_behavior_labels"><kbd>function</kbd> <code>create_behavior_labels</code></h2>
+<pre><code class="language-python">create_behavior_labels(boris_files)
+</code></pre>
+<p>Create behavior labels from BORIS exported csv files. </p>
+<p><strong>Args:</strong></p>
+<ul>
+<li><b><code>boris_files</code></b>:  List of BORIS exported csv files </li>
+</ul>
+<p><strong>Returns:</strong>
+ A dictionary with keys the numerical labels and values the names of the behaviors. </p>
 <hr />
 <p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/io.py"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="class-bufferediobase"><kbd>class</kbd> <code>BufferedIOBase</code></h2>

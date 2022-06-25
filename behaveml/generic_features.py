@@ -53,6 +53,8 @@ def compute_centerofmass_interanimal_speed(df : pd.DataFrame, raw_col_names : li
 
     features_df = df.copy()
 
+    dt = features_df['time'].diff(periods = n_shifts)
+
     for animal_id in mouse_ids:
         fxs = ['_'.join([animal_id, 'x', bp]) for bp in bodypart_ids]
         fys = ['_'.join([animal_id, 'y', bp]) for bp in bodypart_ids]
@@ -60,8 +62,8 @@ def compute_centerofmass_interanimal_speed(df : pd.DataFrame, raw_col_names : li
         fy_new = '_'.join([animal_id, 'COM_y'])
         features_df[fx_new] = features_df[fxs].sum(axis = 1) / len(bodypart_ids)
         features_df[fy_new] = features_df[fys].sum(axis = 1) / len(bodypart_ids)
-        features_df[fx_new] = features_df[fx_new].diff(periods = n_shifts)
-        features_df[fy_new] = features_df[fx_new].diff(periods = n_shifts)
+        features_df[fx_new] = features_df[fx_new].diff(periods = n_shifts)/dt
+        features_df[fy_new] = features_df[fx_new].diff(periods = n_shifts)/dt
 
     orig_cols = features_df.columns
 
@@ -74,7 +76,7 @@ def compute_centerofmass_interanimal_speed(df : pd.DataFrame, raw_col_names : li
             f_new = '_'.join([animal_i, animal_j, 'COM_speed'])
             features_df[f_new] = np.sqrt((features_df[fx_i] - features_df[fx_j])**2 \
                                          + (features_df[fy_i] - features_df[fy_j])**2)
-            features_df[f_new] = features_df[f_new].diff(periods = n_shifts)
+            features_df[f_new] = features_df[f_new].diff(periods = n_shifts)/dt
 
     features_df = features_df.drop(columns = orig_cols)
     return features_df
@@ -108,6 +110,8 @@ def compute_centerofmass_velocity(df : pd.DataFrame, raw_col_names : list, anima
     features_df = df.copy()
     orig_cols = df.columns
 
+    dt = features_df['time'].diff(periods = n_shifts)
+
     for animal_id in mouse_ids:
         fxs = ['_'.join([animal_id, 'x', bp]) for bp in bodypart_ids]
         fys = ['_'.join([animal_id, 'y', bp]) for bp in bodypart_ids]
@@ -115,8 +119,8 @@ def compute_centerofmass_velocity(df : pd.DataFrame, raw_col_names : list, anima
         fy_new = '_'.join([animal_id, 'COM_vel_y'])
         features_df[fx_new] = features_df[fxs].sum(axis = 1) / len(bodypart_ids)
         features_df[fy_new] = features_df[fys].sum(axis = 1) / len(bodypart_ids)
-        features_df[fx_new] = features_df[fx_new].diff(periods = n_shifts)
-        features_df[fy_new] = features_df[fx_new].diff(periods = n_shifts)
+        features_df[fx_new] = features_df[fx_new].diff(periods = n_shifts)/dt
+        features_df[fy_new] = features_df[fx_new].diff(periods = n_shifts)/dt
 
     features_df = features_df.drop(columns = orig_cols)
     return features_df
@@ -148,6 +152,8 @@ def compute_speed_features(df : pd.DataFrame, raw_col_names : list, animal_setup
     features_df = df.copy()
     orig_cols = df.columns
 
+    dt = features_df['time'].diff(periods = n_shifts)
+
     ##Make the distance features
     for i, bp1 in enumerate(bodypart_ids):
         for j, bp2 in enumerate(bodypart_ids):
@@ -161,7 +167,7 @@ def compute_speed_features(df : pd.DataFrame, raw_col_names : list, animal_setup
                     f_new = '_'.join([mouse_id, 'speed', bp1, bp2])
                     features_df[f_new] = \
                         np.sqrt((features_df[f1x].diff(periods = n_shifts) - features_df[f2x].diff(periods = n_shifts))**2 + 
-                                (features_df[f1y].diff(periods = n_shifts) - features_df[f2y].diff(periods = n_shifts))**2)
+                                (features_df[f1y].diff(periods = n_shifts) - features_df[f2y].diff(periods = n_shifts))**2)/dt
 
             #Inter-mouse difference
             for animal_i in range(len(mouse_ids)):
@@ -173,7 +179,7 @@ def compute_speed_features(df : pd.DataFrame, raw_col_names : list, animal_setup
                     f_new = '_'.join([f'M{animal_i}_M{animal_j}', 'speed', bp1, bp2])
                     features_df[f_new] = \
                                 np.sqrt((features_df[f1x].diff(periods = n_shifts) - features_df[f2x].diff(periods = n_shifts))**2 + 
-                                        (features_df[f1y].diff(periods = n_shifts) - features_df[f2y].diff(periods = n_shifts))**2)
+                                        (features_df[f1y].diff(periods = n_shifts) - features_df[f2y].diff(periods = n_shifts))**2)/dt
 
     #Remove base features
     features_df = features_df.drop(columns = orig_cols)

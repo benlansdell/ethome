@@ -1,4 +1,37 @@
-""" Functions to take pose tracks and compute a set of features from them """
+""" Functions to take pose tracks and compute a set of features from them.
+
+To make your own feature creator:
+
+Create a function, e.g. `create_custom_features`, and provide the Features class a list of columns that are needed by this function to compute the features.
+
+The function `create_custom_features` has the form:
+
+`create_custom_features(<df>, <raw_col_names>, <animal_setup>, **kwargs)`
+
+Where:
+
+`df` is the dataframe to compute the features on
+`raw_col_names` is a list of the names of the columns in the dataframe that contain the raw data used for the feature creation. These are required for the model.
+`animal_setup` is a dictionary with keys `bodypart_ids`, `mouse_ids`, `colnames`.
+   `bodypart_ids` is a list of the bodypart ids that are used in the dataframe
+   `mouse_ids` is a list of the mouse ids that are used in the dataframe
+   `colnames` is the list product(animals, XY_IDS, body_parts) 
+`**kwargs` are extra arguments passed onto the feature creation function.
+
+The function returns:
+
+A dataframe, that only contains the new features. These will be added to the VideosetDataFrame as columns.
+
+Once you have such a function defined, you can create a "feature making object" with
+
+`custom_feature_maker = Features(create_custom_features, req_columns)`
+
+This could be used on datasets as:
+
+```
+dataset.add_features(custom_feature_maker, featureset_name = 'CUSTOM', add_to_features = True)
+```
+"""
 
 from typing import Callable
 import warnings
@@ -44,26 +77,9 @@ cnn_probability_feature_maker = Features(compute_dl_probability_features, defaul
 social_feature_maker = Features(compute_social_features, default_tracking_columns)
 
 ## Generic features
-
 com_interanimal_feature_maker = Features(compute_centerofmass_interanimal_distances, default_tracking_columns)
 com_interanimal_speed_feature_maker = Features(compute_centerofmass_interanimal_speed, default_tracking_columns)
 com_feature_maker = Features(compute_centerofmass, default_tracking_columns)
 com_velocity_feature_maker = Features(compute_centerofmass_velocity, default_tracking_columns)
 speed_feature_maker = Features(compute_speed_features, default_tracking_columns)
 distance_feature_maker = Features(compute_distance_features, default_tracking_columns)
-
-#To make your own:
-# Create a function 'create_custom_features' and provide the Features class a list of columns
-# that are needed by this function to compute the features.
-# 'create_custom_features' should take:
-# compute_social_features(<df>, <raw_col_names>, <animal_setup>, **kwargs)
-# where:
-# 'df' is the dataframe to compute the features on
-# 'raw_col_names' is a list of the names of the columns in the dataframe that contain the raw data used for the feature creation. These are required for the model.
-# 'animal_setup' is a dictionary with keys 'bodypart_ids', 'mouse_ids', 'colnames'.
-#    'bodypart_ids' is a list of the bodypart ids that are used in the dataframe
-#    'mouse_ids' is a list of the mouse ids that are used in the dataframe
-#    'colnames' is the list product(animals, XY_IDS, body_parts) 
-# **kwargs are extra arguments passed onto the feature creation function.
-# The function returns:
-# A dataframe with the new features. These will be added to the VideosetDataFrame as columns.

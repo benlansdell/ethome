@@ -21,7 +21,7 @@ Check for ffmpeg dependencies
 
 
 **Returns:**
-  True if can find ffmpeg in path, false otherwise 
+  True if can find `ffmpeg` in path, false otherwise 
 
 
 

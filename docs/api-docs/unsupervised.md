@@ -24,7 +24,7 @@ compute_tsne_embedding(
 ) → tuple
 ```
 
-Compute TSNE embedding.  
+Compute TSNE embedding. Only for a random subset of rows. 
 
 
 
@@ -33,16 +33,20 @@ Compute TSNE embedding.
  - <b>`dataset`</b>:  Input data 
  - <b>`cols`</b>:  A list of column names to produce the embedding for 
  - <b>`N_rows`</b>:  A number of rows to randomly sample for the embedding. Only these rows are embedded. 
+ - <b>`n_components`</b>:  The number of dimensions to embed the data into. 
+ - <b>`perplexity`</b>:  The perplexity of the TSNE embedding. 
 
 
 
 **Returns:**
  The tuple:  
+        - A numpy array with the embedding data, only for a random subset of row 
+        - The rows that were used for the embedding 
 
 
 ---
 
-<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/unsupervised.py#L34"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/unsupervised.py#L38"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `compute_morlet`
 
@@ -55,14 +59,23 @@ compute_morlet(
 ) → ndarray
 ```
 
+Compute morlet wavelet transform of a time series. 
 
 
 
+**Args:**
+ 
+ - <b>`data`</b>:  A 2D array containing the time series data, with dimensions (n_pts x n_channels) 
+ - <b>`dt`</b>:  The time step of the time series 
+ - <b>`n_freq`</b>:  The number of frequencies to compute 
+ - <b>`w`</b>:  The width of the morlet wavelet 
+
+Returns A 2D numpy array with the morlet wavelet transform. The first dimension is the frequency, the second is the time. 
 
 
 ---
 
-<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/unsupervised.py#L49"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/unsupervised.py#L64"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `compute_density`
 
@@ -98,7 +111,7 @@ Compute kernel density estimate of embedding.
 
 ---
 
-<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/unsupervised.py#L84"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/unsupervised.py#L99"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `compute_watershed`
 
@@ -128,7 +141,7 @@ Compute watershed clustering of a density matrix.
 
 ---
 
-<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/unsupervised.py#L106"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/unsupervised.py#L121"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `cluster_behaviors`
 

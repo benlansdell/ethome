@@ -20,6 +20,7 @@
 ```python
 plot_embedding(
     dataset: VideosetDataFrame,
+    col_names: list = ['embedding_0', 'embedding_1'],
     color_col: str = None,
     figsize: tuple = (10, 10),
     **kwargs
@@ -32,7 +33,8 @@ Scatterplot of a 2D TSNE or UMAP embedding from the dataset.
 
 **Args:**
  
- - <b>`dataset`</b>:  data, must have columns named 'embedding_0' and 'embedding_1' 
+ - <b>`dataset`</b>:  data 
+ - <b>`col_names`</b>:  list of column names to use for the x and y axes 
  - <b>`color_col`</b>:  if provided, a column that will be used to color the points in the scatter plot 
  - <b>`figsize`</b>:  tuple with the dimensions of the plot (in inches) 
  - <b>`kwargs`</b>:  All other keyword pairs are sent to Matplotlib's scatter function 
@@ -45,12 +47,18 @@ Scatterplot of a 2D TSNE or UMAP embedding from the dataset.
 
 ---
 
-<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/plot.py#L51"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/plot.py#L54"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `plot_unsupervised_results`
 
 ```python
-plot_unsupervised_results(dataset, cluster_results, figsize=(15, 4), **kwargs)
+plot_unsupervised_results(
+    dataset: VideosetDataFrame,
+    cluster_results: tuple,
+    col_names: list = ['embedding_0', 'embedding_1'],
+    figsize: tuple = (15, 4),
+    **kwargs
+)
 ```
 
 Set of plots for unsupervised behavior clustering results 
@@ -59,8 +67,9 @@ Set of plots for unsupervised behavior clustering results
 
 **Args:**
  
- - <b>`dataset`</b>:  data, must have columns named 'embedding_0' and 'embedding_1' 
+ - <b>`dataset`</b>:  data 
  - <b>`cluster_results`</b>:  tuple output by 'cluster_behaviors' 
+ - <b>`col_names`</b>:  list of column names to use for the x and y axes 
  - <b>`figsize`</b>:  tuple with the plot dimensions, in inches 
  - <b>`kwargs`</b>:  all other keyword pairs are sent to Matplotlib's scatter function 
 
@@ -72,7 +81,7 @@ Set of plots for unsupervised behavior clustering results
 
 ---
 
-<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/plot.py#L95"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/plot.py#L104"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `plot_ethogram`
 
@@ -105,7 +114,7 @@ Simple ethogram of one video, up to a certain frame number.
 
 ---
 
-<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/plot.py#L124"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/plot.py#L133"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `create_ethogram_video`
 
@@ -143,7 +152,7 @@ Overlay ethogram on top of source video with ffmpeg
 
 ---
 
-<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/plot.py#L194"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/plot.py#L203"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `create_sample_videos`
 
@@ -185,7 +194,7 @@ For each behavior label, randomly choose frames from the entire dataset and extr
 
 ---
 
-<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/plot.py#L295"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/plot.py#L304"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `create_mosaic_video`
 
@@ -217,14 +226,14 @@ Take a set of video clips and turn them into a mosaic using ffmpeg
 
 ---
 
-<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/plot.py#L39"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/plot.py#L42"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>class</kbd> `MplColorHelper`
 
 
 
 
-<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/plot.py#L41"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/plot.py#L44"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `__init__`
 
@@ -241,7 +250,7 @@ __init__(cmap_name, start_val, stop_val)
 
 ---
 
-<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/plot.py#L47"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/plot.py#L50"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `get_rgb`
 

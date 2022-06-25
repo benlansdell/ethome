@@ -16,7 +16,7 @@ Loading and saving tracking and behavior annotation files
 
 ---
 
-<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/io.py#L13"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/io.py#L14"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `uniquifier`
 
@@ -29,7 +29,7 @@ Return a sequence (e.g. list) with unique elements only, but maintaining origina
 
 ---
 
-<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/io.py#L26"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/io.py#L27"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `save_sklearn_model`
 
@@ -37,14 +37,19 @@ Return a sequence (e.g. list) with unique elements only, but maintaining origina
 save_sklearn_model(model, fn_out)
 ```
 
+Save sklearn model to file 
 
 
 
+**Args:**
+ 
+ - <b>`model`</b>:  sklearn model to save 
+ - <b>`fn_out`</b>:  filename to save to 
 
 
 ---
 
-<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/io.py#L29"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/io.py#L36"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `load_sklearn_model`
 
@@ -52,14 +57,23 @@ save_sklearn_model(model, fn_out)
 load_sklearn_model(fn_in)
 ```
 
+Load sklearn model from file 
 
 
 
+**Args:**
+ 
+ - <b>`fn_in`</b>:  filename to load from 
+
+
+
+**Returns:**
+ the loaded sklearn model 
 
 
 ---
 
-<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/io.py#L33"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/io.py#L48"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `read_DLC_tracks`
 
@@ -91,7 +105,7 @@ Read in tracks from DLC.
 
 ---
 
-<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/io.py#L106"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/io.py#L134"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `rename_df_cols`
 
@@ -116,7 +130,7 @@ Rename dataframe columns
 
 ---
 
-<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/io.py#L118"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/io.py#L146"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `save_DLC_tracks_h5`
 
@@ -136,7 +150,7 @@ Save DLC tracks in h5 format.
 
 ---
 
-<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/io.py#L127"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/io.py#L155"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `load_data`
 
@@ -160,7 +174,7 @@ Load an object from a pickle file
 
 ---
 
-<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/io.py#L163"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/io.py#L191"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `get_sample_data_paths`
 
@@ -178,7 +192,7 @@ Get path to sample data files provided with package.
 
 ---
 
-<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/io.py#L174"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/io.py#L202"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `get_sample_data`
 
@@ -196,28 +210,60 @@ Load a sample dataset of 5 mice social interaction videos. Each video is approx.
 
 ---
 
-<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/io.py#L187"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/io.py#L215"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `read_boris_annotation`
 
 ```python
-read_boris_annotation(fn_in: str, fps: int, duration: float) → ndarray
+read_boris_annotation(
+    fn_in: str,
+    fps: int,
+    duration: float,
+    behav_labels: dict = None
+) → tuple
 ```
 
-Read behavior annotation from BORIS exported csv file 
+Read behavior annotation from BORIS exported csv file.  
+
+This will import behavior types specified (or all types, if behavior_list is None) and assign a numerical label to each. Overlapping annotations (those occurring simulataneously) are not supported. Any time the video is annotated as being in multiple states, the last state will be the one labeled. 
 
 
 
 **Args:**
  
  - <b>`fn_in`</b>:  The filename with BORIS behavior annotations to load 
- - <b>`fps`</b>:  Frames per second of video 
- - <b>`duration`</b>:  Duration of video 
+ - <b>`fps`</b>:  The frames per second of the video 
+ - <b>`duration`</b>:  The duration of the video in seconds 
+ - <b>`behav_labels`</b>:  If provided, only import behaviors with these names. Default = None = import everything.  
 
 
 
 **Returns:**
- A numpy array which indicates, for all frames, if behavior is occuring (1) or not (0) 
+ A numpy array which indicates, for all frames, which behavior is occuring. 0 = no behavior, 1 and above are the labels of the behaviors. A dictionary with keys the numerical labels and values the names of the behaviors.  
+
+
+---
+
+<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/io.py#L262"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+
+## <kbd>function</kbd> `create_behavior_labels`
+
+```python
+create_behavior_labels(boris_files)
+```
+
+Create behavior labels from BORIS exported csv files. 
+
+
+
+**Args:**
+ 
+ - <b>`boris_files`</b>:  List of BORIS exported csv files 
+
+
+
+**Returns:**
+ A dictionary with keys the numerical labels and values the names of the behaviors. 
 
 
 ---

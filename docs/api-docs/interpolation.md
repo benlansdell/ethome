@@ -17,12 +17,10 @@
 ```python
 interpolate_lowconf_points(
     vdf: VideosetDataFrame,
-    filter_out_lowconf: bool = True,
-    filter_out_toofast: bool = True,
     conf_threshold: float = 0.9,
-    jump_dur: int = 5,
-    speed_threshold: float = 5,
-    in_place=True
+    in_place: bool = True,
+    rolling_window: bool = True,
+    window_size: int = 3
 ) → DataFrame
 ```
 
@@ -33,12 +31,10 @@ Interpolate raw tracking points if their probabilities are available.
 **Args:**
  
  - <b>`vdf`</b>:  VideosetDataFrame containing the tracks to interpolate 
- - <b>`filter_out_lowconf`</b>:  default True. Whether to filter out low confidence points 
- - <b>`filter_out_toofast`</b>:  default True. Whether to filter out tracks that jump too far in a number of frames 
  - <b>`conf_threshold`</b>:  default 0.9. Confidence below which to count as uncertain, and to interpolate its value instead 
- - <b>`jump_dur`</b>:  default 5. Number of frames to compute velocity which is used as basis for filtering out jumps 
- - <b>`speed_threshold`</b>:  default 5. Number of pixels to  
  - <b>`in_place`</b>:  default True. Whether to replace data in place 
+ - <b>`rolling_window`</b>:  default True. Whether to use a rolling window to interpolate 
+ - <b>`window_size`</b>:  default 3. The size of the rolling window to use 
 
 
 

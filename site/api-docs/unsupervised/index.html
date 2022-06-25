@@ -346,6 +346,20 @@
   
   
     <li class="md-nav__item">
+      <a href="../generic_features/" class="md-nav__link">
+        Generic features
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../interpolation/" class="md-nav__link">
         Interpolation
       </a>
@@ -616,17 +630,21 @@
     perplexity=30
 ) → tuple
 </code></pre>
-<p>Compute TSNE embedding.  </p>
+<p>Compute TSNE embedding. Only for a random subset of rows. </p>
 <p><strong>Args:</strong></p>
 <ul>
 <li><b><code>dataset</code></b>:  Input data </li>
 <li><b><code>cols</code></b>:  A list of column names to produce the embedding for </li>
 <li><b><code>N_rows</code></b>:  A number of rows to randomly sample for the embedding. Only these rows are embedded. </li>
+<li><b><code>n_components</code></b>:  The number of dimensions to embed the data into. </li>
+<li><b><code>perplexity</code></b>:  The perplexity of the TSNE embedding. </li>
 </ul>
 <p><strong>Returns:</strong>
- The tuple:  </p>
+ The tuple:<br />
+        - A numpy array with the embedding data, only for a random subset of row 
+        - The rows that were used for the embedding </p>
 <hr />
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/unsupervised.py#L34"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/unsupervised.py#L38"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="function-compute_morlet"><kbd>function</kbd> <code>compute_morlet</code></h2>
 <pre><code class="language-python">compute_morlet(
     data: ndarray,
@@ -635,8 +653,17 @@
     w: float = 3
 ) → ndarray
 </code></pre>
+<p>Compute morlet wavelet transform of a time series. </p>
+<p><strong>Args:</strong></p>
+<ul>
+<li><b><code>data</code></b>:  A 2D array containing the time series data, with dimensions (n_pts x n_channels) </li>
+<li><b><code>dt</code></b>:  The time step of the time series </li>
+<li><b><code>n_freq</code></b>:  The number of frequencies to compute </li>
+<li><b><code>w</code></b>:  The width of the morlet wavelet </li>
+</ul>
+<p>Returns A 2D numpy array with the morlet wavelet transform. The first dimension is the frequency, the second is the time. </p>
 <hr />
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/unsupervised.py#L49"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/unsupervised.py#L64"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="function-compute_density"><kbd>function</kbd> <code>compute_density</code></h2>
 <pre><code class="language-python">compute_density(
     dataset: VideosetDataFrame,
@@ -660,7 +687,7 @@
 <p><strong>Returns:</strong>
  Numpy array with KDE over the specified square region in the embedding space, with dimensions (n_pts x n_pts)     </p>
 <hr />
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/unsupervised.py#L84"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/unsupervised.py#L99"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="function-compute_watershed"><kbd>function</kbd> <code>compute_watershed</code></h2>
 <pre><code class="language-python">compute_watershed(
     dens_matrix: ndarray,
@@ -678,7 +705,7 @@
 <p><strong>Returns:</strong>
  A numpy array with the same dimensions as dens_matrix. Each value in the array is the cluster ID for that coordinate. </p>
 <hr />
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/unsupervised.py#L106"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/unsupervised.py#L121"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="function-cluster_behaviors"><kbd>function</kbd> <code>cluster_behaviors</code></h2>
 <pre><code class="language-python">cluster_behaviors(
     dataset: VideosetDataFrame,

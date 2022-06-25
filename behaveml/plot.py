@@ -10,13 +10,15 @@ from behaveml import VideosetDataFrame
 import pandas as pd
 
 def plot_embedding(dataset : VideosetDataFrame, 
+                   col_names : list  = ['embedding_0', 'embedding_1'],
                    color_col : str = None, 
                    figsize : tuple = (10,10),
                    **kwargs) -> tuple:
     """Scatterplot of a 2D TSNE or UMAP embedding from the dataset.
     
     Args:
-        dataset: data, must have columns named 'embedding_0' and 'embedding_1'
+        dataset: data
+        col_names: list of column names to use for the x and y axes
         color_col: if provided, a column that will be used to color the points in the scatter plot
         figsize: tuple with the dimensions of the plot (in inches)
         kwargs: All other keyword pairs are sent to Matplotlib's scatter function
@@ -30,8 +32,9 @@ def plot_embedding(dataset : VideosetDataFrame,
     else:
         c = None
 
+    col1, col2 = col_names
     fig, axes = plt.subplots(1,1, figsize = figsize)
-    axes.scatter(x = dataset.data['embedding_0'], y = dataset.data['embedding_1'], s = 1, c = c, **kwargs)
+    axes.scatter(x = dataset.data[col1], y = dataset.data[col2], s = 1, c = c, **kwargs)
     axes.set_xlabel('Embedding dim 1')
     axes.set_ylabel('Embedding dim 2')
     return fig, axes
@@ -48,12 +51,17 @@ class MplColorHelper:
         return self.scalarMap.to_rgba(val)
     
 
-def plot_unsupervised_results(dataset, cluster_results, figsize = (15,4), **kwargs):
+def plot_unsupervised_results(dataset : VideosetDataFrame, 
+                              cluster_results : tuple, 
+                              col_names : list = ['embedding_0', 'embedding_1'],
+                              figsize : tuple = (15,4), 
+                              **kwargs):
     """Set of plots for unsupervised behavior clustering results
     
     Args:
-        dataset: data, must have columns named 'embedding_0' and 'embedding_1'
+        dataset: data
         cluster_results: tuple output by 'cluster_behaviors'
+        col_names: list of column names to use for the x and y axes
         figsize: tuple with the plot dimensions, in inches
         kwargs: all other keyword pairs are sent to Matplotlib's scatter function
 
@@ -63,7 +71,8 @@ def plot_unsupervised_results(dataset, cluster_results, figsize = (15,4), **kwar
     dens_matrix, labels, extent = cluster_results
 
     fig, axes = plt.subplots(1, 3, figsize = figsize)
-    axes[0].scatter(x = dataset.data['embedding_0'], y = dataset.data['embedding_1'], s = 1, **kwargs)
+    col1, col2 = col_names
+    axes[0].scatter(x = dataset.data[col1], y = dataset.data[col2], s = 1, **kwargs)
     axes[0].set_xlabel('Embedding dim 1')
     axes[0].set_ylabel('Embedding dim 2')
     axes[0].set_title('Embedding')

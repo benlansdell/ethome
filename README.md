@@ -19,7 +19,7 @@ pip install numpy, cython
 pip install behaveml[all]
 ```
 
-This includes matplotlib, keras, and Linderman lab's state-space model package, ssm. Note that installing ssm requires cython and numpy for the build, so must be already present in the environment. 
+This includes matplotlib, keras, and Linderman lab's state-space model package, [ssm](https://github.com/lindermanlab/ssm). Note that installing ssm requires cython and numpy for the build, so must be already present in the environment. 
 
 ## Quickstart
 
@@ -32,8 +32,7 @@ from behaveml import compute_dl_probability_features, compute_mars_features
 
 Gather the DLC and BORIS tracking and annotation files
 ```
-tracking_files = glob('./tests/data/dlc/*.csv')
-boris_files = glob('./tests/data/boris/*.csv')
+tracking_files, boris_files = get_sample_data_paths()
 ```
 
 Setup some parameters
@@ -69,8 +68,7 @@ dataset.add_features(compute_mars_features,
                      add_to_features = True)
 ```
 
-Now access a features table, labels, and groups for learning with `dataset.features, dataset.labels, dataset.groups`.
-For example:
+Now access a features table, labels, and groups for learning with `dataset.features, dataset.labels, dataset.groups`. From here it's easy to use some ML libraries to predict behavior. For example:
 ```
 from sklearn.ensemble import ExtraTreesClassifier, RandomForestClassifier
 from sklearn.model_selection import cross_val_predict

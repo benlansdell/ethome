@@ -57,10 +57,24 @@ default_tracking_columns = ['resident_x_nose', 'resident_x_leftear', 'resident_x
 
 class Features(object):
     def __init__(self, feature_maker : Callable, required_columns : list, **kwargs):
+        """Feature creation object. This houses the feature creation function and the columns that are required to compute the features. Performs some checks on data to make sure has these columns.
+
+        See docstring for the `features` model for more information.
+
+        Args:
+            feature_maker: The function that will be used to compute the features.
+            required_columns: The columns that are required to compute the features.
+        """
         self.required_columns = required_columns
         self.feature_maker = feature_maker
 
     def make(self, vdf, **kwargs):
+        """Make the features. This is called internally by the dataset object when running `add_features`.
+
+        Args:
+            vdf: The VideosetDataFrame to compute the features on.
+            **kwargs: Extra arguments passed onto the feature creation function.
+        """
         #Validate columns:
         checks = [col in self.required_columns for col in vdf.data.columns]
         if sum(checks) < len(self.required_columns):

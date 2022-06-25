@@ -3,22 +3,18 @@ import numpy as np
 from behaveml.video import VideosetDataFrame
 
 def interpolate_lowconf_points(vdf : VideosetDataFrame,
-                               filter_out_lowconf : bool = True,
-                               filter_out_toofast : bool = True,
                                conf_threshold : float = 0.9,
-                               jump_dur : int = 5,
-                               speed_threshold : float = 5,
-                               in_place = True) -> pd.DataFrame:
+                               in_place : bool = True,
+                               rolling_window : bool = True,
+                               window_size : int = 3) -> pd.DataFrame:
     """Interpolate raw tracking points if their probabilities are available.
 
     Args:
         vdf: VideosetDataFrame containing the tracks to interpolate
-        filter_out_lowconf: default True. Whether to filter out low confidence points
-        filter_out_toofast: default True. Whether to filter out tracks that jump too far in a number of frames
         conf_threshold: default 0.9. Confidence below which to count as uncertain, and to interpolate its value instead
-        jump_dur: default 5. Number of frames to compute velocity which is used as basis for filtering out jumps
-        speed_threshold: default 5. Number of pixels to 
         in_place: default True. Whether to replace data in place
+        rolling_window: default True. Whether to use a rolling window to interpolate
+        window_size: default 3. The size of the rolling window to use
 
     Returns:
         Pandas dataframe with the filtered raw columns. Returns None if opted for in_place modification
@@ -34,19 +30,19 @@ def interpolate_lowconf_points(vdf : VideosetDataFrame,
         else:
             df_filter_low_conf = vdf.data
         
-        if filter_out_lowconf:
-            for m in vdf.animals:
-                for bp in vdf.body_parts:
-                    low_conf = df_filter_low_conf.loc[vdf.data.filename == fn_in, '_'.join(['likelihood', m, bp])] < conf_threshold
-                    df_filter_low_conf.loc[(vdf.data.filename == fn_in) & low_conf,'_'.join([m, 'x', bp])] = np.nan
-                    df_filter_low_conf.loc[(vdf.data.filename == fn_in) & low_conf,'_'.join([m, 'y', bp])] = np.nan
-                    
-            df_filter_low_conf.loc[(vdf.data.filename == fn_in)] = \
-                df_filter_low_conf.loc[(vdf.data.filename == fn_in)].\
-                interpolate(axis = 0, method = 'linear', limit_direction = 'both')            
+        for m in vdf.animals:
+            for bp in vdf.body_parts:
+                low_conf = df_filter_low_conf.loc[vdf.data.filename == fn_in, '_'.join(['likelihood', m, bp])] < conf_threshold
+                df_filter_low_conf.loc[(vdf.data.filename == fn_in) & low_conf,'_'.join([m, 'x', bp])] = np.nan
+                df_filter_low_conf.loc[(vdf.data.filename == fn_in) & low_conf,'_'.join([m, 'y', bp])] = np.nan
+                
+        df_filter_low_conf.loc[(vdf.data.filename == fn_in)] = \
+            df_filter_low_conf.loc[(vdf.data.filename == fn_in)].\
+            interpolate(axis = 0, method = 'linear', limit_direction = 'both')            
 
+        if rolling_window:
             df_filter_low_conf.loc[(vdf.data.filename == fn_in), vdf.raw_track_columns] = \
-                df_filter_low_conf.loc[(vdf.data.filename == fn_in), vdf.raw_track_columns].rolling(window = 3, min_periods = 1).mean()
+                df_filter_low_conf.loc[(vdf.data.filename == fn_in), vdf.raw_track_columns].rolling(window = window_size, min_periods = 1).mean()
             
         df_filter_low_conf = df_filter_low_conf[vdf.raw_track_columns + ['filename', 'frame']]
         df_filtered.append(df_filter_low_conf)

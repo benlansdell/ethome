@@ -13,7 +13,7 @@ def checkFFMPEG() -> bool:
     Check for ffmpeg dependencies
 
     Returns:
-        True if can find ffmpeg in path, false otherwise
+        True if can find `ffmpeg` in path, false otherwise
     """
     try:
         return_value = _exec_php(['ffmpeg', '-version', '2>&1'])[0]

@@ -14,15 +14,19 @@ def compute_tsne_embedding(dataset : VideosetDataFrame,
                            N_rows : int = 20000, 
                            n_components = 2, 
                            perplexity = 30) -> tuple:
-    """Compute TSNE embedding. 
+    """Compute TSNE embedding. Only for a random subset of rows.
     
     Args:
         dataset: Input data
         cols: A list of column names to produce the embedding for
         N_rows: A number of rows to randomly sample for the embedding. Only these rows are embedded.
-        
+        n_components: The number of dimensions to embed the data into.
+        perplexity: The perplexity of the TSNE embedding.
+
     Returns:
         The tuple: 
+            - A numpy array with the embedding data, only for a random subset of row
+            - The rows that were used for the embedding
     """
     
     tsne_data = StandardScaler().fit_transform(dataset.data[cols])
@@ -35,6 +39,17 @@ def compute_morlet(data : np.ndarray,
                    dt : float = 1/30, 
                    n_freq : int = 5, 
                    w : float = 3) -> np.ndarray:
+    """ Compute morlet wavelet transform of a time series.
+    
+    Args:
+        data: A 2D array containing the time series data, with dimensions (n_pts x n_channels)
+        dt: The time step of the time series
+        n_freq: The number of frequencies to compute
+        w: The width of the morlet wavelet
+        
+    Returns
+        A 2D numpy array with the morlet wavelet transform. The first dimension is the frequency, the second is the time.
+    """
     if type(data) is pd.DataFrame:
         data = data.to_numpy()
     fs = 1/dt

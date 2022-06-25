@@ -25,9 +25,23 @@ def _list_replace(ls, renamer):
     return ls
 
 def save_sklearn_model(model, fn_out):
+    """Save sklearn model to file
+    
+    Args:
+        model: sklearn model to save
+        fn_out: filename to save to
+    """
     dump(model, fn_out) 
 
 def load_sklearn_model(fn_in):
+    """Load sklearn model from file
+    
+    Args:
+        fn_in: filename to load from
+    
+    Returns:
+        the loaded sklearn model
+    """
     model = load(fn_in)
     return model 
 
@@ -157,8 +171,8 @@ def _make_sample_dataframe(fn_out = 'sample_dataframe.pkl'): # pragma: no cover
     cur_dir = os.path.dirname(os.path.abspath(__file__))
     tracking_files = sorted(glob(cur_dir + '/data/dlc/*.csv'))
     boris_files = sorted(glob(cur_dir + '/data/boris/*.csv'))
-    frame_width = None              # (float) length of entire horizontal shot
-    frame_width_units = None                     # (str) units frame_width is given in
+    frame_width = None               # (float) length of entire horizontal shot
+    frame_width_units = None         # (str) units frame_width is given in
     fps = 30                         # (int) frames per second
     resolution = (1200, 1600)        # (tuple) HxW in pixels
     metadata = clone_metadata(tracking_files, 
@@ -246,7 +260,14 @@ def read_boris_annotation(fn_in : str, fps : int, duration : float, behav_labels
     return ground_truth, behav_labels
 
 def create_behavior_labels(boris_files):
-    """Create behavior labels from BORIS exported csv files."""
+    """Create behavior labels from BORIS exported csv files.
+    
+    Args:
+        boris_files: List of BORIS exported csv files
+        
+    Returns:
+        A dictionary with keys the numerical labels and values the names of the behaviors.
+    """
     behaviors = set()
     for fn in boris_files:
         boris_labels = pd.read_csv(fn, skiprows = 15)

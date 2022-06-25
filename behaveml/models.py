@@ -102,6 +102,13 @@ class F1Optimizer(ClassifierMixin):
 
 class ModelTransformer(ClassifierMixin):
     def __init__(self, Model, *args, **kwargs):
+        """Turns an sklearn model into a model that can be used in a pipeline. Useful for stacking models. Basically, implements `transform` and `fit_transform` as model.predict_prob, without or with `fit`
+        
+        Args:
+            Model: sklearn model to be used for prediction
+            args: args to be passed to Model.fit()
+            kwargs: kwargs to be passed to Model.fit()
+        """
         self.model = Model(*args, **kwargs)    
         
     def fit(self, X, y):

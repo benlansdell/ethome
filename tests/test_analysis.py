@@ -152,9 +152,9 @@ def test_distance_features(videodataset):
     #Check we made the right amount of new columns
     assert len(videodataset.feature_cols) == 91
 
-def test_velocity_features(videodataset):
-    from behaveml import velocity_feature_maker
-    videodataset.add_features(velocity_feature_maker, 
+def test_speed_features(videodataset):
+    from behaveml import speed_feature_maker
+    videodataset.add_features(speed_feature_maker, 
                      featureset_name = 'speeds', 
                      add_to_features = True)
     #Check we made the right amount of new columns

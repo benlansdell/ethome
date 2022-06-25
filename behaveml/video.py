@@ -1,4 +1,19 @@
-""" Basic video tracking and behavior class that houses data """
+""" Basic video tracking and behavior class that houses data. 
+
+Basic object is the VideoSetDataFrame class.
+
+## A note on unit conversions
+
+For the unit rescaling, if the dlc/tracking file is already in desired units, either in physical distances, or pixels, then don't provide all of 'frame_width', 'resolution', and 'frame_width_units'. If you want to keep track of the units, you can add a 'units' key to the metadata. This could be 'pixels', or 'cm', as appropriate.
+
+If the tracking is in pixels and you do want to rescale it to some physical distance, you should provide 'frame_width', 'frame_width_units' and 'resolution' for all videos. This ensures the entire dataset is using the same units. The package will use these values for each video to rescale the (presumed) pixel coordinates to physical coordinates. 
+
+Resolution is a tuple (H,W) in pixels of the videos. 'frame_width' is the width of the image, in units 'frame_width_units'
+
+When this is done, all coordinates are converted to 'mm'. The pair 'units':'mm' is added to the metadata dictionary for each video
+
+If any of the provided parameters are provided, but are not the right format, or some values are missing, a warning is given and the rescaling is not performed.
+"""
 
 import pandas as pd
 import pickle 
@@ -21,20 +36,6 @@ UNIT_DICT = {'mm':1, 'cm':10, 'm':1000, 'in':25.4, 'ft':304.8,
              'millimeter':1, 'centimeter':10, 'meter':1000, 'inch':25.4, 'foot':304.8,
              'millimetres':1, 'centimetres':10, 'metres':1000,
              'millimetre':1, 'centimetre':10, 'metre':1000}
-
-"""
-For the rescaling... If the dlc/tracking file is already in desired units, either in physical distances, or pixels, then don't provide all of 'frame_width', 'resolution', 
-and 'frame_width_units'. If you want to keep track of the units, you can add a 'units' key to the metadata. This could be 'pixels', or 'cm', as appropriate.
-
-If the tracking is in pixels and you want to rescale it to some physical distance, you should provide 
-'frame_width', 'frame_width_units' and 'resolution' for all videos. This ensures the entire dataset is using the same units.
-Package will use these values for each video to rescale the (presumed) pixel coordinates to physical coordinates. 
-Resolution is a tuple (H,W) in pixels of the videos. 'frame_width' is the width of the image, in units 'frame_width_units'
-
-When this is done, all coordinates are converted to 'mm'. the pair 'units':'mm' is added to the metadata dictionary for each video
-
-If any of the provided parameters are provided, but are not the right format, or some values are missing, a warning is given and the rescaling is not performed.
-"""
 
 class MLDataFrame(object): # pragma: no cover
     """
@@ -124,8 +125,7 @@ def clone_metadata(tracking_files : list, **kwargs) -> dict:
         **kwargs: described as above
 
     Returns:
-        Dictionary whose keys are DLC tracking file names, and contains a dictionary with key,values containing
-        the metadata provided
+        Dictionary whose keys are DLC tracking file names, and contains a dictionary with key,values containing the metadata provided
     """
 
     metadata = {}
@@ -451,6 +451,8 @@ class VideosetDataFrame(MLDataFrame):
 
     def to_dlc_csv(self, base_dir : str, save_h5_too = False) -> None:
         """Save VideosetDataFrame tracking files to DLC csv format.
+
+        Only save tracking data, not other computed features.
         
         Args:
             base_dir: base_dir to write DLC csv files to
@@ -497,12 +499,12 @@ class VideosetDataFrame(MLDataFrame):
         """Given columns indicating behavior predictions or whatever else, make a video
         with these predictions overlaid. 
 
-        VideosetDataFrame must have the keys 'video_file', so that the video associated with each set of DLC tracks is known.
+        VideosetDataFrame metadata must have the keys 'video_file', so that the video associated with each set of DLC tracks is known.
 
         Args:
             label_columns: list or dict of columns whose values to overlay on top of video. If dict, keys are the columns and values are the print-friendly version.
             path_out: the directory to output the videos too
-            video_filenames: list or string. The 
+            video_filenames: list or string. The set of videos to use. If not provided, then use all videos as given in the metadata.
 
         Returns:
             None. Videos are saved to 'path_out'

@@ -462,6 +462,20 @@
   
   
     <li class="md-nav__item">
+      <a href="api-docs/models/" class="md-nav__link">
+        Models
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="api-docs/plot/" class="md-nav__link">
         Plot
       </a>
@@ -573,7 +587,7 @@
 
 <p><a href="https://codecov.io/gh/benlansdell/behaveml"><img alt="codecov" src="https://codecov.io/gh/benlansdell/behaveml/branch/master/graph/badge.svg?token=PN52Q3UH3G" /></a></p>
 <h1 id="behaveml">BehaveML</h1>
-<p>Supervised learning for animal behavior.</p>
+<p>Machine learning for animal behavior.</p>
 <p>Interprets pose-tracking files (currently only from DLC), behavior annotations (currently only from BORIS) to train a behavior classifier. </p>
 <h2 id="installation">Installation</h2>
 <pre><code>pip install behaveml
@@ -582,7 +596,7 @@
 <pre><code>pip install numpy, cython
 pip install behaveml[all]
 </code></pre>
-<p>This includes matplotlib, keras, and Linderman lab's state-space model package, ssm. Note that installing ssm requires cython and numpy for the build, so must be already present in the environment. </p>
+<p>This includes matplotlib, keras, and Linderman lab's state-space model package, <a href="https://github.com/lindermanlab/ssm">ssm</a>. Note that installing ssm requires cython and numpy for the build, so must be already present in the environment. </p>
 <h2 id="quickstart">Quickstart</h2>
 <p>Import</p>
 <pre><code>from glob import glob 
@@ -590,12 +604,11 @@ from behaveml import VideosetDataFrame, clone_metadata
 from behaveml import compute_dl_probability_features, compute_mars_features
 </code></pre>
 <p>Gather the DLC and BORIS tracking and annotation files</p>
-<pre><code>tracking_files = glob('./tests/data/dlc/*.csv')
-boris_files = glob('./tests/data/boris/*.csv')
+<pre><code>tracking_files, boris_files = get_sample_data_paths()
 </code></pre>
 <p>Setup some parameters</p>
-<pre><code>frame_width = None              # (float) length of entire horizontal shot
- = None                     # (str) units frame_width is given in
+<pre><code>frame_width = 20                 # (float) length of entire horizontal shot
+frame_width_units = 'in'         # (str) units frame_width is given in
 fps = 30                         # (int) frames per second
 resolution = (1200, 1600)        # (tuple) HxW in pixels
 </code></pre>
@@ -604,9 +617,12 @@ resolution = (1200, 1600)        # (tuple) HxW in pixels
                           label_files = boris_files, 
                           frame_width = frame_width, 
                           fps = fps, 
-                           = , 
+                          frame_width_units = frame_width_units, 
                           resolution = resolution)
-dataset = VideosetDataFrame(metadata)
+
+animal_renamer = {'adult': 'resident', 'juvenile':'intruder'}
+
+dataset = VideosetDataFrame(metadata, animal_renamer=animal_renamer)
 </code></pre>
 <p>Now create features on this dataset</p>
 <pre><code>dataset.add_features(compute_dl_probability_features, 
@@ -617,8 +633,7 @@ dataset.add_features(compute_mars_features,
                      featureset_name = 'MARS', 
                      add_to_features = True)
 </code></pre>
-<p>Now access a features table, labels, and groups for learning with <code>dataset.features, dataset.labels, dataset.groups</code>.
-For example:</p>
+<p>Now access a features table, labels, and groups for learning with <code>dataset.features, dataset.labels, dataset.groups</code>. From here it's easy to use some ML libraries to predict behavior. For example:</p>
 <pre><code>from sklearn.ensemble import ExtraTreesClassifier, RandomForestClassifier
 from sklearn.model_selection import cross_val_predict
 from sklearn.metrics import accuracy_score

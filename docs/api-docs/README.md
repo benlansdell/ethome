@@ -17,6 +17,7 @@
 - [`io`](./io.md#module-io): Loading and saving tracking and behavior annotation files 
 - [`mars_features`](./mars_features.md#module-mars_features)
 - [`ml`](./ml.md#module-ml): Machine learning functions 
+- [`models`](./models.md#module-models): Basic video tracking and behavior class that houses data 
 - [`plot`](./plot.md#module-plot)
 - [`unsupervised`](./unsupervised.md#module-unsupervised)
 - [`utils`](./utils.md#module-utils): Small helper utilities
@@ -32,6 +33,9 @@
 - [`io.RawIOBase`](./io.md#class-rawiobase): Base class for raw binary I/O.
 - [`io.TextIOBase`](./io.md#class-textiobase): Base class for text I/O.
 - [`io.UnsupportedOperation`](./io.md#class-unsupportedoperation)
+- [`models.F1Optimizer`](./models.md#class-f1optimizer)
+- [`models.HMMSklearn`](./models.md#class-hmmsklearn)
+- [`models.ModelTransformer`](./models.md#class-modeltransformer)
 - [`plot.MplColorHelper`](./plot.md#class-mplcolorhelper)
 - [`video.MLDataFrame`](./video.md#class-mldataframe): DataFrame useful for interfacing between pandas and sklearn. Stores a data
 - [`video.VideosetDataFrame`](./video.md#class-videosetdataframe)

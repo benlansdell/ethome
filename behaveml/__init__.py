@@ -1,3 +1,5 @@
+__version__ = '0.2.9'
+
 #These are brought into the behaveml namespace
 from behaveml.io import read_DLC_tracks, save_DLC_tracks_h5, load_sklearn_model, save_sklearn_model
 from behaveml.interpolation import interpolate_lowconf_points

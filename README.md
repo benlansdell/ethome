@@ -4,7 +4,7 @@
 
 Machine learning for animal behavior.
 
-Interprets pose-tracking files (currently only from DLC), behavior annotations (currently only from BORIS) to train a behavior classifier. 
+Interprets pose-tracking files (currently only from DLC) and behavior annotations (currently only from BORIS) to train a behavior classifier, perform unsupervised learning, and other common analysis tasks. 
 
 ## Installation
 
@@ -28,6 +28,7 @@ Import
 from glob import glob 
 from behaveml import VideosetDataFrame, clone_metadata
 from behaveml import compute_dl_probability_features, compute_mars_features
+from behaveml.io import get_sample_data_paths
 ```
 
 Gather the DLC and BORIS tracking and annotation files
@@ -78,3 +79,7 @@ model = RandomForestClassifier()
 predictions = cross_val_predict(model, dataset.features, dataset.labels, dataset.groups)
 score = accuracy_score(dataset.labels, predictions)
 ```
+
+## Features
+
+* Quickly generate a movie 

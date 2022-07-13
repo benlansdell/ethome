@@ -67,6 +67,7 @@ class Features(object):
         """
         self.required_columns = required_columns
         self.feature_maker = feature_maker
+        self.kwargs = kwargs
 
     def make(self, vdf, **kwargs):
         """Make the features. This is called internally by the dataset object when running `add_features`.
@@ -81,7 +82,7 @@ class Features(object):
             raise RuntimeError("VideosetDataFrame doesn't have necessary columns to compute this set of features.")
         if vdf.data[self.required_columns].isnull().values.any():
             warnings.warn("Missing values in required data columns. May result in unexpected behavior. Consider interpolating or imputing missing data first.")
-        new_features = self.feature_maker(vdf.data, self.required_columns, vdf.animal_setup, **kwargs)
+        new_features = self.feature_maker(vdf.data, self.required_columns, vdf.animal_setup, **self.kwargs, **kwargs)
         return new_features
 
 ## MARS features
@@ -90,10 +91,10 @@ marsreduced_feature_maker = Features(compute_mars_reduced_features, default_trac
 cnn_probability_feature_maker = Features(compute_dl_probability_features, default_tracking_columns)
 social_feature_maker = Features(compute_social_features, default_tracking_columns)
 
-## Generic features
-com_interanimal_feature_maker = Features(compute_centerofmass_interanimal_distances, default_tracking_columns)
-com_interanimal_speed_feature_maker = Features(compute_centerofmass_interanimal_speed, default_tracking_columns)
-com_feature_maker = Features(compute_centerofmass, default_tracking_columns)
-com_velocity_feature_maker = Features(compute_centerofmass_velocity, default_tracking_columns)
-speed_feature_maker = Features(compute_speed_features, default_tracking_columns)
-distance_feature_maker = Features(compute_distance_features, default_tracking_columns)
+## Generic features -- don't need any specific column names. Will be based on the animal setup.
+com_interanimal_feature_maker = Features(compute_centerofmass_interanimal_distances, [])
+com_interanimal_speed_feature_maker = Features(compute_centerofmass_interanimal_speed, [])
+com_feature_maker = Features(compute_centerofmass, [])
+com_velocity_feature_maker = Features(compute_centerofmass_velocity, [])
+speed_feature_maker = Features(compute_speed_features, [])
+distance_feature_maker = Features(compute_distance_features, [])

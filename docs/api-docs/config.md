@@ -1,9 +1,9 @@
 <!-- markdownlint-disable -->
 
-<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/config.py#L0"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/config.py#L0"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 # <kbd>module</kbd> `config`
-Configuration options for behaveml functions. 
+Configuration options for ethome functions. 
 
 **Global Variables**
 ---------------

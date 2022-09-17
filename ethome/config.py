@@ -1,4 +1,4 @@
-"""Configuration options for behaveml functions."""
+"""Configuration options for ethome functions."""
 
 #TODO
 #Add support for the user to change these.

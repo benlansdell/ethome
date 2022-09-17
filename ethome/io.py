@@ -166,7 +166,7 @@ def load_data(fn : str):
     return object 
 
 def _make_sample_dataframe(fn_out = 'sample_dataframe.pkl'): # pragma: no cover
-    from behaveml import VideosetDataFrame, clone_metadata
+    from ethome import ExperimentDataFrame, clone_metadata
 
     cur_dir = os.path.dirname(os.path.abspath(__file__))
     tracking_files = sorted(glob(cur_dir + '/data/dlc/*.csv'))
@@ -182,7 +182,7 @@ def _make_sample_dataframe(fn_out = 'sample_dataframe.pkl'): # pragma: no cover
                           frame_width_units = frame_width_units, 
                           resolution = resolution)
 
-    dataset = VideosetDataFrame(metadata)
+    dataset = ExperimentDataFrame(metadata)
     path_out = os.path.join(cur_dir, 'data', fn_out)
     to_save = {'dataset': dataset, 'metadata': metadata}
     with open(path_out, 'wb') as handle:
@@ -203,7 +203,7 @@ def get_sample_data():
     """Load a sample dataset of 5 mice social interaction videos. Each video is approx. 5 minutes in duration
     
     Returns:
-        (VideosetDataFrame) Data frame with the corresponding tracking and behavior annotation files
+        (ExperimentDataFrame) Data frame with the corresponding tracking and behavior annotation files
     """
 
     cur_dir = os.path.dirname(os.path.abspath(__file__))

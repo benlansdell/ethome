@@ -13,7 +13,7 @@
     
     
       
-        <title>Interpolation - behaveML</title>
+        <title>Interpolation - ethome</title>
       
     
     
@@ -72,7 +72,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../.." title="behaveML" class="md-header__button md-logo" aria-label="behaveML" data-md-component="logo">
+    <a href="../.." title="ethome" class="md-header__button md-logo" aria-label="ethome" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
@@ -85,7 +85,7 @@
       <div class="md-header__ellipsis">
         <div class="md-header__topic">
           <span class="md-ellipsis">
-            behaveML
+            ethome
           </span>
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
@@ -158,13 +158,13 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../.." title="behaveML" class="md-nav__button md-logo" aria-label="behaveML" data-md-component="logo">
+    <a href="../.." title="ethome" class="md-nav__button md-logo" aria-label="ethome" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
 
     </a>
-    behaveML
+    ethome
   </label>
   
   <ul class="md-nav__list" data-md-scrollfix>
@@ -590,13 +590,13 @@
 
 <!-- markdownlint-disable -->
 
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/interpolation.py#L0"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/interpolation.py#L0"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h1 id="module-interpolation"><kbd>module</kbd> <code>interpolation</code></h1>
 <hr />
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/interpolation.py#L5"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/interpolation.py#L5"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="function-interpolate_lowconf_points"><kbd>function</kbd> <code>interpolate_lowconf_points</code></h2>
 <pre><code class="language-python">interpolate_lowconf_points(
-    vdf: VideosetDataFrame,
+    edf: ExperimentDataFrame,
     conf_threshold: float = 0.9,
     in_place: bool = True,
     rolling_window: bool = True,
@@ -606,7 +606,7 @@
 <p>Interpolate raw tracking points if their probabilities are available. </p>
 <p><strong>Args:</strong></p>
 <ul>
-<li><b><code>vdf</code></b>:  VideosetDataFrame containing the tracks to interpolate </li>
+<li><b><code>edf</code></b>:  ExperimentDataFrame containing the tracks to interpolate </li>
 <li><b><code>conf_threshold</code></b>:  default 0.9. Confidence below which to count as uncertain, and to interpolate its value instead </li>
 <li><b><code>in_place</code></b>:  default True. Whether to replace data in place </li>
 <li><b><code>rolling_window</code></b>:  default True. Whether to use a rolling window to interpolate </li>

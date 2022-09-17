@@ -1,6 +1,6 @@
 <!-- markdownlint-disable -->
 
-<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/features.py#L0"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/features.py#L0"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 # <kbd>module</kbd> `features`
 Functions to take pose tracks and compute a set of features from them. 
@@ -19,7 +19,7 @@ Where:
 
 The function returns: 
 
-A dataframe, that only contains the new features. These will be added to the VideosetDataFrame as columns. 
+A dataframe, that only contains the new features. These will be added to the ExperimentDataFrame as columns. 
 
 Once you have such a function defined, you can create a "feature making object" with 
 
@@ -48,14 +48,14 @@ dataset.add_features(custom_feature_maker, featureset_name = 'CUSTOM', add_to_fe
 
 ---
 
-<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/features.py#L58"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/features.py#L58"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>class</kbd> `Features`
 
 
 
 
-<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/features.py#L59"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/features.py#L59"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `__init__`
 
@@ -79,12 +79,12 @@ See docstring for the `features` model for more information.
 
 ---
 
-<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/features.py#L71"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/features.py#L71"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `make`
 
 ```python
-make(vdf, **kwargs)
+make(edf, **kwargs)
 ```
 
 Make the features. This is called internally by the dataset object when running `add_features`. 
@@ -93,7 +93,7 @@ Make the features. This is called internally by the dataset object when running 
 
 **Args:**
  
- - <b>`vdf`</b>:  The VideosetDataFrame to compute the features on. 
+ - <b>`edf`</b>:  The ExperimentDataFrame to compute the features on. 
  - <b>`**kwargs`</b>:  Extra arguments passed onto the feature creation function. 
 
 

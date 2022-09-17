@@ -20,7 +20,7 @@ Where:
 
 The function returns:
 
-A dataframe, that only contains the new features. These will be added to the VideosetDataFrame as columns.
+A dataframe, that only contains the new features. These will be added to the ExperimentDataFrame as columns.
 
 Once you have such a function defined, you can create a "feature making object" with
 
@@ -36,9 +36,9 @@ dataset.add_features(custom_feature_maker, featureset_name = 'CUSTOM', add_to_fe
 from typing import Callable
 import warnings
 
-from behaveml.dl.dl_features import compute_dl_probability_features
-from behaveml.mars_features import compute_mars_features, compute_mars_reduced_features, compute_social_features
-from behaveml.generic_features import compute_centerofmass_interanimal_distances, \
+from ethome.dl.dl_features import compute_dl_probability_features
+from ethome.mars_features import compute_mars_features, compute_mars_reduced_features, compute_social_features
+from ethome.generic_features import compute_centerofmass_interanimal_distances, \
                                         compute_centerofmass_interanimal_speed, \
                                         compute_centerofmass, \
                                         compute_centerofmass_velocity, \
@@ -69,20 +69,20 @@ class Features(object):
         self.feature_maker = feature_maker
         self.kwargs = kwargs
 
-    def make(self, vdf, **kwargs):
+    def make(self, edf, **kwargs):
         """Make the features. This is called internally by the dataset object when running `add_features`.
 
         Args:
-            vdf: The VideosetDataFrame to compute the features on.
+            edf: The ExperimentDataFrame to compute the features on.
             **kwargs: Extra arguments passed onto the feature creation function.
         """
         #Validate columns:
-        checks = [col in self.required_columns for col in vdf.data.columns]
+        checks = [col in self.required_columns for col in edf.data.columns]
         if sum(checks) < len(self.required_columns):
-            raise RuntimeError("VideosetDataFrame doesn't have necessary columns to compute this set of features.")
-        if vdf.data[self.required_columns].isnull().values.any():
+            raise RuntimeError("ExperimentDataFrame doesn't have necessary columns to compute this set of features.")
+        if edf.data[self.required_columns].isnull().values.any():
             warnings.warn("Missing values in required data columns. May result in unexpected behavior. Consider interpolating or imputing missing data first.")
-        new_features = self.feature_maker(vdf.data, self.required_columns, vdf.animal_setup, **self.kwargs, **kwargs)
+        new_features = self.feature_maker(edf.data, self.required_columns, edf.animal_setup, **self.kwargs, **kwargs)
         return new_features
 
 ## MARS features

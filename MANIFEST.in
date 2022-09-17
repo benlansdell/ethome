@@ -1,5 +1,5 @@
 include README.md
 include LICENSE
-include behaveml/data/sample_dataframe.pkl
-include behaveml/data/dlc/openfield/openfield_dlc_inference_example.csv
-recursive-include behaveml/dl/pretrained_models *
+include ethome/data/sample_dataframe.pkl
+include ethome/data/dlc/openfield/openfield_dlc_inference_example.csv
+recursive-include ethome/dl/pretrained_models *

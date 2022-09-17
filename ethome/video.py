@@ -1,6 +1,6 @@
 """ Basic video tracking and behavior class that houses data. 
 
-Basic object is the VideoSetDataFrame class.
+Basic object is the ExperimentDataFrame class.
 
 ## A note on unit conversions
 
@@ -23,12 +23,12 @@ import re
 from glob import glob
 from sklearn.model_selection import PredefinedSplit
 
-from behaveml.features import Features
+from ethome.features import Features
 
-from behaveml.io import read_DLC_tracks, read_boris_annotation, uniquifier, create_behavior_labels
-from behaveml.utils import checkFFMPEG
+from ethome.io import read_DLC_tracks, read_boris_annotation, uniquifier, create_behavior_labels
+from ethome.utils import checkFFMPEG
 
-from behaveml.config import global_config
+from ethome.config import global_config
 
 #This converts everything to mm, or leaves them as pixels
 UNIT_DICT = {'mm':1, 'cm':10, 'm':1000, 'in':25.4, 'ft':304.8,
@@ -111,7 +111,7 @@ def _add_items_to_dict(tracking_files, metadata, k, items):
 
 def clone_metadata(tracking_files : list, **kwargs) -> dict:
     """
-    Prepare a metadata dictionary for defining a VideosetDataFrame. 
+    Prepare a metadata dictionary for defining a ExperimentDataFrame. 
 
     Only required argument is list of DLC tracking file names. 
 
@@ -144,7 +144,7 @@ def clone_metadata(tracking_files : list, **kwargs) -> dict:
 
     return metadata
 
-class VideosetDataFrame(MLDataFrame):
+class ExperimentDataFrame(MLDataFrame):
     def __init__(self, metadata : dict, 
                        label_key : dict = None, 
                        part_renamer : dict = None,
@@ -438,7 +438,7 @@ class VideosetDataFrame(MLDataFrame):
             self.label_cols = col_name
 
     def save(self, fn_out : str) -> None:
-        """Save VideosetDataFrame object with pickle.
+        """Save ExperimentDataFrame object with pickle.
         
         Args:
             fn_out: location to write pickle file to
@@ -450,7 +450,7 @@ class VideosetDataFrame(MLDataFrame):
             file.write(pickle.dumps(self.__dict__, protocol = 4))
 
     def to_dlc_csv(self, base_dir : str, save_h5_too = False) -> None:
-        """Save VideosetDataFrame tracking files to DLC csv format.
+        """Save ExperimentDataFrame tracking files to DLC csv format.
 
         Only save tracking data, not other computed features.
         
@@ -484,7 +484,7 @@ class VideosetDataFrame(MLDataFrame):
                 df.to_hdf(fn_out.replace('.csv', '.h5'), "df_with_missing", format = 'table', mode="w")
 
     def load(self, fn_in : str) -> None:
-        """Load VideosetDataFrame object from pickle file.
+        """Load ExperimentDataFrame object from pickle file.
         
         Args:
             fn_in: path to load pickle file from. 
@@ -499,7 +499,7 @@ class VideosetDataFrame(MLDataFrame):
         """Given columns indicating behavior predictions or whatever else, make a video
         with these predictions overlaid. 
 
-        VideosetDataFrame metadata must have the keys 'video_file', so that the video associated with each set of DLC tracks is known.
+        ExperimentDataFrame metadata must have the keys 'video_file', so that the video associated with each set of DLC tracks is known.
 
         Args:
             label_columns: list or dict of columns whose values to overlay on top of video. If dict, keys are the columns and values are the print-friendly version.
@@ -545,18 +545,18 @@ class VideosetDataFrame(MLDataFrame):
             cmd = f'ffmpeg -y -i {vid_in} -vf "{label_string}" {vid_out}'
             os.system(cmd)
             
-def load_videodataset(fn_in : str) -> VideosetDataFrame:
-    """Load VideosetDataFrame from file.
+def load_videodataset(fn_in : str) -> ExperimentDataFrame:
+    """Load ExperimentDataFrame from file.
     
     Args:
         fn_in: path to file to load
         
     Returns:
-        VideosetDataFrame object from pickle file
+        ExperimentDataFrame object from pickle file
     """
     with open(fn_in, 'rb') as file:
         dataPickle = file.read()
-    new_obj = VideosetDataFrame({})
+    new_obj = ExperimentDataFrame({})
     new_obj.__dict__ = pickle.loads(dataPickle)
     return new_obj
 
@@ -564,7 +564,7 @@ def get_sample_openfield_data():
     """Load a sample dataset of 1 mouse in openfield setup. The video is the sample that comes with DLC.
     
     Returns:
-        (VideosetDataFrame) Data frame with the corresponding tracking and behavior annotation files
+        (ExperimentDataFrame) Data frame with the corresponding tracking and behavior annotation files
     """
 
     cur_dir = os.path.dirname(os.path.abspath(__file__))
@@ -578,9 +578,9 @@ def get_sample_openfield_data():
                             fps = fps, 
                             resolution = resolution)
 
-    vdf = VideosetDataFrame(metadata)
+    edf = ExperimentDataFrame(metadata)
 
-    return vdf
+    return edf
 
 def _make_dense_values_into_pairs(predictions, rate):
     #Put into start/stop pairs

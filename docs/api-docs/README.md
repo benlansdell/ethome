@@ -4,7 +4,7 @@
 
 ## Modules
 
-- [`config`](./config.md#module-config): Configuration options for behaveml functions.
+- [`config`](./config.md#module-config): Configuration options for ethome functions.
 - [`dl`](./dl.md#module-dl)
 - [`dl.dl_features`](./dl.dl_features.md#module-dldl_features)
 - [`dl.dl_generators`](./dl.dl_generators.md#module-dldl_generators)
@@ -38,7 +38,7 @@
 - [`models.ModelTransformer`](./models.md#class-modeltransformer)
 - [`plot.MplColorHelper`](./plot.md#class-mplcolorhelper)
 - [`video.MLDataFrame`](./video.md#class-mldataframe): DataFrame useful for interfacing between pandas and sklearn. Stores a data
-- [`video.VideosetDataFrame`](./video.md#class-videosetdataframe)
+- [`video.ExperimentDataFrame`](./video.md#class-ExperimentDataFrame)
 
 ## Functions
 
@@ -100,9 +100,9 @@
 - [`unsupervised.compute_tsne_embedding`](./unsupervised.md#function-compute_tsne_embedding): Compute TSNE embedding. Only for a random subset of rows.
 - [`unsupervised.compute_watershed`](./unsupervised.md#function-compute_watershed): Compute watershed clustering of a density matrix. 
 - [`utils.checkFFMPEG`](./utils.md#function-checkffmpeg): Check for ffmpeg dependencies
-- [`video.clone_metadata`](./video.md#function-clone_metadata): Prepare a metadata dictionary for defining a VideosetDataFrame. 
+- [`video.clone_metadata`](./video.md#function-clone_metadata): Prepare a metadata dictionary for defining a ExperimentDataFrame. 
 - [`video.get_sample_openfield_data`](./video.md#function-get_sample_openfield_data): Load a sample dataset of 1 mouse in openfield setup. The video is the sample that comes with DLC.
-- [`video.load_videodataset`](./video.md#function-load_videodataset): Load VideosetDataFrame from file.
+- [`video.load_videodataset`](./video.md#function-load_videodataset): Load ExperimentDataFrame from file.
 
 
 ---

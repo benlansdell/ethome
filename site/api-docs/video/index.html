@@ -13,7 +13,7 @@
     
     
       
-        <title>Video - behaveML</title>
+        <title>Video - ethome</title>
       
     
     
@@ -72,7 +72,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../.." title="behaveML" class="md-header__button md-logo" aria-label="behaveML" data-md-component="logo">
+    <a href="../.." title="ethome" class="md-header__button md-logo" aria-label="ethome" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
@@ -85,7 +85,7 @@
       <div class="md-header__ellipsis">
         <div class="md-header__topic">
           <span class="md-ellipsis">
-            behaveML
+            ethome
           </span>
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
@@ -158,13 +158,13 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../.." title="behaveML" class="md-nav__button md-logo" aria-label="behaveML" data-md-component="logo">
+    <a href="../.." title="ethome" class="md-nav__button md-logo" aria-label="ethome" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
 
     </a>
-    behaveML
+    ethome
   </label>
   
   <ul class="md-nav__list" data-md-scrollfix>
@@ -624,11 +624,11 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#class-videosetdataframe" class="md-nav__link">
-    class VideosetDataFrame
+  <a href="#class-ExperimentDataFrame" class="md-nav__link">
+    class ExperimentDataFrame
   </a>
   
-    <nav class="md-nav" aria-label="class VideosetDataFrame">
+    <nav class="md-nav" aria-label="class ExperimentDataFrame">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -913,11 +913,11 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#class-videosetdataframe" class="md-nav__link">
-    class VideosetDataFrame
+  <a href="#class-ExperimentDataFrame" class="md-nav__link">
+    class ExperimentDataFrame
   </a>
   
-    <nav class="md-nav" aria-label="class VideosetDataFrame">
+    <nav class="md-nav" aria-label="class ExperimentDataFrame">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1072,10 +1072,10 @@
 
 <!-- markdownlint-disable -->
 
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/video.py#L0"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L0"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h1 id="module-video"><kbd>module</kbd> <code>video</code></h1>
 <p>Basic video tracking and behavior class that houses data.  </p>
-<p>Basic object is the VideoSetDataFrame class. </p>
+<p>Basic object is the ExperimentDataFrame class. </p>
 <h2 id="a-note-on-unit-conversions">A note on unit conversions</h2>
 <p>For the unit rescaling, if the dlc/tracking file is already in desired units, either in physical distances, or pixels, then don't provide all of 'frame_width', 'resolution', and 'frame_width_units'. If you want to keep track of the units, you can add a 'units' key to the metadata. This could be 'pixels', or 'cm', as appropriate. </p>
 <p>If the tracking is in pixels and you do want to rescale it to some physical distance, you should provide 'frame_width', 'frame_width_units' and 'resolution' for all videos. This ensures the entire dataset is using the same units. The package will use these values for each video to rescale the (presumed) pixel coordinates to physical coordinates.  </p>
@@ -1088,11 +1088,11 @@
 <li><strong>UNIT_DICT</strong></li>
 </ul>
 <hr />
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/video.py#L112"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L112"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="function-clone_metadata"><kbd>function</kbd> <code>clone_metadata</code></h2>
 <pre><code class="language-python">clone_metadata(tracking_files: list, **kwargs) → dict
 </code></pre>
-<p>Prepare a metadata dictionary for defining a VideosetDataFrame.  </p>
+<p>Prepare a metadata dictionary for defining a ExperimentDataFrame.  </p>
 <p>Only required argument is list of DLC tracking file names.  </p>
 <p>Any other keyword argument must be either a non-iterable object (e.g. a scalar parameter, like FPS) that will be copied and tagged to each of the DLC tracking files, or an iterable object of the same length of the list of DLC tracking files. Each element in the iterable will be tagged with the corresponding DLC file. </p>
 <p><strong>Args:</strong></p>
@@ -1103,30 +1103,30 @@
 <p><strong>Returns:</strong>
  Dictionary whose keys are DLC tracking file names, and contains a dictionary with key,values containing the metadata provided </p>
 <hr />
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/video.py#L548"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L548"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="function-load_videodataset"><kbd>function</kbd> <code>load_videodataset</code></h2>
-<pre><code class="language-python">load_videodataset(fn_in: str) → VideosetDataFrame
+<pre><code class="language-python">load_videodataset(fn_in: str) → ExperimentDataFrame
 </code></pre>
-<p>Load VideosetDataFrame from file. </p>
+<p>Load ExperimentDataFrame from file. </p>
 <p><strong>Args:</strong></p>
 <ul>
 <li><b><code>fn_in</code></b>:  path to file to load </li>
 </ul>
 <p><strong>Returns:</strong>
- VideosetDataFrame object from pickle file </p>
+ ExperimentDataFrame object from pickle file </p>
 <hr />
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/video.py#L563"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L563"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="function-get_sample_openfield_data"><kbd>function</kbd> <code>get_sample_openfield_data</code></h2>
 <pre><code class="language-python">get_sample_openfield_data()
 </code></pre>
 <p>Load a sample dataset of 1 mouse in openfield setup. The video is the sample that comes with DLC. </p>
 <p><strong>Returns:</strong>
-  (VideosetDataFrame) Data frame with the corresponding tracking and behavior annotation files </p>
+  (ExperimentDataFrame) Data frame with the corresponding tracking and behavior annotation files </p>
 <hr />
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/video.py#L40"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L40"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="class-mldataframe"><kbd>class</kbd> <code>MLDataFrame</code></h2>
 <p>DataFrame useful for interfacing between pandas and sklearn. Stores a data table and metadata dictionary. When feature columns, label columns and fold columns are specified then creates properties features, labels, folds and splitter that sklearn accepts for ML. </p>
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/video.py#L46"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L46"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h3 id="method-__init__"><kbd>method</kbd> <code>__init__</code></h3>
 <pre><code class="language-python">__init__(
     data: DataFrame,
@@ -1145,19 +1145,19 @@
 <hr />
 <h4 id="property-splitter"><kbd>property</kbd> splitter</h4>
 <hr />
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/video.py#L57"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L57"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h3 id="method-add_data"><kbd>method</kbd> <code>add_data</code></h3>
 <pre><code class="language-python">add_data(new_data, col_names)
 </code></pre>
 <hr />
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/video.py#L97"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L97"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h3 id="method-save"><kbd>method</kbd> <code>save</code></h3>
 <pre><code class="language-python">save(fn)
 </code></pre>
 <hr />
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/video.py#L147"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
-<h2 id="class-videosetdataframe"><kbd>class</kbd> <code>VideosetDataFrame</code></h2>
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/video.py#L148"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L147"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<h2 id="class-ExperimentDataFrame"><kbd>class</kbd> <code>ExperimentDataFrame</code></h2>
+<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L148"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h3 id="method-__init___1"><kbd>method</kbd> <code>__init__</code></h3>
 <pre><code class="language-python">__init__(
     metadata: dict,
@@ -1190,7 +1190,7 @@
 <hr />
 <h4 id="property-videos"><kbd>property</kbd> videos</h4>
 <hr />
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/video.py#L273"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L273"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h3 id="method-activate_features_by_name"><kbd>method</kbd> <code>activate_features_by_name</code></h3>
 <pre><code class="language-python">activate_features_by_name(name: str) → list
 </code></pre>
@@ -1202,12 +1202,12 @@
 <p><strong>Returns:</strong>
  List of matched columns (may include columns that were already activated). </p>
 <hr />
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/video.py#L57"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L57"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h3 id="method-add_data_1"><kbd>method</kbd> <code>add_data</code></h3>
 <pre><code class="language-python">add_data(new_data, col_names)
 </code></pre>
 <hr />
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/video.py#L320"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L320"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h3 id="method-add_features"><kbd>method</kbd> <code>add_features</code></h3>
 <pre><code class="language-python">add_features(
     feature_maker: Features,
@@ -1226,7 +1226,7 @@
 <p><strong>Returns:</strong>
  List of new columns that are computed </p>
 <hr />
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/video.py#L290"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L290"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h3 id="method-get_columns_regex"><kbd>method</kbd> <code>get_columns_regex</code></h3>
 <pre><code class="language-python">get_columns_regex(pattern: str) → list
 </code></pre>
@@ -1238,11 +1238,11 @@
 <p><strong>Returns:</strong>
  list of column names </p>
 <hr />
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/video.py#L486"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L486"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h3 id="method-load"><kbd>method</kbd> <code>load</code></h3>
 <pre><code class="language-python">load(fn_in: str) → None
 </code></pre>
-<p>Load VideosetDataFrame object from pickle file. </p>
+<p>Load ExperimentDataFrame object from pickle file. </p>
 <p><strong>Args:</strong></p>
 <ul>
 <li><b><code>fn_in</code></b>:  path to load pickle file from.  </li>
@@ -1250,12 +1250,12 @@
 <p><strong>Returns:</strong>
  None. Data in this object is populated with contents of file. </p>
 <hr />
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/video.py#L498"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L498"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h3 id="method-make_movie"><kbd>method</kbd> <code>make_movie</code></h3>
 <pre><code class="language-python">make_movie(label_columns, path_out: str, video_filenames=None) → None
 </code></pre>
 <p>Given columns indicating behavior predictions or whatever else, make a video with these predictions overlaid.  </p>
-<p>VideosetDataFrame metadata must have the keys 'video_file', so that the video associated with each set of DLC tracks is known. </p>
+<p>ExperimentDataFrame metadata must have the keys 'video_file', so that the video associated with each set of DLC tracks is known. </p>
 <p><strong>Args:</strong></p>
 <ul>
 <li><b><code>label_columns</code></b>:  list or dict of columns whose values to overlay on top of video. If dict, keys are the columns and values are the print-friendly version. </li>
@@ -1265,7 +1265,7 @@
 <p><strong>Returns:</strong>
  None. Videos are saved to 'path_out' </p>
 <hr />
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/video.py#L353"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L353"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h3 id="method-remove_feature_cols"><kbd>method</kbd> <code>remove_feature_cols</code></h3>
 <pre><code class="language-python">remove_feature_cols(col_names: list) → list
 </code></pre>
@@ -1277,7 +1277,7 @@
 <p><strong>Returns:</strong>
  The columns that were removed from those designated as features. </p>
 <hr />
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/video.py#L306"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L306"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h3 id="method-remove_features_by_name"><kbd>method</kbd> <code>remove_features_by_name</code></h3>
 <pre><code class="language-python">remove_features_by_name(name: str) → list
 </code></pre>
@@ -1289,11 +1289,11 @@
 <p><strong>Returns:</strong>
  List of removed columns. </p>
 <hr />
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/video.py#L440"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L440"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h3 id="method-save_1"><kbd>method</kbd> <code>save</code></h3>
 <pre><code class="language-python">save(fn_out: str) → None
 </code></pre>
-<p>Save VideosetDataFrame object with pickle. </p>
+<p>Save ExperimentDataFrame object with pickle. </p>
 <p><strong>Args:</strong></p>
 <ul>
 <li><b><code>fn_out</code></b>:  location to write pickle file to </li>
@@ -1301,11 +1301,11 @@
 <p><strong>Returns:</strong>
  None. File is saved to path. </p>
 <hr />
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/video.py#L452"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L452"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h3 id="method-to_dlc_csv"><kbd>method</kbd> <code>to_dlc_csv</code></h3>
 <pre><code class="language-python">to_dlc_csv(base_dir: str, save_h5_too=False) → None
 </code></pre>
-<p>Save VideosetDataFrame tracking files to DLC csv format. </p>
+<p>Save ExperimentDataFrame tracking files to DLC csv format. </p>
 <p>Only save tracking data, not other computed features. </p>
 <p><strong>Args:</strong></p>
 <ul>

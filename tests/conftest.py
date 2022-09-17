@@ -26,7 +26,7 @@ def metadata_params():
 
 @pytest.fixture()
 def metadata(tracking_files, label_files, metadata_params):
-    from behaveml import clone_metadata
+    from ethome import clone_metadata
 
     metadata = clone_metadata(tracking_files, 
                               label_files = label_files, 
@@ -38,14 +38,14 @@ def metadata(tracking_files, label_files, metadata_params):
 
 @pytest.fixture()
 def videodataset(metadata):
-    from behaveml import VideosetDataFrame
+    from ethome import ExperimentDataFrame
     animal_renamer = {'adult': 'resident', 'juvenile': 'intruder'}
-    vdf = VideosetDataFrame(metadata, animal_renamer=animal_renamer)
-    return vdf
+    edf = ExperimentDataFrame(metadata, animal_renamer=animal_renamer)
+    return edf
 
 @pytest.fixture()
 def openfield_sample():
-    from behaveml.video import get_sample_openfield_data
+    from ethome.video import get_sample_openfield_data
     return get_sample_openfield_data()
 
 @pytest.fixture
@@ -54,7 +54,7 @@ def default_track_cols(videodataset):
 
 @pytest.fixture()
 def videodataset_mars(videodataset):
-    from behaveml import mars_feature_maker
+    from ethome import mars_feature_maker
     videodataset.add_features(mars_feature_maker, 
                      featureset_name = 'MARS', 
                      add_to_features = True)
@@ -63,7 +63,7 @@ def videodataset_mars(videodataset):
 @pytest.fixture()
 def dens_matrix(videodataset):
 
-    from behaveml.unsupervised import compute_density
+    from ethome.unsupervised import compute_density
     import numpy as np
     n_pts = 200
     extent = (-50, 50, -50, 50)

@@ -7,9 +7,9 @@ import os
 os.environ["CUDA_VISIBLE_DEVICES"] = ''
 
 from glob import glob 
-from behaveml import VideosetDataFrame, clone_metadata
-from behaveml import mars_feature_maker, cnn_probability_feature_maker, interpolate_lowconf_points
-from behaveml.io import get_sample_data_paths
+from ethome import ExperimentDataFrame, clone_metadata
+from ethome import mars_feature_maker, cnn_probability_feature_maker, interpolate_lowconf_points
+from ethome.io import get_sample_data_paths
 
 tracking_files, boris_files = get_sample_data_paths()
 
@@ -31,7 +31,7 @@ metadata = clone_metadata(tracking_files,
 
 animal_renamer = {'adult': 'resident', 'juvenile':'intruder'}
 
-dataset = VideosetDataFrame(metadata, animal_renamer=animal_renamer)
+dataset = ExperimentDataFrame(metadata, animal_renamer=animal_renamer)
 
 #Filter out low-confidence DLC tracks and interpolate those points instead
 print("Interpolating low-confidence tracking points")

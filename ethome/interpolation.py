@@ -1,8 +1,8 @@
 import pandas as pd 
 import numpy as np
-from behaveml.video import VideosetDataFrame
+from ethome.video import ExperimentDataFrame
 
-def interpolate_lowconf_points(vdf : VideosetDataFrame,
+def interpolate_lowconf_points(edf : ExperimentDataFrame,
                                conf_threshold : float = 0.9,
                                in_place : bool = True,
                                rolling_window : bool = True,
@@ -10,7 +10,7 @@ def interpolate_lowconf_points(vdf : VideosetDataFrame,
     """Interpolate raw tracking points if their probabilities are available.
 
     Args:
-        vdf: VideosetDataFrame containing the tracks to interpolate
+        edf: ExperimentDataFrame containing the tracks to interpolate
         conf_threshold: default 0.9. Confidence below which to count as uncertain, and to interpolate its value instead
         in_place: default True. Whether to replace data in place
         rolling_window: default True. Whether to use a rolling window to interpolate
@@ -22,29 +22,29 @@ def interpolate_lowconf_points(vdf : VideosetDataFrame,
 
     df_filtered = []
 
-    for fn_in in vdf.videos:
+    for fn_in in edf.videos:
         print("processing", fn_in)
 
         if not in_place:
-            df_filter_low_conf = vdf.data.loc[vdf.data.filename == fn_in].copy()
+            df_filter_low_conf = edf.data.loc[edf.data.filename == fn_in].copy()
         else:
-            df_filter_low_conf = vdf.data
+            df_filter_low_conf = edf.data
         
-        for m in vdf.animals:
-            for bp in vdf.body_parts:
-                low_conf = df_filter_low_conf.loc[vdf.data.filename == fn_in, '_'.join(['likelihood', m, bp])] < conf_threshold
-                df_filter_low_conf.loc[(vdf.data.filename == fn_in) & low_conf,'_'.join([m, 'x', bp])] = np.nan
-                df_filter_low_conf.loc[(vdf.data.filename == fn_in) & low_conf,'_'.join([m, 'y', bp])] = np.nan
+        for m in edf.animals:
+            for bp in edf.body_parts:
+                low_conf = df_filter_low_conf.loc[edf.data.filename == fn_in, '_'.join(['likelihood', m, bp])] < conf_threshold
+                df_filter_low_conf.loc[(edf.data.filename == fn_in) & low_conf,'_'.join([m, 'x', bp])] = np.nan
+                df_filter_low_conf.loc[(edf.data.filename == fn_in) & low_conf,'_'.join([m, 'y', bp])] = np.nan
                 
-        df_filter_low_conf.loc[(vdf.data.filename == fn_in)] = \
-            df_filter_low_conf.loc[(vdf.data.filename == fn_in)].\
+        df_filter_low_conf.loc[(edf.data.filename == fn_in)] = \
+            df_filter_low_conf.loc[(edf.data.filename == fn_in)].\
             interpolate(axis = 0, method = 'linear', limit_direction = 'both')            
 
         if rolling_window:
-            df_filter_low_conf.loc[(vdf.data.filename == fn_in), vdf.raw_track_columns] = \
-                df_filter_low_conf.loc[(vdf.data.filename == fn_in), vdf.raw_track_columns].rolling(window = window_size, min_periods = 1).mean()
+            df_filter_low_conf.loc[(edf.data.filename == fn_in), edf.raw_track_columns] = \
+                df_filter_low_conf.loc[(edf.data.filename == fn_in), edf.raw_track_columns].rolling(window = window_size, min_periods = 1).mean()
             
-        df_filter_low_conf = df_filter_low_conf[vdf.raw_track_columns + ['filename', 'frame']]
+        df_filter_low_conf = df_filter_low_conf[edf.raw_track_columns + ['filename', 'frame']]
         df_filtered.append(df_filter_low_conf)
 
     df_filtered = pd.concat(df_filtered, axis = 0)
@@ -57,8 +57,8 @@ def interpolate_lowconf_points(vdf : VideosetDataFrame,
 #TODO
 # Get this working...
 # if filter_out_toofast:
-#     for m in vdf.animals:
-#         for bp in vdf.body_parts:
+#     for m in edf.animals:
+#         for bp in edf.body_parts:
 #             too_quick = (df_filter_low_conf.loc[:,'_'.join([m, 'x', bp])].diff(jump_dur).abs() > speed_threshold) | \
 #                         (df_filter_low_conf.loc[:,'_'.join([m, 'y', bp])].diff(jump_dur).abs() > speed_threshold) | \
 #                         (df_filter_low_conf.loc[:,'_'.join([m, 'x', bp])].diff(-jump_dur).abs() > speed_threshold) | \

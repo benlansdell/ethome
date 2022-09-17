@@ -1,7 +1,7 @@
 import pandas as pd 
 import numpy as np
 
-from behaveml.io import XY_IDS
+from ethome.io import XY_IDS
 
 from itertools import product
 

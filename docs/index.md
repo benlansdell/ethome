@@ -1,6 +1,6 @@
-[![codecov](https://codecov.io/gh/benlansdell/behaveml/branch/master/graph/badge.svg?token=PN52Q3UH3G)](https://codecov.io/gh/benlansdell/behaveml)
+[![codecov](https://codecov.io/gh/benlansdell/ethome/branch/master/graph/badge.svg?token=PN52Q3UH3G)](https://codecov.io/gh/benlansdell/ethome)
 
-# BehaveML
+# ethome
 
 Machine learning for animal behavior.
 
@@ -9,14 +9,14 @@ Interprets pose-tracking files (currently only from DLC), behavior annotations (
 ## Installation
 
 ```
-pip install behaveml
+pip install ethome
 ```
 
 Can install optional extras with:
 
 ```
 pip install numpy, cython
-pip install behaveml[all]
+pip install ethome[all]
 ```
 
 This includes matplotlib, keras, and Linderman lab's state-space model package, [ssm](https://github.com/lindermanlab/ssm). Note that installing ssm requires cython and numpy for the build, so must be already present in the environment. 
@@ -26,8 +26,8 @@ This includes matplotlib, keras, and Linderman lab's state-space model package, 
 Import
 ```
 from glob import glob 
-from behaveml import VideosetDataFrame, clone_metadata
-from behaveml import compute_dl_probability_features, compute_mars_features
+from ethome import ExperimentDataFrame, clone_metadata
+from ethome import compute_dl_probability_features, compute_mars_features
 ```
 
 Gather the DLC and BORIS tracking and annotation files
@@ -54,7 +54,7 @@ metadata = clone_metadata(tracking_files,
 
 animal_renamer = {'adult': 'resident', 'juvenile':'intruder'}
 
-dataset = VideosetDataFrame(metadata, animal_renamer=animal_renamer)
+dataset = ExperimentDataFrame(metadata, animal_renamer=animal_renamer)
 ```
 
 Now create features on this dataset

@@ -3,7 +3,7 @@
 #####################
 
 import pytest
-from behaveml import VideosetDataFrame, clone_metadata, interpolate_lowconf_points, video
+from ethome import ExperimentDataFrame, clone_metadata, interpolate_lowconf_points, video
 import pandas as pd
 
 #Metadata is a dictionary

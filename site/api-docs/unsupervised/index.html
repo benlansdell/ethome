@@ -13,7 +13,7 @@
     
     
       
-        <title>Unsupervised - behaveML</title>
+        <title>Unsupervised - ethome</title>
       
     
     
@@ -72,7 +72,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../.." title="behaveML" class="md-header__button md-logo" aria-label="behaveML" data-md-component="logo">
+    <a href="../.." title="ethome" class="md-header__button md-logo" aria-label="ethome" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
@@ -85,7 +85,7 @@
       <div class="md-header__ellipsis">
         <div class="md-header__topic">
           <span class="md-ellipsis">
-            behaveML
+            ethome
           </span>
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
@@ -158,13 +158,13 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../.." title="behaveML" class="md-nav__button md-logo" aria-label="behaveML" data-md-component="logo">
+    <a href="../.." title="ethome" class="md-nav__button md-logo" aria-label="ethome" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
 
     </a>
-    behaveML
+    ethome
   </label>
   
   <ul class="md-nav__list" data-md-scrollfix>
@@ -646,13 +646,13 @@
 
 <!-- markdownlint-disable -->
 
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/unsupervised.py#L0"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/unsupervised.py#L0"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h1 id="module-unsupervised"><kbd>module</kbd> <code>unsupervised</code></h1>
 <hr />
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/unsupervised.py#L12"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/unsupervised.py#L12"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="function-compute_tsne_embedding"><kbd>function</kbd> <code>compute_tsne_embedding</code></h2>
 <pre><code class="language-python">compute_tsne_embedding(
-    dataset: VideosetDataFrame,
+    dataset: ExperimentDataFrame,
     cols: list,
     N_rows: int = 20000,
     n_components=2,
@@ -673,7 +673,7 @@
         - A numpy array with the embedding data, only for a random subset of row 
         - The rows that were used for the embedding </p>
 <hr />
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/unsupervised.py#L38"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/unsupervised.py#L38"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="function-compute_morlet"><kbd>function</kbd> <code>compute_morlet</code></h2>
 <pre><code class="language-python">compute_morlet(
     data: ndarray,
@@ -692,10 +692,10 @@
 </ul>
 <p>Returns A 2D numpy array with the morlet wavelet transform. The first dimension is the frequency, the second is the time. </p>
 <hr />
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/unsupervised.py#L64"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/unsupervised.py#L64"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="function-compute_density"><kbd>function</kbd> <code>compute_density</code></h2>
 <pre><code class="language-python">compute_density(
-    dataset: VideosetDataFrame,
+    dataset: ExperimentDataFrame,
     embedding_extent: tuple,
     bandwidth: float = 0.5,
     n_pts: int = 300,
@@ -706,7 +706,7 @@
 <p>Compute kernel density estimate of embedding. </p>
 <p><strong>Args:</strong></p>
 <ul>
-<li><b><code>dataset</code></b>:  VideosetDataFrame with embedding data loaded in it. (Must have already populated columns named 'embedding_0', 'embedding_1') </li>
+<li><b><code>dataset</code></b>:  ExperimentDataFrame with embedding data loaded in it. (Must have already populated columns named 'embedding_0', 'embedding_1') </li>
 <li><b><code>embedding_extent</code></b>:  the bounds in which to apply the density estimate. Has the form (xmin, xmax, ymin, ymax) </li>
 <li><b><code>bandwidth</code></b>:  the Gaussian kernel bandwidth. Will depend on the scale of the embedding. Can be changed to affect the number of clusters pulled out </li>
 <li><b><code>n_pts</code></b>:  number of points over which to evaluate the KDE </li>
@@ -716,7 +716,7 @@
 <p><strong>Returns:</strong>
  Numpy array with KDE over the specified square region in the embedding space, with dimensions (n_pts x n_pts)     </p>
 <hr />
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/unsupervised.py#L99"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/unsupervised.py#L99"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="function-compute_watershed"><kbd>function</kbd> <code>compute_watershed</code></h2>
 <pre><code class="language-python">compute_watershed(
     dens_matrix: ndarray,
@@ -734,10 +734,10 @@
 <p><strong>Returns:</strong>
  A numpy array with the same dimensions as dens_matrix. Each value in the array is the cluster ID for that coordinate. </p>
 <hr />
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/unsupervised.py#L121"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/unsupervised.py#L121"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="function-cluster_behaviors"><kbd>function</kbd> <code>cluster_behaviors</code></h2>
 <pre><code class="language-python">cluster_behaviors(
-    dataset: VideosetDataFrame,
+    dataset: ExperimentDataFrame,
     feature_cols: list,
     N_rows: int = 200000,
     use_morlet: bool = False,
@@ -752,7 +752,7 @@
 <p>The following columns are added to dataset:   'embedding_index_[0/1]': the coordinates of each embedding coordinate in the returned density matrix  'unsup_behavior_label': the Watershed transform label for that row, based on its embedding coordinates. Rows whose embedding coordinate has no watershed cluster, or which fall outside the domain have value -1. </p>
 <p><strong>Args:</strong></p>
 <ul>
-<li><b><code>dataset</code></b>:  the VideosetDataFrame with the features of interest </li>
+<li><b><code>dataset</code></b>:  the ExperimentDataFrame with the features of interest </li>
 <li><b><code>feature_cols</code></b>:  list of column names to perform the clustering on </li>
 <li><b><code>N_rows</code></b>:  number of rows to perform the embedding on. If 'None', then all rows are used. </li>
 <li><b><code>use_morlet</code></b>:  Apply Morlet wavelet transform to the feature cols before computing the embedding </li>

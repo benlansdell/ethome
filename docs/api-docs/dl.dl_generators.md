@@ -1,6 +1,6 @@
 <!-- markdownlint-disable -->
 
-<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/dl/dl_generators.py#L0"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/dl/dl_generators.py#L0"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 # <kbd>module</kbd> `dl.dl_generators`
 
@@ -13,7 +13,7 @@
 
 ---
 
-<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/dl/dl_generators.py#L19"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/dl/dl_generators.py#L19"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `make_df`
 
@@ -28,7 +28,7 @@ make_df(pts, colnames=None)
 
 ---
 
-<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/dl/dl_generators.py#L29"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/dl/dl_generators.py#L29"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `features_identity`
 
@@ -43,7 +43,7 @@ features_identity(inputs)
 
 ---
 
-<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/dl/dl_generators.py#L32"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/dl/dl_generators.py#L32"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `features_via_sklearn`
 
@@ -58,7 +58,7 @@ features_via_sklearn(inputs, featurizer)
 
 ---
 
-<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/dl/dl_generators.py#L39"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/dl/dl_generators.py#L39"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `features_mars`
 
@@ -73,7 +73,7 @@ features_mars(x)
 
 ---
 
-<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/dl/dl_generators.py#L44"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/dl/dl_generators.py#L44"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `features_mars_distr`
 
@@ -88,7 +88,7 @@ features_mars_distr(x)
 
 ---
 
-<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/dl/dl_generators.py#L47"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/dl/dl_generators.py#L47"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `features_distances`
 
@@ -103,7 +103,7 @@ features_distances(inputs)
 
 ---
 
-<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/dl/dl_generators.py#L74"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/dl/dl_generators.py#L74"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `features_distances_normalized`
 
@@ -118,14 +118,14 @@ features_distances_normalized(inputs)
 
 ---
 
-<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/dl/dl_generators.py#L105"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/dl/dl_generators.py#L105"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>class</kbd> `MABe_Generator`
 
 
 
 
-<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/dl/dl_generators.py#L106"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/dl/dl_generators.py#L106"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `__init__`
 
@@ -156,7 +156,7 @@ __init__(
 
 ---
 
-<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/dl/dl_generators.py#L161"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/dl/dl_generators.py#L161"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `augment_fn`
 
@@ -170,7 +170,7 @@ augment_fn(x)
 
 ---
 
-<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/dl/dl_generators.py#L198"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/dl/dl_generators.py#L198"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `on_epoch_end`
 

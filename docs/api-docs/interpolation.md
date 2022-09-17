@@ -1,6 +1,6 @@
 <!-- markdownlint-disable -->
 
-<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/interpolation.py#L0"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/interpolation.py#L0"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 # <kbd>module</kbd> `interpolation`
 
@@ -10,13 +10,13 @@
 
 ---
 
-<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/interpolation.py#L5"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/interpolation.py#L5"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `interpolate_lowconf_points`
 
 ```python
 interpolate_lowconf_points(
-    vdf: VideosetDataFrame,
+    edf: ExperimentDataFrame,
     conf_threshold: float = 0.9,
     in_place: bool = True,
     rolling_window: bool = True,
@@ -30,7 +30,7 @@ Interpolate raw tracking points if their probabilities are available.
 
 **Args:**
  
- - <b>`vdf`</b>:  VideosetDataFrame containing the tracks to interpolate 
+ - <b>`edf`</b>:  ExperimentDataFrame containing the tracks to interpolate 
  - <b>`conf_threshold`</b>:  default 0.9. Confidence below which to count as uncertain, and to interpolate its value instead 
  - <b>`in_place`</b>:  default True. Whether to replace data in place 
  - <b>`rolling_window`</b>:  default True. Whether to use a rolling window to interpolate 

@@ -13,7 +13,7 @@
     
     
       
-        <title>behaveML</title>
+        <title>ethome</title>
       
     
     
@@ -58,7 +58,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#behaveml" class="md-skip">
+        <a href="#ethome" class="md-skip">
           Skip to content
         </a>
       
@@ -72,7 +72,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="." title="behaveML" class="md-header__button md-logo" aria-label="behaveML" data-md-component="logo">
+    <a href="." title="ethome" class="md-header__button md-logo" aria-label="ethome" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
@@ -85,7 +85,7 @@
       <div class="md-header__ellipsis">
         <div class="md-header__topic">
           <span class="md-ellipsis">
-            behaveML
+            ethome
           </span>
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
@@ -158,13 +158,13 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="." title="behaveML" class="md-nav__button md-logo" aria-label="behaveML" data-md-component="logo">
+    <a href="." title="ethome" class="md-nav__button md-logo" aria-label="ethome" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
 
     </a>
-    behaveML
+    ethome
   </label>
   
   <ul class="md-nav__list" data-md-scrollfix>
@@ -600,23 +600,23 @@
               
                 
 
-<p><a href="https://codecov.io/gh/benlansdell/behaveml"><img alt="codecov" src="https://codecov.io/gh/benlansdell/behaveml/branch/master/graph/badge.svg?token=PN52Q3UH3G" /></a></p>
-<h1 id="behaveml">BehaveML</h1>
+<p><a href="https://codecov.io/gh/benlansdell/ethome"><img alt="codecov" src="https://codecov.io/gh/benlansdell/ethome/branch/master/graph/badge.svg?token=PN52Q3UH3G" /></a></p>
+<h1 id="ethome">ethome</h1>
 <p>Machine learning for animal behavior.</p>
 <p>Interprets pose-tracking files (currently only from DLC), behavior annotations (currently only from BORIS) to train a behavior classifier. </p>
 <h2 id="installation">Installation</h2>
-<pre><code>pip install behaveml
+<pre><code>pip install ethome
 </code></pre>
 <p>Can install optional extras with:</p>
 <pre><code>pip install numpy, cython
-pip install behaveml[all]
+pip install ethome[all]
 </code></pre>
 <p>This includes matplotlib, keras, and Linderman lab's state-space model package, <a href="https://github.com/lindermanlab/ssm">ssm</a>. Note that installing ssm requires cython and numpy for the build, so must be already present in the environment. </p>
 <h2 id="quickstart">Quickstart</h2>
 <p>Import</p>
 <pre><code>from glob import glob 
-from behaveml import VideosetDataFrame, clone_metadata
-from behaveml import compute_dl_probability_features, compute_mars_features
+from ethome import ExperimentDataFrame, clone_metadata
+from ethome import compute_dl_probability_features, compute_mars_features
 </code></pre>
 <p>Gather the DLC and BORIS tracking and annotation files</p>
 <pre><code>tracking_files, boris_files = get_sample_data_paths()
@@ -637,7 +637,7 @@ resolution = (1200, 1600)        # (tuple) HxW in pixels
 
 animal_renamer = {'adult': 'resident', 'juvenile':'intruder'}
 
-dataset = VideosetDataFrame(metadata, animal_renamer=animal_renamer)
+dataset = ExperimentDataFrame(metadata, animal_renamer=animal_renamer)
 </code></pre>
 <p>Now create features on this dataset</p>
 <pre><code>dataset.add_features(compute_dl_probability_features, 

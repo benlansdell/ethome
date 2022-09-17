@@ -1,6 +1,6 @@
 <!-- markdownlint-disable -->
 
-<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/unsupervised.py#L0"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/unsupervised.py#L0"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 # <kbd>module</kbd> `unsupervised`
 
@@ -10,13 +10,13 @@
 
 ---
 
-<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/unsupervised.py#L12"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/unsupervised.py#L12"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `compute_tsne_embedding`
 
 ```python
 compute_tsne_embedding(
-    dataset: VideosetDataFrame,
+    dataset: ExperimentDataFrame,
     cols: list,
     N_rows: int = 20000,
     n_components=2,
@@ -46,7 +46,7 @@ Compute TSNE embedding. Only for a random subset of rows.
 
 ---
 
-<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/unsupervised.py#L38"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/unsupervised.py#L38"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `compute_morlet`
 
@@ -75,13 +75,13 @@ Returns A 2D numpy array with the morlet wavelet transform. The first dimension 
 
 ---
 
-<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/unsupervised.py#L64"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/unsupervised.py#L64"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `compute_density`
 
 ```python
 compute_density(
-    dataset: VideosetDataFrame,
+    dataset: ExperimentDataFrame,
     embedding_extent: tuple,
     bandwidth: float = 0.5,
     n_pts: int = 300,
@@ -96,7 +96,7 @@ Compute kernel density estimate of embedding.
 
 **Args:**
  
- - <b>`dataset`</b>:  VideosetDataFrame with embedding data loaded in it. (Must have already populated columns named 'embedding_0', 'embedding_1') 
+ - <b>`dataset`</b>:  ExperimentDataFrame with embedding data loaded in it. (Must have already populated columns named 'embedding_0', 'embedding_1') 
  - <b>`embedding_extent`</b>:  the bounds in which to apply the density estimate. Has the form (xmin, xmax, ymin, ymax) 
  - <b>`bandwidth`</b>:  the Gaussian kernel bandwidth. Will depend on the scale of the embedding. Can be changed to affect the number of clusters pulled out 
  - <b>`n_pts`</b>:  number of points over which to evaluate the KDE 
@@ -111,7 +111,7 @@ Compute kernel density estimate of embedding.
 
 ---
 
-<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/unsupervised.py#L99"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/unsupervised.py#L99"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `compute_watershed`
 
@@ -141,13 +141,13 @@ Compute watershed clustering of a density matrix.
 
 ---
 
-<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/unsupervised.py#L121"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/unsupervised.py#L121"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `cluster_behaviors`
 
 ```python
 cluster_behaviors(
-    dataset: VideosetDataFrame,
+    dataset: ExperimentDataFrame,
     feature_cols: list,
     N_rows: int = 200000,
     use_morlet: bool = False,
@@ -168,7 +168,7 @@ The following columns are added to dataset:   'embedding_index_[0/1]': the coord
 
 **Args:**
  
- - <b>`dataset`</b>:  the VideosetDataFrame with the features of interest 
+ - <b>`dataset`</b>:  the ExperimentDataFrame with the features of interest 
  - <b>`feature_cols`</b>:  list of column names to perform the clustering on 
  - <b>`N_rows`</b>:  number of rows to perform the embedding on. If 'None', then all rows are used. 
  - <b>`use_morlet`</b>:  Apply Morlet wavelet transform to the feature cols before computing the embedding 

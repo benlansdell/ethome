@@ -1,6 +1,6 @@
 <!-- markdownlint-disable -->
 
-<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/dl/feature_engineering.py#L0"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/dl/feature_engineering.py#L0"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 # <kbd>module</kbd> `dl.feature_engineering`
 
@@ -13,7 +13,7 @@
 
 ---
 
-<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/dl/feature_engineering.py#L14"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/dl/feature_engineering.py#L14"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `augment_features`
 
@@ -28,7 +28,7 @@ augment_features(window_size=5, n_shifts=3, mode='shift')
 
 ---
 
-<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/dl/feature_engineering.py#L66"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/dl/feature_engineering.py#L66"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `boiler_plate`
 
@@ -43,7 +43,7 @@ boiler_plate(features_df)
 
 ---
 
-<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/dl/feature_engineering.py#L301"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/dl/feature_engineering.py#L301"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `make_features_distances`
 
@@ -58,7 +58,7 @@ make_features_distances(df, animal_setup)
 
 ---
 
-<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/dl/feature_engineering.py#L342"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/dl/feature_engineering.py#L342"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `make_features_mars`
 
@@ -73,7 +73,7 @@ make_features_mars(df, animal_setup, n_shifts=3, mode='shift')
 
 ---
 
-<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/dl/feature_engineering.py#L392"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/dl/feature_engineering.py#L392"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `make_features_mars_distr`
 
@@ -88,7 +88,7 @@ make_features_mars_distr(x, y)
 
 ---
 
-<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/dl/feature_engineering.py#L395"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/dl/feature_engineering.py#L395"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `make_features_mars_reduced`
 
@@ -103,7 +103,7 @@ make_features_mars_reduced(df, animal_setup, n_shifts=2, mode='diff')
 
 ---
 
-<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/dl/feature_engineering.py#L434"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/dl/feature_engineering.py#L434"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `make_features_velocities`
 
@@ -118,7 +118,7 @@ make_features_velocities(df, animal_setup, n_shifts=5)
 
 ---
 
-<a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/dl/feature_engineering.py#L474"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/dl/feature_engineering.py#L474"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `make_features_social`
 

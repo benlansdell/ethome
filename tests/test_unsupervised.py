@@ -6,7 +6,7 @@ import pytest
 
 import numpy as np
 
-from behaveml.unsupervised import compute_tsne_embedding, compute_morlet, \
+from ethome.unsupervised import compute_tsne_embedding, compute_morlet, \
                                   compute_density, compute_watershed, cluster_behaviors
 
 N_ROWS = 200

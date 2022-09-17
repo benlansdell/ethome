@@ -1,7 +1,7 @@
 __pycache__
 .vscode
-behaveml/behaveml.egg-info/
-behaveml.egg-info/
+ethome/ethome.egg-info/
+ethome.egg-info/
 .coverage
 build
 *.mp4

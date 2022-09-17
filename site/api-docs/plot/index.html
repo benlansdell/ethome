@@ -13,7 +13,7 @@
     
     
       
-        <title>Plot - behaveML</title>
+        <title>Plot - ethome</title>
       
     
     
@@ -72,7 +72,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../.." title="behaveML" class="md-header__button md-logo" aria-label="behaveML" data-md-component="logo">
+    <a href="../.." title="ethome" class="md-header__button md-logo" aria-label="ethome" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
@@ -85,7 +85,7 @@
       <div class="md-header__ellipsis">
         <div class="md-header__topic">
           <span class="md-ellipsis">
-            behaveML
+            ethome
           </span>
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
@@ -158,13 +158,13 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../.." title="behaveML" class="md-nav__button md-logo" aria-label="behaveML" data-md-component="logo">
+    <a href="../.." title="ethome" class="md-nav__button md-logo" aria-label="ethome" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
 
     </a>
-    behaveML
+    ethome
   </label>
   
   <ul class="md-nav__list" data-md-scrollfix>
@@ -728,17 +728,17 @@
 
 <!-- markdownlint-disable -->
 
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/plot.py#L0"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/plot.py#L0"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h1 id="module-plot"><kbd>module</kbd> <code>plot</code></h1>
 <h2 id="global-variables"><strong>Global Variables</strong></h2>
 <ul>
 <li><strong>global_config</strong></li>
 </ul>
 <hr />
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/plot.py#L12"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/plot.py#L12"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="function-plot_embedding"><kbd>function</kbd> <code>plot_embedding</code></h2>
 <pre><code class="language-python">plot_embedding(
-    dataset: VideosetDataFrame,
+    dataset: ExperimentDataFrame,
     col_names: list = ['embedding_0', 'embedding_1'],
     color_col: str = None,
     figsize: tuple = (10, 10),
@@ -757,10 +757,10 @@
 <p><strong>Returns:</strong>
  tuple (fig, axes). The Figure and Axes objects.  </p>
 <hr />
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/plot.py#L54"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/plot.py#L54"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="function-plot_unsupervised_results"><kbd>function</kbd> <code>plot_unsupervised_results</code></h2>
 <pre><code class="language-python">plot_unsupervised_results(
-    dataset: VideosetDataFrame,
+    dataset: ExperimentDataFrame,
     cluster_results: tuple,
     col_names: list = ['embedding_0', 'embedding_1'],
     figsize: tuple = (15, 4),
@@ -779,10 +779,10 @@
 <p><strong>Returns:</strong>
  tuple (fig, axes). The Figure and Axes objects.  </p>
 <hr />
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/plot.py#L104"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/plot.py#L104"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="function-plot_ethogram"><kbd>function</kbd> <code>plot_ethogram</code></h2>
 <pre><code class="language-python">plot_ethogram(
-    dataset: VideosetDataFrame,
+    dataset: ExperimentDataFrame,
     vid_key: str,
     query_label: str = 'unsup_behavior_label',
     frame_limit: int = 4000,
@@ -799,10 +799,10 @@
 <p><strong>Returns:</strong>
  tuple (fig, axes). The Figure and Axes objects </p>
 <hr />
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/plot.py#L133"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/plot.py#L133"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="function-create_ethogram_video"><kbd>function</kbd> <code>create_ethogram_video</code></h2>
 <pre><code class="language-python">create_ethogram_video(
-    dataset: VideosetDataFrame,
+    dataset: ExperimentDataFrame,
     vid_key: str,
     query_label: str,
     out_file: str,
@@ -825,10 +825,10 @@
 <p><strong>Returns:</strong>
  None </p>
 <hr />
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/plot.py#L203"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/plot.py#L203"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="function-create_sample_videos"><kbd>function</kbd> <code>create_sample_videos</code></h2>
 <pre><code class="language-python">create_sample_videos(
-    dataset: VideosetDataFrame,
+    dataset: ExperimentDataFrame,
     video_dir: str,
     out_dir: str,
     query_col: str = 'unsup_behavior_label',
@@ -854,7 +854,7 @@
 <p><strong>Returns:</strong>
  None </p>
 <hr />
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/plot.py#L304"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/plot.py#L304"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="function-create_mosaic_video"><kbd>function</kbd> <code>create_mosaic_video</code></h2>
 <pre><code class="language-python">create_mosaic_video(
     vid_dir: str,
@@ -873,14 +873,14 @@
 <p><strong>Returns:</strong>
  None     </p>
 <hr />
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/plot.py#L42"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/plot.py#L42"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="class-mplcolorhelper"><kbd>class</kbd> <code>MplColorHelper</code></h2>
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/plot.py#L44"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/plot.py#L44"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h3 id="method-__init__"><kbd>method</kbd> <code>__init__</code></h3>
 <pre><code class="language-python">__init__(cmap_name, start_val, stop_val)
 </code></pre>
 <hr />
-<p><a href="https://github.com/benlansdell/behaveml/blob/master/behaveml/plot.py#L50"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/plot.py#L50"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h3 id="method-get_rgb"><kbd>method</kbd> <code>get_rgb</code></h3>
 <pre><code class="language-python">get_rgb(val)
 </code></pre>

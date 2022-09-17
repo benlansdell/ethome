@@ -6,10 +6,10 @@ from tqdm import tqdm
 from sklearn.neighbors import KernelDensity
 import umap
 from skimage.segmentation import watershed
-from behaveml import VideosetDataFrame
+from ethome import ExperimentDataFrame
 import pandas as pd
 
-def compute_tsne_embedding(dataset : VideosetDataFrame, 
+def compute_tsne_embedding(dataset : ExperimentDataFrame, 
                            cols : list, 
                            N_rows : int = 20000, 
                            n_components = 2, 
@@ -61,7 +61,7 @@ def compute_morlet(data : np.ndarray,
     morlet = np.stack(morlet)
     return morlet    
 
-def compute_density(dataset : VideosetDataFrame, 
+def compute_density(dataset : ExperimentDataFrame, 
                     embedding_extent : tuple, 
                     bandwidth : float = 0.5, 
                     n_pts : int = 300,
@@ -70,7 +70,7 @@ def compute_density(dataset : VideosetDataFrame,
     """Compute kernel density estimate of embedding.
     
     Args:
-        dataset: VideosetDataFrame with embedding data loaded in it. (Must have already populated columns named 'embedding_0', 'embedding_1')
+        dataset: ExperimentDataFrame with embedding data loaded in it. (Must have already populated columns named 'embedding_0', 'embedding_1')
         embedding_extent: the bounds in which to apply the density estimate. Has the form (xmin, xmax, ymin, ymax)
         bandwidth: the Gaussian kernel bandwidth. Will depend on the scale of the embedding. Can be changed to affect the number of clusters pulled out
         n_pts: number of points over which to evaluate the KDE
@@ -118,7 +118,7 @@ def compute_watershed(dens_matrix : np.ndarray,
     labels = watershed(-dm, None, mask = image>0)
     return labels
 
-def cluster_behaviors(dataset : VideosetDataFrame, 
+def cluster_behaviors(dataset : ExperimentDataFrame, 
                       feature_cols : list, 
                       N_rows : int = 200000, 
                       use_morlet : bool = False, 
@@ -135,7 +135,7 @@ def cluster_behaviors(dataset : VideosetDataFrame,
         'unsup_behavior_label': the Watershed transform label for that row, based on its embedding coordinates. Rows whose embedding coordinate has no watershed cluster, or which fall outside the domain have value -1.
 
     Args:
-        dataset: the VideosetDataFrame with the features of interest
+        dataset: the ExperimentDataFrame with the features of interest
         feature_cols: list of column names to perform the clustering on
         N_rows: number of rows to perform the embedding on. If 'None', then all rows are used.
         use_morlet: Apply Morlet wavelet transform to the feature cols before computing the embedding

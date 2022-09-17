@@ -5,5 +5,5 @@
 import pytest
 
 def test_ffmpeg():
-    from behaveml.utils import checkFFMPEG
+    from ethome.utils import checkFFMPEG
     assert type(checkFFMPEG()) is bool

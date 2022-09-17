@@ -5,11 +5,11 @@ import os
 import time
 import numpy as np
 from glob import glob
-from behaveml.config import global_config
-from behaveml import VideosetDataFrame
+from ethome.config import global_config
+from ethome import ExperimentDataFrame
 import pandas as pd
 
-def plot_embedding(dataset : VideosetDataFrame, 
+def plot_embedding(dataset : ExperimentDataFrame, 
                    col_names : list  = ['embedding_0', 'embedding_1'],
                    color_col : str = None, 
                    figsize : tuple = (10,10),
@@ -51,7 +51,7 @@ class MplColorHelper:
         return self.scalarMap.to_rgba(val)
     
 
-def plot_unsupervised_results(dataset : VideosetDataFrame, 
+def plot_unsupervised_results(dataset : ExperimentDataFrame, 
                               cluster_results : tuple, 
                               col_names : list = ['embedding_0', 'embedding_1'],
                               figsize : tuple = (15,4), 
@@ -101,7 +101,7 @@ def plot_unsupervised_results(dataset : VideosetDataFrame,
 
     return fig, axes
 
-def plot_ethogram(dataset : VideosetDataFrame, 
+def plot_ethogram(dataset : ExperimentDataFrame, 
                   vid_key : str, 
                   query_label : str = 'unsup_behavior_label', 
                   frame_limit : int = 4000, 
@@ -130,7 +130,7 @@ def plot_ethogram(dataset : VideosetDataFrame,
 
 #TODO
 # Bug with trimming the jpg here. 
-def create_ethogram_video(dataset : VideosetDataFrame, 
+def create_ethogram_video(dataset : ExperimentDataFrame, 
                           vid_key : str, 
                           query_label : str, 
                           out_file : str, 
@@ -200,7 +200,7 @@ def create_ethogram_video(dataset : VideosetDataFrame,
     -threads 8 -q:v 3 {out_file}'''
     os.system(ffmpeg_cmd)
 
-def create_sample_videos(dataset : VideosetDataFrame, 
+def create_sample_videos(dataset : ExperimentDataFrame, 
                          video_dir : str, 
                          out_dir : str, 
                          query_col : str = 'unsup_behavior_label', 

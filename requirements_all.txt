@@ -4,11 +4,11 @@ numpy
 pandas
 scikit-learn
 tqdm
-protobuf==3.20.0
-tensorflow==2.4.1
+protobuf>=3.20.0
+tensorflow>=2.4.1
 typeguard
 tensorflow-addons
 typing
-keras==2.4.3
+keras>=2.4.3
 matplotlib
 git+git://github.com/lindermanlab/ssm@a27c0d47837f676db9f7cf48924a653d148c5635#egg=ssm

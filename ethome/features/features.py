@@ -69,7 +69,13 @@ class Features(object):
         self.feature_maker = feature_maker
         self.kwargs = kwargs
 
-    def make(self, edf, **kwargs):
+    def fit(self):
+        return 
+
+    def transform(self, edf, **kwargs):
+        return self.fit_transform(edf, **kwargs)
+
+    def fit_transform(self, edf, **kwargs):
         """Make the features. This is called internally by the dataset object when running `add_features`.
 
         Args:

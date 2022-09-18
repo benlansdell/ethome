@@ -131,18 +131,6 @@ def read_DLC_tracks(fn_in : str,
 
     return final_df, body_parts, animals, colnames, scorer
 
-def rename_df_cols(df : pd.DataFrame, renamer : dict) -> pd.DataFrame:
-    """Rename dataframe columns 
-    
-    Args:
-        df: Pandas dataframe whose columns to rename
-        renamer: dictionary whose key:value pairs define the substitutions to make
-
-    Returns:
-        The dataframe with renamed columns.
-    """
-    return df.rename(columns = renamer)
-
 def save_DLC_tracks_h5(df : pd.DataFrame, fn_out : str) -> None:
     """Save DLC tracks in h5 format.
     
@@ -165,6 +153,7 @@ def load_data(fn : str):
         object = pickle.load(handle)
     return object 
 
+#Only used to making a test dataframe for testing and dev purposes
 def _make_sample_dataframe(fn_out = 'sample_dataframe.pkl'): # pragma: no cover
     from ethome import ExperimentDataFrame, clone_metadata
 

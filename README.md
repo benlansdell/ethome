@@ -6,6 +6,15 @@ Machine learning for animal behavior.
 
 Interprets pose-tracking files (currently only from DLC) and behavior annotations (currently only from BORIS) to train a behavior classifier, perform unsupervised learning, and other common analysis tasks. 
 
+## Features
+
+* Interpolate DLC data 
+* Create generic features for kinematic analysis and downstream ML tasks
+* Create features specifically for mouse resident-intruder setup
+* Read in DLC pose data and corresponding BORIS behavior annotations to make supervised learning easy
+* Perform unsupervised learning on pose data to extract discrete behavioral motifs (MotionMapper)
+* Quickly generate a movie with behavior predictions
+
 ## Installation
 
 ```
@@ -79,12 +88,3 @@ model = RandomForestClassifier()
 predictions = cross_val_predict(model, dataset.features, dataset.labels, dataset.groups)
 score = accuracy_score(dataset.labels, predictions)
 ```
-
-## Features
-
-* Interpolate DLC data 
-* Create generic features for kinematic analysis and downstream ML tasks
-* Create features specifically for mouse resident-intruder setup
-* Read in DLC pose data and corresponding BORIS behavior annotations to make supervised learning easy
-* Perform unsupervised learning on pose data to extract discrete behavioral motifs (MotionMapper)
-* Quickly generate a movie with behavior predictions

@@ -5,11 +5,11 @@ import os
 import time
 import numpy as np
 from glob import glob
-from ethome.config import global_config
-from ethome import ExperimentDataFrame
 import pandas as pd
 
-def plot_embedding(dataset : ExperimentDataFrame, 
+from ethome.config import global_config
+
+def plot_embedding(dataset : pd.DataFrame, 
                    col_names : list  = ['embedding_0', 'embedding_1'],
                    color_col : str = None, 
                    figsize : tuple = (10,10),
@@ -28,13 +28,13 @@ def plot_embedding(dataset : ExperimentDataFrame,
     """
 
     if color_col is not None:
-        c = dataset.data[color_col]
+        c = dataset[color_col]
     else:
         c = None
 
     col1, col2 = col_names
     fig, axes = plt.subplots(1,1, figsize = figsize)
-    axes.scatter(x = dataset.data[col1], y = dataset.data[col2], s = 1, c = c, **kwargs)
+    axes.scatter(x = dataset[col1], y = dataset[col2], s = 1, c = c, **kwargs)
     axes.set_xlabel('Embedding dim 1')
     axes.set_ylabel('Embedding dim 2')
     return fig, axes
@@ -48,10 +48,9 @@ class MplColorHelper:
         self.scalarMap = cm.ScalarMappable(norm=self.norm, cmap=self.cmap)
 
     def get_rgb(self, val):
-        return self.scalarMap.to_rgba(val)
-    
+        return self.scalarMap.to_rgba(val)    
 
-def plot_unsupervised_results(dataset : ExperimentDataFrame, 
+def plot_unsupervised_results(dataset : pd.DataFrame, 
                               cluster_results : tuple, 
                               col_names : list = ['embedding_0', 'embedding_1'],
                               figsize : tuple = (15,4), 
@@ -72,7 +71,7 @@ def plot_unsupervised_results(dataset : ExperimentDataFrame,
 
     fig, axes = plt.subplots(1, 3, figsize = figsize)
     col1, col2 = col_names
-    axes[0].scatter(x = dataset.data[col1], y = dataset.data[col2], s = 1, **kwargs)
+    axes[0].scatter(x = dataset[col1], y = dataset[col2], s = 1, **kwargs)
     axes[0].set_xlabel('Embedding dim 1')
     axes[0].set_ylabel('Embedding dim 2')
     axes[0].set_title('Embedding')
@@ -101,7 +100,7 @@ def plot_unsupervised_results(dataset : ExperimentDataFrame,
 
     return fig, axes
 
-def plot_ethogram(dataset : ExperimentDataFrame, 
+def plot_ethogram(dataset : pd.DataFrame, 
                   vid_key : str, 
                   query_label : str = 'unsup_behavior_label', 
                   frame_limit : int = 4000, 
@@ -119,7 +118,7 @@ def plot_ethogram(dataset : ExperimentDataFrame,
         tuple (fig, axes). The Figure and Axes objects
     """
     fig, ax = plt.subplots(1,1,figsize = figsize)
-    plot_data = dataset.data.loc[dataset.data['filename'] == vid_key, query_label][:frame_limit].to_numpy()
+    plot_data = dataset.loc[dataset['filename'] == vid_key, query_label][:frame_limit].to_numpy()
     b = np.zeros((plot_data.size, plot_data.max()+1))
     b[np.arange(plot_data.size),plot_data] = plot_data
     plt.imshow(b.T, aspect = 'auto', origin = 'lower', interpolation = 'none', alpha = (b.T > 0).astype(float))
@@ -130,7 +129,7 @@ def plot_ethogram(dataset : ExperimentDataFrame,
 
 #TODO
 # Bug with trimming the jpg here. 
-def create_ethogram_video(dataset : ExperimentDataFrame, 
+def create_ethogram_video(dataset : pd.DataFrame, 
                           vid_key : str, 
                           query_label : str, 
                           out_file : str, 
@@ -151,11 +150,11 @@ def create_ethogram_video(dataset : ExperimentDataFrame,
     Returns:
         None
     """
-    vid_file = dataset.metadata[vid_key]['video_files']
-    fps = dataset.metadata[vid_key]['fps']
+    vid_file = dataset.metadata.details[vid_key]['video_files']
+    fps = dataset.metadata.details[vid_key]['fps']
     time_limit = frame_limit/fps
     fig, _ = plt.subplots(1,1,figsize = (im_dim,2))
-    plot_data = dataset.data.loc[dataset.data['filename'] == vid_key, query_label][:frame_limit].to_numpy()
+    plot_data = dataset.loc[dataset['filename'] == vid_key, query_label][:frame_limit].to_numpy()
 
     #Create behavior_times
     behavior_times = []
@@ -200,7 +199,7 @@ def create_ethogram_video(dataset : ExperimentDataFrame,
     -threads 8 -q:v 3 {out_file}'''
     os.system(ffmpeg_cmd)
 
-def create_sample_videos(dataset : ExperimentDataFrame, 
+def create_sample_videos(dataset : pd.DataFrame, 
                          video_dir : str, 
                          out_dir : str, 
                          query_col : str = 'unsup_behavior_label', 
@@ -225,7 +224,7 @@ def create_sample_videos(dataset : ExperimentDataFrame,
     Returns:
         None
     """
-    labels = dataset.data[query_col].unique()
+    labels = dataset[query_col].unique()
     labels = labels[labels >= 0]
     #all_labels = np.unique(labels)
 
@@ -233,7 +232,7 @@ def create_sample_videos(dataset : ExperimentDataFrame,
         s_m = 0
         for idx in range(max_size):
             try:
-                if dataset.data.loc[sample_row-idx, query_col] == label_idx:
+                if dataset.loc[sample_row-idx, query_col] == label_idx:
                     s_m += 1
                 else:
                     break
@@ -243,7 +242,7 @@ def create_sample_videos(dataset : ExperimentDataFrame,
         s_p = 0
         for idx in range(max_size):
             try:
-                if dataset.data.loc[sample_row+idx, query_col] == label_idx:
+                if dataset.loc[sample_row+idx, query_col] == label_idx:
                     s_p += 1
                 else:
                     break
@@ -255,11 +254,11 @@ def create_sample_videos(dataset : ExperimentDataFrame,
     for label_idx in labels:
 
         print(f"Making sample videos for behavior label {label_idx}")
-        label_indices = dataset.data[query_col] == label_idx
+        label_indices = dataset[query_col] == label_idx
         if sum(label_indices) == 0: continue
 
         ## Pull out some sample frames from each video for this behavior
-        behavior_rows = dataset.data[dataset.data[query_col] == label_idx]
+        behavior_rows = dataset[dataset[query_col] == label_idx]
         random_sample_indices = np.random.choice(behavior_rows.index, min(len(behavior_rows.index), N_supersample_rows), replace = False)
         window_sizes = [get_window_size(label_idx, i) \
                         for i in random_sample_indices]

@@ -24,7 +24,7 @@ import warnings
 from glob import glob
 from sklearn.model_selection import PredefinedSplit
 
-from ethome.features import Features
+from ethome.features.features import Features
 from ethome.io import read_DLC_tracks, read_boris_annotation, uniquifier, create_behavior_labels
 from ethome.utils import checkFFMPEG
 from ethome.config import global_config
@@ -85,7 +85,7 @@ def _convert_units(df):
         return 
     for col in df.columns:
         is_dlc_feature = False
-        for ani in df.animals:
+        for ani in df.pose.animals:
             if col.startswith(ani):
                 is_dlc_feature = True
                 break
@@ -469,7 +469,8 @@ def createExperiment(metadata : dict,
         _load_tracks(df, part_renamer, animal_renamer, rescale = should_rescale) 
         _load_labels(df, set_as_label = True)
 
-    df.metadata.label_key = label_key
+    if label_key:
+        df.metadata.label_key = label_key
 
     if should_rescale:
         _convert_units(df)
@@ -513,8 +514,9 @@ def _load_dlc_tracks(df, part_renamer, animal_renamer, rescale = False):
                 raise RuntimeError("DLC files have different columns. Must all be from same project")
         col_names_old = col_names
 
-    df = pd.concat(dfs, axis = 0)
-    df = df.reset_index(drop = True)
+    dfs = pd.concat(dfs, axis = 0)
+    df[dfs.columns] = dfs
+    df.reset_index(drop = True, inplace = True)
     df.pose.body_parts = body_parts
     df.pose.animals = animals
     df.pose.animal_setup = {'mouse_ids': animals, 'bodypart_ids': body_parts, 'colnames': col_names}

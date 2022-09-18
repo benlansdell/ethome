@@ -1,5 +1,5 @@
 import pandas as pd 
-from ethome.dl.feature_engineering import make_features_mars_distr, make_features_social, \
+from ethome.features.feature_engineering import make_features_mars_distr, make_features_social, \
                                             make_features_distances, make_features_velocities, \
                                             make_features_mars_reduced
 

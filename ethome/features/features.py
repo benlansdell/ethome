@@ -36,9 +36,9 @@ dataset.add_features(custom_feature_maker, featureset_name = 'CUSTOM', add_to_fe
 from typing import Callable
 import warnings
 
-from ethome.dl.dl_features import compute_dl_probability_features
-from ethome.mars_features import compute_mars_features, compute_mars_reduced_features, compute_social_features
-from ethome.generic_features import compute_centerofmass_interanimal_distances, \
+from ethome.features.dl_features import compute_dl_probability_features
+from ethome.features.mars_features import compute_mars_features, compute_mars_reduced_features, compute_social_features
+from ethome.features.generic_features import compute_centerofmass_interanimal_distances, \
                                         compute_centerofmass_interanimal_speed, \
                                         compute_centerofmass, \
                                         compute_centerofmass_velocity, \
@@ -83,12 +83,12 @@ class Features(object):
             **kwargs: Extra arguments passed onto the feature creation function.
         """
         #Validate columns:
-        checks = [col in self.required_columns for col in edf.data.columns]
+        checks = [col in self.required_columns for col in edf.columns]
         if sum(checks) < len(self.required_columns):
             raise RuntimeError("ExperimentDataFrame doesn't have necessary columns to compute this set of features.")
-        if edf.data[self.required_columns].isnull().values.any():
+        if edf[self.required_columns].isnull().values.any():
             warnings.warn("Missing values in required data columns. May result in unexpected behavior. Consider interpolating or imputing missing data first.")
-        new_features = self.feature_maker(edf.data, self.required_columns, edf.animal_setup, **self.kwargs, **kwargs)
+        new_features = self.feature_maker(edf, self.required_columns, edf.pose.animal_setup, **self.kwargs, **kwargs)
         return new_features
 
 ## MARS features

@@ -37,10 +37,10 @@ def metadata(tracking_files, label_files, metadata_params):
     return metadata
 
 @pytest.fixture()
-def videodataset(metadata):
-    from ethome import ExperimentDataFrame
+def dataset(metadata):
+    from ethome import createExperiment
     animal_renamer = {'adult': 'resident', 'juvenile': 'intruder'}
-    edf = ExperimentDataFrame(metadata, animal_renamer=animal_renamer)
+    edf = createExperiment(metadata, animal_renamer=animal_renamer)
     return edf
 
 @pytest.fixture()
@@ -49,26 +49,26 @@ def openfield_sample():
     return get_sample_openfield_data()
 
 @pytest.fixture
-def default_track_cols(videodataset):
-    return videodataset.raw_track_columns
+def default_track_cols(dataset):
+    return dataset.pose.raw_track_columns
 
 @pytest.fixture()
-def videodataset_mars(videodataset):
+def videodataset_mars(dataset):
     from ethome import mars_feature_maker
-    videodataset.add_features(mars_feature_maker, 
+    dataset.features.add(mars_feature_maker, 
                      featureset_name = 'MARS', 
                      add_to_features = True)
-    return videodataset
+    return dataset
 
 @pytest.fixture()
-def dens_matrix(videodataset):
+def dens_matrix(dataset):
 
     from ethome.unsupervised import compute_density
     import numpy as np
     n_pts = 200
     extent = (-50, 50, -50, 50)
-    videodataset.data = videodataset.data.iloc[:200,:]
+    dataset = dataset.iloc[:200,:]
     embedding = np.random.randn(200, 2)
-    videodataset.data[['embedding_0', 'embedding_1']] = embedding
-    dens_matrix = compute_density(videodataset, extent, n_pts = n_pts)
+    dataset[['embedding_0', 'embedding_1']] = embedding
+    dens_matrix = compute_density(dataset, extent, n_pts = n_pts)
     return dens_matrix

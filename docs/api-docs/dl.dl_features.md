@@ -58,7 +58,7 @@ run_task(
     build_model,
     skip_test_prediction=False,
     seed=2021,
-    Generator=<class 'ethome.dl.dl_generators.MABe_Generator'>,
+    Generator=<class 'ethome.features.dl_generators.MABe_Generator'>,
     use_callbacks=False,
     params=None,
     use_conv=True
@@ -159,7 +159,7 @@ __init__(
     frame_gap=1,
     use_conv=False,
     build_model=<function build_baseline_model at 0x7fc19c9c5830>,
-    Generator=<class 'ethome.dl.dl_generators.MABe_Generator'>,
+    Generator=<class 'ethome.features.dl_generators.MABe_Generator'>,
     use_callbacks=False,
     learning_decay_freq=10,
     featurizer=<function features_identity at 0x7fc2d16bba70>

@@ -3,12 +3,12 @@
 #####################
 
 import pytest
+import pandas as pd
 
 def test_sample_data():
     from ethome.io import get_sample_data
-    from ethome import ExperimentDataFrame
     dataset = get_sample_data()
-    assert type(dataset) is ExperimentDataFrame
+    assert type(dataset) is pd.DataFrame
 
 def test_sample_paths():
     from ethome.io import get_sample_data_paths
@@ -20,13 +20,13 @@ def test_sample_paths():
 def test_sample_singlemouse_data():
     from ethome.video import get_sample_openfield_data
     df = get_sample_openfield_data()
-    assert df.animals == ['ind1']
-    assert len(df.data.columns) == 15
+    assert df.pose.animals == ['ind1']
+    assert len(df.columns) == 15
 
 def test_multiple_boris_behaviors():
     import os 
     from glob import glob 
-    from ethome import ExperimentDataFrame, clone_metadata
+    from ethome import createExperiment, clone_metadata
     import numpy as np
 
     cur_dir = os.path.dirname(os.path.abspath(__file__))
@@ -41,17 +41,17 @@ def test_multiple_boris_behaviors():
                               label_files = label_files,
                               fps = fps)
 
-    edf = ExperimentDataFrame(metadata)
+    edf = createExperiment(metadata)
 
-    assert 'interact' in edf.label_key.values()
-    assert 'mount' in edf.label_key.values()
-    assert all(np.array(list(edf.label_key.keys())) > 0)
+    assert 'interact' in edf.metadata.label_key.values()
+    assert 'mount' in edf.metadata.label_key.values()
+    assert all(np.array(list(edf.metadata.label_key.keys())) > 0)
 
 def test_sample_singlemouse_data_missing():
 
     import os 
     from glob import glob 
-    from ethome import ExperimentDataFrame, clone_metadata
+    from ethome import createExperiment, clone_metadata
 
     cur_dir = os.path.dirname(os.path.abspath(__file__))
     tracking_files = glob(os.path.join(cur_dir, '..', 'ethome', 'data', 'dlc', 'openfield', '*missingdata.csv'))
@@ -62,16 +62,16 @@ def test_sample_singlemouse_data_missing():
                             fps = fps, 
                             resolution = resolution)
 
-    edf = ExperimentDataFrame(metadata)
+    edf = createExperiment(metadata)
 
-    assert edf.animals == ['ind1']
-    assert len(edf.data.columns) == 15
+    assert edf.pose.animals == ['ind1']
+    assert len(edf.columns) == 15
 
 def test_sample_threemouse_data():
 
     import os 
     from glob import glob 
-    from ethome import ExperimentDataFrame, clone_metadata
+    from ethome import createExperiment, clone_metadata
 
     cur_dir = os.path.dirname(os.path.abspath(__file__))
     tracking_files = glob(os.path.join(cur_dir, '..', 'ethome', 'data', 'dlc', 'openfield', '*three.csv'))
@@ -82,7 +82,7 @@ def test_sample_threemouse_data():
                             fps = fps, 
                             resolution = resolution)
 
-    edf = ExperimentDataFrame(metadata)
+    edf = createExperiment(metadata)
 
-    assert edf.animals == ['ind1', 'ind2', 'ind3']
-    assert len(edf.data.columns) == 39
+    assert edf.pose.animals == ['ind1', 'ind2', 'ind3']
+    assert len(edf.columns) == 39

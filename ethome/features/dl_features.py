@@ -6,9 +6,9 @@ import os
 from copy import deepcopy
 import warnings
 
-from ethome.dl.dl_models import build_baseline_model
-from ethome.dl.dl_generators import MABe_Generator, features_identity
-from ethome.dl.grid_searches import sweeps_baseline, feature_spaces
+from ethome.features.dl_models import build_baseline_model
+from ethome.features.dl_generators import MABe_Generator, features_identity
+from ethome.features.grid_searches import sweeps_baseline, feature_spaces
 
 try:
     import keras

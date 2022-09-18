@@ -155,7 +155,7 @@ def load_data(fn : str):
 
 #Only used to making a test dataframe for testing and dev purposes
 def _make_sample_dataframe(fn_out = 'sample_dataframe.pkl'): # pragma: no cover
-    from ethome import ExperimentDataFrame, clone_metadata
+    from ethome import createExperiment, clone_metadata
 
     cur_dir = os.path.dirname(os.path.abspath(__file__))
     tracking_files = sorted(glob(cur_dir + '/data/dlc/*.csv'))
@@ -171,7 +171,7 @@ def _make_sample_dataframe(fn_out = 'sample_dataframe.pkl'): # pragma: no cover
                           frame_width_units = frame_width_units, 
                           resolution = resolution)
 
-    dataset = ExperimentDataFrame(metadata)
+    dataset = createExperiment(metadata)
     path_out = os.path.join(cur_dir, 'data', fn_out)
     to_save = {'dataset': dataset, 'metadata': metadata}
     with open(path_out, 'wb') as handle:

@@ -15,7 +15,7 @@ deploytest:
 #Then test install w:
 #python3 -m pip install --index-url https://test.pypi.org/simple/ --no-deps ethome
 #or with version number
-#python3 -m pip install --index-url https://test.pypi.org/simple/ ethome==0.2.1
+#python3 -m pip install --index-url https://test.pypi.org/simple/ ethome==0.3.0
 
 deploy:
 		python -m twine upload dist/*

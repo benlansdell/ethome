@@ -35,8 +35,8 @@ This includes matplotlib, keras, and Linderman lab's state-space model package, 
 Import
 ```
 from glob import glob 
-from ethome import ExperimentDataFrame, clone_metadata
-from ethome import compute_dl_probability_features, compute_mars_features
+from ethome import createExperiment, clone_metadata
+from ethome.features import CNN1DProb, MARS
 from ethome.io import get_sample_data_paths
 ```
 
@@ -64,27 +64,30 @@ metadata = clone_metadata(tracking_files,
 
 animal_renamer = {'adult': 'resident', 'juvenile':'intruder'}
 
-dataset = ExperimentDataFrame(metadata, animal_renamer=animal_renamer)
+dataset = createExperiment(metadata, animal_renamer=animal_renamer)
 ```
 
-Now create features on this dataset
+Now create features on this dataset. Feature creation objects are class instances, similar to sk-learn:
 ```
-dataset.add_features(compute_dl_probability_features, 
+cnn_probabilities = CNN1DProb()
+mars = MARS()
+
+dataset.features.add(cnn_probabilities, 
                      featureset_name = '1dcnn', 
                      add_to_features = True)
 
-dataset.add_features(compute_mars_features, 
+dataset.features.add(mars, 
                      featureset_name = 'MARS', 
                      add_to_features = True)
 ```
 
-Now access a features table, labels, and groups for learning with `dataset.features, dataset.labels, dataset.groups`. From here it's easy to use some ML libraries to predict behavior. For example:
+Now access a features table, labels, and groups for learning with `dataset.ml.features, dataset.ml.labels, dataset.ml.groups`. From here it's easy to use some ML libraries to predict behavior. For example:
 ```
 from sklearn.ensemble import ExtraTreesClassifier, RandomForestClassifier
 from sklearn.model_selection import cross_val_predict
 from sklearn.metrics import accuracy_score
 
 model = RandomForestClassifier()
-predictions = cross_val_predict(model, dataset.features, dataset.labels, dataset.groups)
-score = accuracy_score(dataset.labels, predictions)
+predictions = cross_val_predict(model, dataset.ml.features, dataset.ml.labels, dataset.ml.groups)
+score = accuracy_score(dataset.ml.labels, predictions)
 ```

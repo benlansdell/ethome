@@ -31,7 +31,8 @@ def interpolate_lowconf_points(edf : pd.DataFrame,
         
         for m in edf.pose.animals:
             for bp in edf.pose.body_parts:
-                low_conf = df_filter_low_conf.loc[edf.filename == fn_in, '_'.join(['likelihood', m, bp])] < conf_threshold
+                low_conf = \
+                    df_filter_low_conf.loc[edf.filename == fn_in, '_'.join(['likelihood', m, bp])] < conf_threshold
                 df_filter_low_conf.loc[(edf.filename == fn_in) & low_conf,'_'.join([m, 'x', bp])] = np.nan
                 df_filter_low_conf.loc[(edf.filename == fn_in) & low_conf,'_'.join([m, 'y', bp])] = np.nan
                 

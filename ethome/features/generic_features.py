@@ -106,27 +106,6 @@ def compute_centerofmass(df : pd.DataFrame, raw_col_names : list, animal_setup :
     features_df = features_df.drop(columns = orig_cols)
     return features_df
 
-# def compute_centerofmass(df : pd.DataFrame, raw_col_names : list, animal_setup : dict, **kwargs) -> pd.DataFrame:
-
-#     bodypart_ids = animal_setup['bodypart_ids']
-#     mouse_ids = animal_setup['mouse_ids']
-
-#     features_df = df.copy()
-#     orig_cols = df.columns
-
-#     for animal_id in mouse_ids:
-#         fxs = ['_'.join([animal_id, 'x', bp]) for bp in bodypart_ids]
-#         fys = ['_'.join([animal_id, 'y', bp]) for bp in bodypart_ids]
-#         fx_new = '_'.join([animal_id, 'COM_x'])
-#         fy_new = '_'.join([animal_id, 'COM_y'])
-#         features_df[fx_new] = features_df[fxs].sum(axis = 1) / len(bodypart_ids)
-#         features_df[fy_new] = features_df[fys].sum(axis = 1) / len(bodypart_ids)
-
-#     features_df = features_df.drop(columns = orig_cols)
-#     return features_df
-
-############################
-
 def compute_centerofmass_velocity(df : pd.DataFrame, raw_col_names : list, animal_setup : dict, n_shifts = 5, bodyparts : list = [], **kwargs) -> pd.DataFrame:
 
     if len(bodyparts) == 0:

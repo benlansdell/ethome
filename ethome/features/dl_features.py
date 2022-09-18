@@ -6,9 +6,9 @@ import os
 from copy import deepcopy
 import warnings
 
-from ethome.features.dl_models import build_baseline_model
-from ethome.features.dl_generators import MABe_Generator, features_identity
-from ethome.features.grid_searches import sweeps_baseline, feature_spaces
+from ethome.features.cnn1d import build_baseline_model
+from ethome.features.cnn1d import MABe_Generator, features_identity
+from .cnn1d import *
 
 try:
     import keras
@@ -18,6 +18,45 @@ except ImportError:
     has_keras = False
 
 THIS_FILE_DIR = os.path.dirname(os.path.realpath(__file__))
+
+default_config = {"val_size": 0.2,
+                    "normalize": True,
+                    "split_videos": False,
+                    "future_frames": 50,
+                    "past_frames": 50,
+                    "frame_gap": 1,
+                    "use_conv": True,
+                    "batch_size": 128,
+                    "augment": False,
+                    "epochs": 15,
+                    "reweight_loss": False,
+                    "learning_decay_freq": 1000,
+                    "model_param__layer_channels": [128, 64, 64],
+                    "model_param__conv_size": 5,
+                    "model_param__dropout_rate": 0.5,
+                    "model_param__learning_rate": 0.0005,
+                    "features": "identity"
+                }
+
+feature_spaces = {'distances': [features_distances, [91]], 
+                    'identity': [features_identity, [2,7,2]],
+                    'distances_normalized': [features_distances_normalized, [91]],
+                    'mars': [features_mars, []],
+                    'mars_distr': [features_mars_distr, []],
+                }
+                    # This one was removed....I think it's not needed
+                    # 'mars_no_shift': [features_mars_no_shift, [160]]
+
+sweeps_baseline = {
+    'test_run_distances':
+        [{'num_samples': 1},
+        {
+            "model_param__learning_rate": 0.0001,
+            "epochs": 15,
+            "features": "distances",
+            "model_param__dropout_rate": 0.5
+        }]
+}
 
 def seed_everything(seed = 2012):
     np.random.seed(seed)
@@ -250,15 +289,13 @@ def compute_dl_probability_features(df : pd.DataFrame, raw_col_names : list, ani
 
     test_data = convert_to_mars_format(df, raw_col_names, animal_setup)
     parametersweep = 'test_run_distances'
-    config_name = os.path.join(THIS_FILE_DIR, 'dl_baseline_settings.json')
     build_model = build_baseline_model
     Generator = MABe_Generator
     use_callbacks = False
     sweeps = sweeps_baseline
 
-    #Load default config
-    with open(config_name, 'r') as fp:
-        config = json.load(fp)
+    config = default_config 
+
     if 'model_param__layer_channels' in config:
         config['model_param__layer_channels'] = tuple(config['model_param__layer_channels'])
 
@@ -266,8 +303,7 @@ def compute_dl_probability_features(df : pd.DataFrame, raw_col_names : list, ani
     for k in sweeps[parametersweep][1]:
         config[k] = sweeps[parametersweep][1][k]
 
-    arguments = {'config_name': config_name,
-                 'build_model': build_model,
+    arguments = {'build_model': build_model,
                  'Generator': Generator,
                  'use_callbacks': use_callbacks}
 

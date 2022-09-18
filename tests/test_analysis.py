@@ -24,7 +24,7 @@ def test_clone_metadata(tracking_files, label_files, metadata_params):
 
 
 def test_VideoDataFrame(tracking_files, label_files, metadata, metadata_params):
-    """ Test creation of VideoDataFrame object """
+    """ Test creation of DataFrame object """
     # metadata = clone_metadata(tracking_files, 
     #                             label_files = label_files, 
     #                             frame_width = metadata_params['frame_width'], 
@@ -75,19 +75,21 @@ def test_df_renaming(metadata, default_track_cols):
 def test_dl_features(dataset):
     import os
     os.environ["CUDA_VISIBLE_DEVICES"] = ''
-    from ethome import cnn_probability_feature_maker
-    dataset.features.add(cnn_probability_feature_maker, 
-                     featureset_name = '1dcnn', 
-                     add_to_features = True)
+    from ethome.features import CNN1DProb
+    cnnprobs = CNN1DProb()
+    dataset.features.add(cnnprobs, 
+                         featureset_name = '1dcnn', 
+                         add_to_features = True)
     assert set(dataset.features.active) == set(['1dcnn__prob_attack', '1dcnn__prob_investigation', '1dcnn__prob_mount', '1dcnn__prob_other'])
 
 def test_dl_features_with_missing(dataset):
     import os
     import numpy as np
     os.environ["CUDA_VISIBLE_DEVICES"] = ''
-    from ethome import cnn_probability_feature_maker
+    from ethome.features import CNN1DProb
     dataset.iloc[:10,0] = np.nan
-    dataset.features.add(cnn_probability_feature_maker, 
+    cnnprobs = CNN1DProb()
+    dataset.features.add(cnnprobs, 
                      featureset_name = '1dcnn', 
                      add_to_features = True)
     assert set(dataset.features.active) == set(['1dcnn__prob_attack', '1dcnn__prob_investigation', '1dcnn__prob_mount', '1dcnn__prob_other'])
@@ -102,8 +104,9 @@ def test_remove_likelihood(dataset):
     assert new_cols == old_cols
 
 def test_mars_features(dataset):
-    from ethome import mars_feature_maker
-    dataset.features.add(mars_feature_maker, 
+    from ethome.features import MARS
+    mars_features = MARS()
+    dataset.features.add(mars_features, 
                      featureset_name = 'MARS', 
                      add_to_features = True)
     #Check we made the right amount of new columns
@@ -111,20 +114,22 @@ def test_mars_features(dataset):
 
 def test_mars_features_with_missing(dataset):
     import numpy as np
-    from ethome import mars_feature_maker
+    from ethome.features import MARS
     # 
     #Give the df missing data:
     dataset.iloc[:10,0] = np.nan
 
-    dataset.features.add(mars_feature_maker, 
+    mars = MARS()
+    dataset.features.add(mars, 
                      featureset_name = 'MARS', 
                      add_to_features = True)
     #Check we made the right amount of new columns
     assert len(dataset.features.active) == 726
 
 def test_mars_then_interpolate(dataset):
-    from ethome import mars_feature_maker
-    dataset.features.add(mars_feature_maker, 
+    from ethome.features import MARS
+    mars = MARS()
+    dataset.features.add(mars, 
                      featureset_name = 'MARS', 
                      add_to_features = True)
     interpolate_lowconf_points(dataset)
@@ -135,43 +140,48 @@ def test_singleanimal_interpolate(openfield_sample):
     assert len(openfield_sample.columns) == 15
 
 def test_duplicate_mars_features(dataset):
-    from ethome import mars_feature_maker
-    dataset.features.add(mars_feature_maker, 
+    from ethome.features import MARS
+    mars = MARS()
+    dataset.features.add(mars, 
                      featureset_name = 'MARS', 
                      add_to_features = True)
-    dataset.features.add(mars_feature_maker, 
+    dataset.features.add(mars, 
                      featureset_name = 'MARS', 
                      add_to_features = True)
     #Check we made the right amount of new columns
     assert len(dataset.features.active) == 726
 
 def test_distance_features(dataset):
-    from ethome import distance_feature_maker
-    dataset.features.add(distance_feature_maker, 
+    from ethome.features import Distances
+    distances = Distances()
+    dataset.features.add(distances, 
                      featureset_name = 'distances', 
                      add_to_features = True)
     #Check we made the right amount of new columns
     assert len(dataset.features.active) == 91
 
 def test_speed_features(dataset):
-    from ethome import speed_feature_maker
-    dataset.features.add(speed_feature_maker, 
+    from ethome.features import Speeds
+    speeds = Speeds()
+    dataset.features.add(speeds, 
                      featureset_name = 'speeds', 
                      add_to_features = True)
     #Check we made the right amount of new columns
     assert len(dataset.features.active) == 91
 
 def test_social_features(dataset):
-    from ethome import social_feature_maker
-    dataset.features.add(social_feature_maker, 
+    from ethome.features import Social
+    social = Social()
+    dataset.features.add(social, 
                      featureset_name = 'social', 
                      add_to_features = True)
     #Check we made the right amount of new columns
     assert len(dataset.features.active) == 98
 
 def test_marsreduced_features(dataset):
-    from ethome import marsreduced_feature_maker
-    dataset.features.add(marsreduced_feature_maker, 
+    from ethome.features import MARSReduced
+    marsred = MARSReduced()
+    dataset.features.add(marsred, 
                      featureset_name = 'social', 
                      add_to_features = True)
     #Check we made the right amount of new columns
@@ -233,48 +243,54 @@ def test_save_to_dlc_csv(dataset, tmp_path_factory):
 ###########################
 
 def test_centerofmass_interanimal_features(dataset):
-    from ethome import com_interanimal_feature_maker
-    dataset.features.add(com_interanimal_feature_maker, 
+    from ethome.features import CentroidInteranimal
+    cinter = CentroidInteranimal()
+    dataset.features.add(cinter, 
                      featureset_name = 'com_interanimal', 
                      add_to_features = True)
     #Check we made the right amount of new columns
     assert len(dataset.features.active) == 1
 
 def test_centerofmass_interanimal_speed_features(dataset):
-    from ethome import com_interanimal_speed_feature_maker
-    dataset.features.add(com_interanimal_speed_feature_maker, 
+    from ethome.features import CentroidInteranimalSpeed
+    cinterspeed = CentroidInteranimalSpeed()
+    dataset.features.add(cinterspeed, 
                      featureset_name = 'com_interanimal_speed', 
                      add_to_features = True)
     #Check we made the right amount of new columns
     assert len(dataset.features.active) == 1
 
 def test_centerofmass_features(dataset):
-    from ethome import com_feature_maker
-    dataset.features.add(com_feature_maker, 
+    from ethome.features  import Centroid
+    c = Centroid()
+    dataset.features.add(c, 
                      featureset_name = 'com', 
                      add_to_features = True)
     #Check we made the right amount of new columns
     assert len(dataset.features.active) == 4
 
 def test_centerofmass_vel_features(dataset):
-    from ethome import com_velocity_feature_maker
-    dataset.features.add(com_velocity_feature_maker, 
+    from ethome.features  import CentroidVelocity
+    cspeed = CentroidVelocity()
+    dataset.features.add(cspeed, 
                      featureset_name = 'com_vel', 
                      add_to_features = True)
     #Check we made the right amount of new columns
     assert len(dataset.features.active) == 4
 
 def test_speed_features(dataset):
-    from ethome import speed_feature_maker
-    dataset.features.add(speed_feature_maker, 
+    from ethome.features  import Speeds
+    speeds = Speeds()
+    dataset.features.add(speeds, 
                      featureset_name = 'speed', 
                      add_to_features = True)
     #Check we made the right amount of new columns
     assert len(dataset.features.active) == 91
 
 def test_dist_features(dataset):
-    from ethome import distance_feature_maker
-    dataset.features.add(distance_feature_maker, 
+    from ethome.features  import Distances
+    distances = Distances()
+    dataset.features.add(distances, 
                      featureset_name = 'dist', 
                      add_to_features = True)
     #Check we made the right amount of new columns

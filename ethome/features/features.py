@@ -33,7 +33,6 @@ dataset.add_features(custom_feature_maker, featureset_name = 'CUSTOM', add_to_fe
 ```
 """
 
-from typing import Callable
 import warnings
 
 from ethome.features.dl_features import compute_dl_probability_features
@@ -55,27 +54,23 @@ default_tracking_columns = ['resident_x_nose', 'resident_x_leftear', 'resident_x
                             'intruder_y_rightear', 'intruder_y_neck', 'intruder_y_lefthip',
                             'intruder_y_righthip', 'intruder_y_tail']
 
-class Features(object):
-    def __init__(self, feature_maker : Callable, required_columns : list, **kwargs):
+def feature_class_maker(name, compute_function, required_columns):
+    def __init__(self, required_columns = None, **kwargs):
         """Feature creation object. This houses the feature creation function and the columns that are required to compute the features. Performs some checks on data to make sure has these columns.
 
         See docstring for the `features` model for more information.
 
         Args:
-            feature_maker: The function that will be used to compute the features.
             required_columns: The columns that are required to compute the features.
         """
-        self.required_columns = required_columns
-        self.feature_maker = feature_maker
+        if required_columns is not None:
+            self.required_columns = required_columns
         self.kwargs = kwargs
 
-    def fit(self):
+    def fit(self, edf, **kwargs):
         return 
 
     def transform(self, edf, **kwargs):
-        return self.fit_transform(edf, **kwargs)
-
-    def fit_transform(self, edf, **kwargs):
         """Make the features. This is called internally by the dataset object when running `add_features`.
 
         Args:
@@ -85,22 +80,36 @@ class Features(object):
         #Validate columns:
         checks = [col in self.required_columns for col in edf.columns]
         if sum(checks) < len(self.required_columns):
-            raise RuntimeError("ExperimentDataFrame doesn't have necessary columns to compute this set of features.")
+            raise RuntimeError("DataFrame doesn't have necessary columns to compute this set of features.")
         if edf[self.required_columns].isnull().values.any():
             warnings.warn("Missing values in required data columns. May result in unexpected behavior. Consider interpolating or imputing missing data first.")
         new_features = self.feature_maker(edf, self.required_columns, edf.pose.animal_setup, **self.kwargs, **kwargs)
-        return new_features
+        return new_features   
 
-## MARS features
-mars_feature_maker = Features(compute_mars_features, default_tracking_columns)
-marsreduced_feature_maker = Features(compute_mars_reduced_features, default_tracking_columns)
-cnn_probability_feature_maker = Features(compute_dl_probability_features, default_tracking_columns)
-social_feature_maker = Features(compute_social_features, default_tracking_columns)
+    def fit_transform(self, edf, **kwargs):
+        self.fit(edf, **kwargs)
+        return self.transform(edf, **kwargs)
+    
+    return type(name, (object,), {
+        '__init__': __init__,
+        'fit': fit,
+        'transform': transform,
+        'fit_transform': fit_transform,
+        'required_columns': required_columns,
+        'feature_maker': staticmethod(compute_function)
+    })
+
+## Built in feature makers
+
+MARS = feature_class_maker('MARSFeatures', compute_mars_features, default_tracking_columns)
+MARSReduced = feature_class_maker('MARSReduced', compute_mars_reduced_features, default_tracking_columns)
+CNN1DProb = feature_class_maker('CNN1DProb', compute_dl_probability_features, default_tracking_columns)
+Social = feature_class_maker('Social', compute_social_features, default_tracking_columns)
 
 ## Generic features -- don't need any specific column names. Will be based on the animal setup.
-com_interanimal_feature_maker = Features(compute_centerofmass_interanimal_distances, [])
-com_interanimal_speed_feature_maker = Features(compute_centerofmass_interanimal_speed, [])
-com_feature_maker = Features(compute_centerofmass, [])
-com_velocity_feature_maker = Features(compute_centerofmass_velocity, [])
-speed_feature_maker = Features(compute_speed_features, [])
-distance_feature_maker = Features(compute_distance_features, [])
+CentroidInteranimal = feature_class_maker('CentroidInteranimal', compute_centerofmass_interanimal_distances, [])
+CentroidInteranimalSpeed = feature_class_maker('CentroidInteranimalSpeed', compute_centerofmass_interanimal_speed, [])
+Centroid = feature_class_maker('Centroid', compute_centerofmass, [])
+CentroidVelocity = feature_class_maker('CentroidVelocity', compute_centerofmass_velocity, [])
+Speeds = feature_class_maker('Speeds', compute_speed_features, [])
+Distances = feature_class_maker('Distances', compute_distance_features, [])

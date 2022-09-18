@@ -24,7 +24,6 @@ import warnings
 from glob import glob
 from sklearn.model_selection import PredefinedSplit
 
-from ethome.features.features import Features
 from ethome.io import read_DLC_tracks, read_boris_annotation, uniquifier, create_behavior_labels
 from ethome.utils import checkFFMPEG
 from ethome.config import global_config
@@ -215,7 +214,7 @@ class EthologyFeaturesAccessor(object):
         return removed_cols
 
     #Set features by individual or by group names
-    def add(self, feature_maker : Features, 
+    def add(self, feature_maker, 
                            featureset_name : str, 
                            add_to_features = True, 
                            **kwargs) -> list:

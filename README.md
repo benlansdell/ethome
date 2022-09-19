@@ -34,7 +34,7 @@ This includes matplotlib, keras, and Linderman lab's state-space model package, 
 ## Quickstart
 
 Import
-```
+```python
 from glob import glob 
 from ethome import createExperiment, clone_metadata
 from ethome.features import CNN1DProb, MARS
@@ -42,12 +42,12 @@ from ethome.io import get_sample_data_paths
 ```
 
 Gather the DLC and BORIS tracking and annotation files
-```
+```python
 tracking_files, boris_files = get_sample_data_paths()
 ```
 
 Setup some parameters
-```
+```python
 frame_width = 20                 # (float) length of entire horizontal shot
 frame_width_units = 'in'         # (str) units frame_width is given in
 fps = 30                         # (int) frames per second
@@ -55,7 +55,7 @@ resolution = (1200, 1600)        # (tuple) HxW in pixels
 ```
 
 Create a parameter object and video dataset
-```
+```python
 metadata = clone_metadata(tracking_files, 
                           label_files = boris_files, 
                           frame_width = frame_width, 
@@ -69,7 +69,7 @@ dataset = createExperiment(metadata, animal_renamer=animal_renamer)
 ```
 
 Now create features on this dataset. Feature creation objects are class instances, similar to sk-learn:
-```
+```python
 cnn_probabilities = CNN1DProb()
 mars = MARS()
 
@@ -83,7 +83,7 @@ dataset.features.add(mars,
 ```
 
 Now access a features table, labels, and groups for learning with `dataset.ml.features, dataset.ml.labels, dataset.ml.groups`. From here it's easy to use some ML libraries to predict behavior. For example:
-```
+```python
 from sklearn.ensemble import ExtraTreesClassifier, RandomForestClassifier
 from sklearn.model_selection import cross_val_predict
 from sklearn.metrics import accuracy_score

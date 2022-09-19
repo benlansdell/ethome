@@ -1,4 +1,4 @@
-[![codecov](https://codecov.io/gh/benlansdell/ethome/branch/master/graph/badge.svg?token=PN52Q3UH3G)](https://codecov.io/gh/benlansdell/ethome)
+[![codecov](https://codecov.io/gh/benlansdell/ethome/branch/master/graph/badge.svg?token=IJ0JJBOGGS)](https://codecov.io/gh/benlansdell/ethome)
 
 # Ethome
 
@@ -88,6 +88,7 @@ from sklearn.model_selection import cross_val_predict
 from sklearn.metrics import accuracy_score
 
 model = RandomForestClassifier()
-predictions = cross_val_predict(model, dataset.ml.features, dataset.ml.labels, dataset.ml.groups)
-score = accuracy_score(dataset.ml.labels, predictions)
+cross_val_score(model, dataset.ml.features, dataset.ml.labels, dataset.ml.groups)
 ```
+
+Read more in the how-to guide in the docs.

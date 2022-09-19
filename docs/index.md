@@ -1,22 +1,31 @@
-[![codecov](https://codecov.io/gh/benlansdell/ethome/branch/master/graph/badge.svg?token=PN52Q3UH3G)](https://codecov.io/gh/benlansdell/ethome)
+[![codecov](https://codecov.io/gh/benlansdell/ethome/branch/master/graph/badge.svg?token=IJ0JJBOGGS)](https://codecov.io/gh/benlansdell/ethome)
 
-# ethome
+# Ethome
 
 Machine learning for animal behavior.
 
-Interprets pose-tracking files (currently only from DLC), behavior annotations (currently only from BORIS) to train a behavior classifier. 
+Interprets pose-tracking files (currently only from DLC) and behavior annotations (currently only from BORIS) to train a behavior classifier, perform unsupervised learning, and other common analysis tasks. 
+
+## Features
+
+* Interpolate DLC data 
+* Create generic features for kinematic analysis and downstream ML tasks
+* Create features specifically for mouse resident-intruder setup
+* Read in DLC pose data and corresponding BORIS behavior annotations to make supervised learning easy
+* Perform unsupervised learning on pose data to extract discrete behavioral motifs (MotionMapper)
+* Quickly generate a movie with behavior predictions
 
 ## Installation
 
 ```
-pip install ethome
+pip install ethome-ml
 ```
 
 Can install optional extras with:
 
 ```
 pip install numpy, cython
-pip install ethome[all]
+pip install ethome-ml[all]
 ```
 
 This includes matplotlib, keras, and Linderman lab's state-space model package, [ssm](https://github.com/lindermanlab/ssm). Note that installing ssm requires cython and numpy for the build, so must be already present in the environment. 
@@ -26,8 +35,9 @@ This includes matplotlib, keras, and Linderman lab's state-space model package, 
 Import
 ```
 from glob import glob 
-from ethome import ExperimentDataFrame, clone_metadata
-from ethome import compute_dl_probability_features, compute_mars_features
+from ethome import createExperiment, clone_metadata
+from ethome.features import CNN1DProb, MARS
+from ethome.io import get_sample_data_paths
 ```
 
 Gather the DLC and BORIS tracking and annotation files
@@ -54,27 +64,30 @@ metadata = clone_metadata(tracking_files,
 
 animal_renamer = {'adult': 'resident', 'juvenile':'intruder'}
 
-dataset = ExperimentDataFrame(metadata, animal_renamer=animal_renamer)
+dataset = createExperiment(metadata, animal_renamer=animal_renamer)
 ```
 
-Now create features on this dataset
+Now create features on this dataset. Feature creation objects are class instances, similar to sk-learn:
 ```
-dataset.add_features(compute_dl_probability_features, 
+cnn_probabilities = CNN1DProb()
+mars = MARS()
+
+dataset.features.add(cnn_probabilities, 
                      featureset_name = '1dcnn', 
                      add_to_features = True)
 
-dataset.add_features(compute_mars_features, 
+dataset.features.add(mars, 
                      featureset_name = 'MARS', 
                      add_to_features = True)
 ```
 
-Now access a features table, labels, and groups for learning with `dataset.features, dataset.labels, dataset.groups`. From here it's easy to use some ML libraries to predict behavior. For example:
+Now access a features table, labels, and groups for learning with `dataset.ml.features, dataset.ml.labels, dataset.ml.groups`. From here it's easy to use some ML libraries to predict behavior. For example:
 ```
-from sklearn.ensemble import ExtraTreesClassifier, RandomForestClassifier
-from sklearn.model_selection import cross_val_predict
-from sklearn.metrics import accuracy_score
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import cross_val_score
 
 model = RandomForestClassifier()
-predictions = cross_val_predict(model, dataset.features, dataset.labels, dataset.groups)
-score = accuracy_score(dataset.labels, predictions)
+cross_val_score(model, dataset.ml.features, dataset.ml.labels, dataset.ml.groups)
 ```
+
+Read more in the how-to guide in the docs.

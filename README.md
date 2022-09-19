@@ -68,7 +68,7 @@ animal_renamer = {'adult': 'resident', 'juvenile':'intruder'}
 dataset = createExperiment(metadata, animal_renamer=animal_renamer)
 ```
 
-Now create features on this dataset. Feature creation objects are class instances, similar to sk-learn:
+Now create features on this dataset. Feature creation objects are class instances, similar to sklearn:
 ```python
 cnn_probabilities = CNN1DProb()
 mars = MARS()
@@ -84,9 +84,8 @@ dataset.features.add(mars,
 
 Now access a features table, labels, and groups for learning with `dataset.ml.features, dataset.ml.labels, dataset.ml.groups`. From here it's easy to use some ML libraries to predict behavior. For example:
 ```python
-from sklearn.ensemble import ExtraTreesClassifier, RandomForestClassifier
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import cross_val_predict
-from sklearn.metrics import accuracy_score
 
 model = RandomForestClassifier()
 cross_val_score(model, dataset.ml.features, dataset.ml.labels, dataset.ml.groups)

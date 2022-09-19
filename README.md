@@ -1,5 +1,6 @@
 [![codecov](https://codecov.io/gh/benlansdell/ethome/branch/master/graph/badge.svg?token=IJ0JJBOGGS)](https://codecov.io/gh/benlansdell/ethome)
 ![Tests](https://github.com/benlansdell/ethome/actions/workflows/workflow.yml/badge.svg)
+[![PyPI version](https://badge.fury.io/py/ethome-ml.svg)](https://badge.fury.io/py/ethome-ml)
 
 # Ethome
 

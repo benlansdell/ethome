@@ -1,4 +1,4 @@
-name: Code coverage
+name: Testing
 on: [push]
 jobs:
   run:

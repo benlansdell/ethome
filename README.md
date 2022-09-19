@@ -36,7 +36,6 @@ This includes matplotlib, keras, and Linderman lab's state-space model package, 
 
 Import
 ```python
-from glob import glob 
 from ethome import createExperiment, clone_metadata
 from ethome.features import CNN1DProb, MARS
 from ethome.io import get_sample_data_paths
@@ -74,13 +73,8 @@ Now create features on this dataset. Feature creation objects are class instance
 cnn_probabilities = CNN1DProb()
 mars = MARS()
 
-dataset.features.add(cnn_probabilities, 
-                     featureset_name = '1dcnn', 
-                     add_to_features = True)
-
-dataset.features.add(mars, 
-                     featureset_name = 'MARS', 
-                     add_to_features = True)
+dataset.features.add(cnn_probabilities, '1dcnn')
+dataset.features.add(mars, 'MARS')
 ```
 
 Now access a features table, labels, and groups for learning with `dataset.ml.features, dataset.ml.labels, dataset.ml.groups`. From here it's easy to use some ML libraries to predict behavior. For example:

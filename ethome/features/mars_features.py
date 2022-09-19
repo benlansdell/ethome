@@ -154,8 +154,9 @@ def _compute_ellipsoid(df, animal_setup, n_shifts = 3, mode = 'shift'):
     #Perform SVD
     colnames = ['_'.join([a[0], a[2], a[1]]) for a in product(mouse_ids, bodypart_ids, XY_IDS)]
     data = np.array(df[colnames]).reshape(-1, 2, 7, 2)
-    mean_data = np.transpose(np.tile(np.mean(data, axis = 2), (7,1,1,1)), (1,2,0,3))
-    svals = np.linalg.svd(data-mean_data, compute_uv = False)
+    mean_data = np.transpose(np.tile(np.nanmean(data, axis = 2), (7,1,1,1)), (1,2,0,3))
+    svd_data = np.nan_to_num(data-mean_data) 
+    svals = np.linalg.svd(svd_data, compute_uv = False)
     #Not technically correct, but not sure if the square of the singular values is exaclty
     #what we want either. This keeps the scale roughly the same as the distances involved
     evals = svals

@@ -1,4 +1,5 @@
 [![codecov](https://codecov.io/gh/benlansdell/ethome/branch/master/graph/badge.svg?token=IJ0JJBOGGS)](https://codecov.io/gh/benlansdell/ethome)
+![Tests](https://github.com/benlansdell/ethome/actions/workflows/workflow.yml/badge.svg)
 
 # Ethome
 

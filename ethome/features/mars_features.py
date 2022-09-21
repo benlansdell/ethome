@@ -1,10 +1,4 @@
 import pandas as pd 
-
-#from ethome.features.feature_engineering import make_features_mars_distr, make_features_social, \
-#                                            make_features_distances, make_features_velocities, \
-#                                            make_features_mars_reduced
-
-import pandas as pd 
 import numpy as np
 
 from ethome.io import XY_IDS
@@ -145,7 +139,9 @@ def _compute_rel_angle(df, name, animal_setup, bps, centroid = False, n_shifts =
     return df
 
 @augment_features()
-def _compute_ellipsoid(df, animal_setup, n_shifts = 3, mode = 'shift'):
+def _compute_ellipsoid(df, n_shifts = 3, mode = 'shift'):
+    animal_setup = df.pose.animal_setup
+
     bodypart_ids = animal_setup['bodypart_ids']
     mouse_ids = animal_setup['mouse_ids']
     colnames = animal_setup['colnames']
@@ -175,7 +171,8 @@ def _compute_ellipsoid(df, animal_setup, n_shifts = 3, mode = 'shift'):
     return df
 
 #Recall framerate is 30 fps
-def _compute_kinematics(df, names, animal_setup, window_size = 5, n_shifts = 3):
+def _compute_kinematics(df, names, window_size = 5, n_shifts = 3):
+    animal_setup = df.pose.animal_setup
     bodypart_ids = animal_setup['bodypart_ids']
     mouse_ids = animal_setup['mouse_ids']
     colnames = animal_setup['colnames']
@@ -195,7 +192,8 @@ def _compute_kinematics(df, names, animal_setup, window_size = 5, n_shifts = 3):
     return df
 
 @augment_features()
-def _compute_relative_body_motions(df, animal_setup, window_size = 3, n_shifts = 3, mode = 'shift'):
+def _compute_relative_body_motions(df, window_size = 3, n_shifts = 3, mode = 'shift'):
+    animal_setup = df.pose.animal_setup
 
     bodypart_ids = animal_setup['bodypart_ids']
     mouse_ids = animal_setup['mouse_ids']
@@ -225,7 +223,8 @@ def _compute_relative_body_motions(df, animal_setup, window_size = 3, n_shifts =
     return df
 
 @augment_features()
-def _compute_relative_body_angles(df, animal_setup, n_shifts = 3, mode = 'shift'):
+def _compute_relative_body_angles(df, n_shifts = 3, mode = 'shift'):
+    animal_setup = df.pose.animal_setup
 
     bodypart_ids = animal_setup['bodypart_ids']
     mouse_ids = animal_setup['mouse_ids']
@@ -258,7 +257,8 @@ def _compute_relative_body_angles(df, animal_setup, n_shifts = 3, mode = 'shift'
     return df
     
 @augment_features()
-def _compute_iou(df, animal_setup, n_shifts = 3, mode = 'shift'):
+def _compute_iou(df, n_shifts = 3, mode = 'shift'):
+    animal_setup = df.pose.animal_setup
 
     bodypart_ids = animal_setup['bodypart_ids']
     mouse_ids = animal_setup['mouse_ids']
@@ -291,7 +291,9 @@ def _compute_iou(df, animal_setup, n_shifts = 3, mode = 'shift'):
 #These depend on the video you're applying it to...
 #Which can change from video to video, train to test, etc. So perhaps not useful
 @augment_features()
-def _compute_cage_distances(features_df, animal_setup, n_shifts = 3, mode = 'shift'):
+def _compute_cage_distances(features_df, n_shifts = 3, mode = 'shift'):
+    animal_setup = features_df.pose.animal_setup
+
     bodypart_ids = animal_setup['bodypart_ids']
     mouse_ids = animal_setup['mouse_ids']
     colnames = animal_setup['colnames']
@@ -305,8 +307,9 @@ def _compute_cage_distances(features_df, animal_setup, n_shifts = 3, mode = 'shi
         features_df = features_df.drop(columns = [f'centroid_all_{m_id}_x_inverted', f'centroid_all_{m_id}_y_inverted'])
     return features_df
 
-def make_features_distances(df, animal_setup):
+def make_features_distances(df):
 
+    animal_setup = df.pose.animal_setup
     bodypart_ids = animal_setup['bodypart_ids']
     mouse_ids = animal_setup['mouse_ids']
     colnames = animal_setup['colnames']
@@ -346,7 +349,8 @@ def make_features_distances(df, animal_setup):
 
     return features_df
 
-def make_features_mars(df, animal_setup, n_shifts = 3, mode = 'shift'):
+def make_features_mars(df, n_shifts = 3, mode = 'shift'):
+    animal_setup = df.pose.animal_setup
 
     features_df = df.copy()
 
@@ -360,7 +364,7 @@ def make_features_mars(df, animal_setup, n_shifts = 3, mode = 'shift'):
 
     #This is too specific to the particular cage setup, and requires knowing the cage (or image) dimensions, 
     #so we'll remove it.
-    #features_df = _compute_cage_distances(features_df, animal_setup, n_shifts = n_shifts, mode = mode)
+    #features_df = _compute_cage_distances(features_df, n_shifts = n_shifts, mode = mode)
 
     #####################
     #Appearance features#
@@ -373,7 +377,7 @@ def make_features_mars(df, animal_setup, n_shifts = 3, mode = 'shift'):
     ## relative orientation of mice
     features_df = _compute_rel_angle(features_df, 'leftear_neck_rightear', animal_setup, ['leftear', 'neck', 'rightear'], n_shifts = n_shifts, mode = mode)
     ## major axis len, minor axis len of ellipse fit to mouses body
-    features_df = _compute_ellipsoid(features_df, animal_setup, n_shifts = n_shifts, mode = mode)
+    features_df = _compute_ellipsoid(features_df, n_shifts = n_shifts, mode = mode)
 
     #####################
     #Locomotion features#
@@ -385,21 +389,22 @@ def make_features_mars(df, animal_setup, n_shifts = 3, mode = 'shift'):
     #Social features#
     #################
 
-    features_df = _compute_relative_body_motions(features_df, animal_setup, n_shifts = n_shifts, mode = mode)
-    features_df = _compute_relative_body_angles(features_df, animal_setup, n_shifts = n_shifts, mode = mode)
+    features_df = _compute_relative_body_motions(features_df, n_shifts = n_shifts, mode = mode)
+    features_df = _compute_relative_body_angles(features_df, n_shifts = n_shifts, mode = mode)
 
     #Intersection of union of bounding boxes of two mice
-    features_df = _compute_iou(features_df, animal_setup, n_shifts = n_shifts, mode = mode)
+    features_df = _compute_iou(features_df, n_shifts = n_shifts, mode = mode)
 
     ## distance between all pairs of keypoints of each mouse
-    features_df = make_features_distances(features_df, animal_setup)
+    features_df = make_features_distances(features_df)
 
     return features_df
 
 def make_features_mars_distr(x, y):
     return make_features_mars(x, y, n_shifts = 3, mode = 'distr')
 
-def make_features_mars_reduced(df, animal_setup, n_shifts = 2, mode = 'diff'):
+def make_features_mars_reduced(df, n_shifts = 2, mode = 'diff'):
+    animal_setup = df.pose.animal_setup
 
     features_df = df.copy()
 
@@ -422,7 +427,7 @@ def make_features_mars_reduced(df, animal_setup, n_shifts = 2, mode = 'diff'):
     ## relative orientation of mice
     features_df = _compute_rel_angle(features_df, 'leftear_neck_rightear', animal_setup, ['leftear', 'neck', 'rightear'], n_shifts = n_shifts, mode = mode)
     ## major axis len, minor axis len of ellipse fit to mouses body
-    features_df = _compute_ellipsoid(features_df, animal_setup, n_shifts = n_shifts, mode = mode)
+    features_df = _compute_ellipsoid(features_df, n_shifts = n_shifts, mode = mode)
 
     #####################
     #Locomotion features#
@@ -431,14 +436,15 @@ def make_features_mars_reduced(df, animal_setup, n_shifts = 2, mode = 'diff'):
     features_df = _compute_kinematics(features_df, ['all', 'head', 'hips', 'body'], animal_setup)
 
     #Intersection of union of bounding boxes of two mice
-    features_df = _compute_iou(features_df, animal_setup, n_shifts = n_shifts, mode = mode)
+    features_df = _compute_iou(features_df, n_shifts = n_shifts, mode = mode)
 
     ## distance between all pairs of keypoints of each mouse
-    features_df = make_features_distances(features_df, animal_setup)
+    features_df = make_features_distances(features_df)
 
     return features_df
 
-def make_features_velocities(df, animal_setup, n_shifts = 5):
+def make_features_velocities(df, n_shifts = 5):
+    animal_setup = df.pose.animal_setup
 
     bodypart_ids = animal_setup['bodypart_ids']
     mouse_ids = animal_setup['mouse_ids']
@@ -478,7 +484,8 @@ def make_features_velocities(df, animal_setup, n_shifts = 5):
 
     return features_df
 
-def make_features_social(df, animal_setup, n_shifts = 3, mode = 'shift'):
+def make_features_social(df, n_shifts = 3, mode = 'shift'):
+    animal_setup = df.pose.animal_setup
 
     features_df = df.copy()
     colnames = animal_setup['colnames']
@@ -503,7 +510,7 @@ def make_features_social(df, animal_setup, n_shifts = 3, mode = 'shift'):
     features_df = _compute_rel_angle(features_df, 'leftear_neck_rightear', animal_setup, ['leftear', 'neck', 'rightear'], n_shifts = n_shifts, mode = mode)
 
     ## major axis len, minor axis len of ellipse fit to mouses body
-    features_df = _compute_ellipsoid(features_df, animal_setup, n_shifts = n_shifts, mode = mode)
+    features_df = _compute_ellipsoid(features_df, n_shifts = n_shifts, mode = mode)
 
     #################
     #Social features#
@@ -512,11 +519,11 @@ def make_features_social(df, animal_setup, n_shifts = 3, mode = 'shift'):
     #Added columns 
     added_cols = list(set(features_df.columns).difference(set(df.columns)))
 
-    features_df = _compute_relative_body_motions(features_df, animal_setup, n_shifts = n_shifts, mode = mode)
-    features_df = _compute_relative_body_angles(features_df, animal_setup, n_shifts = n_shifts, mode = mode)
+    features_df = _compute_relative_body_motions(features_df, n_shifts = n_shifts, mode = mode)
+    features_df = _compute_relative_body_angles(features_df, n_shifts = n_shifts, mode = mode)
 
     #Intersection of union of bounding boxes of two mice
-    features_df = _compute_iou(features_df, animal_setup, n_shifts = n_shifts, mode = mode)
+    features_df = _compute_iou(features_df, n_shifts = n_shifts, mode = mode)
 
     features_df = features_df.drop(columns = added_cols)
     colnames = [c for c in colnames if c in features_df.columns]
@@ -526,22 +533,27 @@ def make_features_social(df, animal_setup, n_shifts = 3, mode = 'shift'):
 
     return features_df
 
-def compute_mars_features(df : pd.DataFrame, raw_col_names : list, animal_setup : dict, **kwargs) -> pd.DataFrame:
+def compute_mars_features(df : pd.DataFrame, raw_col_names : list, **kwargs) -> pd.DataFrame:
+    animal_setup = df.pose.animal_setup
     features_df = make_features_mars_distr(df[raw_col_names], animal_setup) 
     return features_df
 
-def compute_distance_features(df : pd.DataFrame, raw_col_names : list, animal_setup : dict, **kwargs) -> pd.DataFrame:
+def compute_distance_features(df : pd.DataFrame, raw_col_names : list, **kwargs) -> pd.DataFrame:
+    animal_setup = df.pose.animal_setup
     features_df = make_features_distances(df[raw_col_names], animal_setup) 
     return features_df
 
-def compute_mars_reduced_features(df : pd.DataFrame, raw_col_names : list, animal_setup : dict, **kwargs) -> pd.DataFrame:
+def compute_mars_reduced_features(df : pd.DataFrame, raw_col_names : list, **kwargs) -> pd.DataFrame:
+    animal_setup = df.pose.animal_setup
     features_df = make_features_mars_reduced(df[raw_col_names], animal_setup) 
     return features_df
 
-def compute_social_features(df : pd.DataFrame, raw_col_names : list, animal_setup : dict, **kwargs) -> pd.DataFrame:
+def compute_social_features(df : pd.DataFrame, raw_col_names : list, **kwargs) -> pd.DataFrame:
+    animal_setup = df.pose.animal_setup
     features_df = make_features_social(df[raw_col_names], animal_setup) 
     return features_df
 
-def compute_velocity_features(df : pd.DataFrame, raw_col_names : list, animal_setup : dict, **kwargs) -> pd.DataFrame:
+def compute_velocity_features(df : pd.DataFrame, raw_col_names : list, **kwargs) -> pd.DataFrame:
+    animal_setup = df.pose.animal_setup
     features_df = make_features_velocities(df[raw_col_names], animal_setup) 
     return features_df

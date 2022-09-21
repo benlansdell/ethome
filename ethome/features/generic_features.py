@@ -12,8 +12,9 @@ import numpy as np
 def _diff_within_group(df, sort_key, diff_col, **kwargs):
     return df.groupby(sort_key)[diff_col].transform(lambda x: x.diff(**kwargs)) 
 
-def compute_centerofmass_interanimal_distances(df : pd.DataFrame, raw_col_names : list, animal_setup : dict, **kwargs) -> pd.DataFrame:
+def compute_centerofmass_interanimal_distances(df : pd.DataFrame, raw_col_names : list, **kwargs) -> pd.DataFrame:
 
+    animal_setup = df.pose.animal_setup
     bodypart_ids = animal_setup['bodypart_ids']
     mouse_ids = animal_setup['mouse_ids']
 
@@ -42,8 +43,9 @@ def compute_centerofmass_interanimal_distances(df : pd.DataFrame, raw_col_names 
     features_df = features_df.drop(columns = orig_cols)
     return features_df
 
-def compute_centerofmass_interanimal_speed(df : pd.DataFrame, raw_col_names : list, animal_setup : dict, n_shifts = 5, **kwargs) -> pd.DataFrame:
+def compute_centerofmass_interanimal_speed(df : pd.DataFrame, raw_col_names : list, n_shifts = 5, **kwargs) -> pd.DataFrame:
 
+    animal_setup = df.pose.animal_setup
     bodypart_ids = animal_setup['bodypart_ids']
     mouse_ids = animal_setup['mouse_ids']
 
@@ -81,8 +83,9 @@ def compute_centerofmass_interanimal_speed(df : pd.DataFrame, raw_col_names : li
     features_df = features_df.drop(columns = orig_cols)
     return features_df
 
-def compute_centerofmass(df : pd.DataFrame, raw_col_names : list, animal_setup : dict, bodyparts : list = [], **kwargs) -> pd.DataFrame:
+def compute_centerofmass(df : pd.DataFrame, raw_col_names : list, bodyparts : list = [], **kwargs) -> pd.DataFrame:
 
+    animal_setup = df.pose.animal_setup
     if len(bodyparts) == 0:
         bodypart_ids = animal_setup['bodypart_ids']
     else:
@@ -106,7 +109,9 @@ def compute_centerofmass(df : pd.DataFrame, raw_col_names : list, animal_setup :
     features_df = features_df.drop(columns = orig_cols)
     return features_df
 
-def compute_centerofmass_velocity(df : pd.DataFrame, raw_col_names : list, animal_setup : dict, n_shifts = 5, bodyparts : list = [], **kwargs) -> pd.DataFrame:
+def compute_centerofmass_velocity(df : pd.DataFrame, raw_col_names : list, n_shifts = 5, bodyparts : list = [], **kwargs) -> pd.DataFrame:
+
+    animal_setup = df.pose.animal_setup
 
     if len(bodyparts) == 0:
         bodypart_ids = animal_setup['bodypart_ids']
@@ -136,8 +141,9 @@ def compute_centerofmass_velocity(df : pd.DataFrame, raw_col_names : list, anima
     return features_df
 
 
-def compute_speed_features(df : pd.DataFrame, raw_col_names : list, animal_setup : dict, n_shifts = 5, **kwargs) -> pd.DataFrame:
+def compute_speed_features(df : pd.DataFrame, raw_col_names : list, n_shifts = 5, **kwargs) -> pd.DataFrame:
 
+    animal_setup = df.pose.animal_setup
     bodypart_ids = animal_setup['bodypart_ids']
     mouse_ids = animal_setup['mouse_ids']
 
@@ -184,7 +190,9 @@ def compute_speed_features(df : pd.DataFrame, raw_col_names : list, animal_setup
 
     return features_df
 
-def compute_distance_features(df : pd.DataFrame, raw_col_names : list, animal_setup : dict, **kwargs) -> pd.DataFrame:
+def compute_distance_features(df : pd.DataFrame, raw_col_names : list, **kwargs) -> pd.DataFrame:
+
+    animal_setup = df.pose.animal_setup
 
     bodypart_ids = animal_setup['bodypart_ids']
     mouse_ids = animal_setup['mouse_ids']

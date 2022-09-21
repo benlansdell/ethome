@@ -4,15 +4,15 @@
 
 import pytest
 
-from ethome import createExperiment, clone_metadata, interpolate_lowconf_points, video
+from ethome import create_experiment, clone_metadata, interpolate_lowconf_points, video
 import pandas as pd
 
 #Metadata is a dictionary
-def test_clone_metadata(tracking_files, label_files, metadata_params):
+def test_clone_metadata(tracking_files, labels, metadata_params):
     """ Test creation of metadata object """
 
     metadata = clone_metadata(tracking_files, 
-                                label_files = label_files, 
+                                labels = labels, 
                                 frame_width = metadata_params['frame_width'], 
                                 fps = metadata_params['fps'], 
                                 frame_width_units = metadata_params['frame_width_units'], 
@@ -23,7 +23,7 @@ def test_clone_metadata(tracking_files, label_files, metadata_params):
 
 
 
-def test_VideoDataFrame(tracking_files, label_files, metadata, metadata_params):
+def test_VideoDataFrame(tracking_files, labels, metadata, metadata_params):
     """ Test creation of DataFrame object """
     # metadata = clone_metadata(tracking_files, 
     #                             label_files = label_files, 
@@ -33,11 +33,11 @@ def test_VideoDataFrame(tracking_files, label_files, metadata, metadata_params):
     #                             resolution = metadata_params['resolution'])
 
     #Eventually, check we can make it without error
-    try: df = createExperiment(metadata)
-    except: assert False, "Failed to make createExperiment object"
+    try: df = create_experiment(metadata)
+    except: assert False, "Failed to make create_experiment object"
 
-    try: df = createExperiment({})
-    except: assert False, "Failed to make empty createExperiment object"
+    try: df = create_experiment({})
+    except: assert False, "Failed to make empty create_experiment object"
 
     metadata_no_labels = clone_metadata(tracking_files, 
                                 frame_width = metadata_params['frame_width'], 
@@ -45,8 +45,8 @@ def test_VideoDataFrame(tracking_files, label_files, metadata, metadata_params):
                                 frame_width_units = metadata_params['frame_width_units'], 
                                 resolution = metadata_params['resolution'])
 
-    try: df = createExperiment(metadata_no_labels)
-    except: assert False, "Failed to make createExperiment object without labels"
+    try: df = create_experiment(metadata_no_labels)
+    except: assert False, "Failed to make create_experiment object without labels"
 
     #Also check that improper formatted metadata raises the right exception
 
@@ -58,18 +58,18 @@ def test_VideoDataFrame_object(dataset):
 def test_df_renaming(metadata, default_track_cols):
     none_renamer = {}
     animal_renamer = {'adult': 'resident', 'juvenile': 'intruder'}
-    df = createExperiment(metadata, part_renamer = none_renamer, animal_renamer=animal_renamer)
+    df = create_experiment(metadata, part_renamer = none_renamer, animal_renamer=animal_renamer)
     df.features.active = df.pose.raw_track_columns
     assert df.features.active == default_track_cols
 
     new_parts = ['nose', 'left_ear', 'right_ear', 'neck', 'lefthip', 'righthip', 'tail']
     part_renamer = {'leftear': 'left_ear', 'rightear': 'right_ear'}
-    df = createExperiment(metadata, part_renamer = part_renamer)
+    df = create_experiment(metadata, part_renamer = part_renamer)
     assert set(new_parts) == set(df.pose.body_parts)
 
     new_animals = ['resident', 'intruder']
     animal_renamer = {'adult': 'resident', 'juvenile': 'intruder'}
-    df = createExperiment(metadata, animal_renamer = animal_renamer)
+    df = create_experiment(metadata, animal_renamer = animal_renamer)
     assert set(new_animals) == set(df.pose.animals)
 
 def test_dl_features(dataset):
@@ -200,14 +200,14 @@ def test_rescaling_metadataparams(tracking_files, metadata_params):
                                 fps = metadata_params['fps'], 
                                 frame_width_units = metadata_params['frame_width_units'], 
                                 resolution = metadata_params['resolution'])
-    df = createExperiment(metadata_no_width)
+    df = create_experiment(metadata_no_width)
     assert 'units' not in list(df.metadata.details.values())[0]
 
     #Should have 'frame_width', 'resolution' and 'frame_width_units' to make conversion. here we shouldn't
     metadata_no_widthunits = clone_metadata(tracking_files, 
                                 fps = metadata_params['fps'], 
                                 resolution = metadata_params['resolution'])
-    df = createExperiment(metadata_no_widthunits)
+    df = create_experiment(metadata_no_widthunits)
     assert 'units' not in list(df.metadata.details.values())[0]
 
     #Should have 'frame_width', 'resolution' and 'frame_width_units' to make conversion. here we should
@@ -216,7 +216,7 @@ def test_rescaling_metadataparams(tracking_files, metadata_params):
                                 fps = metadata_params['fps'], 
                                 frame_width_units = metadata_params['frame_width_units'], 
                                 resolution = metadata_params['resolution'])
-    df = createExperiment(metadata_no_labels)
+    df = create_experiment(metadata_no_labels)
     assert list(df.metadata.details.values())[0]['units'] == 'mm'
 
     #Should have 'frame_width', 'resolution' and 'frame_width_units' to make conversion. here we shouldn't
@@ -227,7 +227,7 @@ def test_rescaling_metadataparams(tracking_files, metadata_params):
                                 frame_width_units = metadata_params['frame_width_units'], 
                                 resolution = metadata_params['resolution'])
     del list(metadata_no_labels.values())[1]['frame_width']
-    df = createExperiment(metadata_no_labels)
+    df = create_experiment(metadata_no_labels)
     assert 'units' not in list(df.metadata.details.values())[0]
 
 def test_save_to_dlc_csv(dataset, tmp_path_factory):

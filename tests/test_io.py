@@ -26,7 +26,7 @@ def test_sample_singlemouse_data():
 def test_multiple_boris_behaviors():
     import os 
     from glob import glob 
-    from ethome import createExperiment, clone_metadata
+    from ethome import create_experiment, clone_metadata
     import numpy as np
 
     cur_dir = os.path.dirname(os.path.abspath(__file__))
@@ -38,10 +38,10 @@ def test_multiple_boris_behaviors():
     fps = 30                         # (int) frames per second
     #Metadata is a dictionary that attaches each of the above parameters to the video/behavior annotations
     metadata = clone_metadata(tracking_files, 
-                              label_files = label_files,
+                              labels = label_files,
                               fps = fps)
 
-    edf = createExperiment(metadata)
+    edf = create_experiment(metadata)
 
     assert 'interact' in edf.metadata.label_key.values()
     assert 'mount' in edf.metadata.label_key.values()
@@ -51,7 +51,7 @@ def test_sample_singlemouse_data_missing():
 
     import os 
     from glob import glob 
-    from ethome import createExperiment, clone_metadata
+    from ethome import create_experiment, clone_metadata
 
     cur_dir = os.path.dirname(os.path.abspath(__file__))
     tracking_files = glob(os.path.join(cur_dir, '..', 'ethome', 'data', 'dlc', 'openfield', '*missingdata.csv'))
@@ -62,7 +62,7 @@ def test_sample_singlemouse_data_missing():
                             fps = fps, 
                             resolution = resolution)
 
-    edf = createExperiment(metadata)
+    edf = create_experiment(metadata)
 
     assert edf.pose.animals == ['ind1']
     assert len(edf.columns) == 15
@@ -71,7 +71,7 @@ def test_sample_threemouse_data():
 
     import os 
     from glob import glob 
-    from ethome import createExperiment, clone_metadata
+    from ethome import create_experiment, clone_metadata
 
     cur_dir = os.path.dirname(os.path.abspath(__file__))
     tracking_files = glob(os.path.join(cur_dir, '..', 'ethome', 'data', 'dlc', 'openfield', '*three.csv'))
@@ -82,7 +82,7 @@ def test_sample_threemouse_data():
                             fps = fps, 
                             resolution = resolution)
 
-    edf = createExperiment(metadata)
+    edf = create_experiment(metadata)
 
     assert edf.pose.animals == ['ind1', 'ind2', 'ind3']
     assert len(edf.columns) == 39

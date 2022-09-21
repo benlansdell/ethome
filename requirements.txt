@@ -13,3 +13,4 @@ keras>=2.4.3
 matplotlib
 umap-learn
 scikit-image
+dill

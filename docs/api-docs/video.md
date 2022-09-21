@@ -57,10 +57,10 @@ Any other keyword argument must be either a non-iterable object (e.g. a scalar p
 
 <a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L548"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
-## <kbd>function</kbd> `load_videodataset`
+## <kbd>function</kbd> `load_experiment`
 
 ```python
-load_videodataset(fn_in: str) → ExperimentDataFrame
+load_experiment(fn_in: str) → ExperimentDataFrame
 ```
 
 Load ExperimentDataFrame from file. 

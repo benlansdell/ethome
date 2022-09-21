@@ -102,7 +102,7 @@
 - [`utils.checkFFMPEG`](./utils.md#function-checkffmpeg): Check for ffmpeg dependencies
 - [`video.clone_metadata`](./video.md#function-clone_metadata): Prepare a metadata dictionary for defining a ExperimentDataFrame. 
 - [`video.get_sample_openfield_data`](./video.md#function-get_sample_openfield_data): Load a sample dataset of 1 mouse in openfield setup. The video is the sample that comes with DLC.
-- [`video.load_videodataset`](./video.md#function-load_videodataset): Load ExperimentDataFrame from file.
+- [`video.load_experiment`](./video.md#function-load_experiment): Load ExperimentDataFrame from file.
 
 
 ---

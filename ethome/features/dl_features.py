@@ -282,7 +282,9 @@ def convert_to_pandas_df(data, colnames = None):
     final_df = pd.concat(dfs, axis = 0)
     return final_df
 
-def compute_dl_probability_features(df : pd.DataFrame, raw_col_names : list, animal_setup : dict, **kwargs):
+def compute_dl_probability_features(df : pd.DataFrame, raw_col_names : list, **kwargs):
+
+    animal_setup = df.pose.animal_setup
 
     if not has_keras:
         raise RuntimeError("Keras not found. Deep learning-based features are not available")

@@ -35,7 +35,7 @@ This includes matplotlib, keras, and Linderman lab's state-space model package, 
 Import
 ```
 from glob import glob 
-from ethome import createExperiment, clone_metadata
+from ethome import create_experiment, clone_metadata
 from ethome.features import CNN1DProb, MARS
 from ethome.io import get_sample_data_paths
 ```
@@ -56,7 +56,7 @@ resolution = (1200, 1600)        # (tuple) HxW in pixels
 Create a parameter object and video dataset
 ```
 metadata = clone_metadata(tracking_files, 
-                          label_files = boris_files, 
+                          labels = boris_files, 
                           frame_width = frame_width, 
                           fps = fps, 
                           frame_width_units = frame_width_units, 
@@ -64,7 +64,7 @@ metadata = clone_metadata(tracking_files,
 
 animal_renamer = {'adult': 'resident', 'juvenile':'intruder'}
 
-dataset = createExperiment(metadata, animal_renamer=animal_renamer)
+dataset = create_experiment(metadata, animal_renamer=animal_renamer)
 ```
 
 Now create features on this dataset. Feature creation objects are class instances, similar to sk-learn:

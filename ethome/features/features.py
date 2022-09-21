@@ -1,36 +1,4 @@
 """ Functions to take pose tracks and compute a set of features from them.
-
-To make your own feature creator:
-
-Create a function, e.g. `create_custom_features`, and provide the Features class a list of columns that are needed by this function to compute the features.
-
-The function `create_custom_features` has the form:
-
-`create_custom_features(<df>, <raw_col_names>, <animal_setup>, **kwargs)`
-
-Where:
-
-`df` is the dataframe to compute the features on
-`raw_col_names` is a list of the names of the columns in the dataframe that contain the raw data used for the feature creation. These are required for the model.
-`animal_setup` is a dictionary with keys `bodypart_ids`, `mouse_ids`, `colnames`.
-   `bodypart_ids` is a list of the bodypart ids that are used in the dataframe
-   `mouse_ids` is a list of the mouse ids that are used in the dataframe
-   `colnames` is the list product(animals, XY_IDS, body_parts) 
-`**kwargs` are extra arguments passed onto the feature creation function.
-
-The function returns:
-
-A dataframe, that only contains the new features. These will be added to the ExperimentDataFrame as columns.
-
-Once you have such a function defined, you can create a "feature making object" with
-
-`custom_feature_maker = Features(create_custom_features, req_columns)`
-
-This could be used on datasets as:
-
-```
-dataset.add_features(custom_feature_maker, featureset_name = 'CUSTOM', add_to_features = True)
-```
 """
 
 import warnings
@@ -54,7 +22,14 @@ default_tracking_columns = ['resident_x_nose', 'resident_x_leftear', 'resident_x
                             'intruder_y_rightear', 'intruder_y_neck', 'intruder_y_lefthip',
                             'intruder_y_righthip', 'intruder_y_tail']
 
-def feature_class_maker(name, compute_function, required_columns):
+class Features:
+    def __init__(self):
+        raise NotImplementedError
+
+    def transform(self, df):
+        raise NotImplementedError
+
+def feature_class_maker(name, compute_function, required_columns = []):
     def __init__(self, required_columns = None, **kwargs):
         """Feature creation object. This houses the feature creation function and the columns that are required to compute the features. Performs some checks on data to make sure has these columns.
 
@@ -83,14 +58,14 @@ def feature_class_maker(name, compute_function, required_columns):
             raise RuntimeError("DataFrame doesn't have necessary columns to compute this set of features.")
         if edf[self.required_columns].isnull().values.any():
             warnings.warn("Missing values in required data columns. May result in unexpected behavior. Consider interpolating or imputing missing data first.")
-        new_features = self.feature_maker(edf, self.required_columns, edf.pose.animal_setup, **self.kwargs, **kwargs)
+        new_features = self.feature_maker(edf, self.required_columns, **self.kwargs, **kwargs)
         return new_features   
 
     def fit_transform(self, edf, **kwargs):
         self.fit(edf, **kwargs)
         return self.transform(edf, **kwargs)
     
-    return type(name, (object,), {
+    return type(name, (Features,), {
         '__init__': __init__,
         'fit': fit,
         'transform': transform,
@@ -107,9 +82,20 @@ CNN1DProb = feature_class_maker('CNN1DProb', compute_dl_probability_features, de
 Social = feature_class_maker('Social', compute_social_features, default_tracking_columns)
 
 ## Generic features -- don't need any specific column names. Will be based on the animal setup.
-CentroidInteranimal = feature_class_maker('CentroidInteranimal', compute_centerofmass_interanimal_distances, [])
-CentroidInteranimalSpeed = feature_class_maker('CentroidInteranimalSpeed', compute_centerofmass_interanimal_speed, [])
-Centroid = feature_class_maker('Centroid', compute_centerofmass, [])
-CentroidVelocity = feature_class_maker('CentroidVelocity', compute_centerofmass_velocity, [])
-Speeds = feature_class_maker('Speeds', compute_speed_features, [])
-Distances = feature_class_maker('Distances', compute_distance_features, [])
+CentroidInteranimal = feature_class_maker('CentroidInteranimal', compute_centerofmass_interanimal_distances)
+CentroidInteranimalSpeed = feature_class_maker('CentroidInteranimalSpeed', compute_centerofmass_interanimal_speed)
+Centroid = feature_class_maker('Centroid', compute_centerofmass)
+CentroidVelocity = feature_class_maker('CentroidVelocity', compute_centerofmass_velocity)
+Speeds = feature_class_maker('Speeds', compute_speed_features)
+Distances = feature_class_maker('Distances', compute_distance_features)
+
+FEATURE_MAKERS = {'mars': MARS,
+                    'mars_reduced': MARSReduced,
+                    'cnn1d_prob': CNN1DProb,
+                    'social': Social,
+                    'centroid_interanimal': CentroidInteranimal,
+                    'centroid_interanimal_speed': CentroidInteranimalSpeed,
+                    'centroid': Centroid,
+                    'centroid_velocity': CentroidVelocity,
+                    'speeds': Speeds,
+                    'distances': Distances}

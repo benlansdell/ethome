@@ -10,7 +10,7 @@ def tracking_files():
     return sorted(glob(os.path.join(TEST_DATA_DIR, 'dlc/*.csv')))
 
 @pytest.fixture()
-def label_files():
+def labels():
     print('label files:', len(glob(os.path.join(TEST_DATA_DIR, 'boris/*.csv'))))
     return sorted(glob(os.path.join(TEST_DATA_DIR, 'boris/*.csv')))
 
@@ -25,11 +25,11 @@ def metadata_params():
     return params
 
 @pytest.fixture()
-def metadata(tracking_files, label_files, metadata_params):
+def metadata(tracking_files, labels, metadata_params):
     from ethome import clone_metadata
 
     metadata = clone_metadata(tracking_files, 
-                              label_files = label_files, 
+                              labels = labels, 
                               frame_width = metadata_params['frame_width'], 
                               fps = metadata_params['fps'], 
                               frame_width_units = metadata_params['frame_width_units'], 
@@ -38,9 +38,9 @@ def metadata(tracking_files, label_files, metadata_params):
 
 @pytest.fixture()
 def dataset(metadata):
-    from ethome import createExperiment
+    from ethome import create_experiment
     animal_renamer = {'adult': 'resident', 'juvenile': 'intruder'}
-    edf = createExperiment(metadata, animal_renamer=animal_renamer)
+    edf = create_experiment(metadata, animal_renamer=animal_renamer)
     return edf
 
 @pytest.fixture()

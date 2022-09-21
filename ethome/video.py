@@ -16,7 +16,7 @@ If any of the provided parameters are provided, but are not the right format, or
 """
 
 import pandas as pd
-import pickle 
+import dill
 import os
 import numpy as np
 import re
@@ -27,6 +27,7 @@ from sklearn.model_selection import PredefinedSplit
 from ethome.io import read_DLC_tracks, read_boris_annotation, uniquifier, create_behavior_labels
 from ethome.utils import checkFFMPEG
 from ethome.config import global_config
+from ethome.features import feature_class_maker, FEATURE_MAKERS
 
 #This converts everything to mm, or leaves them as pixels
 UNIT_DICT = {'mm':1, 'cm':10, 'm':1000, 'in':25.4, 'ft':304.8,
@@ -215,8 +216,9 @@ class EthologyFeaturesAccessor(object):
 
     #Set features by individual or by group names
     def add(self, feature_maker, 
-                           featureset_name : str, 
+                           featureset_name : str = None, 
                            add_to_features = True, 
+                           required_columns = [],
                            **kwargs) -> list:
         """Compute features to dataframe using Feature object. 'featureset_name' will be prepended to new columns, followed by a double underscore. 
 
@@ -229,7 +231,21 @@ class EthologyFeaturesAccessor(object):
             List of new columns that are computed
         """
         df = self._obj
-        new_features = feature_maker.fit_transform(df, **kwargs)
+
+        if featureset_name is None:
+            featureset_name = feature_maker.__name__
+
+        if isinstance(feature_maker, str):
+            if feature_maker in FEATURE_MAKERS:
+                feature_maker = FEATURE_MAKERS[feature_maker]
+            else:
+                raise ValueError(f"Feature maker {feature_maker} not found.")
+
+        if callable(feature_maker):
+            CustomFeatureClass = feature_class_maker('CustomFeatureClass', feature_maker, required_columns)
+            feature_maker = CustomFeatureClass()
+
+        new_features = feature_maker.transform(df, **kwargs)
 
         #Prepend these column names w featureset-name__feature-name
         new_feat_cols = list(new_features.columns)
@@ -335,7 +351,8 @@ class EthologyIOAccessor(object):
         """
         df = self._obj
         with open(fn_out,'wb') as file:
-            file.write(pickle.dumps(df.__dict__, protocol = 4))
+            #file.write(pickle.dumps(df.__dict__, protocol = 4))
+            file.write(dill.dumps(df.__dict__, protocol = 4))
 
     def to_dlc_csv(self, base_dir : str, save_h5_too = False) -> None:
         """Save ExperimentDataFrame tracking files to DLC csv format.
@@ -372,7 +389,8 @@ class EthologyIOAccessor(object):
             if save_h5_too:
                 df.to_hdf(fn_out.replace('.csv', '.h5'), "df_with_missing", format = 'table', mode="w")
 
-    def load(self, fn_in : str) -> None:
+    @staticmethod
+    def load(fn_in : str) -> pd.DataFrame:
         """Load ExperimentDataFrame object from pickle file.
         
         Args:
@@ -380,9 +398,7 @@ class EthologyIOAccessor(object):
             
         Returns:
             None. Data in this object is populated with contents of file."""
-        with open(fn_in, 'rb') as file:
-            dataPickle = file.read()
-        self._obj.__dict__ = pickle.loads(dataPickle)
+        return load_experiment(fn_in)
 
     def save_movie(self, label_columns, path_out : str, video_filenames = None) -> None:
         """Given columns indicating behavior predictions or whatever else, make a video
@@ -440,10 +456,10 @@ class EthologyIOAccessor(object):
     #        pickle.dump(self, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
 
-def createExperiment(metadata : dict, 
+def create_experiment(metadata : dict, 
                      label_key : dict = None, 
                      part_renamer : dict = None,
-                     animal_renamer : dict = None):
+                     animal_renamer : dict = None) -> pd.DataFrame:
     """Houses DLC tracking data and behavior annotations in pandas DataFrame for ML, along with relevant metadata, features and behavior annotation labels.
 
     Args:
@@ -453,6 +469,9 @@ def createExperiment(metadata : dict,
         label_key: Default None. Dictionary whose keys are positive integers and values are behavior labels. If none, then this is inferred from the behavior annotation files provided.  
         part_renamer: Default None. Dictionary that can rename body parts from tracking files if needed (for feature creation, e.g.)
         animal_renamer: Default None. Dictionary that can rename animals from tracking files if needed
+
+    Returns:
+        DataFrame object. This is a pandas DataFrame with additional metadata and methods.
     """
     req_cols = ['fps']
 
@@ -535,14 +554,14 @@ def _load_labels_boris(df, col_name = 'label', set_as_label = False):
     if not df.metadata.label_key:
         label_files = []
         for fn in df.metadata.details.keys():
-            if 'label_files' in df.metadata.details[fn]:
-                label_files.append(df.metadata.details[fn]['label_files'])
+            if 'labels' in df.metadata.details[fn]:
+                label_files.append(df.metadata.details[fn]['labels'])
         df.metadata.label_key = create_behavior_labels(label_files)
 
     for vid in df.metadata.details:
-        if 'label_files' in df.metadata.details[vid]:
+        if 'labels' in df.metadata.details[vid]:
 
-            fn_in = df.metadata.details[vid]['label_files']
+            fn_in = df.metadata.details[vid]['labels']
             fps = df.metadata.details[vid]['fps']
             duration = df.metadata.details[vid]['duration']
 
@@ -554,26 +573,26 @@ def _load_labels_boris(df, col_name = 'label', set_as_label = False):
         df.ml.label_cols = col_name
 
 
-def load_videodataset(fn_in : str) -> pd.DataFrame:
-    """Load ExperimentDataFrame from file.
+def load_experiment(fn_in : str) -> pd.DataFrame:
+    """Load DataFrame from file.
     
     Args:
         fn_in: path to file to load
         
     Returns:
-        ExperimentDataFrame object from pickle file
+        DataFrame object from pickle file
     """
     with open(fn_in, 'rb') as file:
         dataPickle = file.read()
     new_obj = pd.DataFrame({})
-    new_obj.__dict__ = pickle.loads(dataPickle)
+    new_obj.__dict__ = dill.loads(dataPickle)
     return new_obj
 
 def get_sample_openfield_data():
     """Load a sample dataset of 1 mouse in openfield setup. The video is the sample that comes with DLC.
     
     Returns:
-        (ExperimentDataFrame) Data frame with the corresponding tracking and behavior annotation files
+        DataFrame with the corresponding tracking and behavior annotation files
     """
 
     cur_dir = os.path.dirname(os.path.abspath(__file__))
@@ -587,7 +606,7 @@ def get_sample_openfield_data():
                             fps = fps, 
                             resolution = resolution)
 
-    return createExperiment(metadata)
+    return create_experiment(metadata)
 
 def _make_dense_values_into_pairs(predictions, rate):
     #Put into start/stop pairs

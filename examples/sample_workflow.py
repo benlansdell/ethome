@@ -23,7 +23,7 @@ resolution = (1200, 1600)        # (tuple) HxW in pixels
 
 #Metadata is a dictionary that attaches each of the above parameters to the video/behavior annotations
 metadata = clone_metadata(tracking_files, 
-                          label_files = boris_files, 
+                          labels = boris_files, 
                           frame_width = frame_width, 
                           fps = fps, 
                           frame_width_units = frame_width_units, 

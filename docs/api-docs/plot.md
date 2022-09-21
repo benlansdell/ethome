@@ -19,7 +19,7 @@
 
 ```python
 plot_embedding(
-    dataset: ExperimentDataFrame,
+    dataset: DataFrame,
     col_names: list = ['embedding_0', 'embedding_1'],
     color_col: str = None,
     figsize: tuple = (10, 10),
@@ -47,13 +47,13 @@ Scatterplot of a 2D TSNE or UMAP embedding from the dataset.
 
 ---
 
-<a href="https://github.com/benlansdell/ethome/blob/master/ethome/plot.py#L54"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/plot.py#L53"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `plot_unsupervised_results`
 
 ```python
 plot_unsupervised_results(
-    dataset: ExperimentDataFrame,
+    dataset: DataFrame,
     cluster_results: tuple,
     col_names: list = ['embedding_0', 'embedding_1'],
     figsize: tuple = (15, 4),
@@ -81,13 +81,13 @@ Set of plots for unsupervised behavior clustering results
 
 ---
 
-<a href="https://github.com/benlansdell/ethome/blob/master/ethome/plot.py#L104"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/plot.py#L103"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `plot_ethogram`
 
 ```python
 plot_ethogram(
-    dataset: ExperimentDataFrame,
+    dataset: DataFrame,
     vid_key: str,
     query_label: str = 'unsup_behavior_label',
     frame_limit: int = 4000,
@@ -114,13 +114,13 @@ Simple ethogram of one video, up to a certain frame number.
 
 ---
 
-<a href="https://github.com/benlansdell/ethome/blob/master/ethome/plot.py#L133"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/plot.py#L132"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `create_ethogram_video`
 
 ```python
 create_ethogram_video(
-    dataset: ExperimentDataFrame,
+    dataset: DataFrame,
     vid_key: str,
     query_label: str,
     out_file: str,
@@ -152,13 +152,13 @@ Overlay ethogram on top of source video with ffmpeg
 
 ---
 
-<a href="https://github.com/benlansdell/ethome/blob/master/ethome/plot.py#L203"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/plot.py#L202"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `create_sample_videos`
 
 ```python
 create_sample_videos(
-    dataset: ExperimentDataFrame,
+    dataset: DataFrame,
     video_dir: str,
     out_dir: str,
     query_col: str = 'unsup_behavior_label',
@@ -194,7 +194,7 @@ For each behavior label, randomly choose frames from the entire dataset and extr
 
 ---
 
-<a href="https://github.com/benlansdell/ethome/blob/master/ethome/plot.py#L304"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/plot.py#L303"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `create_mosaic_video`
 

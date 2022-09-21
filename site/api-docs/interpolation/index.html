@@ -13,7 +13,7 @@
     
     
       
-        <title>Interpolation - ethome</title>
+        <title>Interpolation - ethome-ml</title>
       
     
     
@@ -72,7 +72,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../.." title="ethome" class="md-header__button md-logo" aria-label="ethome" data-md-component="logo">
+    <a href="../.." title="ethome-ml" class="md-header__button md-logo" aria-label="ethome-ml" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
@@ -85,7 +85,7 @@
       <div class="md-header__ellipsis">
         <div class="md-header__topic">
           <span class="md-ellipsis">
-            ethome
+            ethome-ml
           </span>
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
@@ -158,13 +158,13 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../.." title="ethome" class="md-nav__button md-logo" aria-label="ethome" data-md-component="logo">
+    <a href="../.." title="ethome-ml" class="md-nav__button md-logo" aria-label="ethome-ml" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
 
     </a>
-    ethome
+    ethome-ml
   </label>
   
   <ul class="md-nav__list" data-md-scrollfix>
@@ -335,6 +335,76 @@
     <li class="md-nav__item">
       <a href="../dl/" class="md-nav__link">
         Dl
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../features.cnn1d/" class="md-nav__link">
+        Features.cnn1d
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../features.dl_features/" class="md-nav__link">
+        Features.dl features
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../features.features/" class="md-nav__link">
+        Features.features
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../features.generic_features/" class="md-nav__link">
+        Features.generic features
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../features.mars_features/" class="md-nav__link">
+        Features.mars features
       </a>
     </li>
   
@@ -528,6 +598,20 @@
   
   
     <li class="md-nav__item">
+      <a href="../version/" class="md-nav__link">
+        Version
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../video/" class="md-nav__link">
         Video
       </a>
@@ -593,10 +677,10 @@
 <p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/interpolation.py#L0"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h1 id="module-interpolation"><kbd>module</kbd> <code>interpolation</code></h1>
 <hr />
-<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/interpolation.py#L5"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/interpolation.py#L4"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="function-interpolate_lowconf_points"><kbd>function</kbd> <code>interpolate_lowconf_points</code></h2>
 <pre><code class="language-python">interpolate_lowconf_points(
-    edf: ExperimentDataFrame,
+    edf: DataFrame,
     conf_threshold: float = 0.9,
     in_place: bool = True,
     rolling_window: bool = True,
@@ -606,7 +690,7 @@
 <p>Interpolate raw tracking points if their probabilities are available. </p>
 <p><strong>Args:</strong></p>
 <ul>
-<li><b><code>edf</code></b>:  ExperimentDataFrame containing the tracks to interpolate </li>
+<li><b><code>edf</code></b>:  pandas DataFrame containing the tracks to interpolate </li>
 <li><b><code>conf_threshold</code></b>:  default 0.9. Confidence below which to count as uncertain, and to interpolate its value instead </li>
 <li><b><code>in_place</code></b>:  default True. Whether to replace data in place </li>
 <li><b><code>rolling_window</code></b>:  default True. Whether to use a rolling window to interpolate </li>

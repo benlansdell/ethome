@@ -107,31 +107,6 @@ Read in tracks from DLC.
 
 <a href="https://github.com/benlansdell/ethome/blob/master/ethome/io.py#L134"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
-## <kbd>function</kbd> `rename_df_cols`
-
-```python
-rename_df_cols(df: DataFrame, renamer: dict) → DataFrame
-```
-
-Rename dataframe columns  
-
-
-
-**Args:**
- 
- - <b>`df`</b>:  Pandas dataframe whose columns to rename 
- - <b>`renamer`</b>:  dictionary whose key:value pairs define the substitutions to make 
-
-
-
-**Returns:**
- The dataframe with renamed columns. 
-
-
----
-
-<a href="https://github.com/benlansdell/ethome/blob/master/ethome/io.py#L146"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
-
 ## <kbd>function</kbd> `save_DLC_tracks_h5`
 
 ```python
@@ -150,7 +125,7 @@ Save DLC tracks in h5 format.
 
 ---
 
-<a href="https://github.com/benlansdell/ethome/blob/master/ethome/io.py#L155"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/io.py#L143"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `load_data`
 
@@ -174,7 +149,7 @@ Load an object from a pickle file
 
 ---
 
-<a href="https://github.com/benlansdell/ethome/blob/master/ethome/io.py#L191"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/io.py#L180"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `get_sample_data_paths`
 
@@ -192,7 +167,7 @@ Get path to sample data files provided with package.
 
 ---
 
-<a href="https://github.com/benlansdell/ethome/blob/master/ethome/io.py#L202"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/io.py#L191"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `get_sample_data`
 
@@ -210,7 +185,7 @@ Load a sample dataset of 5 mice social interaction videos. Each video is approx.
 
 ---
 
-<a href="https://github.com/benlansdell/ethome/blob/master/ethome/io.py#L215"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/io.py#L204"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `read_boris_annotation`
 
@@ -244,7 +219,7 @@ This will import behavior types specified (or all types, if behavior_list is Non
 
 ---
 
-<a href="https://github.com/benlansdell/ethome/blob/master/ethome/io.py#L262"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/io.py#L251"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `create_behavior_labels`
 

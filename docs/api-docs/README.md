@@ -5,29 +5,37 @@
 ## Modules
 
 - [`config`](./config.md#module-config): Configuration options for ethome functions.
-- [`dl`](./dl.md#module-dl)
-- [`dl.dl_features`](./dl.dl_features.md#module-dldl_features)
-- [`dl.dl_generators`](./dl.dl_generators.md#module-dldl_generators)
-- [`dl.dl_models`](./dl.dl_models.md#module-dldl_models)
-- [`dl.feature_engineering`](./dl.feature_engineering.md#module-dlfeature_engineering)
-- [`dl.grid_searches`](./dl.grid_searches.md#module-dlgrid_searches)
-- [`features`](./features.md#module-features): Functions to take pose tracks and compute a set of features from them.
-- [`generic_features`](./generic_features.md#module-generic_features): Functions to take pose tracks and compute a set of features from them 
+- [`features`](./features.md#module-features)
+- [`features.cnn1d`](./features.cnn1d.md#module-featurescnn1d)
+- [`features.dl_features`](./features.dl_features.md#module-featuresdl_features)
+- [`features.features`](./features.features.md#module-featuresfeatures): Functions to take pose tracks and compute a set of features from them.
+- [`features.generic_features`](./features.generic_features.md#module-featuresgeneric_features): Functions to take pose tracks and compute a set of features from them 
+- [`features.mars_features`](./features.mars_features.md#module-featuresmars_features)
 - [`interpolation`](./interpolation.md#module-interpolation)
 - [`io`](./io.md#module-io): Loading and saving tracking and behavior annotation files 
-- [`mars_features`](./mars_features.md#module-mars_features)
 - [`ml`](./ml.md#module-ml): Machine learning functions 
 - [`models`](./models.md#module-models): Basic video tracking and behavior class that houses data 
 - [`plot`](./plot.md#module-plot)
 - [`unsupervised`](./unsupervised.md#module-unsupervised)
 - [`utils`](./utils.md#module-utils): Small helper utilities
+- [`version`](./version.md#module-version)
 - [`video`](./video.md#module-video): Basic video tracking and behavior class that houses data. 
 
 ## Classes
 
-- [`dl_features.Trainer`](./dl.dl_features.md#class-trainer)
-- [`dl_generators.MABe_Generator`](./dl.dl_generators.md#class-mabe_generator)
-- [`features.Features`](./features.md#class-features)
+- [`cnn1d.MABe_Generator`](./features.cnn1d.md#class-mabe_generator)
+- [`dl_features.Trainer`](./features.dl_features.md#class-trainer)
+- [`features.CNN1DProb`](./features.features.md#class-cnn1dprob)
+- [`features.Centroid`](./features.features.md#class-centroid)
+- [`features.CentroidInteranimal`](./features.features.md#class-centroidinteranimal)
+- [`features.CentroidInteranimalSpeed`](./features.features.md#class-centroidinteranimalspeed)
+- [`features.CentroidVelocity`](./features.features.md#class-centroidvelocity)
+- [`features.Distances`](./features.features.md#class-distances)
+- [`features.Features`](./features.features.md#class-features)
+- [`features.MARSFeatures`](./features.features.md#class-marsfeatures)
+- [`features.MARSReduced`](./features.features.md#class-marsreduced)
+- [`features.Social`](./features.features.md#class-social)
+- [`features.Speeds`](./features.features.md#class-speeds)
 - [`io.BufferedIOBase`](./io.md#class-bufferediobase): Base class for buffered IO objects.
 - [`io.IOBase`](./io.md#class-iobase): The abstract base class for all I/O classes, acting on streams of
 - [`io.RawIOBase`](./io.md#class-rawiobase): Base class for raw binary I/O.
@@ -37,40 +45,89 @@
 - [`models.HMMSklearn`](./models.md#class-hmmsklearn)
 - [`models.ModelTransformer`](./models.md#class-modeltransformer)
 - [`plot.MplColorHelper`](./plot.md#class-mplcolorhelper)
-- [`video.MLDataFrame`](./video.md#class-mldataframe): DataFrame useful for interfacing between pandas and sklearn. Stores a data
-- [`video.ExperimentDataFrame`](./video.md#class-ExperimentDataFrame)
+- [`video.EthologyFeaturesAccessor`](./video.md#class-ethologyfeaturesaccessor)
+- [`video.EthologyIOAccessor`](./video.md#class-ethologyioaccessor)
+- [`video.EthologyMLAccessor`](./video.md#class-ethologymlaccessor)
+- [`video.EthologyMetadataAccessor`](./video.md#class-ethologymetadataaccessor)
+- [`video.EthologyPoseAccessor`](./video.md#class-ethologyposeaccessor)
 
 ## Functions
 
-- [`dl_features.compute_dl_probability_features`](./dl.dl_features.md#function-compute_dl_probability_features)
-- [`dl_features.convert_to_mars_format`](./dl.dl_features.md#function-convert_to_mars_format)
-- [`dl_features.convert_to_pandas_df`](./dl.dl_features.md#function-convert_to_pandas_df)
-- [`dl_features.lrs`](./dl.dl_features.md#function-lrs)
-- [`dl_features.normalize_data`](./dl.dl_features.md#function-normalize_data)
-- [`dl_features.run_task`](./dl.dl_features.md#function-run_task)
-- [`dl_features.seed_everything`](./dl.dl_features.md#function-seed_everything)
-- [`dl_generators.features_distances`](./dl.dl_generators.md#function-features_distances)
-- [`dl_generators.features_distances_normalized`](./dl.dl_generators.md#function-features_distances_normalized)
-- [`dl_generators.features_identity`](./dl.dl_generators.md#function-features_identity)
-- [`dl_generators.features_mars`](./dl.dl_generators.md#function-features_mars)
-- [`dl_generators.features_mars_distr`](./dl.dl_generators.md#function-features_mars_distr)
-- [`dl_generators.features_via_sklearn`](./dl.dl_generators.md#function-features_via_sklearn)
-- [`dl_generators.make_df`](./dl.dl_generators.md#function-make_df)
-- [`dl_models.build_baseline_model`](./dl.dl_models.md#function-build_baseline_model)
-- [`feature_engineering.augment_features`](./dl.feature_engineering.md#function-augment_features)
-- [`feature_engineering.boiler_plate`](./dl.feature_engineering.md#function-boiler_plate)
-- [`feature_engineering.make_features_distances`](./dl.feature_engineering.md#function-make_features_distances)
-- [`feature_engineering.make_features_mars`](./dl.feature_engineering.md#function-make_features_mars)
-- [`feature_engineering.make_features_mars_distr`](./dl.feature_engineering.md#function-make_features_mars_distr)
-- [`feature_engineering.make_features_mars_reduced`](./dl.feature_engineering.md#function-make_features_mars_reduced)
-- [`feature_engineering.make_features_social`](./dl.feature_engineering.md#function-make_features_social)
-- [`feature_engineering.make_features_velocities`](./dl.feature_engineering.md#function-make_features_velocities)
-- [`generic_features.compute_centerofmass`](./generic_features.md#function-compute_centerofmass)
-- [`generic_features.compute_centerofmass_interanimal_distances`](./generic_features.md#function-compute_centerofmass_interanimal_distances)
-- [`generic_features.compute_centerofmass_interanimal_speed`](./generic_features.md#function-compute_centerofmass_interanimal_speed)
-- [`generic_features.compute_centerofmass_velocity`](./generic_features.md#function-compute_centerofmass_velocity)
-- [`generic_features.compute_distance_features`](./generic_features.md#function-compute_distance_features)
-- [`generic_features.compute_speed_features`](./generic_features.md#function-compute_speed_features)
+- [`cnn1d.build_baseline_model`](./features.cnn1d.md#function-build_baseline_model)
+- [`cnn1d.features_distances`](./features.cnn1d.md#function-features_distances)
+- [`cnn1d.features_distances_normalized`](./features.cnn1d.md#function-features_distances_normalized)
+- [`cnn1d.features_identity`](./features.cnn1d.md#function-features_identity)
+- [`cnn1d.features_mars`](./features.cnn1d.md#function-features_mars)
+- [`cnn1d.features_mars_distr`](./features.cnn1d.md#function-features_mars_distr)
+- [`cnn1d.features_via_sklearn`](./features.cnn1d.md#function-features_via_sklearn)
+- [`cnn1d.make_df`](./features.cnn1d.md#function-make_df)
+- [`dl_features.compute_dl_probability_features`](./features.dl_features.md#function-compute_dl_probability_features)
+- [`dl_features.convert_to_mars_format`](./features.dl_features.md#function-convert_to_mars_format)
+- [`dl_features.convert_to_pandas_df`](./features.dl_features.md#function-convert_to_pandas_df)
+- [`dl_features.lrs`](./features.dl_features.md#function-lrs)
+- [`dl_features.normalize_data`](./features.dl_features.md#function-normalize_data)
+- [`dl_features.run_task`](./features.dl_features.md#function-run_task)
+- [`dl_features.seed_everything`](./features.dl_features.md#function-seed_everything)
+- [`features.CNN1DProb.__init__`](./features.features.md#function-__init__): Feature creation object. This houses the feature creation function and the columns that are required to compute the features. Performs some checks on data to make sure has these columns.
+- [`features.CNN1DProb.fit`](./features.features.md#function-fit)
+- [`features.CNN1DProb.fit_transform`](./features.features.md#function-fit_transform)
+- [`features.CNN1DProb.transform`](./features.features.md#function-transform): Make the features. This is called internally by the dataset object when running `add_features`.
+- [`features.Centroid.__init__`](./features.features.md#function-__init__): Feature creation object. This houses the feature creation function and the columns that are required to compute the features. Performs some checks on data to make sure has these columns.
+- [`features.Centroid.fit`](./features.features.md#function-fit)
+- [`features.Centroid.fit_transform`](./features.features.md#function-fit_transform)
+- [`features.Centroid.transform`](./features.features.md#function-transform): Make the features. This is called internally by the dataset object when running `add_features`.
+- [`features.CentroidInteranimal.__init__`](./features.features.md#function-__init__): Feature creation object. This houses the feature creation function and the columns that are required to compute the features. Performs some checks on data to make sure has these columns.
+- [`features.CentroidInteranimal.fit`](./features.features.md#function-fit)
+- [`features.CentroidInteranimal.fit_transform`](./features.features.md#function-fit_transform)
+- [`features.CentroidInteranimal.transform`](./features.features.md#function-transform): Make the features. This is called internally by the dataset object when running `add_features`.
+- [`features.CentroidInteranimalSpeed.__init__`](./features.features.md#function-__init__): Feature creation object. This houses the feature creation function and the columns that are required to compute the features. Performs some checks on data to make sure has these columns.
+- [`features.CentroidInteranimalSpeed.fit`](./features.features.md#function-fit)
+- [`features.CentroidInteranimalSpeed.fit_transform`](./features.features.md#function-fit_transform)
+- [`features.CentroidInteranimalSpeed.transform`](./features.features.md#function-transform): Make the features. This is called internally by the dataset object when running `add_features`.
+- [`features.CentroidVelocity.__init__`](./features.features.md#function-__init__): Feature creation object. This houses the feature creation function and the columns that are required to compute the features. Performs some checks on data to make sure has these columns.
+- [`features.CentroidVelocity.fit`](./features.features.md#function-fit)
+- [`features.CentroidVelocity.fit_transform`](./features.features.md#function-fit_transform)
+- [`features.CentroidVelocity.transform`](./features.features.md#function-transform): Make the features. This is called internally by the dataset object when running `add_features`.
+- [`features.Distances.__init__`](./features.features.md#function-__init__): Feature creation object. This houses the feature creation function and the columns that are required to compute the features. Performs some checks on data to make sure has these columns.
+- [`features.Distances.fit`](./features.features.md#function-fit)
+- [`features.Distances.fit_transform`](./features.features.md#function-fit_transform)
+- [`features.Distances.transform`](./features.features.md#function-transform): Make the features. This is called internally by the dataset object when running `add_features`.
+- [`features.MARSFeatures.__init__`](./features.features.md#function-__init__): Feature creation object. This houses the feature creation function and the columns that are required to compute the features. Performs some checks on data to make sure has these columns.
+- [`features.MARSFeatures.fit`](./features.features.md#function-fit)
+- [`features.MARSFeatures.fit_transform`](./features.features.md#function-fit_transform)
+- [`features.MARSFeatures.transform`](./features.features.md#function-transform): Make the features. This is called internally by the dataset object when running `add_features`.
+- [`features.MARSReduced.__init__`](./features.features.md#function-__init__): Feature creation object. This houses the feature creation function and the columns that are required to compute the features. Performs some checks on data to make sure has these columns.
+- [`features.MARSReduced.fit`](./features.features.md#function-fit)
+- [`features.MARSReduced.fit_transform`](./features.features.md#function-fit_transform)
+- [`features.MARSReduced.transform`](./features.features.md#function-transform): Make the features. This is called internally by the dataset object when running `add_features`.
+- [`features.Social.__init__`](./features.features.md#function-__init__): Feature creation object. This houses the feature creation function and the columns that are required to compute the features. Performs some checks on data to make sure has these columns.
+- [`features.Social.fit`](./features.features.md#function-fit)
+- [`features.Social.fit_transform`](./features.features.md#function-fit_transform)
+- [`features.Social.transform`](./features.features.md#function-transform): Make the features. This is called internally by the dataset object when running `add_features`.
+- [`features.Speeds.__init__`](./features.features.md#function-__init__): Feature creation object. This houses the feature creation function and the columns that are required to compute the features. Performs some checks on data to make sure has these columns.
+- [`features.Speeds.fit`](./features.features.md#function-fit)
+- [`features.Speeds.fit_transform`](./features.features.md#function-fit_transform)
+- [`features.Speeds.transform`](./features.features.md#function-transform): Make the features. This is called internally by the dataset object when running `add_features`.
+- [`features.feature_class_maker`](./features.features.md#function-feature_class_maker)
+- [`generic_features.compute_centerofmass`](./features.generic_features.md#function-compute_centerofmass)
+- [`generic_features.compute_centerofmass_interanimal_distances`](./features.generic_features.md#function-compute_centerofmass_interanimal_distances)
+- [`generic_features.compute_centerofmass_interanimal_speed`](./features.generic_features.md#function-compute_centerofmass_interanimal_speed)
+- [`generic_features.compute_centerofmass_velocity`](./features.generic_features.md#function-compute_centerofmass_velocity)
+- [`generic_features.compute_distance_features`](./features.generic_features.md#function-compute_distance_features)
+- [`generic_features.compute_speed_features`](./features.generic_features.md#function-compute_speed_features)
+- [`mars_features.augment_features`](./features.mars_features.md#function-augment_features)
+- [`mars_features.boiler_plate`](./features.mars_features.md#function-boiler_plate)
+- [`mars_features.compute_distance_features`](./features.mars_features.md#function-compute_distance_features)
+- [`mars_features.compute_mars_features`](./features.mars_features.md#function-compute_mars_features)
+- [`mars_features.compute_mars_reduced_features`](./features.mars_features.md#function-compute_mars_reduced_features)
+- [`mars_features.compute_social_features`](./features.mars_features.md#function-compute_social_features)
+- [`mars_features.compute_velocity_features`](./features.mars_features.md#function-compute_velocity_features)
+- [`mars_features.make_features_distances`](./features.mars_features.md#function-make_features_distances)
+- [`mars_features.make_features_mars`](./features.mars_features.md#function-make_features_mars)
+- [`mars_features.make_features_mars_distr`](./features.mars_features.md#function-make_features_mars_distr)
+- [`mars_features.make_features_mars_reduced`](./features.mars_features.md#function-make_features_mars_reduced)
+- [`mars_features.make_features_social`](./features.mars_features.md#function-make_features_social)
+- [`mars_features.make_features_velocities`](./features.mars_features.md#function-make_features_velocities)
 - [`interpolation.interpolate_lowconf_points`](./interpolation.md#function-interpolate_lowconf_points): Interpolate raw tracking points if their probabilities are available.
 - [`io.create_behavior_labels`](./io.md#function-create_behavior_labels): Create behavior labels from BORIS exported csv files.
 - [`io.get_sample_data`](./io.md#function-get_sample_data): Load a sample dataset of 5 mice social interaction videos. Each video is approx. 5 minutes in duration
@@ -79,15 +136,9 @@
 - [`io.load_sklearn_model`](./io.md#function-load_sklearn_model): Load sklearn model from file
 - [`io.read_DLC_tracks`](./io.md#function-read_dlc_tracks): Read in tracks from DLC.
 - [`io.read_boris_annotation`](./io.md#function-read_boris_annotation): Read behavior annotation from BORIS exported csv file. 
-- [`io.rename_df_cols`](./io.md#function-rename_df_cols): Rename dataframe columns 
 - [`io.save_DLC_tracks_h5`](./io.md#function-save_dlc_tracks_h5): Save DLC tracks in h5 format.
 - [`io.save_sklearn_model`](./io.md#function-save_sklearn_model): Save sklearn model to file
 - [`io.uniquifier`](./io.md#function-uniquifier): Return a sequence (e.g. list) with unique elements only, but maintaining original list order
-- [`mars_features.compute_distance_features`](./mars_features.md#function-compute_distance_features)
-- [`mars_features.compute_mars_features`](./mars_features.md#function-compute_mars_features)
-- [`mars_features.compute_mars_reduced_features`](./mars_features.md#function-compute_mars_reduced_features)
-- [`mars_features.compute_social_features`](./mars_features.md#function-compute_social_features)
-- [`mars_features.compute_velocity_features`](./mars_features.md#function-compute_velocity_features)
 - [`plot.create_ethogram_video`](./plot.md#function-create_ethogram_video): Overlay ethogram on top of source video with ffmpeg
 - [`plot.create_mosaic_video`](./plot.md#function-create_mosaic_video): Take a set of video clips and turn them into a mosaic using ffmpeg 
 - [`plot.create_sample_videos`](./plot.md#function-create_sample_videos): Create a sample of videos displaying the labeled behaviors using ffmpeg. 
@@ -101,8 +152,9 @@
 - [`unsupervised.compute_watershed`](./unsupervised.md#function-compute_watershed): Compute watershed clustering of a density matrix. 
 - [`utils.checkFFMPEG`](./utils.md#function-checkffmpeg): Check for ffmpeg dependencies
 - [`video.clone_metadata`](./video.md#function-clone_metadata): Prepare a metadata dictionary for defining a ExperimentDataFrame. 
+- [`video.create_experiment`](./video.md#function-create_experiment): Houses DLC tracking data and behavior annotations in pandas DataFrame for ML, along with relevant metadata, features and behavior annotation labels.
 - [`video.get_sample_openfield_data`](./video.md#function-get_sample_openfield_data): Load a sample dataset of 1 mouse in openfield setup. The video is the sample that comes with DLC.
-- [`video.load_experiment`](./video.md#function-load_experiment): Load ExperimentDataFrame from file.
+- [`video.load_experiment`](./video.md#function-load_experiment): Load DataFrame from file.
 
 
 ---

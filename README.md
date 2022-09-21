@@ -38,7 +38,6 @@ Import
 ```python
 from glob import glob 
 from ethome import create_experiment, clone_metadata
-from ethome.features import CNN1DProb, MARS
 from ethome.io import get_sample_data_paths
 ```
 
@@ -69,13 +68,10 @@ animal_renamer = {'adult': 'resident', 'juvenile':'intruder'}
 dataset = create_experiment(metadata, animal_renamer=animal_renamer)
 ```
 
-Now create features on this dataset. Feature creation objects are class instances, similar to sklearn:
+Now create features on this dataset. Can use pre-built featuresets, or make your own. Here are two that work with a mouse resident-intruder setup:
 ```python
-cnn_probabilities = CNN1DProb()
-mars = MARS()
-
-dataset.features.add(cnn_probabilities, '1dcnn')
-dataset.features.add(mars, 'MARS')
+dataset.features.add('cnn1d_prob')
+dataset.features.add(mars, 'mars')
 ```
 
 Now access a features table, labels, and groups for learning with `dataset.ml.features, dataset.ml.labels, dataset.ml.groups`. From here it's easy to use some ML libraries to predict behavior. For example:

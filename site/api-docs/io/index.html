@@ -13,7 +13,7 @@
     
     
       
-        <title>Io - ethome</title>
+        <title>Io - ethome-ml</title>
       
     
     
@@ -72,7 +72,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../.." title="ethome" class="md-header__button md-logo" aria-label="ethome" data-md-component="logo">
+    <a href="../.." title="ethome-ml" class="md-header__button md-logo" aria-label="ethome-ml" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
@@ -85,7 +85,7 @@
       <div class="md-header__ellipsis">
         <div class="md-header__topic">
           <span class="md-ellipsis">
-            ethome
+            ethome-ml
           </span>
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
@@ -158,13 +158,13 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../.." title="ethome" class="md-nav__button md-logo" aria-label="ethome" data-md-component="logo">
+    <a href="../.." title="ethome-ml" class="md-nav__button md-logo" aria-label="ethome-ml" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
 
     </a>
-    ethome
+    ethome-ml
   </label>
   
   <ul class="md-nav__list" data-md-scrollfix>
@@ -347,6 +347,76 @@
   
   
     <li class="md-nav__item">
+      <a href="../features.cnn1d/" class="md-nav__link">
+        Features.cnn1d
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../features.dl_features/" class="md-nav__link">
+        Features.dl features
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../features.features/" class="md-nav__link">
+        Features.features
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../features.generic_features/" class="md-nav__link">
+        Features.generic features
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../features.mars_features/" class="md-nav__link">
+        Features.mars features
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../features/" class="md-nav__link">
         Features
       </a>
@@ -453,13 +523,6 @@
         <li class="md-nav__item">
   <a href="#function-read_dlc_tracks" class="md-nav__link">
     function read_DLC_tracks
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#function-rename_df_cols" class="md-nav__link">
-    function rename_df_cols
   </a>
   
 </li>
@@ -640,6 +703,20 @@
   
   
     <li class="md-nav__item">
+      <a href="../version/" class="md-nav__link">
+        Version
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../video/" class="md-nav__link">
         Video
       </a>
@@ -711,13 +788,6 @@
         <li class="md-nav__item">
   <a href="#function-read_dlc_tracks" class="md-nav__link">
     function read_DLC_tracks
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#function-rename_df_cols" class="md-nav__link">
-    function rename_df_cols
   </a>
   
 </li>
@@ -877,19 +947,6 @@
  Pandas DataFrame with (n_animals<em>2</em>n_body_parts) columns plus with filename and frame,   List of body parts,  List of animals,  Columns names for DLC tracks (excluding likelihoods, if read in),  Scorer </p>
 <hr />
 <p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/io.py#L134"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
-<h2 id="function-rename_df_cols"><kbd>function</kbd> <code>rename_df_cols</code></h2>
-<pre><code class="language-python">rename_df_cols(df: DataFrame, renamer: dict) → DataFrame
-</code></pre>
-<p>Rename dataframe columns  </p>
-<p><strong>Args:</strong></p>
-<ul>
-<li><b><code>df</code></b>:  Pandas dataframe whose columns to rename </li>
-<li><b><code>renamer</code></b>:  dictionary whose key:value pairs define the substitutions to make </li>
-</ul>
-<p><strong>Returns:</strong>
- The dataframe with renamed columns. </p>
-<hr />
-<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/io.py#L146"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="function-save_dlc_tracks_h5"><kbd>function</kbd> <code>save_DLC_tracks_h5</code></h2>
 <pre><code class="language-python">save_DLC_tracks_h5(df: DataFrame, fn_out: str) → None
 </code></pre>
@@ -900,7 +957,7 @@
 <li><b><code>fn_out</code></b>:  Where to save the dataframe </li>
 </ul>
 <hr />
-<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/io.py#L155"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/io.py#L143"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="function-load_data"><kbd>function</kbd> <code>load_data</code></h2>
 <pre><code class="language-python">load_data(fn: str)
 </code></pre>
@@ -912,7 +969,7 @@
 <p><strong>Returns:</strong>
  The pickled object. </p>
 <hr />
-<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/io.py#L191"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/io.py#L180"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="function-get_sample_data_paths"><kbd>function</kbd> <code>get_sample_data_paths</code></h2>
 <pre><code class="language-python">get_sample_data_paths()
 </code></pre>
@@ -920,7 +977,7 @@
 <p><strong>Returns:</strong>
   (tuple) list of DLC tracking file, list of boris annotation files </p>
 <hr />
-<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/io.py#L202"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/io.py#L191"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="function-get_sample_data"><kbd>function</kbd> <code>get_sample_data</code></h2>
 <pre><code class="language-python">get_sample_data()
 </code></pre>
@@ -928,7 +985,7 @@
 <p><strong>Returns:</strong>
   (ExperimentDataFrame) Data frame with the corresponding tracking and behavior annotation files </p>
 <hr />
-<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/io.py#L215"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/io.py#L204"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="function-read_boris_annotation"><kbd>function</kbd> <code>read_boris_annotation</code></h2>
 <pre><code class="language-python">read_boris_annotation(
     fn_in: str,
@@ -949,7 +1006,7 @@
 <p><strong>Returns:</strong>
  A numpy array which indicates, for all frames, which behavior is occuring. 0 = no behavior, 1 and above are the labels of the behaviors. A dictionary with keys the numerical labels and values the names of the behaviors.  </p>
 <hr />
-<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/io.py#L262"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/io.py#L251"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="function-create_behavior_labels"><kbd>function</kbd> <code>create_behavior_labels</code></h2>
 <pre><code class="language-python">create_behavior_labels(boris_files)
 </code></pre>

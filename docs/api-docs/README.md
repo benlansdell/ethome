@@ -13,7 +13,6 @@
 - [`features.mars_features`](./features.mars_features.md#module-featuresmars_features)
 - [`interpolation`](./interpolation.md#module-interpolation)
 - [`io`](./io.md#module-io): Loading and saving tracking and behavior annotation files 
-- [`ml`](./ml.md#module-ml): Machine learning functions 
 - [`models`](./models.md#module-models): Basic video tracking and behavior class that houses data 
 - [`plot`](./plot.md#module-plot)
 - [`unsupervised`](./unsupervised.md#module-unsupervised)

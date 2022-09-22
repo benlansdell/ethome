@@ -37,5 +37,9 @@ doc:
 		    --output-path="./docs/api-docs" \
 		    --overview-file="README.md" \
     		--src-base-url="https://github.com/benlansdell/ethome/blob/master/" \
+			--ignored-modules="version,config" \
     		ethome
 		mkdocs build
+
+doc-deploy:
+		mkdocs gh-deploy

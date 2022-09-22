@@ -166,7 +166,7 @@ __init__(
     frame_gap=1,
     shuffle=False,
     mode='fit',
-    featurize=<function features_identity at 0x7efc3bd9b0e0>
+    featurize=<function features_identity at 0x7fbe20a39200>
 )
 ```
 

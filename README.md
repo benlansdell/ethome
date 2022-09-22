@@ -10,11 +10,11 @@ Interprets pose-tracking files (currently only from DLC) and behavior annotation
 
 ## Features
 
-* Interpolate DLC data 
+* Read in DLC pose data and corresponding BORIS behavior annotations to make supervised learning easy
+* Interpolate pose data to improve low-confidence predictions 
 * Create generic features for kinematic analysis and downstream ML tasks
 * Create features specifically for mouse resident-intruder setup
-* Read in DLC pose data and corresponding BORIS behavior annotations to make supervised learning easy
-* Perform unsupervised learning on pose data to extract discrete behavioral motifs (MotionMapper)
+* Perform unsupervised learning on pose data to extract discrete behavioral motifs (similar to MotionMapper)
 * Quickly generate a movie with behavior predictions
 
 ## Installation
@@ -71,7 +71,7 @@ dataset = create_experiment(metadata, animal_renamer=animal_renamer)
 Now create features on this dataset. Can use pre-built featuresets, or make your own. Here are two that work with a mouse resident-intruder setup:
 ```python
 dataset.features.add('cnn1d_prob')
-dataset.features.add(mars, 'mars')
+dataset.features.add('mars')
 ```
 
 Now access a features table, labels, and groups for learning with `dataset.ml.features, dataset.ml.labels, dataset.ml.groups`. From here it's easy to use some ML libraries to predict behavior. For example:

@@ -13,7 +13,7 @@
     
     
       
-        <title>Unsupervised - ethome-ml</title>
+        <title>Version - ethome-ml</title>
       
     
     
@@ -58,7 +58,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#module-unsupervised" class="md-skip">
+        <a href="#module-version" class="md-skip">
           Skip to content
         </a>
       
@@ -91,7 +91,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Unsupervised
+              Version
             
           </span>
         </div>
@@ -527,80 +527,11 @@
               
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          Unsupervised
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../unsupervised/" class="md-nav__link">
         Unsupervised
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#function-compute_tsne_embedding" class="md-nav__link">
-    function compute_tsne_embedding
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#function-compute_morlet" class="md-nav__link">
-    function compute_morlet
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#function-compute_density" class="md-nav__link">
-    function compute_density
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#function-compute_watershed" class="md-nav__link">
-    function compute_watershed
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#function-cluster_behaviors" class="md-nav__link">
-    function cluster_behaviors
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -624,11 +555,21 @@
               
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../version/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         Version
       </a>
+      
     </li>
   
 
@@ -674,49 +615,6 @@
     
   
   
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#function-compute_tsne_embedding" class="md-nav__link">
-    function compute_tsne_embedding
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#function-compute_morlet" class="md-nav__link">
-    function compute_morlet
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#function-compute_density" class="md-nav__link">
-    function compute_density
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#function-compute_watershed" class="md-nav__link">
-    function compute_watershed
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#function-cluster_behaviors" class="md-nav__link">
-    function cluster_behaviors
-  </a>
-  
-</li>
-      
-    </ul>
-  
 </nav>
                   </div>
                 </div>
@@ -730,126 +628,8 @@
 
 <!-- markdownlint-disable -->
 
-<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/unsupervised.py#L0"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
-<h1 id="module-unsupervised"><kbd>module</kbd> <code>unsupervised</code></h1>
-<hr />
-<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/unsupervised.py#L11"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
-<h2 id="function-compute_tsne_embedding"><kbd>function</kbd> <code>compute_tsne_embedding</code></h2>
-<pre><code class="language-python">compute_tsne_embedding(
-    dataset: DataFrame,
-    cols: list,
-    N_rows: int = 20000,
-    n_components=2,
-    perplexity=30
-) → tuple
-</code></pre>
-<p>Compute TSNE embedding. Only for a random subset of rows. </p>
-<p><strong>Args:</strong></p>
-<ul>
-<li><b><code>dataset</code></b>:  Input data </li>
-<li><b><code>cols</code></b>:  A list of column names to produce the embedding for </li>
-<li><b><code>N_rows</code></b>:  A number of rows to randomly sample for the embedding. Only these rows are embedded. </li>
-<li><b><code>n_components</code></b>:  The number of dimensions to embed the data into. </li>
-<li><b><code>perplexity</code></b>:  The perplexity of the TSNE embedding. </li>
-</ul>
-<p><strong>Returns:</strong>
- The tuple:<br />
-        - A numpy array with the embedding data, only for a random subset of row 
-        - The rows that were used for the embedding </p>
-<hr />
-<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/unsupervised.py#L37"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
-<h2 id="function-compute_morlet"><kbd>function</kbd> <code>compute_morlet</code></h2>
-<pre><code class="language-python">compute_morlet(
-    data: ndarray,
-    dt: float = 0.03333333333333333,
-    n_freq: int = 5,
-    w: float = 3
-) → ndarray
-</code></pre>
-<p>Compute morlet wavelet transform of a time series. </p>
-<p><strong>Args:</strong></p>
-<ul>
-<li><b><code>data</code></b>:  A 2D array containing the time series data, with dimensions (n_pts x n_channels) </li>
-<li><b><code>dt</code></b>:  The time step of the time series </li>
-<li><b><code>n_freq</code></b>:  The number of frequencies to compute </li>
-<li><b><code>w</code></b>:  The width of the morlet wavelet </li>
-</ul>
-<p>Returns A 2D numpy array with the morlet wavelet transform. The first dimension is the frequency, the second is the time. </p>
-<hr />
-<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/unsupervised.py#L63"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
-<h2 id="function-compute_density"><kbd>function</kbd> <code>compute_density</code></h2>
-<pre><code class="language-python">compute_density(
-    dataset: DataFrame,
-    embedding_extent: tuple,
-    bandwidth: float = 0.5,
-    n_pts: int = 300,
-    N_sample_rows: int = 50000,
-    rows: list = None
-) → ndarray
-</code></pre>
-<p>Compute kernel density estimate of embedding. </p>
-<p><strong>Args:</strong></p>
-<ul>
-<li><b><code>dataset</code></b>:  pd.DataFrame with embedding data loaded in it. (Must have already populated columns named 'embedding_0', 'embedding_1') </li>
-<li><b><code>embedding_extent</code></b>:  the bounds in which to apply the density estimate. Has the form (xmin, xmax, ymin, ymax) </li>
-<li><b><code>bandwidth</code></b>:  the Gaussian kernel bandwidth. Will depend on the scale of the embedding. Can be changed to affect the number of clusters pulled out </li>
-<li><b><code>n_pts</code></b>:  number of points over which to evaluate the KDE </li>
-<li><b><code>N_sample_rows</code></b>:  number of rows to randomly sample to generate estimate </li>
-<li><b><code>rows</code></b>:  If provided, use these rows instead of a random sample </li>
-</ul>
-<p><strong>Returns:</strong>
- Numpy array with KDE over the specified square region in the embedding space, with dimensions (n_pts x n_pts)     </p>
-<hr />
-<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/unsupervised.py#L98"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
-<h2 id="function-compute_watershed"><kbd>function</kbd> <code>compute_watershed</code></h2>
-<pre><code class="language-python">compute_watershed(
-    dens_matrix: ndarray,
-    positive_only: bool = False,
-    cutoff: float = 0
-) → tuple
-</code></pre>
-<p>Compute watershed clustering of a density matrix.  </p>
-<p><strong>Args:</strong></p>
-<ul>
-<li><b><code>dens_matrix</code></b>:  A square 2D numpy array, output from compute_density, containing the kernel density estimate of the embedding. </li>
-<li><b><code>positive_only</code></b>:  Whether to apply a threshold, 'cutoff'. If applied, 'cutoff' is subtracted from dens_matrix, and any value below zero is set to zero. Useful for only focusing on high density clusters. </li>
-<li><b><code>cutoff</code></b>:  The cutoff value to apply if positive_only = True </li>
-</ul>
-<p><strong>Returns:</strong>
- A numpy array with the same dimensions as dens_matrix. Each value in the array is the cluster ID for that coordinate. </p>
-<hr />
-<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/unsupervised.py#L120"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
-<h2 id="function-cluster_behaviors"><kbd>function</kbd> <code>cluster_behaviors</code></h2>
-<pre><code class="language-python">cluster_behaviors(
-    dataset: DataFrame,
-    feature_cols: list,
-    N_rows: int = 200000,
-    use_morlet: bool = False,
-    use_umap: bool = True,
-    n_pts: int = 300,
-    bandwidth: float = 0.5,
-    **kwargs
-) → tuple
-</code></pre>
-<p>Cluster behaviors based on dimensionality reduction, kernel density estimation, and watershed clustering. </p>
-<p><strong>Note that this will modify the dataset dataframe in place.</strong> </p>
-<p>The following columns are added to dataset:   'embedding_index_[0/1]': the coordinates of each embedding coordinate in the returned density matrix  'unsup_behavior_label': the Watershed transform label for that row, based on its embedding coordinates. Rows whose embedding coordinate has no watershed cluster, or which fall outside the domain have value -1. </p>
-<p><strong>Args:</strong></p>
-<ul>
-<li><b><code>dataset</code></b>:  the pd.DataFrame with the features of interest </li>
-<li><b><code>feature_cols</code></b>:  list of column names to perform the clustering on </li>
-<li><b><code>N_rows</code></b>:  number of rows to perform the embedding on. If 'None', then all rows are used. </li>
-<li><b><code>use_morlet</code></b>:  Apply Morlet wavelet transform to the feature cols before computing the embedding </li>
-<li><b><code>use_umap</code></b>:  If True will use UMAP dimensionality reduction, if False will use TSNE </li>
-<li><b><code>n_pts</code></b>:  dimension of grid the kernel density estimate is evaluated on.  </li>
-<li><b><code>bandwidth</code></b>:  Gaussian kernel bandwidth for kernel estimate </li>
-<li><b><code>**kwargs</code></b>:  All other keyword parameters are sent to dimensionality reduction call (either TSNE or UMAP) </li>
-</ul>
-<p><strong>Returns:</strong>
- A tuple with components: 
- - <b><code>dens_matrix</code></b>:  the (n_pts x n_pts) numpy array with the density estimate of the 2D embedding 
- - <b><code>labels</code></b>:  numpy array with same dimensions are dens_matrix, but with values the watershed cluster IDs 
- - <b><code>embedding_extent</code></b>:  the coordinates in embedding space that dens_matrix is approximating the density over </p>
+<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/version.py#L0"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<h1 id="module-version"><kbd>module</kbd> <code>version</code></h1>
 <hr />
 <p><em>This file was automatically generated via <a href="https://github.com/ml-tooling/lazydocs">lazydocs</a>.</em></p>
 
@@ -865,7 +645,7 @@
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
         
-        <a href="../plot/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Plot" rel="prev">
+        <a href="../utils/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Utils" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
           </div>
@@ -874,20 +654,20 @@
               <span class="md-footer__direction">
                 Previous
               </span>
-              Plot
+              Utils
             </div>
           </div>
         </a>
       
       
         
-        <a href="../utils/" class="md-footer__link md-footer__link--next" aria-label="Next: Utils" rel="next">
+        <a href="../video/" class="md-footer__link md-footer__link--next" aria-label="Next: Video" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              Utils
+              Video
             </div>
           </div>
           <div class="md-footer__button md-icon">

@@ -1,5 +1,0 @@
-[run]
-omit =
-    package/__main__.py
-    package/__init__.py
-    tests/*.py

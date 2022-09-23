@@ -21,7 +21,7 @@ deploy:
 		python -m twine upload dist/*
 
 #Then install w:
-#pip install ethome
+#pip install ethome 
 
 demo:
 		CUDA_VISIBLE_DEVICES= python examples/sample_workflow.py

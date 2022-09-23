@@ -13,7 +13,7 @@ def plot_embedding(dataset : pd.DataFrame,
                    col_names : list  = ['embedding_0', 'embedding_1'],
                    color_col : str = None, 
                    figsize : tuple = (10,10),
-                   **kwargs) -> tuple:
+                   **kwargs) -> tuple:  # pragma: no cover
     """Scatterplot of a 2D TSNE or UMAP embedding from the dataset.
     
     Args:
@@ -39,7 +39,7 @@ def plot_embedding(dataset : pd.DataFrame,
     axes.set_ylabel('Embedding dim 2')
     return fig, axes
 
-class MplColorHelper:
+class MplColorHelper:  # pragma: no cover
 
     def __init__(self, cmap_name, start_val, stop_val):
         self.cmap_name = cmap_name
@@ -104,7 +104,7 @@ def plot_ethogram(dataset : pd.DataFrame,
                   vid_key : str, 
                   query_label : str = 'unsup_behavior_label', 
                   frame_limit : int = 4000, 
-                  figsize : tuple = (16,2)) -> tuple:
+                  figsize : tuple = (16,2)) -> tuple:  # pragma: no cover
     """Simple ethogram of one video, up to a certain frame number.
 
     Args:
@@ -135,7 +135,7 @@ def create_ethogram_video(dataset : pd.DataFrame,
                           out_file : str, 
                           frame_limit : int = 4000, 
                           im_dim : float = 16, 
-                          min_frames : int = 3) -> None:
+                          min_frames : int = 3) -> None:  # pragma: no cover
     """Overlay ethogram on top of source video with ffmpeg
 
     Args:
@@ -206,7 +206,7 @@ def create_sample_videos(dataset : pd.DataFrame,
                          N_sample_rows : int = 16, 
                          window_size : int = 2, 
                          fps : float = 30,
-                         N_supersample_rows : int = 1000) -> None:
+                         N_supersample_rows : int = 1000) -> None:  # pragma: no cover
     """Create a sample of videos displaying the labeled behaviors using ffmpeg. 
 
     For each behavior label, randomly choose frames from the entire dataset and extract short clips from source videos based around those points. Tries to select frames where the labeled behavior is exhibited in many frames of the clip.
@@ -302,7 +302,7 @@ def create_sample_videos(dataset : pd.DataFrame,
 
 def create_mosaic_video(vid_dir : str, 
                         output_file : str, 
-                        ndim : tuple = (1600, 1200)) -> None:
+                        ndim : tuple = (1600, 1200)) -> None:  # pragma: no cover
     """Take a set of video clips and turn them into a mosaic using ffmpeg 
     
     16 videos are tiled.

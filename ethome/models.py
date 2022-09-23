@@ -4,17 +4,17 @@ from sklearn.base import ClassifierMixin, TransformerMixin
 from sklearn.metrics import f1_score
 import numpy as np
 
-def _logit(p):
+def _logit(p):  # pragma: no cover
     return np.log(p / (1 - p))
 
-def _sample_prob_simplex(n=4):
+def _sample_prob_simplex(n=4):  # pragma: no cover
     x = sorted(np.append(np.random.uniform(size = n-1), [0,1]))
     y = np.diff(np.array(x))
     return y
 
 try:
     import ssm 
-    class HMMSklearn(ssm.HMM):
+    class HMMSklearn(ssm.HMM): # pragma: no cover
 
         def __init__(self, D, C = 11):
             """HMM model from Linderman state-space model package ssm, tweaked slightly to fit with sklearn syntax
@@ -63,7 +63,7 @@ try:
 except ImportError:
     print("Couldn't find ssm module. HMMSklearn model not available. See install instructions: https://github.com/lindermanlab/ssm")
 
-class F1Optimizer(ClassifierMixin):
+class F1Optimizer(ClassifierMixin):  # pragma: no cover
     def __init__(self, N = 1000, labels = [1]):
         self.N = N
         self.labels = labels
@@ -100,7 +100,7 @@ class F1Optimizer(ClassifierMixin):
         self.fit(X, y)
         return self.transform(X)
 
-class ModelTransformer(ClassifierMixin):
+class ModelTransformer(ClassifierMixin):  # pragma: no cover
     def __init__(self, Model, *args, **kwargs):
         """Turns an sklearn model into a model that can be used in a pipeline. Useful for stacking models. Basically, implements `transform` and `fit_transform` as model.predict_prob, without or with `fit`
         

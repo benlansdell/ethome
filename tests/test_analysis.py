@@ -187,6 +187,37 @@ def test_marsreduced_features(dataset):
     #Check we made the right amount of new columns
     assert len(dataset.features.active) == 285
 
+def test_marsreduced_features_by_string(dataset):
+    dataset.features.add('mars_reduced', 
+                     featureset_name = 'marsreduced', 
+                     add_to_features = True)
+    #Check we made the right amount of new columns
+    assert len(dataset.features.active) == 285
+
+#Test new feature creation methods... use a custom function, and use a custom class, and use a string
+def test_custom_feature_func(dataset):
+    def diff_cols(df, required_columns = []):
+        return df.loc[:,required_columns].diff()
+
+    dataset.features.add(diff_cols, required_columns = ['resident_x_neck', 'resident_y_neck'])
+    #Check we made the right amount of new columns
+    assert len(dataset.features.active) == 2
+
+def test_custom_feature_class(dataset):
+
+    class BodyPartDiff:
+        def __init__(self, required_columns):
+            self.required_columns = required_columns
+
+        def transform(self, df, **kwargs):
+            return df.loc[:,self.required_columns].diff()
+
+    head_diff = BodyPartDiff(['resident_x_neck', 'resident_y_neck'])
+    dataset.features.add(head_diff)
+
+    assert len(dataset.features.active) == 2
+
+
 def test_interpolate(dataset):
     interpolate_lowconf_points(dataset)
 
@@ -218,6 +249,16 @@ def test_rescaling_metadataparams(tracking_files, metadata_params):
                                 resolution = metadata_params['resolution'])
     df = create_experiment(metadata_no_labels)
     assert list(df.metadata.details.values())[0]['units'] == 'mm'
+
+    metadata_no_labels = clone_metadata(tracking_files, 
+                                frame_width = metadata_params['frame_width'], 
+                                fps = metadata_params['fps'], 
+                                frame_width_units = metadata_params['frame_width_units'], 
+                                resolution = metadata_params['resolution'],
+                                units = 'cm')
+
+    df = create_experiment(metadata_no_labels)
+    assert list(df.metadata.details.values())[0]['units'] == 'cm'
 
     #Should have 'frame_width', 'resolution' and 'frame_width_units' to make conversion. here we shouldn't
     # Because we're just missing one value in one rec

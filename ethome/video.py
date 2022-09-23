@@ -21,6 +21,8 @@ import os
 import numpy as np
 import re
 import warnings
+import types 
+
 from glob import glob
 from sklearn.model_selection import PredefinedSplit
 
@@ -103,6 +105,9 @@ def _validate_metadata(metadata, req_cols):
     import numbers
     import warnings
 
+    from collections import defaultdict
+    unit_counts = defaultdict(int)
+
     for fn in metadata:
 
         n_dim_cols = sum([x in metadata[fn].keys() for x in ['frame_width', 'resolution', 'frame_width_units']])
@@ -129,6 +134,11 @@ def _validate_metadata(metadata, req_cols):
                     warnings.warn("'resolution' must be a list-like object of length 2 to rescale. Not rescaling.")
                     should_rescale = False
 
+        if 'units' in metadata[fn].keys():
+            unit_counts[metadata[fn]['units']] += 1
+        else:
+            unit_counts[0] += 1
+
         checks = [col in metadata[fn].keys() for col in req_cols]
         if sum(checks) < len(req_cols):
             valid = False
@@ -138,8 +148,21 @@ def _validate_metadata(metadata, req_cols):
         should_rescale = False
 
     if should_rescale is None: should_rescale = False
+
+    for unit in unit_counts:
+        if unit_counts[unit] > 0:
+            if unit_counts[unit] != len(metadata):
+                warnings.warn(f"Target units must be the same for all files. Not rescaling.")
+                should_rescale = False
+
     if should_rescale:
-        print("Rescaling to 'mm'")
+        if 0 in unit_counts:
+            del unit_counts[0]
+        if len(unit_counts) > 1:
+            target_units = list(unit_counts.keys())[0]
+        else:
+            target_units = 'mm'
+        print(f"All necessary fields provided -- rescaling to '{target_units}'")
 
     return valid, should_rescale
 
@@ -233,15 +256,22 @@ class EthologyFeaturesAccessor(object):
         df = self._obj
 
         if featureset_name is None:
-            featureset_name = feature_maker.__name__
+            try:
+                featureset_name = feature_maker.__name__
+            except AttributeError:
+                featureset_name = feature_maker.__class__.__name__
 
         if isinstance(feature_maker, str):
             if feature_maker in FEATURE_MAKERS:
-                feature_maker = FEATURE_MAKERS[feature_maker]
+                FeatureMaker = FEATURE_MAKERS[feature_maker]
+                if len(required_columns):
+                    feature_maker = FeatureMaker(required_columns, **kwargs)
+                else:
+                    feature_maker = FeatureMaker(**kwargs)
             else:
                 raise ValueError(f"Feature maker {feature_maker} not found.")
 
-        if callable(feature_maker):
+        if isinstance(feature_maker, types.FunctionType):
             CustomFeatureClass = feature_class_maker('CustomFeatureClass', feature_maker, required_columns)
             feature_maker = CustomFeatureClass()
 
@@ -519,8 +549,13 @@ def _load_dlc_tracks(df, part_renamer, animal_renamer, rescale = False):
                 ('resolution' in df.metadata.details[fn]) and \
                 df.metadata.details[fn]['frame_width_units'].lower() in UNIT_DICT:
             unit_scale_factor = UNIT_DICT[df.metadata.details[fn]['frame_width_units'].lower()]
+
+            if 'units' in df.metadata.details[fn]:
+                unit_scale_factor /= UNIT_DICT[df.metadata.details[fn]['units']]
+            else:
+                df.metadata.details[fn]['units'] = 'mm'
+
             df_fn['scale_factor'] = df.metadata.details[fn]['frame_width']/df.metadata.details[fn]['resolution'][1]*unit_scale_factor
-            df.metadata.details[fn]['units'] = 'mm'
         else:
             df_fn['scale_factor'] = 1
 

@@ -114,7 +114,7 @@ def features_distances(inputs):
 
     return features, features.shape[1:]
 
-def features_distances_normalized(inputs):
+def features_distances_normalized(inputs): # pragma: no cover
 
     #inputs.shape (4509, 2,7,2) = (frame, mouse ID, body part, x/y)
 
@@ -176,9 +176,6 @@ if has_keras:
             pad_width = (self.pad, future_pad), (0, 0), (0, 0), (0, 0)
             self.seq_lengths = {}
             for vc, key in enumerate(self.video_keys):
-                if self.mode == 'fit':
-                    anno = pose_dict[key]['annotations']
-                    self.y.extend(anno)
                 nframes = len(pose_dict[key]['keypoints'])
                 self.video_indexes.extend([vc for _ in range(nframes)])
                 self.frame_indexes.extend(range(nframes))

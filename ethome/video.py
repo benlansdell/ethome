@@ -133,6 +133,9 @@ def _validate_metadata(metadata, req_cols):
                 if len(metadata[fn]['resolution']) != 2:
                     warnings.warn("'resolution' must be a list-like object of length 2 to rescale. Not rescaling.")
                     should_rescale = False
+            else:
+                warnings.warn("'resolution' must be a list-like object of length 2 to rescale. Not rescaling.")
+                should_rescale = False
 
         if 'units' in metadata[fn].keys():
             unit_counts[metadata[fn]['units']] += 1
@@ -170,8 +173,26 @@ def _validate_metadata(metadata, req_cols):
 class EthologyMetadataAccessor(object):
     def __init__(self, pandas_obj):
         self._obj = pandas_obj
-        self.details = {}
-        self.label_key = {}
+        if 'metadata__details' not in self._obj.attrs:
+            self._obj.attrs['metadata__details'] = {}
+        if 'metadata__label_key' not in self._obj.attrs:
+            self._obj.attrs['metadata__label_key'] = {}
+
+    @property
+    def details(self):
+        return self._obj.attrs['metadata__details']
+
+    @property
+    def label_key(self):
+        return self._obj.attrs['metadata__label_key']
+
+    @details.setter
+    def details(self, val):
+        self._obj.attrs['metadata__details'] = val
+
+    @label_key.setter
+    def label_key(self, val):
+        self._obj.attrs['metadata__label_key'] = val
 
     @property
     def videos(self):
@@ -189,7 +210,16 @@ class EthologyMetadataAccessor(object):
 class EthologyFeaturesAccessor(object):
     def __init__(self, pandas_obj):
         self._obj = pandas_obj
-        self.active = None
+        if 'features__active' not in self._obj.attrs:
+            self._obj.attrs['features__active'] = {}
+
+    @property
+    def active(self):
+        return self._obj.attrs['features__active']
+
+    @active.setter
+    def active(self, val):
+        self._obj.attrs['features__active'] = val
 
     def activate(self, name : str) -> list:
         """Add already present columns in data frame to the feature set. 
@@ -314,17 +344,77 @@ class EthologyFeaturesAccessor(object):
 class EthologyPoseAccessor(object):
     def __init__(self, pandas_obj):
         self._obj = pandas_obj
-        self.body_parts = None
-        self.animals = None
-        self.animal_setup = None
-        self.raw_track_columns = None 
+
+        if 'pose__body_parts' not in self._obj.attrs:
+            self._obj.attrs['pose__body_parts'] = None
+
+        if 'pose__animals' not in self._obj.attrs:
+            self._obj.attrs['pose__animals'] = None
+
+        if 'pose__animal_setup' not in self._obj.attrs:
+            self._obj.attrs['pose__animal_setup'] = None
+
+        if 'pose__raw_track_columns' not in self._obj.attrs:
+            self._obj.attrs['pose__raw_track_columns'] = None
+
+    @property
+    def body_parts(self):
+        return self._obj.attrs['pose__body_parts']
+
+    @body_parts.setter
+    def body_parts(self, val):
+        self._obj.attrs['pose__body_parts'] = val
+
+    @property
+    def animals(self):
+        return self._obj.attrs['pose__animals']
+
+    @animals.setter
+    def animals(self, val):
+        self._obj.attrs['pose__animals'] = val
+
+    @property
+    def animal_setup(self):
+        return self._obj.attrs['pose__animal_setup']
+
+    @animal_setup.setter
+    def animal_setup(self, val):
+        self._obj.attrs['pose__animal_setup'] = val
+
+    @property
+    def raw_track_columns(self):
+        return self._obj.attrs['pose__raw_track_columns']
+
+    @raw_track_columns.setter
+    def raw_track_columns(self, val):
+        self._obj.attrs['pose__raw_track_columns'] = val
 
 @pd.api.extensions.register_dataframe_accessor("ml")
 class EthologyMLAccessor(object):
     def __init__(self, pandas_obj):
         self._obj = pandas_obj
-        self.label_cols = None
-        self.fold_cols = None
+
+        if 'ml__label_cols' not in self._obj.attrs:
+            self._obj.attrs['ml__label_cols'] = None
+
+        if 'ml__fold_cols' not in self._obj.attrs:
+            self._obj.attrs['ml__fold_cols'] = None
+
+    @property
+    def label_cols(self):
+        return self._obj.attrs['ml__label_cols']
+
+    @label_cols.setter
+    def label_cols(self, val):
+        self._obj.attrs['ml__label_cols'] = val
+
+    @property
+    def fold_cols(self):
+        return self._obj.attrs['ml__fold_cols']
+
+    @fold_cols.setter
+    def fold_cols(self, val):
+        self._obj.attrs['ml__fold_cols'] = val
 
     @property
     def features(self):
@@ -342,7 +432,7 @@ class EthologyMLAccessor(object):
             return self._obj[self.label_cols].to_numpy()
 
     @property
-    def folds(self):
+    def folds(self): # pragma: no cover
         if not self.fold_cols:
             return None
         else:
@@ -353,13 +443,13 @@ class EthologyMLAccessor(object):
         return self._obj['filename'].to_numpy()
 
     @property
-    def splitter(self):
+    def splitter(self): # pragma: no cover
         if not self.fold_cols:
             return None
         else:
             return self._make_predefined_split(self.folds)
 
-    def _make_predefined_split(self, folds):
+    def _make_predefined_split(self, folds): # pragma: no cover
         test_indices = np.sum(folds, axis=1) == 0
         test_fold = -1*(test_indices)
         test_fold[test_indices == False] = np.argmin(folds[test_indices == False], axis = 1)
@@ -430,7 +520,7 @@ class EthologyIOAccessor(object):
             None. Data in this object is populated with contents of file."""
         return load_experiment(fn_in)
 
-    def save_movie(self, label_columns, path_out : str, video_filenames = None) -> None:
+    def save_movie(self, label_columns, path_out : str, video_filenames = None) -> None: # pragma: no cover
         """Given columns indicating behavior predictions or whatever else, make a video
         with these predictions overlaid. 
 
@@ -643,7 +733,7 @@ def get_sample_openfield_data():
 
     return create_experiment(metadata)
 
-def _make_dense_values_into_pairs(predictions, rate):
+def _make_dense_values_into_pairs(predictions, rate): # pragma: no cover
     #Put into start/stop pairs
     pairs = []
     in_pair = False

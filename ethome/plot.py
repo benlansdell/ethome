@@ -54,7 +54,7 @@ def plot_unsupervised_results(dataset : pd.DataFrame,
                               cluster_results : tuple, 
                               col_names : list = ['embedding_0', 'embedding_1'],
                               figsize : tuple = (15,4), 
-                              **kwargs):
+                              **kwargs): # pragma: no cover
     """Set of plots for unsupervised behavior clustering results
     
     Args:

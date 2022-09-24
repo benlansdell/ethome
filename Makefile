@@ -5,6 +5,12 @@ coverage:
 		CUDA_VISIBLE_DEVICES= coverage run -m pytest
 		coverage report -i
 		coverage html -i
+		coverage xml -i
+
+coverage_upload:
+		bin/codecov -f coverage.xml -t 29196d6a-3dc7-4efd-8aa5-3795c7eafaec
+
+coverageall: coverage coverage_upload
 
 build:
 		python -m build

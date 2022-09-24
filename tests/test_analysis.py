@@ -6,6 +6,7 @@ import pytest
 
 from ethome import create_experiment, clone_metadata, interpolate_lowconf_points, video
 import pandas as pd
+import warnings
 
 #Metadata is a dictionary
 def test_clone_metadata(tracking_files, labels, metadata_params):
@@ -48,12 +49,59 @@ def test_VideoDataFrame(tracking_files, labels, metadata, metadata_params):
     try: df = create_experiment(metadata_no_labels)
     except: assert False, "Failed to make create_experiment object without labels"
 
-    #Also check that improper formatted metadata raises the right exception
+def test_videodataframe_scaling_raises_error(tracking_files, labels, metadata_params):
 
-    #Check that 
+    with pytest.warns(Warning):
+        metadata = clone_metadata(tracking_files, 
+                                    labels = labels, 
+                                    frame_width = 'a', 
+                                    fps = metadata_params['fps'], 
+                                    frame_width_units = metadata_params['frame_width_units'], 
+                                    resolution = metadata_params['resolution'])
+        df = create_experiment(metadata)
+
+    with pytest.warns(Warning):
+        metadata = clone_metadata(tracking_files, 
+                                    labels = labels, 
+                                    frame_width = metadata_params['frame_width'], 
+                                    fps = metadata_params['fps'], 
+                                    frame_width_units = 12, 
+                                    resolution = metadata_params['resolution'])
+        df = create_experiment(metadata)
+
+    with pytest.warns(Warning):
+        metadata = clone_metadata(tracking_files, 
+                                    labels = labels, 
+                                    frame_width = metadata_params['frame_width'], 
+                                    fps = metadata_params['fps'], 
+                                    frame_width_units = 'asdf', 
+                                    resolution = metadata_params['resolution'])
+        df = create_experiment(metadata)
+
+    with pytest.warns(Warning):
+        metadata = clone_metadata(tracking_files, 
+                                    labels = labels, 
+                                    frame_width = metadata_params['frame_width'], 
+                                    fps = metadata_params['fps'], 
+                                    frame_width_units = metadata_params['frame_width_units'], 
+                                    resolution = (1))
+        df = create_experiment(metadata)
+
+    with pytest.warns(Warning):
+        metadata = clone_metadata(tracking_files, 
+                                    labels = labels, 
+                                    frame_width = metadata_params['frame_width'], 
+                                    fps = metadata_params['fps'], 
+                                    frame_width_units = metadata_params['frame_width_units'], 
+                                    resolution = metadata_params['resolution'],
+                                    units = 'cm')
+        metadata[list(metadata.keys())[0]]['units'] = 'mm'
+        df = create_experiment(metadata)
 
 def test_VideoDataFrame_object(dataset):
     assert dataset.features.active is None
+    assert dataset.metadata.n_videos == 5
+    assert len(dataset.metadata.reverse_label_key) == 1
 
 def test_df_renaming(metadata, default_track_cols):
     none_renamer = {}
@@ -94,9 +142,32 @@ def test_dl_features_with_missing(dataset):
                      add_to_features = True)
     assert set(dataset.features.active) == set(['1dcnn__prob_attack', '1dcnn__prob_investigation', '1dcnn__prob_mount', '1dcnn__prob_other'])
 
+def test_regex_features(dataset):
+    dataset.features.activate('likelihood')
+    features = dataset.features.regex('likelihood')
+    assert len(features) == 14
+
 def test_add_likelihood(dataset):
     new_cols = dataset.features.activate('likelihood')
     assert len(new_cols) == 14
+
+def test_ml_accessors(dataset):
+    dataset.features.activate('likelihood')
+    assert dataset.ml.features.shape[1] == 14
+    assert len(dataset.ml.labels) == 45749
+    assert len(dataset.ml.group) == 45749
+
+def test_save_load(tmp_path, dataset):
+    from ethome.video import load_experiment
+    import os
+    import numpy as np
+    tmp_file = os.path.join(tmp_path, 'test.pkl')
+    dataset.features.activate('likelihood')
+    dataset.io.save(tmp_file)
+    dataset2 = load_experiment(tmp_file)
+    assert dataset2.ml.features.shape == dataset.ml.features.shape
+    assert np.array_equal(dataset2.ml.labels, dataset.ml.labels)
+    assert np.array_equal(dataset2.ml.group, dataset.ml.group)
 
 def test_remove_likelihood(dataset):
     new_cols = dataset.features.activate('likelihood')

@@ -74,6 +74,8 @@ dataset.features.add('cnn1d_prob')
 dataset.features.add('mars')
 ```
 
+(The 'mars' feature-set is designed for studying social behavior in mice, from Segalin et al. [1])
+
 Now access a features table, labels, and groups for learning with `dataset.ml.features, dataset.ml.labels, dataset.ml.groups`. From here it's easy to use some ML libraries to predict behavior. For example:
 ```python
 from sklearn.ensemble import RandomForestClassifier
@@ -84,3 +86,7 @@ cross_val_score(model, dataset.ml.features, dataset.ml.labels, dataset.ml.groups
 ```
 
 Read more in the how-to guide in the docs.
+
+## References
+
+[1] "The Mouse Action Recognition System (MARS): a software pipeline for automated analysis of social behaviors in mice" Segalin et al, eLife 2021

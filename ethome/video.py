@@ -211,7 +211,7 @@ class EthologyFeaturesAccessor(object):
     def __init__(self, pandas_obj):
         self._obj = pandas_obj
         if 'features__active' not in self._obj.attrs:
-            self._obj.attrs['features__active'] = {}
+            self._obj.attrs['features__active'] = None
 
     @property
     def active(self):

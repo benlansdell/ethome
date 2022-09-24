@@ -24,7 +24,7 @@ def _list_replace(ls, renamer):
             ls[i] = renamer[word]
     return ls
 
-def save_sklearn_model(model, fn_out):
+def save_sklearn_model(model, fn_out): # pragma: no cover
     """Save sklearn model to file
     
     Args:
@@ -33,7 +33,7 @@ def save_sklearn_model(model, fn_out):
     """
     dump(model, fn_out) 
 
-def load_sklearn_model(fn_in):
+def load_sklearn_model(fn_in): # pragma: no cover
     """Load sklearn model from file
     
     Args:
@@ -131,7 +131,7 @@ def read_DLC_tracks(fn_in : str,
 
     return final_df, body_parts, animals, colnames, scorer
 
-def save_DLC_tracks_h5(df : pd.DataFrame, fn_out : str) -> None:
+def save_DLC_tracks_h5(df : pd.DataFrame, fn_out : str) -> None: # pragma: no cover
     """Save DLC tracks in h5 format.
     
     Args:
@@ -140,7 +140,7 @@ def save_DLC_tracks_h5(df : pd.DataFrame, fn_out : str) -> None:
     """
     df.to_hdf(fn_out, "df_with_missing", format = 'table', mode="w")
 
-def load_data(fn : str):
+def load_data(fn : str): # pragma: no cover
     """Load an object from a pickle file
     
     Args:

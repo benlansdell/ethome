@@ -74,7 +74,7 @@ dataset.features.add('cnn1d_prob')
 dataset.features.add('mars')
 ```
 
-(The 'mars' feature-set is designed for studying social behavior in mice, from Segalin et al. [1])
+(The 'mars' feature-set is designed for studying social behavior in mice, based heavily on Segalin et al. [1])
 
 Now access a features table, labels, and groups for learning with `dataset.ml.features, dataset.ml.labels, dataset.ml.groups`. From here it's easy to use some ML libraries to predict behavior. For example:
 ```python

@@ -22,7 +22,7 @@ default_tracking_columns = ['resident_x_nose', 'resident_x_leftear', 'resident_x
                             'intruder_y_rightear', 'intruder_y_neck', 'intruder_y_lefthip',
                             'intruder_y_righthip', 'intruder_y_tail']
 
-class Features:
+class Features: # pragma: no cover
     def __init__(self):
         raise NotImplementedError
 
@@ -42,7 +42,7 @@ def feature_class_maker(name, compute_function, required_columns = []):
             self.required_columns = required_columns
         self.kwargs = kwargs
 
-    def fit(self, edf, **kwargs):
+    def fit(self, edf, **kwargs): # pragma: no cover
         return 
 
     def transform(self, edf, **kwargs):
@@ -61,7 +61,7 @@ def feature_class_maker(name, compute_function, required_columns = []):
         new_features = self.feature_maker(edf, self.required_columns, **self.kwargs, **kwargs)
         return new_features   
 
-    def fit_transform(self, edf, **kwargs):
+    def fit_transform(self, edf, **kwargs): # pragma: no cover
         self.fit(edf, **kwargs)
         return self.transform(edf, **kwargs)
     

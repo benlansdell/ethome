@@ -179,7 +179,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import cross_val_score
 
 model = RandomForestClassifier()
-cross_val_score(model, recording.ml.features, recording.ml.labels, recordings.ml.groups)
+cross_val_score(model, recording.ml.features, recording.ml.labels, recordings.ml.group)
 ```
 
 ## 5 Perform unsupervised learning

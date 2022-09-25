@@ -1017,12 +1017,12 @@ dataset.features.add(mars,
                      featureset_name = 'MARS', 
                      add_to_features = True)
 </code></pre>
-<p>Now access a features table, labels, and groups for learning with <code>dataset.ml.features, dataset.ml.labels, dataset.ml.groups</code>. From here it's easy to use some ML libraries to predict behavior. For example:</p>
+<p>Now access a features table, labels, and groups for learning with <code>dataset.ml.features, dataset.ml.labels, dataset.ml.group</code>. From here it's easy to use some ML libraries to predict behavior. For example:</p>
 <pre><code>from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import cross_val_score
 
 model = RandomForestClassifier()
-cross_val_score(model, dataset.ml.features, dataset.ml.labels, dataset.ml.groups)
+cross_val_score(model, dataset.ml.features, dataset.ml.labels, dataset.ml.group)
 </code></pre>
 <p>Read more in the how-to guide in the docs.</p>
 

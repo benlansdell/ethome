@@ -158,13 +158,18 @@ def _validate_metadata(metadata, req_cols):
                 warnings.warn(f"Target units must be the same for all files. Not rescaling.")
                 should_rescale = False
 
+    if 0 in unit_counts:
+        del unit_counts[0]
+    if len(unit_counts) > 0:
+        target_units = list(unit_counts.keys())[0]
+    else:
+        target_units = 'mm'
+
+    if target_units not in UNIT_DICT:
+        warnings.warn(f"Units must be one of the following: {','.join(UNIT_DICT.keys())}. Not rescaling.")
+        should_rescale = False
+
     if should_rescale:
-        if 0 in unit_counts:
-            del unit_counts[0]
-        if len(unit_counts) > 1:
-            target_units = list(unit_counts.keys())[0]
-        else:
-            target_units = 'mm'
         print(f"All necessary fields provided -- rescaling to '{target_units}'")
 
     return valid, should_rescale
@@ -285,12 +290,6 @@ class EthologyFeaturesAccessor(object):
         """
         df = self._obj
 
-        if featureset_name is None:
-            try:
-                featureset_name = feature_maker.__name__
-            except AttributeError:
-                featureset_name = feature_maker.__class__.__name__
-
         if isinstance(feature_maker, str):
             if feature_maker in FEATURE_MAKERS:
                 FeatureMaker = FEATURE_MAKERS[feature_maker]
@@ -304,6 +303,12 @@ class EthologyFeaturesAccessor(object):
         if isinstance(feature_maker, types.FunctionType):
             CustomFeatureClass = feature_class_maker('CustomFeatureClass', feature_maker, required_columns)
             feature_maker = CustomFeatureClass()
+
+        if featureset_name is None:
+            try:
+                featureset_name = feature_maker.__name__
+            except AttributeError:
+                featureset_name = feature_maker.__class__.__name__
 
         new_features = feature_maker.transform(df, **kwargs)
 

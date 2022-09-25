@@ -20,7 +20,6 @@ def build_baseline_model(input_dim, layer_channels=(512, 256), dropout_rate=0.,
     if not has_keras:
         raise RuntimeError("Keras not found. Deep learning-based features are not available")
 
-    print("Building baseline 1D CNN model with parameters:")
     print(f"dropout_rate: {dropout_rate}, learning_rate: {learning_rate}, layer_channels: {layer_channels}, conv_size: {conv_size}")
 
     # def add_dense_bn_activate(model, out_dim, activation='relu', drop=0.):

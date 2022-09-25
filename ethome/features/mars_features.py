@@ -65,13 +65,8 @@ from pandas.api.types import is_numeric_dtype
 
 def boiler_plate(features_df):
     reversemap = None
-    if 'seq_id' in features_df:
-        hashmap = {k: i for (i,k) in enumerate(list(set(features_df['seq_id'])))}
-        reversemap = {i: k for (i,k) in enumerate(list(set(features_df['seq_id'])))}
-        features_df['seq_id_'] = [hashmap[i] for i in features_df['seq_id']]
-        features_df['seq_id'] = features_df['seq_id_']
 
-    to_drop = ['seq_id_', 'Unnamed: 0']
+    to_drop = ['Unnamed: 0']
     for col in to_drop:
         if col in features_df.columns:
             features_df = features_df.drop(columns = col)
@@ -286,7 +281,7 @@ def _compute_iou(df, animal_setup, n_shifts = 3, mode = 'shift'):
 #These depend on the video you're applying it to...
 #Which can change from video to video, train to test, etc. So perhaps not useful
 @augment_features()
-def _compute_cage_distances(features_df, animal_setup, n_shifts = 3, mode = 'shift'):
+def _compute_cage_distances(features_df, animal_setup, n_shifts = 3, mode = 'shift'): # pragma: no cover
 
     bodypart_ids = animal_setup['bodypart_ids']
     mouse_ids = animal_setup['mouse_ids']
@@ -434,7 +429,7 @@ def make_features_mars_reduced(df, animal_setup, n_shifts = 2, mode = 'diff'):
 
     return features_df
 
-def make_features_velocities(df, animal_setup, n_shifts = 5):
+def make_features_velocities(df, animal_setup, n_shifts = 5): # pragma: no cover
 
     bodypart_ids = animal_setup['bodypart_ids']
     mouse_ids = animal_setup['mouse_ids']

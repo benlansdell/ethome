@@ -40,12 +40,12 @@ from ethome import create_experiment, clone_metadata
 from ethome.io import get_sample_data_paths
 ```
 
-Gather the DLC and BORIS tracking and annotation files
+Gather the DLC tracking and BORIS annotation files
 ```python
 tracking_files, boris_files = get_sample_data_paths()
 ```
 
-Setup some parameters
+Setup some parameters. All fields but `fps` are optional.
 ```python
 frame_width = 20                 # (float) length of entire horizontal shot
 frame_width_units = 'in'         # (str) units frame_width is given in
@@ -53,7 +53,7 @@ fps = 30                         # (int) frames per second
 resolution = (1200, 1600)        # (tuple) HxW in pixels
 ```
 
-Create a parameter object and video dataset
+Create a parameter object and load the dataset
 ```python
 metadata = clone_metadata(tracking_files, 
                           labels = boris_files, 
@@ -72,10 +72,11 @@ Now create features on this dataset. Can use pre-built featuresets, or make your
 dataset.features.add('cnn1d_prob')
 dataset.features.add('mars')
 ```
+Other, more generic feature creation functions are provided that work for any animal configuration.
 
 (The 'mars' feature-set is designed for studying social behavior in mice, based heavily on Segalin et al. [1])
 
-Now access a features table, labels, and groups for learning with `dataset.ml.features, dataset.ml.labels, dataset.ml.group`. From here it's easy to use some ML libraries to predict behavior. For example:
+Now access a features table, labels, and groups for learning with `dataset.ml.features, dataset.ml.labels, dataset.ml.group`. From here it's easy to use some ML libraries to train a behavior classifier. For example:
 ```python
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import cross_val_score

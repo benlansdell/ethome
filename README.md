@@ -6,7 +6,7 @@
 
 Machine learning for animal behavior.
 
-Interprets pose-tracking files (currently only from DLC) and behavior annotations (currently only from BORIS) to train a behavior classifier, perform unsupervised learning, and other common analysis tasks. 
+Interprets pose-tracking files (from DLC, NWB formats) and behavior annotations (from BORIS) to train a behavior classifier, perform unsupervised learning, and other common analysis tasks. 
 
 ## Features
 
@@ -36,7 +36,6 @@ This includes matplotlib, keras, and Linderman lab's state-space model package, 
 
 Import
 ```python
-from glob import glob 
 from ethome import create_experiment, clone_metadata
 from ethome.io import get_sample_data_paths
 ```

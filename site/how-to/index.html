@@ -1190,19 +1190,19 @@ metadata = {tracking_csv : {'fps': fps, 'resolution': resolution}}
 </code></pre>
 <p>Beyond providing the <code>fps</code> for each video, all other fields are optional. </p>
 <h3 id="1a-helper-function-for-making-metadata-dictionary">1a Helper function for making metadata dictionary</h3>
-<p>Often you'll have many videos that have the same metadata, in that case you can easily create an appropriate dictionary with the helper function <code>clone_metadata</code>. Say you now have two tracking files, each with the same FPS and resolution. You can make the corresponding metadata dictionary with:</p>
+<p>Often you'll have many videos that have the same metadata, in that case you can easily create an appropriate dictionary with the helper function <code>create_metadata</code>. Say you now have two tracking files, each with the same FPS and resolution. You can make the corresponding metadata dictionary with:</p>
 <pre><code class="language-python">tracking_csvs = ['./dlc_tracking_file_1.csv', './dlc_tracking_file_2.csv']
 fps = 30
 resolution = (1200, 1600)
-metadata = clone_metadata(tracking_csvs, fps = fps, resolution = resolution)
+metadata = create_metadata(tracking_csvs, fps = fps, resolution = resolution)
 </code></pre>
 <p>The <code>metadata</code> now has two entries, one for each video, each listing the same FPS and resolution. </p>
-<p>Any keyword that is an iterable of the same length as the tracking files is zipped with the tracking files accordingly. That is, if you also have behavioral annotations provided by BORIS for each of the videos, then you should prepare a list <code>labeled_data</code> and provide that to <code>clone_metadata</code>:</p>
+<p>Any keyword that is an iterable of the same length as the tracking files is zipped with the tracking files accordingly. That is, if you also have behavioral annotations provided by BORIS for each of the videos, then you should prepare a list <code>labeled_data</code> and provide that to <code>create_metadata</code>:</p>
 <pre><code class="language-python">tracking_csvs = ['./dlc_tracking_file_1.csv', './dlc_tracking_file_2.csv']
 labeled_data = ['./boris_tracking_file_1.csv', './boris_tracking_file_2.csv']
 fps = 30
 resolution = (1200, 1600)
-metadata = clone_metadata(tracking_csvs, labels = labeled_data, fps = fps, resolution = resolution)
+metadata = create_metadata(tracking_csvs, labels = labeled_data, fps = fps, resolution = resolution)
 </code></pre>
 <p>Rather than assigning the same value (e.g. <code>fps = 30</code>) to all videos, the entry <code>labeled_data[i]</code> would then be associated with <code>tracking_csvs[i]</code>. These lists, therefore, must be sorted appropriately.</p>
 <h3 id="1b-special-fields">1b Special fields</h3>
@@ -1219,17 +1219,17 @@ metadata = clone_metadata(tracking_csvs, labels = labeled_data, fps = fps, resol
 <p>By default, all coordinates are converted to 'mm'. The pair 'units':'mm' is added to the metadata dictionary for each video. You can specify the units by providing the 'units' key yourself. Supported units include: 'mm', 'cm', 'm', 'in', 'ft'.</p>
 <h3 id="1d-making-the-data-frame">1d Making the data frame</h3>
 <p>Once you have the metadata dictionary prepared, you can easily create a <code>DataFrame</code> as:</p>
-<pre><code class="language-python">recordings = create_experiment(metadata)
+<pre><code class="language-python">recordings = create_dataset(metadata)
 </code></pre>
 <p>This creates a pandas dataframe, <code>recordings</code>, that contains pose data, and perhaps behavior annotations, from all the videos listed in <code>metadata</code>.</p>
 <p>If your DLC project named the animals some way, but you want them named another way in this dataframe, you can provide an <code>animal_renamer</code> dictionary as an argument to the constructor:</p>
-<pre><code class="language-python">recordings = create_experiment(metadata, animal_renamer={'adult': 'resident', 'juvenile':'intruder'})
+<pre><code class="language-python">recordings = create_dataset(metadata, animal_renamer={'adult': 'resident', 'juvenile':'intruder'})
 </code></pre>
 <p>Similarly with the body parts -- you can provide a <code>part_renamer</code> dictionary.</p>
 <h3 id="1e-metadata">1e Metadata</h3>
 <p>When <code>recordings</code> is created, additional metadata is computed and accessible via:
 * <code>recordings.metadata</code> houses the following attributes:
-    * <code>details</code>: the metadata dictionary given to create_experiment
+    * <code>details</code>: the metadata dictionary given to create_dataset
     * <code>videos</code>: list of videos given in <code>metadata</code>
     * <code>n_videos</code>: number of videos in DataFrame
     * <code>label_key</code>: associates numbers with text labels for each behavior
@@ -1252,7 +1252,7 @@ metadata = clone_metadata(tracking_csvs, labels = labeled_data, fps = fps, resol
 </code></pre>
 <p>This will compute and add the distances between all body parts of all animals.</p>
 <h3 id="3a-in-built-support-for-resident-intruder-setup">3a In-built support for resident-intruder setup</h3>
-<p>First, if your setup is a social mouse study, involving two mice, similar enough to the standard resident-intruder setup, then you can use some pre-designed feature sets. The body parts that are tracked must be those from the MARS dataset (See figure). You will have to have labeled and tracked your mice in DLC in the same way. (with the same animal and body part names -- those <code>ethome</code>'s <code>create_experiment</code> function can rename them appropriately)</p>
+<p>First, if your setup is a social mouse study, involving two mice, similar enough to the standard resident-intruder setup, then you can use some pre-designed feature sets. The body parts that are tracked must be those from the MARS dataset (See figure). You will have to have labeled and tracked your mice in DLC in the same way. (with the same animal and body part names -- those <code>ethome</code>'s <code>create_dataset</code> function can rename them appropriately)</p>
 <p>The <code>cnn1d_prob</code>, <code>mars</code>, <code>mars_reduced</code> and <code>social</code> functions can be used to make features for this setup. </p>
 <ul>
 <li><code>cnn1d_prob</code> runs a 1D CNN and outputs prediction probabilities of three behaviors (attack, mount, and investigation). Even if you're not interested in these exact behaviors, they may still be useful for predicting the occurance of other behaviors, as part of an ensemble model. </li>
@@ -1321,7 +1321,7 @@ cross_val_score(model, recording.ml.features, recording.ml.labels, recordings.ml
 <h2 id="8-summary-and-reference-list-of-added-functionality-by-ethome">8 Summary and reference list of added functionality by <code>ethome</code></h2>
 <p>For reference, the metadata and added functions added to the dataframe are:
 * <code>recordings.metadata</code>, which houses
-    * <code>details</code>: the metadata dictionary given to create_experiment
+    * <code>details</code>: the metadata dictionary given to create_dataset
     * <code>videos</code>: list of videos given in <code>metadata</code>
     * <code>n_videos</code>: number of videos in DataFrame
     * <code>label_key</code>: associates numbers with text labels for each behavior

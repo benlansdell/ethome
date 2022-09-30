@@ -46,7 +46,7 @@ def _add_items_to_dict(tracking_files, metadata, k, items):
     for fn, item in zip(tracking_files, items):
         metadata[fn][k] = item
 
-def clone_metadata(tracking_files : list, **kwargs) -> dict:
+def create_metadata(tracking_files : list, **kwargs) -> dict:
     """
     Prepare a metadata dictionary for defining a ExperimentDataFrame. 
 
@@ -581,7 +581,7 @@ class EthologyIOAccessor(object):
     #        pickle.dump(self, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
 
-def create_experiment(metadata : dict, 
+def create_dataset(metadata : dict, 
                      label_key : dict = None, 
                      part_renamer : dict = None,
                      animal_renamer : dict = None) -> pd.DataFrame:
@@ -589,7 +589,7 @@ def create_experiment(metadata : dict,
 
     Args:
         metadata: Dictionary whose keys are DLC tracking csvs, and value is a dictionary of associated metadata
-            for that video. Most easiest to create with 'clone_metadata'. 
+            for that video. Most easiest to create with 'create_metadata'. 
             Required keys are: ['fps']
         label_key: Default None. Dictionary whose keys are positive integers and values are behavior labels. If none, then this is inferred from the behavior annotation files provided.  
         part_renamer: Default None. Dictionary that can rename body parts from tracking files if needed (for feature creation, e.g.)
@@ -731,12 +731,12 @@ def get_sample_openfield_data():
     fps = 30                         # (int) frames per second
     resolution = (480, 640)          # (tuple) HxW in pixels
     #Metadata is a dictionary that attaches each of the above parameters to the video/behavior annotations
-    metadata = clone_metadata(tracking_files, 
+    metadata = create_metadata(tracking_files, 
                             video_files = video_files,
                             fps = fps, 
                             resolution = resolution)
 
-    return create_experiment(metadata)
+    return create_dataset(metadata)
 
 def _make_dense_values_into_pairs(predictions, rate): # pragma: no cover
     #Put into start/stop pairs

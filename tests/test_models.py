@@ -3,7 +3,7 @@
 #####################
 
 import pytest
-from ethome import clone_metadata, interpolate_lowconf_points, video
+from ethome import create_metadata, interpolate_lowconf_points, video
 import pandas as pd
 
 #Metadata is a dictionary

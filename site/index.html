@@ -980,7 +980,7 @@ pip install ethome-ml[all]
 <h2 id="quickstart">Quickstart</h2>
 <p>Import</p>
 <pre><code>from glob import glob 
-from ethome import create_experiment, clone_metadata
+from ethome import create_dataset, create_metadata
 from ethome.features import CNN1DProb, MARS
 from ethome.io import get_sample_data_paths
 </code></pre>
@@ -994,7 +994,7 @@ fps = 30                         # (int) frames per second
 resolution = (1200, 1600)        # (tuple) HxW in pixels
 </code></pre>
 <p>Create a parameter object and video dataset</p>
-<pre><code>metadata = clone_metadata(tracking_files, 
+<pre><code>metadata = create_metadata(tracking_files, 
                           labels = boris_files, 
                           frame_width = frame_width, 
                           fps = fps, 
@@ -1003,7 +1003,7 @@ resolution = (1200, 1600)        # (tuple) HxW in pixels
 
 animal_renamer = {'adult': 'resident', 'juvenile':'intruder'}
 
-dataset = create_experiment(metadata, animal_renamer=animal_renamer)
+dataset = create_dataset(metadata, animal_renamer=animal_renamer)
 </code></pre>
 <p>Now create features on this dataset. Feature creation objects are class instances, similar to sk-learn:</p>
 <pre><code>cnn_probabilities = CNN1DProb()

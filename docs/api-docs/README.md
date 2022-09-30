@@ -150,8 +150,8 @@
 - [`unsupervised.compute_tsne_embedding`](./unsupervised.md#function-compute_tsne_embedding): Compute TSNE embedding. Only for a random subset of rows.
 - [`unsupervised.compute_watershed`](./unsupervised.md#function-compute_watershed): Compute watershed clustering of a density matrix. 
 - [`utils.checkFFMPEG`](./utils.md#function-checkffmpeg): Check for ffmpeg dependencies
-- [`video.clone_metadata`](./video.md#function-clone_metadata): Prepare a metadata dictionary for defining a ExperimentDataFrame. 
-- [`video.create_experiment`](./video.md#function-create_experiment): Houses DLC tracking data and behavior annotations in pandas DataFrame for ML, along with relevant metadata, features and behavior annotation labels.
+- [`video.create_metadata`](./video.md#function-create_metadata): Prepare a metadata dictionary for defining a ExperimentDataFrame. 
+- [`video.create_dataset`](./video.md#function-create_dataset): Houses DLC tracking data and behavior annotations in pandas DataFrame for ML, along with relevant metadata, features and behavior annotation labels.
 - [`video.get_sample_openfield_data`](./video.md#function-get_sample_openfield_data): Load a sample dataset of 1 mouse in openfield setup. The video is the sample that comes with DLC.
 - [`video.load_experiment`](./video.md#function-load_experiment): Load DataFrame from file.
 

@@ -14,3 +14,4 @@ matplotlib
 umap-learn
 scikit-image
 dill
+pynwb

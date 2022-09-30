@@ -36,7 +36,7 @@ This includes matplotlib, keras, and Linderman lab's state-space model package, 
 
 Import
 ```python
-from ethome import create_experiment, clone_metadata
+from ethome import create_dataset, create_metadata
 from ethome.io import get_sample_data_paths
 ```
 
@@ -55,16 +55,14 @@ resolution = (1200, 1600)        # (tuple) HxW in pixels
 
 Create a parameter object and load the dataset
 ```python
-metadata = clone_metadata(tracking_files, 
+metadata = create_metadata(tracking_files, 
                           labels = boris_files, 
                           frame_width = frame_width, 
                           fps = fps, 
                           frame_width_units = frame_width_units, 
                           resolution = resolution)
 
-animal_renamer = {'adult': 'resident', 'juvenile':'intruder'}
-
-dataset = create_experiment(metadata, animal_renamer=animal_renamer)
+dataset = create_dataset(metadata)
 ```
 
 Now create features on this dataset. Can use pre-built featuresets, or make your own. Here are two that work with a mouse resident-intruder setup:
@@ -74,7 +72,7 @@ dataset.features.add('mars')
 ```
 Other, more generic feature creation functions are provided that work for any animal configuration.
 
-(The 'mars' feature-set is designed for studying social behavior in mice, based heavily on Segalin et al. [1])
+(The 'mars' feature-set is designed for studying social behavior in mice, based heavily on the MARS framework Segalin et al. [1])
 
 Now access a features table, labels, and groups for learning with `dataset.ml.features, dataset.ml.labels, dataset.ml.group`. From here it's easy to use some ML libraries to train a behavior classifier. For example:
 ```python
@@ -85,7 +83,18 @@ model = RandomForestClassifier()
 cross_val_score(model, dataset.ml.features, dataset.ml.labels, groups = dataset.ml.group)
 ```
 
-Read more in the how-to guide in the docs.
+The `dataset` object is just an extended Pandas dataframe, so can be treated as such. E.g.
+```python
+predictions = cross_val_predict(model, dataset.ml.features, dataset.ml.labels, groups = dataset.ml.group)
+dataset['prediction'] = predictions
+```
+
+If the raw video files were provided in the metadata, under the `video` key, we can make a movie overlaying these predictions over the original video
+```python
+dataset.io.save_movie(['label', 'prediction'], '.')
+```
+
+A more detailed run through of features is provided in the how-to guide.
 
 ## References
 

@@ -29,10 +29,10 @@ If any of the provided parameters are provided, but are not the right format, or
 
 <a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L47"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
-## <kbd>function</kbd> `clone_metadata`
+## <kbd>function</kbd> `create_metadata`
 
 ```python
-clone_metadata(tracking_files: list, **kwargs) → dict
+create_metadata(tracking_files: list, **kwargs) → dict
 ```
 
 Prepare a metadata dictionary for defining a ExperimentDataFrame.  
@@ -58,10 +58,10 @@ Any other keyword argument must be either a non-iterable object (e.g. a scalar p
 
 <a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L459"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
-## <kbd>function</kbd> `create_experiment`
+## <kbd>function</kbd> `create_dataset`
 
 ```python
-create_experiment(
+create_dataset(
     metadata: dict,
     label_key: dict = None,
     part_renamer: dict = None,
@@ -75,7 +75,7 @@ Houses DLC tracking data and behavior annotations in pandas DataFrame for ML, al
 
 **Args:**
  
- - <b>`metadata`</b>:  Dictionary whose keys are DLC tracking csvs, and value is a dictionary of associated metadata  for that video. Most easiest to create with 'clone_metadata'.  
+ - <b>`metadata`</b>:  Dictionary whose keys are DLC tracking csvs, and value is a dictionary of associated metadata  for that video. Most easiest to create with 'create_metadata'.  
  - <b>`Required keys are`</b>:  ['fps'] 
  - <b>`label_key`</b>:  Default None. Dictionary whose keys are positive integers and values are behavior labels. If none, then this is inferred from the behavior annotation files provided.   
  - <b>`part_renamer`</b>:  Default None. Dictionary that can rename body parts from tracking files if needed (for feature creation, e.g.) 

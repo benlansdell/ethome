@@ -37,7 +37,7 @@ This includes matplotlib, keras, and Linderman lab's state-space model package, 
 Import
 ```python
 from glob import glob 
-from ethome import create_experiment, clone_metadata
+from ethome import create_dataset, create_metadata
 from ethome.io import get_sample_data_paths
 ```
 
@@ -56,7 +56,7 @@ resolution = (1200, 1600)        # (tuple) HxW in pixels
 
 Create a parameter object and video dataset
 ```python
-metadata = clone_metadata(tracking_files, 
+metadata = create_metadata(tracking_files, 
                           labels = boris_files, 
                           frame_width = frame_width, 
                           fps = fps, 
@@ -65,7 +65,7 @@ metadata = clone_metadata(tracking_files,
 
 animal_renamer = {'adult': 'resident', 'juvenile':'intruder'}
 
-dataset = create_experiment(metadata, animal_renamer=animal_renamer)
+dataset = create_dataset(metadata, animal_renamer=animal_renamer)
 ```
 
 Now create features on this dataset. Can use pre-built featuresets, or make your own. Here are two that work with a mouse resident-intruder setup:

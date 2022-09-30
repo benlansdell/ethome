@@ -26,9 +26,9 @@ def metadata_params():
 
 @pytest.fixture()
 def metadata(tracking_files, labels, metadata_params):
-    from ethome import clone_metadata
+    from ethome import create_metadata
 
-    metadata = clone_metadata(tracking_files, 
+    metadata = create_metadata(tracking_files, 
                               labels = labels, 
                               frame_width = metadata_params['frame_width'], 
                               fps = metadata_params['fps'], 
@@ -38,9 +38,9 @@ def metadata(tracking_files, labels, metadata_params):
 
 @pytest.fixture()
 def dataset(metadata):
-    from ethome import create_experiment
+    from ethome import create_dataset
     animal_renamer = {'adult': 'resident', 'juvenile': 'intruder'}
-    edf = create_experiment(metadata, animal_renamer=animal_renamer)
+    edf = create_dataset(metadata, animal_renamer=animal_renamer)
     return edf
 
 @pytest.fixture()

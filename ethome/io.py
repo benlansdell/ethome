@@ -7,6 +7,7 @@ from joblib import dump, load
 import os
 from glob import glob
 import warnings
+from pynwb import NWBHDF5IO
 
 XY_IDS = ['x', 'y']
 XYLIKELIHOOD_IDS = ['x', 'y', 'likelihood']
@@ -66,6 +67,12 @@ def read_DLC_tracks(fn_in : str,
     """
 
     df = pd.read_csv(fn_in, header = [0,1,2,3], index_col = 0)
+    return _read_DLC_tracks(df, fn_in, part_renamer, animal_renamer, read_likelihoods)
+
+def _read_DLC_tracks(df : pd.DataFrame, 
+                    part_renamer : dict = None, 
+                    animal_renamer : dict = None,
+                    read_likelihoods : bool = True) -> tuple:
 
     if 'individuals' in df.columns.names:
         df.columns = df.columns.set_names(['scorer', 'individuals', 'bodyparts', 'coords'])
@@ -131,6 +138,83 @@ def read_DLC_tracks(fn_in : str,
 
     return final_df, body_parts, animals, colnames, scorer
 
+## This function is from DLC2NWB package: https://github.com/DeepLabCut/DLC2NWB/blob/10331daa1bfadb9c19d2e4957aa8752d74d5759b/dlc2nwb/utils.py#L307 
+#It's available under the following license:
+# MIT License
+
+# Copyright (c) 2021- DeepLabCut
+
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
+def _convert_nwb_to_h5(nwbfile):
+    """
+    Convert a NWB data file back to DeepLabCut's h5 data format.
+    Parameters
+    ----------
+    nwbfile : str
+        Path to the newly created NWB data file
+    Returns
+    -------
+    df : pandas.array
+        Pandas multi-column array containing predictions in DLC format.
+    """
+    with NWBHDF5IO(nwbfile, mode="r", load_namespaces=True) as io:
+        read_nwbfile = io.read()
+        read_pe = read_nwbfile.processing["behavior"]["PoseEstimation"]
+        scorer = read_pe.scorer or "scorer"
+        dfs = []
+        for node in read_pe.nodes:
+            pes = read_pe.pose_estimation_series[node]
+            animal, kpt = node.split("_")
+            array = np.c_[pes.data, pes.confidence]
+            cols = pd.MultiIndex.from_product(
+                [[scorer], [animal], [kpt], ["x", "y", "likelihood"]],
+                names=["scorer", "individuals", "bodyparts", "coords"],
+            )
+            dfs.append(
+                pd.DataFrame(array, np.asarray(pes.timestamps).astype(int), cols)
+            )
+    df = pd.concat(dfs, axis=1)
+    return df
+
+def read_NWB_tracks(fn_in : str, 
+                    part_renamer : dict = None, 
+                    animal_renamer : dict = None,
+                    read_likelihoods : bool = True) -> tuple:
+    """Read in tracks from NWB PoseEstimiationSeries format (something saved using the DLC2NWB package).
+
+    Args:
+        fn_in: nwb file that has the tracking information
+        part_renamer: dictionary to rename body parts, if needed 
+        animal_renamer: dictionary to rename animals, if needed
+        read_likelihoods: default True. Whether to attach DLC likelihoods to table
+
+    Returns:
+        Pandas DataFrame with (n_animals*2*n_body_parts) columns plus with filename and frame, 
+            List of body parts,
+            List of animals,
+            Columns names for pose tracks (excluding likelihoods, if read in),
+            Scorer
+    """
+    df = _convert_nwb_to_h5(fn_in)
+    return _read_DLC_tracks(df, part_renamer, animal_renamer, read_likelihoods)
+
 def save_DLC_tracks_h5(df : pd.DataFrame, fn_out : str) -> None: # pragma: no cover
     """Save DLC tracks in h5 format.
     
@@ -155,7 +239,7 @@ def load_data(fn : str): # pragma: no cover
 
 #Only used to making a test dataframe for testing and dev purposes
 def _make_sample_dataframe(fn_out = 'sample_dataframe.pkl'): # pragma: no cover
-    from ethome import create_experiment, clone_metadata
+    from ethome import create_dataset, create_metadata
 
     cur_dir = os.path.dirname(os.path.abspath(__file__))
     tracking_files = sorted(glob(cur_dir + '/data/dlc/*.csv'))
@@ -164,14 +248,14 @@ def _make_sample_dataframe(fn_out = 'sample_dataframe.pkl'): # pragma: no cover
     frame_width_units = None         # (str) units frame_width is given in
     fps = 30                         # (int) frames per second
     resolution = (1200, 1600)        # (tuple) HxW in pixels
-    metadata = clone_metadata(tracking_files, 
+    metadata = create_metadata(tracking_files, 
                           labels = boris_files, 
                           frame_width = frame_width, 
                           fps = fps, 
                           frame_width_units = frame_width_units, 
                           resolution = resolution)
 
-    dataset = create_experiment(metadata)
+    dataset = create_dataset(metadata)
     path_out = os.path.join(cur_dir, 'data', fn_out)
     to_save = {'dataset': dataset, 'metadata': metadata}
     with open(path_out, 'wb') as handle:

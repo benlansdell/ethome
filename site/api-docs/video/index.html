@@ -493,15 +493,15 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#function-clone_metadata" class="md-nav__link">
-    function clone_metadata
+  <a href="#function-create_metadata" class="md-nav__link">
+    function create_metadata
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#function-create_experiment" class="md-nav__link">
-    function create_experiment
+  <a href="#function-create_dataset" class="md-nav__link">
+    function create_dataset
   </a>
   
 </li>
@@ -1191,15 +1191,15 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#function-clone_metadata" class="md-nav__link">
-    function clone_metadata
+  <a href="#function-create_metadata" class="md-nav__link">
+    function create_metadata
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#function-create_experiment" class="md-nav__link">
-    function create_experiment
+  <a href="#function-create_dataset" class="md-nav__link">
+    function create_dataset
   </a>
   
 </li>
@@ -1482,8 +1482,8 @@
 </ul>
 <hr />
 <p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L47"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
-<h2 id="function-clone_metadata"><kbd>function</kbd> <code>clone_metadata</code></h2>
-<pre><code class="language-python">clone_metadata(tracking_files: list, **kwargs) → dict
+<h2 id="function-create_metadata"><kbd>function</kbd> <code>create_metadata</code></h2>
+<pre><code class="language-python">create_metadata(tracking_files: list, **kwargs) → dict
 </code></pre>
 <p>Prepare a metadata dictionary for defining a ExperimentDataFrame.  </p>
 <p>Only required argument is list of DLC tracking file names.  </p>
@@ -1497,8 +1497,8 @@
  Dictionary whose keys are DLC tracking file names, and contains a dictionary with key,values containing the metadata provided </p>
 <hr />
 <p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L459"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
-<h2 id="function-create_experiment"><kbd>function</kbd> <code>create_experiment</code></h2>
-<pre><code class="language-python">create_experiment(
+<h2 id="function-create_dataset"><kbd>function</kbd> <code>create_dataset</code></h2>
+<pre><code class="language-python">create_dataset(
     metadata: dict,
     label_key: dict = None,
     part_renamer: dict = None,
@@ -1508,7 +1508,7 @@
 <p>Houses DLC tracking data and behavior annotations in pandas DataFrame for ML, along with relevant metadata, features and behavior annotation labels. </p>
 <p><strong>Args:</strong></p>
 <ul>
-<li><b><code>metadata</code></b>:  Dictionary whose keys are DLC tracking csvs, and value is a dictionary of associated metadata  for that video. Most easiest to create with 'clone_metadata'.  </li>
+<li><b><code>metadata</code></b>:  Dictionary whose keys are DLC tracking csvs, and value is a dictionary of associated metadata  for that video. Most easiest to create with 'create_metadata'.  </li>
 <li><b><code>Required keys are</code></b>:  ['fps'] </li>
 <li><b><code>label_key</code></b>:  Default None. Dictionary whose keys are positive integers and values are behavior labels. If none, then this is inferred from the behavior annotation files provided.   </li>
 <li><b><code>part_renamer</code></b>:  Default None. Dictionary that can rename body parts from tracking files if needed (for feature creation, e.g.) </li>

@@ -6,7 +6,7 @@
 
 Machine learning for animal behavior.
 
-Interprets pose-tracking files (from DLC, NWB formats) and behavior annotations (from BORIS) to train a behavior classifier, perform unsupervised learning, and other common analysis tasks. 
+Interprets pose-tracking files (from DLC, NWB formats) and behavior annotations (from BORIS, NWB formats) to train a behavior classifier, perform unsupervised learning, and other common analysis tasks. 
 
 ## Features
 

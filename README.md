@@ -63,12 +63,11 @@ metadata = create_metadata(tracking_files,
 
 dataset = create_dataset(metadata)
 ```
-`dataset` is an extended pandas DataFrame, so can be treated exactly as you would any other dataframe. But it adds for instance metadata about the pose:
+`dataset` is an extended pandas DataFrame, so can be treated exactly as you would any other dataframe. But it adds a bunch of metadata about the pose, for instance:
 ```
 dataset.pose.body_parts
 ```
-
-And also it adds the ability to easily create features on this dataset. Can use pre-built featuresets, or make your own. Here are two that work with a mouse resident-intruder setup:
+It also adds the ability to easily create features for machine learning. Can use pre-built featuresets, or make your own. Here are two that work with a mouse resident-intruder setup:
 ```python
 dataset.features.add('cnn1d_prob')
 dataset.features.add('mars')

@@ -52,7 +52,7 @@ fps = 30                         # (int) frames per second
 resolution = (1200, 1600)        # (tuple) HxW in pixels
 ```
 
-Create a parameter object and load the dataset
+Create a metadata dictionary and use it to load the dataset
 ```python
 metadata = create_metadata(tracking_files, 
                            labels = boris_files, 

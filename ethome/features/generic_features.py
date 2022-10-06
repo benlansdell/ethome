@@ -140,6 +140,34 @@ def compute_centerofmass_velocity(df : pd.DataFrame, raw_col_names : list, n_shi
     features_df = features_df.drop(columns = orig_cols)
     return features_df
 
+# def compute_part_velocity(df : pd.DataFrame, raw_col_names : list, n_shifts = 5, bodyparts : list = [], **kwargs) -> pd.DataFrame:
+
+#     animal_setup = df.pose.animal_setup
+
+#     if len(bodyparts) == 0:
+#         bodypart_ids = animal_setup['bodypart_ids']
+#     else:
+#         bodypart_ids = [v for v in bodyparts if v in animal_setup['bodypart_ids']]
+#     if len(bodypart_ids) == 0:
+#         raise ValueError('No listed bodyparts found in animal_setup')
+
+#     mouse_ids = animal_setup['mouse_ids']
+
+#     features_df = df.copy()
+#     orig_cols = df.columns
+
+#     dt = features_df['time'].diff(periods = n_shifts)
+
+#     for animal_id in mouse_ids:
+#         fxs = ['_'.join([animal_id, 'x', bp]) for bp in bodypart_ids]
+#         fys = ['_'.join([animal_id, 'y', bp]) for bp in bodypart_ids]
+#         fx_new = '_'.join([animal_id, 'COM_vel_x'])
+#         fy_new = '_'.join([animal_id, 'COM_vel_y'])
+#         features_df[fx_new] = _diff_within_group(features_df, 'filename', fx_new, periods = n_shifts)/dt
+#         features_df[fy_new] = _diff_within_group(features_df, 'filename', fy_new, periods = n_shifts)/dt
+
+#     features_df = features_df.drop(columns = orig_cols)
+#     return features_df
 
 def compute_speed_features(df : pd.DataFrame, raw_col_names : list, n_shifts = 5, **kwargs) -> pd.DataFrame:
 

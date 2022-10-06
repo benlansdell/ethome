@@ -26,7 +26,7 @@ import types
 from glob import glob
 from sklearn.model_selection import PredefinedSplit
 
-from ethome.io import read_DLC_tracks, read_boris_annotation, uniquifier, create_behavior_labels
+from ethome.io import read_DLC_tracks, read_boris_annotation, uniquifier, create_behavior_labels, read_NWB_tracks
 from ethome.utils import checkFFMPEG
 from ethome.config import global_config
 from ethome.features import feature_class_maker, FEATURE_MAKERS
@@ -424,10 +424,10 @@ class EthologyMLAccessor(object):
     @property
     def features(self):
         df = self._obj
-        if not df.features.active:
-            return None
-        else:
+        if df.features.active is not None:
             return df[df.features.active].to_numpy()
+        else:
+            return None
 
     @property
     def labels(self):
@@ -581,7 +581,7 @@ class EthologyIOAccessor(object):
     #        pickle.dump(self, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
 
-def create_dataset(metadata : dict, 
+def create_dataset(metadata : dict = None, 
                      label_key : dict = None, 
                      part_renamer : dict = None,
                      animal_renamer : dict = None) -> pd.DataFrame:
@@ -598,6 +598,7 @@ def create_dataset(metadata : dict,
     Returns:
         DataFrame object. This is a pandas DataFrame with additional metadata and methods.
     """
+
     req_cols = ['fps']
 
     df = pd.DataFrame()
@@ -633,7 +634,12 @@ def _load_dlc_tracks(df, part_renamer, animal_renamer, rescale = False):
     col_names_old = None
     #Go through each video file and load DLC tracks
     for fn in df.metadata.details.keys():
-        df_fn, body_parts, animals, col_names, scorer = read_DLC_tracks(fn, 
+        if fn.split('.')[-1] == 'nwb':
+            df_fn, body_parts, animals, col_names, scorer = read_NWB_tracks(fn, 
+                                                                        part_renamer, 
+                                                                        animal_renamer)
+        else:
+            df_fn, body_parts, animals, col_names, scorer = read_DLC_tracks(fn, 
                                                                         part_renamer, 
                                                                         animal_renamer)
         n_rows = len(df_fn)

@@ -1,5 +1,5 @@
 [![codecov](https://codecov.io/gh/benlansdell/ethome/branch/master/graph/badge.svg?token=IJ0JJBOGGS)](https://codecov.io/gh/benlansdell/ethome)
-![tests](https://github.com/benlansdell/ethome/actions/workflows/workflow.yml/badge.svg)
+![build](https://github.com/benlansdell/ethome/actions/workflows/workflow.yml/badge.svg)
 [![PyPI version](https://badge.fury.io/py/ethome-ml.svg)](https://badge.fury.io/py/ethome-ml)
 
 # Ethome
@@ -26,11 +26,10 @@ pip install ethome-ml
 Can install optional extras with:
 
 ```
-pip install numpy, cython
 pip install ethome-ml[all]
 ```
 
-This includes matplotlib, keras, and Linderman lab's state-space model package, [ssm](https://github.com/lindermanlab/ssm). Note that installing ssm requires cython and numpy for the build, so must be already present in the environment. 
+This includes matplotlib and keras. 
 
 ## Quickstart
 
@@ -45,7 +44,7 @@ Gather the DLC tracking and BORIS annotation files
 tracking_files, boris_files = get_sample_data_paths()
 ```
 
-Setup some parameters. All fields but `fps` are optional.
+Provide some metadata. All fields but `fps` are optional.
 ```python
 frame_width = 20                 # (float) length of entire horizontal shot
 frame_width_units = 'in'         # (str) units frame_width is given in
@@ -56,11 +55,11 @@ resolution = (1200, 1600)        # (tuple) HxW in pixels
 Create a parameter object and load the dataset
 ```python
 metadata = create_metadata(tracking_files, 
-                          labels = boris_files, 
-                          frame_width = frame_width, 
-                          fps = fps, 
-                          frame_width_units = frame_width_units, 
-                          resolution = resolution)
+                           labels = boris_files, 
+                           frame_width = frame_width, 
+                           fps = fps, 
+                           frame_width_units = frame_width_units, 
+                           resolution = resolution)
 
 dataset = create_dataset(metadata)
 ```
@@ -85,11 +84,12 @@ cross_val_score(model, dataset.ml.features, dataset.ml.labels, groups = dataset.
 
 The `dataset` object is just an extended Pandas dataframe, so can be treated as such. E.g.
 ```python
+from sklearn.model_selection import cross_val_predict
 predictions = cross_val_predict(model, dataset.ml.features, dataset.ml.labels, groups = dataset.ml.group)
 dataset['prediction'] = predictions
 ```
 
-If the raw video files were provided in the metadata, under the `video` key, we can make a movie overlaying these predictions over the original video
+If the raw video file paths are provided in the metadata, under the `video` key, we can make a movie overlaying these predictions over the original video
 ```python
 dataset.io.save_movie(['label', 'prediction'], '.')
 ```

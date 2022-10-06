@@ -49,7 +49,8 @@ def load_sklearn_model(fn_in): # pragma: no cover
 def read_DLC_tracks(fn_in : str, 
                     part_renamer : dict = None, 
                     animal_renamer : dict = None,
-                    read_likelihoods : bool = True) -> tuple:
+                    read_likelihoods : bool = True,
+                    labels : pd.DataFrame = None) -> tuple:
     """Read in tracks from DLC.
 
     Args:
@@ -67,12 +68,14 @@ def read_DLC_tracks(fn_in : str,
     """
 
     df = pd.read_csv(fn_in, header = [0,1,2,3], index_col = 0)
-    return _read_DLC_tracks(df, fn_in, part_renamer, animal_renamer, read_likelihoods)
+    return _read_DLC_tracks(df, fn_in, part_renamer, animal_renamer, read_likelihoods, labels)
 
 def _read_DLC_tracks(df : pd.DataFrame, 
-                    part_renamer : dict = None, 
-                    animal_renamer : dict = None,
-                    read_likelihoods : bool = True) -> tuple:
+                     fn_in : str,
+                     part_renamer : dict = None, 
+                     animal_renamer : dict = None,
+                     read_likelihoods : bool = True,
+                     labels : pd.DataFrame = None) -> tuple:
 
     if 'individuals' in df.columns.names:
         df.columns = df.columns.set_names(['scorer', 'individuals', 'bodyparts', 'coords'])
@@ -136,6 +139,11 @@ def _read_DLC_tracks(df : pd.DataFrame,
     final_df['filename'] = fn_in
     final_df['frame'] = final_df.index.copy()
 
+    if labels is not None:
+        labels.index = final_df.index
+        final_df = pd.concat((final_df, labels), axis = 1)
+        final_df = final_df.rename(columns = {k:k[0] for k in labels.columns})
+
     return final_df, body_parts, animals, colnames, scorer
 
 ## This function is from DLC2NWB package: https://github.com/DeepLabCut/DLC2NWB/blob/10331daa1bfadb9c19d2e4957aa8752d74d5759b/dlc2nwb/utils.py#L307 
@@ -162,6 +170,9 @@ def _read_DLC_tracks(df : pd.DataFrame,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+# Note this only works with nwb files that were saved by DLC's nwb export function
+
+#For things exported directly from DLC2NWB
 def _convert_nwb_to_h5(nwbfile):
     """
     Convert a NWB data file back to DeepLabCut's h5 data format.
@@ -176,7 +187,11 @@ def _convert_nwb_to_h5(nwbfile):
     """
     with NWBHDF5IO(nwbfile, mode="r", load_namespaces=True) as io:
         read_nwbfile = io.read()
-        read_pe = read_nwbfile.processing["behavior"]["PoseEstimation"]
+        try:
+            read_pe = read_nwbfile.processing["behavior"]["PoseEstimation"]
+        except KeyError:
+            warnings.warn("Multiple PoseEstimation modules found, loading each as a different anmial.")
+            return _convert_nwb_to_h5_all(nwbfile)
         scorer = read_pe.scorer or "scorer"
         dfs = []
         for node in read_pe.nodes:
@@ -191,7 +206,82 @@ def _convert_nwb_to_h5(nwbfile):
                 pd.DataFrame(array, np.asarray(pes.timestamps).astype(int), cols)
             )
     df = pd.concat(dfs, axis=1)
-    return df
+    return df, None
+
+def _convert_nwb_to_h5_all(nwbfile):
+    """
+    Convert a NWB data file back to DeepLabCut's h5 data format.
+    Parameters
+    ----------
+    nwbfile : str
+        Path to the newly created NWB data file
+    Returns
+    -------
+    df : pandas.array
+        Pandas multi-column array containing predictions in DLC format.
+    """
+
+    only_load = 'raw_position_whisker_C2'
+
+    with NWBHDF5IO(nwbfile, mode="r", load_namespaces=True) as io:
+        read_nwbfile = io.read()
+        #read_pe = read_nwbfile.processing["behavior"]["PoseEstimation"]
+
+        object_keys = read_nwbfile.processing["behavior"].data_interfaces.keys()
+        objects = [read_nwbfile.processing["behavior"].data_interfaces[k] for \
+                    k in object_keys if 'PoseEstimation' in str(type(read_nwbfile.processing["behavior"].data_interfaces[k]))]
+
+        object_dfs = []
+        for read_pe in objects:
+            scorer = read_pe.scorer or "scorer"
+            dfs = []
+            animal = read_pe.name
+            if animal != only_load:
+                continue
+            for node in read_pe.nodes:
+                pes = read_pe.pose_estimation_series[node]
+                _, kpt = node.split("_")
+                array = np.c_[pes.data, pes.confidence]
+                cols = pd.MultiIndex.from_product(
+                    [[scorer], [animal], [kpt], ["x", "y", "likelihood"]],
+                    names=["scorer", "individuals", "bodyparts", "coords"],
+                )
+                dfs.append(
+                    #pd.DataFrame(array, np.asarray(pes.timestamps).astype(int), cols)
+                    pd.DataFrame(array, np.around(np.asarray(pes.timestamps), 3), cols)
+                )
+            object_dfs.append(pd.concat(dfs, axis=1))
+        df = pd.concat(object_dfs, axis=1)
+
+        ##Read in behavior labels
+        object_keys = read_nwbfile.processing["behavior"].data_interfaces.keys()
+        objects = [read_nwbfile.processing["behavior"].data_interfaces[k] for \
+                    k in object_keys if 'epoch.TimeIntervals' in str(type(read_nwbfile.processing["behavior"].data_interfaces[k]))]
+        new_df = df.copy()
+
+        cols = []
+        for read_pe in objects:
+            name = read_pe.name
+            col = 'annotation_' + name
+            cols.append(col)
+            new_df[col] = 0
+            start_times = read_pe.start_time[:]
+            stop_times = read_pe.stop_time[:]
+            pairs = sorted(zip(start_times, stop_times))
+            for idx, time in enumerate(new_df.index):
+                if len(pairs) == 0: break 
+                if time >= pairs[0][0] and time <= pairs[0][1]:
+                    new_df.loc[time,col] = 1
+                elif time > pairs[0][1]:
+                    pairs.pop(0)
+            
+        new_df = new_df[cols]
+
+    #print(new_df.index)
+    #print(new_df)
+
+    return df, new_df
+
 
 def read_NWB_tracks(fn_in : str, 
                     part_renamer : dict = None, 
@@ -212,8 +302,8 @@ def read_NWB_tracks(fn_in : str,
             Columns names for pose tracks (excluding likelihoods, if read in),
             Scorer
     """
-    df = _convert_nwb_to_h5(fn_in)
-    return _read_DLC_tracks(df, part_renamer, animal_renamer, read_likelihoods)
+    df, df_labels = _convert_nwb_to_h5(fn_in)
+    return _read_DLC_tracks(df, fn_in, part_renamer, animal_renamer, read_likelihoods, df_labels)
 
 def save_DLC_tracks_h5(df : pd.DataFrame, fn_out : str) -> None: # pragma: no cover
     """Save DLC tracks in h5 format.

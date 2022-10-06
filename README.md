@@ -6,7 +6,7 @@
 
 Machine learning for animal behavior.
 
-Interprets pose-tracking files (from DLC, NWB formats) and behavior annotations (from BORIS) to train a behavior classifier, perform unsupervised learning, and other common analysis tasks. 
+Interprets pose-tracking files (from DLC, NWB formats) and behavior annotations (from BORIS, NWB formats) to train a behavior classifier, perform unsupervised learning, and other common analysis tasks. 
 
 ## Features
 
@@ -63,8 +63,12 @@ metadata = create_metadata(tracking_files,
 
 dataset = create_dataset(metadata)
 ```
+`dataset` is an extended pandas DataFrame, so can be treated exactly as you would any other dataframe. But it adds for instance metadata about the pose:
+```
+dataset.pose.body_parts
+```
 
-Now create features on this dataset. Can use pre-built featuresets, or make your own. Here are two that work with a mouse resident-intruder setup:
+And also it adds the ability to easily create features on this dataset. Can use pre-built featuresets, or make your own. Here are two that work with a mouse resident-intruder setup:
 ```python
 dataset.features.add('cnn1d_prob')
 dataset.features.add('mars')

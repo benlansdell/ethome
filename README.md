@@ -39,7 +39,7 @@ from ethome import create_dataset, create_metadata
 from ethome.io import get_sample_data_paths
 ```
 
-Gather the DLC tracking and BORIS annotation files
+Gather some sample DLC tracking and BORIS annotation files
 ```python
 tracking_files, boris_files = get_sample_data_paths()
 ```
@@ -52,7 +52,7 @@ fps = 30                         # (int) frames per second
 resolution = (1200, 1600)        # (tuple) HxW in pixels
 ```
 
-Create a parameter object and load the dataset
+Create a metadata dictionary and use it to load the dataset
 ```python
 metadata = create_metadata(tracking_files, 
                            labels = boris_files, 
@@ -63,21 +63,18 @@ metadata = create_metadata(tracking_files,
 
 dataset = create_dataset(metadata)
 ```
-`dataset` is an extended pandas DataFrame, so can be treated exactly as you would any other dataframe. But it adds for instance metadata about the pose:
+`dataset` is an extended pandas DataFrame, so can be treated exactly as you would treat any other dataframe. `ethome` adds a bunch of metadata about the dataset, for instance:
 ```
 dataset.pose.body_parts
 ```
-
-And also it adds the ability to easily create features on this dataset. Can use pre-built featuresets, or make your own. Here are two that work with a mouse resident-intruder setup:
+It also adds the ability to easily create features for machine learning. Can use pre-built featuresets, or make your own. Here are two that work with a mouse resident-intruder setup:
 ```python
 dataset.features.add('cnn1d_prob')
 dataset.features.add('mars')
 ```
-Other, more generic feature creation functions are provided that work for any animal configuration.
+Other, more generic feature creation functions are provided that work for any animal configuration. (The 'mars' feature-set is designed for studying social behavior in mice, based heavily on the MARS framework Segalin et al. [1])
 
-(The 'mars' feature-set is designed for studying social behavior in mice, based heavily on the MARS framework Segalin et al. [1])
-
-Now access a features table, labels, and groups for learning with `dataset.ml.features, dataset.ml.labels, dataset.ml.group`. From here it's easy to use some ML libraries to train a behavior classifier. For example:
+Now you can access a features table, labels, and groups for learning with `dataset.ml.features, dataset.ml.labels, dataset.ml.group`. From here it's easy to use some ML libraries to train a behavior classifier. For example:
 ```python
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import cross_val_score
@@ -86,7 +83,7 @@ model = RandomForestClassifier()
 cross_val_score(model, dataset.ml.features, dataset.ml.labels, groups = dataset.ml.group)
 ```
 
-The `dataset` object is just an extended Pandas dataframe, so can be treated as such. E.g.
+Since the `dataset` object is just an extended Pandas dataframe we can manipulate it as such. E.g.
 ```python
 from sklearn.model_selection import cross_val_predict
 predictions = cross_val_predict(model, dataset.ml.features, dataset.ml.labels, groups = dataset.ml.group)

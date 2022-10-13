@@ -3,17 +3,11 @@
 import pandas as pd
 import numpy as np
 
-# TODO
-# * More generic feature creation functions, for general models, not just MARS featureset
-#   - [ ] Intra-animal angles (of all body parts)
-
-############################
-
 def _diff_within_group(df, sort_key, diff_col, **kwargs):
     return df.groupby(sort_key)[diff_col].transform(lambda x: x.diff(**kwargs)) 
 
 def compute_centerofmass_interanimal_distances(df : pd.DataFrame, raw_col_names : list, **kwargs) -> pd.DataFrame:
-
+    """Distances between all animals' centroids"""
     animal_setup = df.pose.animal_setup
     bodypart_ids = animal_setup['bodypart_ids']
     mouse_ids = animal_setup['mouse_ids']
@@ -44,7 +38,7 @@ def compute_centerofmass_interanimal_distances(df : pd.DataFrame, raw_col_names 
     return features_df
 
 def compute_centerofmass_interanimal_speed(df : pd.DataFrame, raw_col_names : list, n_shifts = 5, **kwargs) -> pd.DataFrame:
-
+    """Speeds between all animals' centroids"""
     animal_setup = df.pose.animal_setup
     bodypart_ids = animal_setup['bodypart_ids']
     mouse_ids = animal_setup['mouse_ids']
@@ -60,8 +54,6 @@ def compute_centerofmass_interanimal_speed(df : pd.DataFrame, raw_col_names : li
         fy_new = '_'.join([animal_id, 'COM_y'])
         features_df[fx_new] = features_df[fxs].sum(axis = 1) / len(bodypart_ids)
         features_df[fy_new] = features_df[fys].sum(axis = 1) / len(bodypart_ids)
-        features_df[fx_new] = _diff_within_group(features_df, 'filename', fx_new, periods = n_shifts)/dt
-        features_df[fy_new] = _diff_within_group(features_df, 'filename', fy_new, periods = n_shifts)/dt
 
     orig_cols = features_df.columns
 
@@ -84,7 +76,7 @@ def compute_centerofmass_interanimal_speed(df : pd.DataFrame, raw_col_names : li
     return features_df
 
 def compute_centerofmass(df : pd.DataFrame, raw_col_names : list, bodyparts : list = [], **kwargs) -> pd.DataFrame:
-
+    """Centroid of all animals"""
     animal_setup = df.pose.animal_setup
     if len(bodyparts) == 0:
         bodypart_ids = animal_setup['bodypart_ids']
@@ -110,7 +102,7 @@ def compute_centerofmass(df : pd.DataFrame, raw_col_names : list, bodyparts : li
     return features_df
 
 def compute_centerofmass_velocity(df : pd.DataFrame, raw_col_names : list, n_shifts = 5, bodyparts : list = [], **kwargs) -> pd.DataFrame:
-
+    """Velocity of all animals' centroids"""
     animal_setup = df.pose.animal_setup
 
     if len(bodyparts) == 0:
@@ -140,37 +132,68 @@ def compute_centerofmass_velocity(df : pd.DataFrame, raw_col_names : list, n_shi
     features_df = features_df.drop(columns = orig_cols)
     return features_df
 
-# def compute_part_velocity(df : pd.DataFrame, raw_col_names : list, n_shifts = 5, bodyparts : list = [], **kwargs) -> pd.DataFrame:
+def compute_part_velocity(df : pd.DataFrame, raw_col_names : list, n_shifts = 5, bodyparts : list = [], **kwargs) -> pd.DataFrame:
+    """Velocity of all animals' bodyparts"""
+    animal_setup = df.pose.animal_setup
 
-#     animal_setup = df.pose.animal_setup
+    if len(bodyparts) == 0:
+        bodypart_ids = animal_setup['bodypart_ids']
+    else:
+        bodypart_ids = [v for v in bodyparts if v in animal_setup['bodypart_ids']]
+    if len(bodypart_ids) == 0:
+        raise ValueError('No listed bodyparts found in animal_setup')
 
-#     if len(bodyparts) == 0:
-#         bodypart_ids = animal_setup['bodypart_ids']
-#     else:
-#         bodypart_ids = [v for v in bodyparts if v in animal_setup['bodypart_ids']]
-#     if len(bodypart_ids) == 0:
-#         raise ValueError('No listed bodyparts found in animal_setup')
+    mouse_ids = animal_setup['mouse_ids']
 
-#     mouse_ids = animal_setup['mouse_ids']
+    features_df = df.copy()
+    orig_cols = df.columns
 
-#     features_df = df.copy()
-#     orig_cols = df.columns
+    dt = features_df['time'].diff(periods = n_shifts)
 
-#     dt = features_df['time'].diff(periods = n_shifts)
+    for animal_id in mouse_ids:
+        for bp in bodypart_ids:
+            fx = '_'.join([animal_id, 'x', bp])
+            fy = '_'.join([animal_id, 'y', bp])
+            fx_new = '_'.join([animal_id, bp, 'vel_x'])
+            fy_new = '_'.join([animal_id, bp, 'vel_y'])
+            features_df[fx_new] = _diff_within_group(features_df, 'filename', fx, periods = n_shifts)/dt
+            features_df[fy_new] = _diff_within_group(features_df, 'filename', fy, periods = n_shifts)/dt
 
-#     for animal_id in mouse_ids:
-#         fxs = ['_'.join([animal_id, 'x', bp]) for bp in bodypart_ids]
-#         fys = ['_'.join([animal_id, 'y', bp]) for bp in bodypart_ids]
-#         fx_new = '_'.join([animal_id, 'COM_vel_x'])
-#         fy_new = '_'.join([animal_id, 'COM_vel_y'])
-#         features_df[fx_new] = _diff_within_group(features_df, 'filename', fx_new, periods = n_shifts)/dt
-#         features_df[fy_new] = _diff_within_group(features_df, 'filename', fy_new, periods = n_shifts)/dt
+    features_df = features_df.drop(columns = orig_cols)
+    return features_df
 
-#     features_df = features_df.drop(columns = orig_cols)
-#     return features_df
+def compute_part_speed(df : pd.DataFrame, raw_col_names : list, n_shifts = 5, bodyparts : list = [], **kwargs) -> pd.DataFrame:
+    """Speed of all animals' bodyparts"""
+    animal_setup = df.pose.animal_setup
+
+    if len(bodyparts) == 0:
+        bodypart_ids = animal_setup['bodypart_ids']
+    else:
+        bodypart_ids = [v for v in bodyparts if v in animal_setup['bodypart_ids']]
+    if len(bodypart_ids) == 0:
+        raise ValueError('No listed bodyparts found in animal_setup')
+
+    mouse_ids = animal_setup['mouse_ids']
+
+    features_df = df.copy()
+    orig_cols = df.columns
+
+    dt = features_df['time'].diff(periods = n_shifts)
+
+    for animal_id in mouse_ids:
+        for bp in bodypart_ids:
+            fx = '_'.join([animal_id, 'x', bp])
+            fy = '_'.join([animal_id, 'y', bp])
+            x_new = _diff_within_group(features_df, 'filename', fx, periods = n_shifts)/dt
+            y_new = _diff_within_group(features_df, 'filename', fy, periods = n_shifts)/dt
+            f_new = '_'.join([animal_id, bp, 'speed'])
+            features_df[f_new] = np.sqrt(x_new**2 + y_new**2)
+
+    features_df = features_df.drop(columns = orig_cols)
+    return features_df
 
 def compute_speed_features(df : pd.DataFrame, raw_col_names : list, n_shifts = 5, **kwargs) -> pd.DataFrame:
-
+    """Speeds between all body parts pairs (within and between animals)"""
     animal_setup = df.pose.animal_setup
     bodypart_ids = animal_setup['bodypart_ids']
     mouse_ids = animal_setup['mouse_ids']
@@ -219,7 +242,7 @@ def compute_speed_features(df : pd.DataFrame, raw_col_names : list, n_shifts = 5
     return features_df
 
 def compute_distance_features(df : pd.DataFrame, raw_col_names : list, **kwargs) -> pd.DataFrame:
-
+    """Distances between all body parts pairs (within and between animals)"""
     animal_setup = df.pose.animal_setup
 
     bodypart_ids = animal_setup['bodypart_ids']

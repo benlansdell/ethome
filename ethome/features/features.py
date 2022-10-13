@@ -76,26 +76,39 @@ def feature_class_maker(name, compute_function, required_columns = []):
 
 ## Built in feature makers
 
+#Social mice studies
 MARS = feature_class_maker('MARSFeatures', compute_mars_features, default_tracking_columns)
 MARSReduced = feature_class_maker('MARSReduced', compute_mars_reduced_features, default_tracking_columns)
 CNN1DProb = feature_class_maker('CNN1DProb', compute_dl_probability_features, default_tracking_columns)
 Social = feature_class_maker('Social', compute_social_features, default_tracking_columns)
 
 ## Generic features -- don't need any specific column names. Will be based on the animal setup.
+
+#Distances between all animals' centroids
 CentroidInteranimal = feature_class_maker('CentroidInteranimal', compute_centerofmass_interanimal_distances)
+
+#Speeds between all animals' centroids
 CentroidInteranimalSpeed = feature_class_maker('CentroidInteranimalSpeed', compute_centerofmass_interanimal_speed)
+
+#Centroid of all animals
 Centroid = feature_class_maker('Centroid', compute_centerofmass)
+
+#Velocity of all animals' centroids
 CentroidVelocity = feature_class_maker('CentroidVelocity', compute_centerofmass_velocity)
+
+#Speeds between all body parts pairs (within and between animals)
 Speeds = feature_class_maker('Speeds', compute_speed_features)
+
+#Distances between all body parts pairs (within and between animals)
 Distances = feature_class_maker('Distances', compute_distance_features)
 
 FEATURE_MAKERS = {'mars': MARS,
                     'mars_reduced': MARSReduced,
                     'cnn1d_prob': CNN1DProb,
                     'social': Social,
-                    'centroid_interanimal': CentroidInteranimal,
-                    'centroid_interanimal_speed': CentroidInteranimalSpeed,
-                    'centroid': Centroid,
-                    'centroid_velocity': CentroidVelocity,
-                    'speeds': Speeds,
-                    'distances': Distances}
+                    'centroids_interanimal': CentroidInteranimal,
+                    'centroids_interanimal_speed': CentroidInteranimalSpeed,
+                    'centroids': Centroid,
+                    'centroids_velocity': CentroidVelocity,
+                    'intrabodypartspeeds': Speeds,
+                    'intrabodypartdistances': Distances}

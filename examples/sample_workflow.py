@@ -1,12 +1,9 @@
-"""Demo workflow showing a simple building of behavior classifier.
-
-"""
+"""Demo workflow showing a simple building of behavior classifier"""
 
 #More reliable to not use GPU here. It's only doing inference with a small net, doesn't take long:
 import os
 os.environ["CUDA_VISIBLE_DEVICES"] = ''
 
-from glob import glob 
 from ethome import create_dataset, create_metadata, interpolate_lowconf_points
 from ethome.io import get_sample_data_paths
 

@@ -2,8 +2,14 @@
 ## Setup test code ##
 #####################
 
-import pytest
 import pandas as pd
+
+def test_nwb_import():
+    from ethome.io import get_sample_nwb_paths
+    from ethome import create_dataset
+    path = get_sample_nwb_paths()
+    dataset = create_dataset(path)
+    assert type(dataset) is pd.DataFrame
 
 def test_sample_data():
     from ethome.io import get_sample_data

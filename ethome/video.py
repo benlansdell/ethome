@@ -599,28 +599,66 @@ def create_dataset(metadata : dict = None,
         DataFrame object. This is a pandas DataFrame with additional metadata and methods.
     """
 
-    req_cols = ['fps']
+    if type(metadata) is dict:
 
-    df = pd.DataFrame()
+        df = pd.DataFrame()
+        req_cols = ['fps']
+        is_valid, should_rescale = _validate_metadata(metadata, req_cols)
+        if is_valid:   
+            df.metadata.details = metadata
+        else:
+            raise ValueError("Metadata not properly formatted. See docstring.")
 
-    is_valid, should_rescale = _validate_metadata(metadata, req_cols)
-    if is_valid:   
-        df.metadata.details = metadata
+        if len(metadata) > 0:
+            _load_tracks(df, part_renamer, animal_renamer, rescale = should_rescale) 
+            _load_labels(df, set_as_label = True)
+
+        if should_rescale:
+            _convert_units(df)
+        elif 'scale_factor' in df.columns: 
+            df.drop(columns = 'scale_factor', inplace = True)
+
+    elif type(metadata) is str:
+        df = _load_nwb([metadata], part_renamer, animal_renamer)
+
+    elif type(metadata) is list:
+        df = _load_nwb(metadata, part_renamer, animal_renamer)
+
     else:
         raise ValueError("Metadata not properly formatted. See docstring.")
-
-    if len(metadata) > 0:
-        _load_tracks(df, part_renamer, animal_renamer, rescale = should_rescale) 
-        _load_labels(df, set_as_label = True)
 
     if label_key:
         df.metadata.label_key = label_key
 
-    if should_rescale:
-        _convert_units(df)
-    elif 'scale_factor' in df.columns: 
-        df.drop(columns = 'scale_factor', inplace = True)
+    return df
 
+def _load_nwb(nwb_files, part_renamer, animal_renamer):
+
+    metadata = {}
+    dfs = []
+    col_names_old = None
+    for fn in nwb_files:
+        df_fn, body_parts, animals, col_names, scorer, meta = read_NWB_tracks(fn, 
+                                                                              part_renamer, 
+                                                                              animal_renamer)
+
+        dfs.append(df_fn)
+        #Add additional metadata
+        metadata[fn] = {}
+        metadata[fn]['scorer'] = scorer
+        if col_names_old is not None:
+            if col_names != col_names_old:
+                raise RuntimeError("NWB files have different animals/body parts tracked. Must all be from same project")
+        col_names_old = col_names
+
+    df = pd.concat(dfs, axis = 0)
+    #df[dfs.columns] = dfs
+    df.reset_index(drop = True, inplace = True)
+    df.metadata.details = metadata
+    df.pose.body_parts = body_parts
+    df.pose.animals = animals
+    df.pose.animal_setup = {'mouse_ids': animals, 'bodypart_ids': body_parts, 'colnames': col_names}
+    df.pose.raw_track_columns = col_names
     return df
 
 def _load_tracks(df, part_renamer, animal_renamer, rescale = False):
@@ -629,19 +667,19 @@ def _load_tracks(df, part_renamer, animal_renamer, rescale = False):
 
 def _load_dlc_tracks(df, part_renamer, animal_renamer, rescale = False):
     """Add DLC tracks to DataFrame"""
-    #df = pd.DataFrame()
+
     dfs = []
     col_names_old = None
     #Go through each video file and load DLC tracks
     for fn in df.metadata.details.keys():
         if fn.split('.')[-1] == 'nwb':
-            df_fn, body_parts, animals, col_names, scorer = read_NWB_tracks(fn, 
-                                                                        part_renamer, 
-                                                                        animal_renamer)
+            df_fn, body_parts, animals, col_names, scorer, _ = read_NWB_tracks(fn, 
+                                                                            part_renamer, 
+                                                                            animal_renamer)
         else:
             df_fn, body_parts, animals, col_names, scorer = read_DLC_tracks(fn, 
-                                                                        part_renamer, 
-                                                                        animal_renamer)
+                                                                            part_renamer, 
+                                                                            animal_renamer)
         n_rows = len(df_fn)
         df_fn['time'] = df_fn['frame']/df.metadata.details[fn]['fps']
 
@@ -707,7 +745,6 @@ def _load_labels_boris(df, col_name = 'label', set_as_label = False):
 
     if set_as_label:
         df.ml.label_cols = col_name
-
 
 def load_experiment(fn_in : str) -> pd.DataFrame:
     """Load DataFrame from file.

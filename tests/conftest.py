@@ -25,6 +25,10 @@ def metadata_params():
     return params
 
 @pytest.fixture()
+def sample_nwb_file():
+    return os.path.join(TEST_DATA_DIR, 'sample_nwb.nwb')
+
+@pytest.fixture()
 def metadata(tracking_files, labels, metadata_params):
     from ethome import create_metadata
 

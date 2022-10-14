@@ -208,20 +208,29 @@ def _convert_nwb_to_h5(nwbfile):
     df = pd.concat(dfs, axis=1)
     return df, None
 
+#Read in:
+#   - resolution
+#   - time stamps
+#   - time stamp units (hence framerate)
+#   - physical units
+#   - dimensions (in physical units?)
+#   - original videos
+#   - should read in event data, too, if desired.
+#   - only read in fields if they're there, of course. 
+
 def _convert_nwb_to_h5_all(nwbfile):
     """
     Convert a NWB data file back to DeepLabCut's h5 data format.
-    Parameters
-    ----------
-    nwbfile : str
-        Path to the newly created NWB data file
-    Returns
-    -------
-    df : pandas.array
-        Pandas multi-column array containing predictions in DLC format.
+
+    Args:
+        nwbfile (str): Path to the newly created NWB data file
+
+    Returns:
+        df (pandas.array): Pandas multi-column array containing predictions in DLC format.
     """
 
     only_load = 'raw_position_whisker_C2'
+    meta = {}
 
     with NWBHDF5IO(nwbfile, mode="r", load_namespaces=True) as io:
         read_nwbfile = io.read()
@@ -236,8 +245,8 @@ def _convert_nwb_to_h5_all(nwbfile):
             scorer = read_pe.scorer or "scorer"
             dfs = []
             animal = read_pe.name
-            if animal != only_load:
-                continue
+            #if animal != only_load:
+            #    continue
             for node in read_pe.nodes:
                 pes = read_pe.pose_estimation_series[node]
                 _, kpt = node.split("_")
@@ -277,11 +286,7 @@ def _convert_nwb_to_h5_all(nwbfile):
             
         new_df = new_df[cols]
 
-    #print(new_df.index)
-    #print(new_df)
-
-    return df, new_df
-
+    return df, new_df, meta
 
 def read_NWB_tracks(fn_in : str, 
                     part_renamer : dict = None, 
@@ -302,8 +307,8 @@ def read_NWB_tracks(fn_in : str,
             Columns names for pose tracks (excluding likelihoods, if read in),
             Scorer
     """
-    df, df_labels = _convert_nwb_to_h5(fn_in)
-    return _read_DLC_tracks(df, fn_in, part_renamer, animal_renamer, read_likelihoods, df_labels)
+    df, df_labels, metadata = _convert_nwb_to_h5_all(fn_in)
+    return *_read_DLC_tracks(df, fn_in, part_renamer, animal_renamer, read_likelihoods, df_labels), metadata
 
 def save_DLC_tracks_h5(df : pd.DataFrame, fn_out : str) -> None: # pragma: no cover
     """Save DLC tracks in h5 format.
@@ -350,6 +355,15 @@ def _make_sample_dataframe(fn_out = 'sample_dataframe.pkl'): # pragma: no cover
     to_save = {'dataset': dataset, 'metadata': metadata}
     with open(path_out, 'wb') as handle:
         pickle.dump(to_save, handle, protocol=pickle.HIGHEST_PROTOCOL)
+
+def get_sample_nwb_paths():
+    """Get path to a sample NWB file with tracking data for testing and dev purposes.
+    
+    Returns:
+        Path to a sample NWB file.
+    """
+    cur_dir = os.path.dirname(os.path.abspath(__file__))
+    return os.path.join(cur_dir, 'data/sample_nwb.nwb')
 
 def get_sample_data_paths():
     """Get path to sample data files provided with package. 

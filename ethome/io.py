@@ -308,7 +308,7 @@ def read_NWB_tracks(fn_in : str,
             Scorer
     """
     df, df_labels, metadata = _convert_nwb_to_h5_all(fn_in)
-    return *_read_DLC_tracks(df, fn_in, part_renamer, animal_renamer, read_likelihoods, df_labels), metadata
+    return _read_DLC_tracks(df, fn_in, part_renamer, animal_renamer, read_likelihoods, df_labels) + (metadata,)
 
 def save_DLC_tracks_h5(df : pd.DataFrame, fn_out : str) -> None: # pragma: no cover
     """Save DLC tracks in h5 format.

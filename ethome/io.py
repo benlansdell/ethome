@@ -363,7 +363,7 @@ def get_sample_nwb_paths():
         Path to a sample NWB file.
     """
     cur_dir = os.path.dirname(os.path.abspath(__file__))
-    return os.path.join(cur_dir, 'data/sample_nwb.nwb')
+    return os.path.join(cur_dir, 'data/sample_nwb_.nwb')
 
 def get_sample_data_paths():
     """Get path to sample data files provided with package. 

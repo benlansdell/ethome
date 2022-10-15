@@ -646,6 +646,10 @@ def _load_nwb(nwb_files, part_renamer, animal_renamer):
         #Add additional metadata
         metadata[fn] = {}
         metadata[fn]['scorer'] = scorer
+        metadata[fn]['video'] = meta[fn]['video_files']
+        metadata[fn]['resolution'] = meta[fn]['resolution']
+        metadata[fn]['units'] = meta[fn]['unit']
+
         if col_names_old is not None:
             if col_names != col_names_old:
                 raise RuntimeError("NWB files have different animals/body parts tracked. Must all be from same project")

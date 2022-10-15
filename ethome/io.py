@@ -170,54 +170,6 @@ def _read_DLC_tracks(df : pd.DataFrame,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-# Note this only works with nwb files that were saved by DLC's nwb export function
-
-#For things exported directly from DLC2NWB
-def _convert_nwb_to_h5(nwbfile):
-    """
-    Convert a NWB data file back to DeepLabCut's h5 data format.
-    Parameters
-    ----------
-    nwbfile : str
-        Path to the newly created NWB data file
-    Returns
-    -------
-    df : pandas.array
-        Pandas multi-column array containing predictions in DLC format.
-    """
-    with NWBHDF5IO(nwbfile, mode="r", load_namespaces=True) as io:
-        read_nwbfile = io.read()
-        try:
-            read_pe = read_nwbfile.processing["behavior"]["PoseEstimation"]
-        except KeyError:
-            warnings.warn("Multiple PoseEstimation modules found, loading each as a different anmial.")
-            return _convert_nwb_to_h5_all(nwbfile)
-        scorer = read_pe.scorer or "scorer"
-        dfs = []
-        for node in read_pe.nodes:
-            pes = read_pe.pose_estimation_series[node]
-            animal, kpt = node.split("_")
-            array = np.c_[pes.data, pes.confidence]
-            cols = pd.MultiIndex.from_product(
-                [[scorer], [animal], [kpt], ["x", "y", "likelihood"]],
-                names=["scorer", "individuals", "bodyparts", "coords"],
-            )
-            dfs.append(
-                pd.DataFrame(array, np.asarray(pes.timestamps).astype(int), cols)
-            )
-    df = pd.concat(dfs, axis=1)
-    return df, None
-
-#Read in:
-#   - resolution
-#   - time stamps
-#   - time stamp units (hence framerate)
-#   - physical units
-#   - dimensions (in physical units?)
-#   - original videos
-#   - should read in event data, too, if desired.
-#   - only read in fields if they're there, of course. 
-
 def _convert_nwb_to_h5_all(nwbfile):
     """
     Convert a NWB data file back to DeepLabCut's h5 data format.
@@ -228,13 +180,10 @@ def _convert_nwb_to_h5_all(nwbfile):
     Returns:
         df (pandas.array): Pandas multi-column array containing predictions in DLC format.
     """
-
-    only_load = 'raw_position_whisker_C2'
     meta = {}
 
     with NWBHDF5IO(nwbfile, mode="r", load_namespaces=True) as io:
         read_nwbfile = io.read()
-        #read_pe = read_nwbfile.processing["behavior"]["PoseEstimation"]
 
         object_keys = read_nwbfile.processing["behavior"].data_interfaces.keys()
         objects = [read_nwbfile.processing["behavior"].data_interfaces[k] for \
@@ -245,18 +194,24 @@ def _convert_nwb_to_h5_all(nwbfile):
             scorer = read_pe.scorer or "scorer"
             dfs = []
             animal = read_pe.name
-            #if animal != only_load:
-            #    continue
+            animal_key = nwbfile
+            videos = read_pe.original_videos[:]
+            if len(videos) == 1:
+                videos = videos[0]
+            meta[animal_key] = {'resolution': np.squeeze(read_pe.dimensions[:]),
+                                'video_files': videos,
+                                'scorer': scorer}
             for node in read_pe.nodes:
                 pes = read_pe.pose_estimation_series[node]
+                meta[animal_key]['unit'] = pes.unit
                 _, kpt = node.split("_")
-                array = np.c_[pes.data, pes.confidence]
+                data = pes.data*pes.conversion
+                array = np.c_[data, pes.confidence]
                 cols = pd.MultiIndex.from_product(
                     [[scorer], [animal], [kpt], ["x", "y", "likelihood"]],
                     names=["scorer", "individuals", "bodyparts", "coords"],
                 )
                 dfs.append(
-                    #pd.DataFrame(array, np.asarray(pes.timestamps).astype(int), cols)
                     pd.DataFrame(array, np.around(np.asarray(pes.timestamps), 3), cols)
                 )
             object_dfs.append(pd.concat(dfs, axis=1))

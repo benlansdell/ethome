@@ -1226,16 +1226,18 @@
 
 <h1 id="how-to">How to</h1>
 <p>This guide covers the all of the tasks you can perform with this package, roughly in the order you'd want to do them. A very basic outline is also in the quick start section of the readme. </p>
-<p>This guide covers basic usage -- it doesn't comprehensively describe how to use every function or feature in <code>ethome</code>; you can consult the API docs for more information on usage.</p>
+<p>This guide covers basic usage -- it doesn't comprehensively describe how to use every function or feature in <code>ethome</code>; you can consult the API docs for more information on usage. After installation, cut and past the code samples below to follow along.</p>
 <h2 id="1-getting-started">1 Getting started</h2>
 <p><code>ethome</code> makes it easy to perform common machine learning analyses on pose-tracking data, perhaps in combination with behavioral annotations. The key thing you need to get started, then, is pose tracking data. At present, data from DeepLabCut or pose data stored in NWB files is supported (via the ndx-pose extension). </p>
 <h3 id="1a-loading-nwb-files">1a Loading NWB files</h3>
 <p>The first task is to load the data into a form useful for machine learning. The basic functionality of the package can be seen as using an extended pandas <code>DataFrame</code>, with associated support functions that are suited for behavior analysis. The <code>DataFrame</code> object will house data from one or more video's worth of pose data, along with associated metadata for each video. </p>
 <p>The NeurodataWithoutBorders format can store both pose tracking data and behavioral annotations, along with associated metadata. If all of your data is stored in this format, then it's easy to import it into <code>ethome</code>:</p>
-<pre><code class="language-python">fn_in = './sample_nwb_file.nwb'
+<pre><code class="language-python">from ethome import create_dataset
+from ethome.io import get_sample_nwb_paths
+fn_in = get_sample_nwb_paths()
 recordings = create_dataset(fn_in)
 </code></pre>
-<p>You can provide multiple recordings, just provide a list of paths instead. Each separate file is assumed to represent a different session/experiment/time. I.e., they're <em>not</em> meant to represent the same session from different cameras, or the same session for different animals.  </p>
+<p>You can provide multiple recordings, just provide a list of paths instead. Each separate file is assumed to represent a different session/experiment/time period. I.e., they're <em>not</em> meant to represent the same session from different cameras, or the same session for different animals.  </p>
 <h3 id="1b-loading-your-own-metadataloading-dlc-files">1b Loading your own metadata/loading DLC files</h3>
 <p>If your data is stored in DeepLabCut csvs or h5 files, perhaps with accompanying behavioral annotations from BORIS, then you'll have to associate these with each other, and provide relevant metadata yourself. Sections 1b -&gt; 1f outline how to do this. Data stored in NWB files have already addressed each of these steps. </p>
 <p>To import the data, you'll need to provide metadata for each video you want to analyze. For this, you create a <code>metadata</code> dictionary. This is a dictionary whose keys are paths to pose-tracking DLC <code>.csv</code>s -- this is how each video is identified. The value of each entry is a dictionary that provides details about that video. For instance, you may have:</p>
@@ -1245,7 +1247,8 @@ metadata = {tracking_csv : {'fps': 30, 'resolution': (1200, 1600)}}
 <p>Beyond providing the <code>fps</code> for each video, all other fields are optional. </p>
 <h3 id="1c-helper-function-for-making-metadata-dictionary">1c Helper function for making metadata dictionary</h3>
 <p>Often you'll have many videos that have the same metadata, in that case you can easily create an appropriate dictionary with the helper function <code>create_metadata</code>. Say you now have two tracking files, each with the same FPS and resolution. You can make the corresponding metadata dictionary with:</p>
-<pre><code class="language-python">tracking_csvs = ['./dlc_tracking_file_1.csv', './dlc_tracking_file_2.csv']
+<pre><code class="language-python">from ethome import create_metadata
+tracking_csvs = ['./dlc_tracking_file_1.csv', './dlc_tracking_file_2.csv']
 fps = 30
 resolution = (1200, 1600)
 metadata = create_metadata(tracking_csvs, fps = fps, resolution = resolution)
@@ -1296,7 +1299,8 @@ metadata = create_metadata(tracking_csvs, labels = labeled_data, fps = fps, reso
 <h2 id="2-interpolate-low-confidence-pose-tracking">2 Interpolate low-confidence pose tracking</h2>
 <p>Some simple support for interpolating low-confidence tracks in DLC is provided. Often predicted locations below a given confidence level are noisy and unreliable, and better tracks may be obtained by removing these predictions and interpolating from more confident predictions on either side of the uncertain prediction. </p>
 <p>You can achieve this with</p>
-<pre><code class="language-python">interpolate_lowconf_points(recordings)
+<pre><code class="language-python">from ethome import interpolate_lowconf_points
+interpolate_lowconf_points(recordings)
 </code></pre>
 <h2 id="3-generate-features">3 Generate features</h2>
 <p>To do machine learning you'll want to create features from the pose tracking data. <code>ethome</code> can help you do this in a few different ways. You can either use one of the feature-making functions provided or create a custom feature-making function, or custom class. </p>

@@ -3,24 +3,36 @@
 
 This guide covers the all of the tasks you can perform with this package, roughly in the order you'd want to do them. A very basic outline is also in the quick start section of the readme. 
 
-Note also that this guide covers basic usage; it doesn't comprehensively describe how to use every function or feature in `ethome`, you can consult the API docs for more information on usage.
+This guide covers basic usage -- it doesn't comprehensively describe how to use every function or feature in `ethome`; you can consult the API docs for more information on usage.
 
 ## 1 Getting started
 
-`ethome` makes it easy to perform common machine learning analyses on pose-tracking data, perhaps in combination with behavioral annotations. The key thing you need to get started, then, is pose tracking data. At present DeepLabCut is supported. 
+`ethome` makes it easy to perform common machine learning analyses on pose-tracking data, perhaps in combination with behavioral annotations. The key thing you need to get started, then, is pose tracking data. At present, data from DeepLabCut or pose data stored in NWB files is supported (via the ndx-pose extension). 
 
-The first task is to load this data into a data structure and associate metadata with it. The basic functionality of the package can be seen as using an extended pandas `DataFrame`, with associated support functions that are suited for behavior analysis. The `DataFrame` object will house data from one or more video's worth of pose data, along with associated metadata for each video. 
+### 1a Loading NWB files
 
-To create the dataframe, you'll need to provide metadata for each video you want to analyze. For this, you create a `metadata` dictionary. This is a dictionary whose keys are paths to pose-tracking DLC `.csv`s -- this is how each video is identified. The value of each entry is a dictionary that provides details about that video. For instance, you may have:
+The first task is to load the data into a form useful for machine learning. The basic functionality of the package can be seen as using an extended pandas `DataFrame`, with associated support functions that are suited for behavior analysis. The `DataFrame` object will house data from one or more video's worth of pose data, along with associated metadata for each video. 
+
+The NeurodataWithoutBorders format can store both pose tracking data and behavioral annotations, along with associated metadata. If all of your data is stored in this format, then it's easy to import it into `ethome`:
+```python
+fn_in = './sample_nwb_file.nwb'
+recordings = create_dataset(fn_in)
+```
+
+You can provide multiple recordings, just provide a list of paths instead. Each separate file is assumed to represent a different session/experiment/time. I.e., they're *not* meant to represent the same session from different cameras, or the same session for different animals.  
+
+### 1b Loading your own metadata/loading DLC files
+
+If your data is stored in DeepLabCut csvs or h5 files, perhaps with accompanying behavioral annotations from BORIS, then you'll have to associate these with each other, and provide relevant metadata yourself. Sections 1b -> 1f outline how to do this. Data stored in NWB files have already addressed each of these steps. 
+
+To import the data, you'll need to provide metadata for each video you want to analyze. For this, you create a `metadata` dictionary. This is a dictionary whose keys are paths to pose-tracking DLC `.csv`s -- this is how each video is identified. The value of each entry is a dictionary that provides details about that video. For instance, you may have:
 ```python
 tracking_csv = './dlc_tracking_file.csv'
-fps = 30
-resolution = (1200, 1600)
-metadata = {tracking_csv : {'fps': fps, 'resolution': resolution}}
+metadata = {tracking_csv : {'fps': 30, 'resolution': (1200, 1600)}}
 ```
 Beyond providing the `fps` for each video, all other fields are optional. 
 
-### 1a Helper function for making metadata dictionary
+### 1c Helper function for making metadata dictionary
 
 Often you'll have many videos that have the same metadata, in that case you can easily create an appropriate dictionary with the helper function `create_metadata`. Say you now have two tracking files, each with the same FPS and resolution. You can make the corresponding metadata dictionary with:
 ```python
@@ -29,7 +41,7 @@ fps = 30
 resolution = (1200, 1600)
 metadata = create_metadata(tracking_csvs, fps = fps, resolution = resolution)
 ```
-The `metadata` now has two entries, one for each video, each listing the same FPS and resolution. 
+The `metadata` dictionary now has two entries, one for each video, each listing the same FPS and resolution. 
 
 Any keyword that is an iterable of the same length as the tracking files is zipped with the tracking files accordingly. That is, if you also have behavioral annotations provided by BORIS for each of the videos, then you should prepare a list `labeled_data` and provide that to `create_metadata`:
 ```python
@@ -41,25 +53,26 @@ metadata = create_metadata(tracking_csvs, labels = labeled_data, fps = fps, reso
 ```
 Rather than assigning the same value (e.g. `fps = 30`) to all videos, the entry `labeled_data[i]` would then be associated with `tracking_csvs[i]`. These lists, therefore, must be sorted appropriately.
 
-### 1b Special fields
+### 1d Special fields
 
-* The `labels` field is special. If it is provided, then it is treated as housing behavioral annotations exported from a corresponding BORIS project. The package loads these behavior annotations and adds them to the data frame with the field `label`.
-* The `video` field is also special. You should use it to provide a path to the corresponding video that was tracked. This will be used by some of the visualization functions.
+When making this metadata dictionary, keep in mind:
+* The `labels` field is special. If it is provided, then it is treated as housing the paths to behavioral annotations exported from a corresponding BORIS project. The package loads these behavior annotations and adds them to the data frame with the field `label`.
+* The `video` field is also special. You should use it to provide a path to the corresponding video that was tracked. If available, this will be used by some of the visualization functions.
 * For each video, the `fps` field must be provided, so that frame numbers can be converted into times.
 
-### 1c Scaling pose data
+### 1e Scaling pose data
 
 There is some support for scaling the data to get it into desired units, consistent across all recordings. 
-
-If the DLC/tracking files are already in desired units, either in physical distances, or pixels, then do *not* provide all of the fields `frame_width`, `resolution`, and `frame_width_units`. If you want to keep track of the units, you can add a `units` key to the metadata. This could be `pixels`, `cm`, etc, as appropriate.
 
 If the tracking is in pixels and you do want to rescale it to some physical distance, you should provide `frame_width`, `frame_width_units` and `resolution` for all videos. This ensures the entire dataset is using the same units. The package will use these values for each video to rescale the (presumed) pixel coordinates to physical coordinates.
 
 `resolution` is a tuple (H,W) in pixels of the videos and `frame_width` is the width of the image, in units `frame_width_units`.
 
-By default, all coordinates are converted to 'mm'. The pair 'units':'mm' is added to the metadata dictionary for each video. You can specify the units by providing the 'units' key yourself. Supported units include: 'mm', 'cm', 'm', 'in', 'ft'.
+By default, all coordinates are converted to 'mm'. The pair 'units':'mm' is added to the metadata dictionary for each video. You can specify the units by providing the `units` key yourself. Supported units include: 'mm', 'cm', 'm', 'in', 'ft'.
 
-### 1d Making the data frame
+If the DLC/tracking files are already in desired units, either in physical distances, or pixels, then do *not* provide all of the fields `frame_width`, `resolution`, and `frame_width_units`. If you want to keep track of the units, you can add a `units` key to the metadata. This could be `pixels`, `cm`, etc, as appropriate.
+
+### 1f Making the data frame
 
 Once you have the metadata dictionary prepared, you can easily create a `DataFrame` as:
 ```python
@@ -68,13 +81,15 @@ recordings = create_dataset(metadata)
 
 This creates a pandas dataframe, `recordings`, that contains pose data, and perhaps behavior annotations, from all the videos listed in `metadata`.
 
-If your DLC project named the animals some way, but you want them named another way in this dataframe, you can provide an `animal_renamer` dictionary as an argument to the constructor:
+### 1g Renaming things
+
+If your tracking project named the animals some way, but you want them named another way in this dataframe, you can provide an `animal_renamer` dictionary as an argument to the constructor:
 ```python
 recordings = create_dataset(metadata, animal_renamer={'adult': 'resident', 'juvenile':'intruder'})
 ```
 Similarly with the body parts -- you can provide a `part_renamer` dictionary.
 
-### 1e Metadata
+### 1h Metadata
 
 When `recordings` is created, additional metadata is computed and accessible via:
 * `recordings.metadata` houses the following attributes:
@@ -103,8 +118,6 @@ interpolate_lowconf_points(recordings)
 To do machine learning you'll want to create features from the pose tracking data. `ethome` can help you do this in a few different ways. You can either use one of the feature-making functions provided or create a custom feature-making function, or custom class. 
 
 To use the inbuilt functions you can reference them by identifying string, or provide the function itself to the `features.add` function. For instance, to compute the distances between all body parts (within and between animals), you could do:
-
-The basic pattern is shown in this example: 
 ```python
 recordings.features.add('distances')
 ```
@@ -112,14 +125,14 @@ This will compute and add the distances between all body parts of all animals.
 
 ### 3a In-built support for resident-intruder setup
 
-First, if your setup is a social mouse study, involving two mice, similar enough to the standard resident-intruder setup, then you can use some pre-designed feature sets. The body parts that are tracked must be those from the MARS dataset (See figure). You will have to have labeled and tracked your mice in DLC in the same way. (with the same animal and body part names -- those `ethome`'s `create_dataset` function can rename them appropriately)
+First, if your setup is a social mouse study, involving two mice, similar enough to the standard resident-intruder setup, then you can use some pre-designed feature sets. The body parts that are tracked must be those from the MARS dataset (See figure). You will have to have labeled and tracked your mice in DLC in the same way. (with the same animal and body part names -- `ethome`'s `create_dataset` function can rename them appropriately)
 
 The `cnn1d_prob`, `mars`, `mars_reduced` and `social` functions can be used to make features for this setup. 
 
 * `cnn1d_prob` runs a 1D CNN and outputs prediction probabilities of three behaviors (attack, mount, and investigation). Even if you're not interested in these exact behaviors, they may still be useful for predicting the occurance of other behaviors, as part of an ensemble model. 
 * `mars` computes a long list of features as used in the MARS paper. You can refer to that paper for more details. 
 * `mars_reduced` is a reduced version of the MARS features
-* `social` is the subset of MARS features that only involve measures of one animal in relation to the other.
+* `social` is a set of features that only involve measures of one animal in relation to the other.
 
 ### 3b Generic features
 
@@ -128,8 +141,8 @@ You can generate more generic features using the following functions:
 * `centroid_velocity` the velocity of the centroids
 * `centroid_interanimal` the distances between the centroids of all the animals
 * `centroid_interanimal_speed` the rate of change of `centroid_interanimal`
-* `speeds` the speeds of all body parts
-* `distances` the distances between all animals body parts (inter- and intra-animal)
+* `intrabodypartspeeds` the speeds of all body parts
+* `intrabodypartdistances` the distances between all animals body parts (inter- and intra-animal)
 
 These classes work for any animal setup, not just resident-intruder with specific body parts, as assumed for the `mars` features.
 
@@ -139,7 +152,7 @@ There are two ways to add your own feature sets to your DataFrame.
 
 The first is to create a function that takes a pandas DataFrame, and returns a new DataFrame with the features you want to add. For example:
 ```python
-def diff_cols(self, df, required_columns = []):
+def diff_cols(df, required_columns = []):
     return df[required_columns].diff()
 
 recordings.features.add(diff_cols, required_columns = ['resident_neck_x', 'resident_neck_y'])
@@ -167,7 +180,7 @@ recordings.ml.features
 ```
 You can pass this to any ML method for further processing. This is just a convenience for managing the long list of features you will have created in the steps above. You can always just treat `recordings` like a pandas DataFrame and do ML how you would normally. 
 
-To activate features you can use `recordings.features.activate`, and to deactivate features you can use `recordings.features.deactivate`. Deactivating keeps them in the DataTable, but just no longer includes those features in `recordings.ml.features`.
+To activate features you can use `recordings.features.activate`, and to deactivate features you can use `recordings.features.deactivate`. Deactivating keeps them in the DataTable, but just no longer includes those features in the `recordings.ml.features` view.
 
 ## 4 Fit a model for behavior classification
 
@@ -205,6 +218,9 @@ recordings.io.save('outfile.pkl')
 ```python
 recordings = pd.DataFrame.io.load('outfile.pkl')
 ```
+
+NOTE: By importing `ethome` you extend the functionality of the pandas dataframe, hence can access things like `.io.load`
+
 ## 8 Summary and reference list of added functionality by `ethome`
 
 For reference, the metadata and added functions added to the dataframe are:
@@ -234,4 +250,4 @@ For reference, the metadata and added functions added to the dataframe are:
     * `load`: load DataFrame from pickle file
     * `save_movie`: create a movie with some feature column you indicate overlaid
 
-See the docs for usage details.
+See the API docs for usage details.

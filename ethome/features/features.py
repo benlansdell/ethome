@@ -103,12 +103,12 @@ Speeds = feature_class_maker('Speeds', compute_speed_features)
 Distances = feature_class_maker('Distances', compute_distance_features)
 
 FEATURE_MAKERS = {'mars': MARS,
-                    'mars_reduced': MARSReduced,
-                    'cnn1d_prob': CNN1DProb,
-                    'social': Social,
-                    'centroids_interanimal': CentroidInteranimal,
-                    'centroids_interanimal_speed': CentroidInteranimalSpeed,
-                    'centroids': Centroid,
-                    'centroids_velocity': CentroidVelocity,
-                    'intrabodypartspeeds': Speeds,
-                    'intrabodypartdistances': Distances}
+                  'mars_reduced': MARSReduced,
+                  'cnn1d_prob': CNN1DProb,
+                  'social': Social,
+                  'centroids_interanimal': CentroidInteranimal,
+                  'centroids_interanimal_speed': CentroidInteranimalSpeed,
+                  'centroids': Centroid,
+                  'centroids_velocity': CentroidVelocity,
+                  'intrabodypartspeeds': Speeds,
+                  'intrabodypartdistances': Distances}

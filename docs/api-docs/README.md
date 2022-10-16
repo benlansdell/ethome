@@ -41,7 +41,6 @@
 - [`io.TextIOBase`](./io.md#class-textiobase): Base class for text I/O.
 - [`io.UnsupportedOperation`](./io.md#class-unsupportedoperation)
 - [`models.F1Optimizer`](./models.md#class-f1optimizer)
-- [`models.HMMSklearn`](./models.md#class-hmmsklearn)
 - [`models.ModelTransformer`](./models.md#class-modeltransformer)
 - [`plot.MplColorHelper`](./plot.md#class-mplcolorhelper)
 - [`video.EthologyFeaturesAccessor`](./video.md#class-ethologyfeaturesaccessor)
@@ -108,12 +107,14 @@
 - [`features.Speeds.fit_transform`](./features.features.md#function-fit_transform)
 - [`features.Speeds.transform`](./features.features.md#function-transform): Make the features. This is called internally by the dataset object when running `add_features`.
 - [`features.feature_class_maker`](./features.features.md#function-feature_class_maker)
-- [`generic_features.compute_centerofmass`](./features.generic_features.md#function-compute_centerofmass)
-- [`generic_features.compute_centerofmass_interanimal_distances`](./features.generic_features.md#function-compute_centerofmass_interanimal_distances)
-- [`generic_features.compute_centerofmass_interanimal_speed`](./features.generic_features.md#function-compute_centerofmass_interanimal_speed)
-- [`generic_features.compute_centerofmass_velocity`](./features.generic_features.md#function-compute_centerofmass_velocity)
-- [`generic_features.compute_distance_features`](./features.generic_features.md#function-compute_distance_features)
-- [`generic_features.compute_speed_features`](./features.generic_features.md#function-compute_speed_features)
+- [`generic_features.compute_centerofmass`](./features.generic_features.md#function-compute_centerofmass): Centroid of all animals
+- [`generic_features.compute_centerofmass_interanimal_distances`](./features.generic_features.md#function-compute_centerofmass_interanimal_distances): Distances between all animals' centroids
+- [`generic_features.compute_centerofmass_interanimal_speed`](./features.generic_features.md#function-compute_centerofmass_interanimal_speed): Speeds between all animals' centroids
+- [`generic_features.compute_centerofmass_velocity`](./features.generic_features.md#function-compute_centerofmass_velocity): Velocity of all animals' centroids
+- [`generic_features.compute_distance_features`](./features.generic_features.md#function-compute_distance_features): Distances between all body parts pairs (within and between animals)
+- [`generic_features.compute_part_speed`](./features.generic_features.md#function-compute_part_speed): Speed of all animals' bodyparts
+- [`generic_features.compute_part_velocity`](./features.generic_features.md#function-compute_part_velocity): Velocity of all animals' bodyparts
+- [`generic_features.compute_speed_features`](./features.generic_features.md#function-compute_speed_features): Speeds between all body parts pairs (within and between animals)
 - [`mars_features.augment_features`](./features.mars_features.md#function-augment_features)
 - [`mars_features.boiler_plate`](./features.mars_features.md#function-boiler_plate)
 - [`mars_features.compute_distance_features`](./features.mars_features.md#function-compute_distance_features)
@@ -131,9 +132,11 @@
 - [`io.create_behavior_labels`](./io.md#function-create_behavior_labels): Create behavior labels from BORIS exported csv files.
 - [`io.get_sample_data`](./io.md#function-get_sample_data): Load a sample dataset of 5 mice social interaction videos. Each video is approx. 5 minutes in duration
 - [`io.get_sample_data_paths`](./io.md#function-get_sample_data_paths): Get path to sample data files provided with package. 
+- [`io.get_sample_nwb_paths`](./io.md#function-get_sample_nwb_paths): Get path to a sample NWB file with tracking data for testing and dev purposes.
 - [`io.load_data`](./io.md#function-load_data): Load an object from a pickle file
 - [`io.load_sklearn_model`](./io.md#function-load_sklearn_model): Load sklearn model from file
 - [`io.read_DLC_tracks`](./io.md#function-read_dlc_tracks): Read in tracks from DLC.
+- [`io.read_NWB_tracks`](./io.md#function-read_nwb_tracks): Read in tracks from NWB PoseEstimiationSeries format (something saved using the DLC2NWB package).
 - [`io.read_boris_annotation`](./io.md#function-read_boris_annotation): Read behavior annotation from BORIS exported csv file. 
 - [`io.save_DLC_tracks_h5`](./io.md#function-save_dlc_tracks_h5): Save DLC tracks in h5 format.
 - [`io.save_sklearn_model`](./io.md#function-save_sklearn_model): Save sklearn model to file
@@ -150,8 +153,8 @@
 - [`unsupervised.compute_tsne_embedding`](./unsupervised.md#function-compute_tsne_embedding): Compute TSNE embedding. Only for a random subset of rows.
 - [`unsupervised.compute_watershed`](./unsupervised.md#function-compute_watershed): Compute watershed clustering of a density matrix. 
 - [`utils.checkFFMPEG`](./utils.md#function-checkffmpeg): Check for ffmpeg dependencies
-- [`video.create_metadata`](./video.md#function-create_metadata): Prepare a metadata dictionary for defining a ExperimentDataFrame. 
 - [`video.create_dataset`](./video.md#function-create_dataset): Houses DLC tracking data and behavior annotations in pandas DataFrame for ML, along with relevant metadata, features and behavior annotation labels.
+- [`video.create_metadata`](./video.md#function-create_metadata): Prepare a metadata dictionary for defining a ExperimentDataFrame. 
 - [`video.get_sample_openfield_data`](./video.md#function-get_sample_openfield_data): Load a sample dataset of 1 mouse in openfield setup. The video is the sample that comes with DLC.
 - [`video.load_experiment`](./video.md#function-load_experiment): Load DataFrame from file.
 

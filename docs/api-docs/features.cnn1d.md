@@ -36,7 +36,7 @@ build_baseline_model(
 
 ---
 
-<a href="https://github.com/benlansdell/ethome/blob/master/ethome/features/cnn1d.py#L62"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/features/cnn1d.py#L61"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `make_df`
 
@@ -51,7 +51,7 @@ make_df(pts, colnames=None)
 
 ---
 
-<a href="https://github.com/benlansdell/ethome/blob/master/ethome/features/cnn1d.py#L72"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/features/cnn1d.py#L71"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `features_identity`
 
@@ -66,7 +66,7 @@ features_identity(inputs)
 
 ---
 
-<a href="https://github.com/benlansdell/ethome/blob/master/ethome/features/cnn1d.py#L75"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/features/cnn1d.py#L74"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `features_via_sklearn`
 
@@ -81,7 +81,7 @@ features_via_sklearn(inputs, featurizer)
 
 ---
 
-<a href="https://github.com/benlansdell/ethome/blob/master/ethome/features/cnn1d.py#L82"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/features/cnn1d.py#L81"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `features_mars`
 
@@ -96,7 +96,7 @@ features_mars(x)
 
 ---
 
-<a href="https://github.com/benlansdell/ethome/blob/master/ethome/features/cnn1d.py#L87"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/features/cnn1d.py#L86"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `features_mars_distr`
 
@@ -111,7 +111,7 @@ features_mars_distr(x)
 
 ---
 
-<a href="https://github.com/benlansdell/ethome/blob/master/ethome/features/cnn1d.py#L90"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/features/cnn1d.py#L89"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `features_distances`
 
@@ -126,7 +126,7 @@ features_distances(inputs)
 
 ---
 
-<a href="https://github.com/benlansdell/ethome/blob/master/ethome/features/cnn1d.py#L117"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/features/cnn1d.py#L116"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `features_distances_normalized`
 
@@ -141,14 +141,14 @@ features_distances_normalized(inputs)
 
 ---
 
-<a href="https://github.com/benlansdell/ethome/blob/master/ethome/features/cnn1d.py#L148"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/features/cnn1d.py#L147"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>class</kbd> `MABe_Generator`
 
 
 
 
-<a href="https://github.com/benlansdell/ethome/blob/master/ethome/features/cnn1d.py#L149"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/features/cnn1d.py#L148"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `__init__`
 
@@ -166,7 +166,7 @@ __init__(
     frame_gap=1,
     shuffle=False,
     mode='fit',
-    featurize=<function features_identity at 0x7fbe20a39200>
+    featurize=<function features_identity at 0x7f92400e01f0>
 )
 ```
 
@@ -179,7 +179,7 @@ __init__(
 
 ---
 
-<a href="https://github.com/benlansdell/ethome/blob/master/ethome/features/cnn1d.py#L204"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/features/cnn1d.py#L200"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `augment_fn`
 
@@ -193,7 +193,7 @@ augment_fn(x)
 
 ---
 
-<a href="https://github.com/benlansdell/ethome/blob/master/ethome/features/cnn1d.py#L241"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/features/cnn1d.py#L237"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `on_epoch_end`
 

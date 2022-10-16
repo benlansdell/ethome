@@ -3,6 +3,7 @@ import numpy as np
 import pandas as pd 
 
 try:
+    import tensorflow.keras as keras
     from keras.models import Sequential
     import keras.layers as layers
     import keras

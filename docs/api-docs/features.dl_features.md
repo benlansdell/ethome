@@ -154,11 +154,11 @@ __init__(
     future_frames=0,
     frame_gap=1,
     use_conv=False,
-    build_model=<function build_baseline_model at 0x7fbe61fb2050>,
+    build_model=<function build_baseline_model at 0x7f92400d1af0>,
     Generator=<class 'features.cnn1d.MABe_Generator'>,
     use_callbacks=False,
     learning_decay_freq=10,
-    featurizer=<function features_identity at 0x7fbe20a39200>
+    featurizer=<function features_identity at 0x7f92400e01f0>
 )
 ```
 

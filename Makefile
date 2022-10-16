@@ -39,6 +39,7 @@ demo:
 # https://pythonrepo.com/repo/ml-tooling-lazydocs-python-documentation#mkdocs-integration
 
 doc:
+		cp README.md docs/index.md
 		lazydocs \
 		    --output-path="./docs/api-docs" \
 		    --overview-file="README.md" \

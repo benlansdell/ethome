@@ -23,14 +23,6 @@ Interprets pose-tracking files (from DLC, NWB formats) and behavior annotations 
 pip install ethome-ml
 ```
 
-Can install optional extras with:
-
-```
-pip install ethome-ml[all]
-```
-
-This includes matplotlib and keras. 
-
 ## Quickstart
 
 Import

@@ -11,7 +11,7 @@ from ethome.features.cnn1d import MABe_Generator, features_identity
 from .cnn1d import *
 
 try:
-    import keras
+    import tensorflow.keras as keras
     has_keras = True
 except ImportError:
     warnings.warn("Keras not found. Deep learning-based features are not available", RuntimeWarning)

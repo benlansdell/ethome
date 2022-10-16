@@ -43,12 +43,12 @@ boiler_plate(features_df)
 
 ---
 
-<a href="https://github.com/benlansdell/ethome/blob/master/ethome/features/mars_features.py#L310"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/features/mars_features.py#L299"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `make_features_distances`
 
 ```python
-make_features_distances(df)
+make_features_distances(df, animal_setup)
 ```
 
 
@@ -58,12 +58,12 @@ make_features_distances(df)
 
 ---
 
-<a href="https://github.com/benlansdell/ethome/blob/master/ethome/features/mars_features.py#L352"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/features/mars_features.py#L340"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `make_features_mars`
 
 ```python
-make_features_mars(df, n_shifts=3, mode='shift')
+make_features_mars(df, animal_setup, n_shifts=3, mode='shift')
 ```
 
 
@@ -73,12 +73,12 @@ make_features_mars(df, n_shifts=3, mode='shift')
 
 ---
 
-<a href="https://github.com/benlansdell/ethome/blob/master/ethome/features/mars_features.py#L403"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/features/mars_features.py#L390"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `make_features_mars_distr`
 
 ```python
-make_features_mars_distr(x, y)
+make_features_mars_distr(df, animal_setup)
 ```
 
 
@@ -88,12 +88,12 @@ make_features_mars_distr(x, y)
 
 ---
 
-<a href="https://github.com/benlansdell/ethome/blob/master/ethome/features/mars_features.py#L406"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/features/mars_features.py#L393"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `make_features_mars_reduced`
 
 ```python
-make_features_mars_reduced(df, n_shifts=2, mode='diff')
+make_features_mars_reduced(df, animal_setup, n_shifts=2, mode='diff')
 ```
 
 
@@ -103,12 +103,12 @@ make_features_mars_reduced(df, n_shifts=2, mode='diff')
 
 ---
 
-<a href="https://github.com/benlansdell/ethome/blob/master/ethome/features/mars_features.py#L446"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/features/mars_features.py#L432"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `make_features_velocities`
 
 ```python
-make_features_velocities(df, n_shifts=5)
+make_features_velocities(df, animal_setup, n_shifts=5)
 ```
 
 
@@ -118,12 +118,12 @@ make_features_velocities(df, n_shifts=5)
 
 ---
 
-<a href="https://github.com/benlansdell/ethome/blob/master/ethome/features/mars_features.py#L487"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/features/mars_features.py#L472"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `make_features_social`
 
 ```python
-make_features_social(df, n_shifts=3, mode='shift')
+make_features_social(df, animal_setup, n_shifts=3, mode='shift')
 ```
 
 
@@ -133,7 +133,7 @@ make_features_social(df, n_shifts=3, mode='shift')
 
 ---
 
-<a href="https://github.com/benlansdell/ethome/blob/master/ethome/features/mars_features.py#L536"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/features/mars_features.py#L520"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `compute_mars_features`
 
@@ -148,7 +148,7 @@ compute_mars_features(df: DataFrame, raw_col_names: list, **kwargs) → DataFram
 
 ---
 
-<a href="https://github.com/benlansdell/ethome/blob/master/ethome/features/mars_features.py#L541"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/features/mars_features.py#L525"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `compute_distance_features`
 
@@ -167,7 +167,7 @@ compute_distance_features(
 
 ---
 
-<a href="https://github.com/benlansdell/ethome/blob/master/ethome/features/mars_features.py#L546"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/features/mars_features.py#L530"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `compute_mars_reduced_features`
 
@@ -186,7 +186,7 @@ compute_mars_reduced_features(
 
 ---
 
-<a href="https://github.com/benlansdell/ethome/blob/master/ethome/features/mars_features.py#L551"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/features/mars_features.py#L535"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `compute_social_features`
 
@@ -205,7 +205,7 @@ compute_social_features(
 
 ---
 
-<a href="https://github.com/benlansdell/ethome/blob/master/ethome/features/mars_features.py#L556"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/features/mars_features.py#L540"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `compute_velocity_features`
 

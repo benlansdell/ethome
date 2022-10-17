@@ -52,7 +52,7 @@ The key functionality of `ethome` is the ability to easily create features for m
 dataset.features.add('cnn1d_prob')
 dataset.features.add('mars')
 ```
-Other, more generic, feature creation functions are provided that work for any animal configuration. (The 'mars' feature-set is designed for studying social behavior in mice, based heavily on the MARS framework Segalin et al. [1])
+You must have labeled your body parts in a certain way to use these two feature sets (see the How To). But other, more generic, feature creation functions are provided that work for any animal configuration. (The 'mars' feature-set is designed for studying social behavior in mice, based heavily on the MARS framework Segalin et al. [1])
 
 Now you can access a features table, labels, and groups for learning with `dataset.ml.features, dataset.ml.labels, dataset.ml.group`. From here it's easy to use some ML libraries to train a behavior classifier. For example:
 ```python

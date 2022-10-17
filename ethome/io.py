@@ -85,6 +85,12 @@ def _read_DLC_tracks(df : pd.DataFrame,
         df.columns = df.columns.set_names(['scorer', 'bodyparts', 'coords'])
         multi_animal = False
 
+    if 'time' in df.columns:
+        times = df['time'].reset_index(drop = True)
+        df.drop(columns = 'time', inplace = True)
+    else:
+        times = None
+
     scorer = df.columns.get_level_values(0)[0]
 
     cols = list(df.columns)
@@ -138,6 +144,8 @@ def _read_DLC_tracks(df : pd.DataFrame,
 
     final_df['filename'] = fn_in
     final_df['frame'] = final_df.index.copy()
+    if times is not None:
+        final_df['time'] = times
 
     if labels is not None:
         labels.index = final_df.index
@@ -216,6 +224,7 @@ def _convert_nwb_to_h5_all(nwbfile):
                 )
             object_dfs.append(pd.concat(dfs, axis=1))
         df = pd.concat(object_dfs, axis=1)
+        df['time'] = df.index.copy()
 
         ##Read in behavior labels
         object_keys = read_nwbfile.processing["behavior"].data_interfaces.keys()

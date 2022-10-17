@@ -1,19 +1,4 @@
-""" Basic video tracking and behavior class that houses data. 
-
-Basic object is the ExperimentDataFrame class.
-
-## A note on unit conversions
-
-For the unit rescaling, if the dlc/tracking file is already in desired units, either in physical distances, or pixels, then don't provide all of 'frame_width', 'resolution', and 'frame_width_units'. If you want to keep track of the units, you can add a 'units' key to the metadata. This could be 'pixels', or 'cm', as appropriate.
-
-If the tracking is in pixels and you do want to rescale it to some physical distance, you should provide 'frame_width', 'frame_width_units' and 'resolution' for all videos. This ensures the entire dataset is using the same units. The package will use these values for each video to rescale the (presumed) pixel coordinates to physical coordinates. 
-
-Resolution is a tuple (H,W) in pixels of the videos. 'frame_width' is the width of the image, in units 'frame_width_units'
-
-When this is done, all coordinates are converted to 'mm'. The pair 'units':'mm' is added to the metadata dictionary for each video
-
-If any of the provided parameters are provided, but are not the right format, or some values are missing, a warning is given and the rescaling is not performed.
-"""
+""" Basic video tracking and behavior class that houses data"""
 
 import pandas as pd
 import dill
@@ -685,7 +670,8 @@ def _load_dlc_tracks(df, part_renamer, animal_renamer, rescale = False):
                                                                             part_renamer, 
                                                                             animal_renamer)
         n_rows = len(df_fn)
-        df_fn['time'] = df_fn['frame']/df.metadata.details[fn]['fps']
+        if 'time' not in df_fn.columns:
+            df_fn['time'] = df_fn['frame']/df.metadata.details[fn]['fps']
 
         if rescale and ('frame_width_units' in df.metadata.details[fn]) and \
                 ('frame_width' in df.metadata.details[fn]) and \

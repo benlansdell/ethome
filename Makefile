@@ -44,7 +44,15 @@ doc:
 		    --output-path="./docs/api-docs" \
 		    --overview-file="README.md" \
     		--src-base-url="https://github.com/benlansdell/ethome/blob/master/" \
-			--ignored-modules="version,config" \
+			--ignored-modules="config" \
+			--ignored-modules="version" \
+			--ignored-modules="models" \
+			--ignored-modules="features" \
+			--ignored-modules="features.cnn1d" \
+			--ignored-modules="features.features" \
+			--ignored-modules="features.generic_features" \
+			--ignored-modules="features.dl_features" \
+			--ignored-modules="features.mars_features" \
     		ethome
 		mkdocs build
 

@@ -7,7 +7,8 @@ import pandas as pd
 def test_nwb_import():
     from ethome.io import get_sample_nwb_paths
     from ethome import create_dataset
-    path = get_sample_nwb_paths()
+    #path = get_sample_nwb_paths()
+    path = '/home/blansdel/projects/ethome/ethome/data/sample_nwb_dandiset_231.nwb'
     dataset = create_dataset(path)
     assert type(dataset) is pd.DataFrame
 

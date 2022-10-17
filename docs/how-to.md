@@ -3,7 +3,7 @@
 
 This guide covers the all of the tasks you can perform with this package, roughly in the order you'd want to do them. A very basic outline is also in the quick start section of the readme. 
 
-This guide covers basic usage -- it doesn't comprehensively describe how to use every function or feature in `ethome`; you can consult the API docs for more information on usage.
+This guide covers basic usage -- it doesn't comprehensively describe how to use every function or feature in `ethome`; you can consult the API docs for more information on usage. After installation, cut and past the code samples below to follow along.
 
 ## 1 Getting started
 
@@ -15,11 +15,13 @@ The first task is to load the data into a form useful for machine learning. The 
 
 The NeurodataWithoutBorders format can store both pose tracking data and behavioral annotations, along with associated metadata. If all of your data is stored in this format, then it's easy to import it into `ethome`:
 ```python
-fn_in = './sample_nwb_file.nwb'
+from ethome import create_dataset
+from ethome.io import get_sample_nwb_paths
+fn_in = get_sample_nwb_paths()
 recordings = create_dataset(fn_in)
 ```
 
-You can provide multiple recordings, just provide a list of paths instead. Each separate file is assumed to represent a different session/experiment/time. I.e., they're *not* meant to represent the same session from different cameras, or the same session for different animals.  
+You can provide multiple recordings, just provide a list of paths instead. Each separate file is assumed to represent a different session/experiment/time period. I.e., they're *not* meant to represent the same session from different cameras, or the same session for different animals.  
 
 ### 1b Loading your own metadata/loading DLC files
 
@@ -36,6 +38,7 @@ Beyond providing the `fps` for each video, all other fields are optional.
 
 Often you'll have many videos that have the same metadata, in that case you can easily create an appropriate dictionary with the helper function `create_metadata`. Say you now have two tracking files, each with the same FPS and resolution. You can make the corresponding metadata dictionary with:
 ```python
+from ethome import create_metadata
 tracking_csvs = ['./dlc_tracking_file_1.csv', './dlc_tracking_file_2.csv']
 fps = 30
 resolution = (1200, 1600)
@@ -110,6 +113,7 @@ Some simple support for interpolating low-confidence tracks in DLC is provided. 
 
 You can achieve this with
 ```python
+from ethome import interpolate_lowconf_points
 interpolate_lowconf_points(recordings)
 ```
 

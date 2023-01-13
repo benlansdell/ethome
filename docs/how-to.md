@@ -133,6 +133,8 @@ First, if your setup is a social mouse study, involving two mice, similar enough
 
 ![Resident-intruder keypoints](assets/mars_keypoints.png)
 
+The animals must be named `resident` and `intruder`, and the body parts must be: `nose`, `leftear`, `rightear`, `neck`, `lefthip`, `righthip`, and `tail`.
+
 The `cnn1d_prob`, `mars`, `mars_reduced` and `social` functions can be used to make features for this setup. 
 
 * `cnn1d_prob` runs a 1D CNN and outputs prediction probabilities of three behaviors (attack, mount, and investigation). Even if you're not interested in these exact behaviors, they may still be useful for predicting the occurance of other behaviors, as part of an ensemble model. 
@@ -149,6 +151,7 @@ You can generate more generic features using the following functions:
 * `centroid_interanimal_speed` the rate of change of `centroid_interanimal`
 * `intrabodypartspeeds` the speeds of all body parts
 * `intrabodypartdistances` the distances between all animals body parts (inter- and intra-animal)
+* `distances` is an alias for `intrabodypartdistances`
 
 These classes work for any animal setup, not just resident-intruder with specific body parts, as assumed for the `mars` features.
 
@@ -176,7 +179,7 @@ class BodyPartDiff:
 head_diff = BodyPartDiff(['resident_neck_x', 'resident_neck_y'])
 recordings.features.add(head_diff)
 ```
-This is more verbose than the above, but has the advantage that the it can be re-used. E.g. you could fit the instance to training data and apply it to test data, similar to sklearn's approach.
+This is more verbose than the above, but has the advantage that the it can be re-used. E.g. you may want to fit the instance to training data and apply it to test data, similar to an sklearn model.
 
 ### 3d Features manipulation
 
@@ -195,10 +198,11 @@ Ok! The hard work is done, so now you can easily train a behavior classifier bas
 E.g.
 ```python
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.model_selection import cross_val_score
+from sklearn.model_selection import cross_val_score, LeaveOneGroupOut
 
+cv = LeaveOneGroupOut()
 model = RandomForestClassifier()
-cross_val_score(model, recording.ml.features, recording.ml.labels, recordings.ml.group)
+cross_val_score(model, recording.ml.features, recording.ml.labels, recordings.ml.group, cv = cv)
 ```
 
 A convenience function that essentially runs the above lines is provided, 

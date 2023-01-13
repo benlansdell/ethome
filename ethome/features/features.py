@@ -111,7 +111,8 @@ FEATURE_MAKERS = {'mars': MARS,
                   'centroids': Centroid,
                   'centroids_velocity': CentroidVelocity,
                   'intrabodypartspeeds': Speeds,
-                  'intrabodypartdistances': Distances}
+                  'intrabodypartdistances': Distances,
+                  'distances': Distances}
 
 FEATURE_MAKERS_DESCRIPTION = [
     ['MARS', 'mars', 'MARS mouse resident-intruder features'],

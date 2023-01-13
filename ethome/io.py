@@ -1,6 +1,6 @@
 """ Loading and saving tracking and behavior annotation files """
 import pandas as pd
-import pickle
+import pickle5 as pickle
 import numpy as np
 from itertools import product
 from joblib import dump, load

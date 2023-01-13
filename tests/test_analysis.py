@@ -120,6 +120,20 @@ def test_df_renaming(metadata, default_track_cols):
     df = create_dataset(metadata, animal_renamer = animal_renamer)
     assert set(new_animals) == set(df.pose.animals)
 
+def test_list_features():
+    from ethome.features import list_inbuilt_features
+    list_inbuilt_features()
+
+def test_rf_baselinemodel(dataset):
+    from ethome import add_randomforest_predictions
+    from ethome.features import Distances
+    distances = Distances()
+    dataset.features.add(distances, 
+                     featureset_name = 'distances', 
+                     add_to_features = True)
+    add_randomforest_predictions(dataset)
+    assert 'prediction' in dataset.columns
+
 def test_dl_features(dataset):
     import os
     os.environ["CUDA_VISIBLE_DEVICES"] = ''

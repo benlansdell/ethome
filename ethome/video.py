@@ -9,9 +9,8 @@ import warnings
 import types 
 
 from glob import glob
-from sklearn.model_selection import PredefinedSplit
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.model_selection import cross_val_predict
+from sklearn.model_selection import cross_val_predict, LeaveOneGroupOut, PredefinedSplit
 
 from ethome.io import read_DLC_tracks, read_boris_annotation, uniquifier, create_behavior_labels, read_NWB_tracks
 from ethome.utils import checkFFMPEG
@@ -804,14 +803,15 @@ def add_randomforest_predictions(df : pd.DataFrame):
     Returns:
         None. Modifies df in place, adding column 'prediction' with model predictions in it.
     """
+    cv = LeaveOneGroupOut()
     model = RandomForestClassifier()
-    if df.ml.features is None or df.ml.labels is None or df.ml.groups is None:
+    if df.ml.features is None or df.ml.labels is None or df.ml.group is None:
         warnings.warn("features, labels or groups is None, cannot make predictions")
         return
 
-    if len(df.ml.features) == 0 or len(df.ml.labels) == 0 or len(df.ml.groups) == 0:
+    if len(df.ml.features) == 0 or len(df.ml.labels) == 0 or len(df.ml.group) == 0:
         warnings.warn("features, labels or groups is empyt, cannot make predictions")
         return
 
-    preds = cross_val_predict(model, df.ml.features, df.ml.labels, df.ml.group)
+    preds = cross_val_predict(model, df.ml.features, df.ml.labels, groups = df.ml.group, cv = cv)
     df['prediction'] = preds

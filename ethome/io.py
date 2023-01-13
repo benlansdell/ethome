@@ -351,7 +351,7 @@ def get_sample_data():
     path_in = os.path.join(cur_dir, 'data', 'sample_data.pkl')
     with open(path_in, 'rb') as handle:
         b = pickle.load(handle)
-    return b#['dataset']
+    return b
 
 def read_boris_annotation(fn_in : str, fps : int, duration : float, behav_labels : dict = None) -> tuple:
     """Read behavior annotation from BORIS exported csv file. 

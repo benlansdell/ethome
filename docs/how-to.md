@@ -1,17 +1,17 @@
 
-# How to
+# How To guide
 
-This guide covers the all of the tasks you can perform with this package, roughly in the order you'd want to do them. A very basic outline is also in the quick start section of the readme. 
+This guide covers the all of the tasks you can perform with this package, roughly in the order you'd want to do them. A very basic outline is also in the Quick Start section of the readme. 
 
-This guide covers basic usage -- it doesn't comprehensively describe how to use every function or feature in `ethome`; you can consult the API docs for more information on usage. After installation, cut and past the code samples below to follow along.
+This guide covers basic usage -- it doesn't comprehensively describe how to use every function or feature in `ethome`; you can consult the API docs for complete information on usage. After installation, cut and past the code samples below to follow along.
 
 ## 1 Getting started
 
-`ethome` makes it easy to perform common machine learning analyses on pose-tracking data, perhaps in combination with behavioral annotations. The key thing you need to get started, then, is pose tracking data. At present, data from DeepLabCut or pose data stored in NWB files is supported (via the ndx-pose extension). 
+`ethome` makes it easy to perform common machine learning analyses on pose-tracking data, perhaps in combination with behavioral annotations. The key thing you need to get started, then, is pose tracking data. At present, data from DeepLabCut or pose data stored in NWB files is supported (via the `ndx-pose` extension). 
 
 ### 1a Loading NWB files
 
-The first task is to load the data into a form useful for machine learning. The basic functionality of the package can be seen as using an extended pandas `DataFrame`, with associated support functions that are suited for behavior analysis. The `DataFrame` object will house data from one or more video's worth of pose data, along with associated metadata for each video. 
+The first task is to load the data into a form useful for machine learning. The basic object of the package is an extended pandas `DataFrame`, which provides associated support functions that are suited for behavior analysis. The `DataFrame` object will house data from one or more video's worth of pose data, along with associated metadata for each video. 
 
 The NeurodataWithoutBorders format can store both pose tracking data and behavioral annotations, along with associated metadata. If all of your data is stored in this format, then it's easy to import it into `ethome`:
 ```python
@@ -25,14 +25,15 @@ You can provide multiple recordings, just provide a list of paths instead. Each 
 
 ### 1b Loading your own metadata/loading DLC files
 
-If your data is stored in DeepLabCut csvs or h5 files, perhaps with accompanying behavioral annotations from BORIS, then you'll have to associate these with each other, and provide relevant metadata yourself. Sections 1b -> 1f outline how to do this. Data stored in NWB files have already addressed each of these steps. 
+If your data is stored in DeepLabCut `csv`s or `h5` files, perhaps with accompanying behavioral annotations from [BORIS](https://www.boris.unito.it/), then you'll have to associate these with each other, and provide relevant metadata yourself. Sections 1b -> 1f outline how to do this. Data stored in NWB files have already addressed each of these steps and you can skip these sections. 
 
-To import the data, you'll need to provide metadata for each video you want to analyze. For this, you create a `metadata` dictionary. This is a dictionary whose keys are paths to pose-tracking DLC `.csv`s -- this is how each video is identified. The value of each entry is a dictionary that provides details about that video. For instance, you may have:
+To import the data, you'll need to provide metadata for each video you want to analyze. For this, you create a `metadata` dictionary housing this information. This is a dictionary whose keys are paths to pose-tracking DLC `.csv`s -- this is how each video is identified. The value of each entry is a dictionary that provides details about that video. For instance, you may have:
 ```python
 tracking_csv = './dlc_tracking_file.csv'
 metadata = {tracking_csv : {'fps': 30, 'resolution': (1200, 1600)}}
 ```
-Beyond providing the `fps` for each video, all other fields are optional. 
+
+NOTE: Beyond providing the `fps` for each video, all other fields are optional. 
 
 ### 1c Helper function for making metadata dictionary
 
@@ -44,9 +45,9 @@ fps = 30
 resolution = (1200, 1600)
 metadata = create_metadata(tracking_csvs, fps = fps, resolution = resolution)
 ```
-The `metadata` dictionary now has two entries, one for each video, each listing the same FPS and resolution. 
+The `metadata` dictionary now has two items, one for each video, each listing the same FPS and resolution. 
 
-Any keyword that is an iterable of the same length as the tracking files is zipped with the tracking files accordingly. That is, if you also have behavioral annotations provided by BORIS for each of the videos, then you should prepare a list `labeled_data` and provide that to `create_metadata`:
+NOTE: Any keyword that is an iterable of the same length as the tracking files is zipped with the tracking files accordingly. That is, if you also have behavioral annotations provided by BORIS for each of the videos, then you should prepare a list `labeled_data` and provide that to `create_metadata`:
 ```python
 tracking_csvs = ['./dlc_tracking_file_1.csv', './dlc_tracking_file_2.csv']
 labeled_data = ['./boris_tracking_file_1.csv', './boris_tracking_file_2.csv']
@@ -187,7 +188,7 @@ By default, when new features are added to the dataframe, they are considered 'a
 ```python
 recordings.ml.features
 ```
-You can pass this to any ML method for further processing. This is just a convenience for managing the long list of features you will have created in the steps above. You can always just treat `recordings` like a pandas DataFrame and do ML how you would normally. 
+You can pass this to any ML method for further processing. This `.ml.features` is just a convenience for managing the long list of features you will have created in the steps above. You can always just treat `recordings` like a pandas DataFrame and do ML how you would normally. 
 
 To activate features you can use `recordings.features.activate`, and to deactivate features you can use `recordings.features.deactivate`. Deactivating keeps them in the DataTable, but just no longer includes those features in the `recordings.ml.features` view.
 
@@ -233,7 +234,7 @@ recordings.io.save('outfile.pkl')
 recordings = pd.DataFrame.io.load('outfile.pkl')
 ```
 
-NOTE: By importing `ethome` you extend the functionality of the pandas dataframe, hence can access things like `.io.load`
+NOTE: By importing `ethome` you extend the functionality of the pandas DataFrame, hence can access things like `.io.load`
 
 ## 7 Summary and reference list of added functionality by `ethome`
 

@@ -15,4 +15,3 @@ umap-learn
 scikit-image
 dill
 pynwb
-pickle5

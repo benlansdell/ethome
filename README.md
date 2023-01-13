@@ -6,7 +6,7 @@
 
 Tools for machine learning of animal behavior.
 
-This library interprets pose-tracking files (at present, from DLC or NWB formats) and behavior annotations (at present, from BORIS and NWB formats) to help train a behavior classifier, perform unsupervised learning, and other common analysis tasks. 
+This library interprets pose-tracking files (at present, from DLC or NWB formats) and behavior annotations (at present, from BORIS and NWB formats) to help train a behavior classifier, interpolate data, make videos, and other common analysis tasks. 
 
 ## Features
 
@@ -14,7 +14,6 @@ This library interprets pose-tracking files (at present, from DLC or NWB formats
 * Interpolate pose data to improve low-confidence predictions 
 * Create generic features for analysis and downstream ML tasks
 * Create features specifically for mouse resident-intruder setup
-* Perform unsupervised learning on pose data to extract discrete behavioral motifs (similar to MotionMapper)
 * Quickly generate a movie with behavior predictions
 
 ## Installation
@@ -51,7 +50,7 @@ dataset.pose.body_parts
 
 The key functionality of `ethome` is the ability to easily create features for machine learning. You can use pre-built featuresets, or make your own. Here are two designed specifically to work with a mouse resident-intruder setup:
 ```python
-dataset.features.add('mars')
+dataset.features.add('distances')
 ```
 You must have labeled your body parts in a certain way to use these two feature sets (see the How To). But other, more generic, feature creation functions are provided that work for any animal configuration. (The 'mars' feature-set is designed for studying social behavior in mice, based heavily on the MARS framework Segalin et al. [1])
 

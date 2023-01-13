@@ -112,3 +112,29 @@ FEATURE_MAKERS = {'mars': MARS,
                   'centroids_velocity': CentroidVelocity,
                   'intrabodypartspeeds': Speeds,
                   'intrabodypartdistances': Distances}
+
+FEATURE_MAKERS_DESCRIPTION = [
+    ['MARS', 'mars', 'MARS mouse resident-intruder features'],
+    ['MARS Reduced', 'mars_reduced', 'MARS mouse resident-intruder features, reduced to 10 features'],
+    ['CNN1D Prob', 'cnn1d_prob', 'CNN1D probability features'],
+    ['Social', 'social', 'Social features'],
+    ['Centroids Interanimal', 'centroids_interanimal', 'Centroids interanimal features'],
+    ['Centroids Interanimal Speed', 'centroids_interanimal_speed', 'Centroids interanimal speed features'],
+    ['Centroids', 'centroids', 'Centroids features'],
+    ['Centroids Velocity', 'centroids_velocity', 'Centroids velocity features'],
+    ['Intrabodypart Speeds', 'intrabodypartspeeds', 'Intrabodypart speeds features'],
+    ['Intrabodypart Distances', 'intrabodypartdistances', 'Intrabodypart distances features']
+]
+
+def list_inbuilt_features():
+    """Print available feature makers
+    
+    Args:
+    
+    Returns:
+        None. Prints output
+    """
+    print("Available feature makers: (long name, short name, description)")
+    print("Use shortname, e.g. df.features.add(<short name>)")
+    for long_name, short_name, desc in FEATURE_MAKERS_DESCRIPTION:
+        print(f'{long_name}, {short_name}, {desc}')

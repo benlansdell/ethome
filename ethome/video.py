@@ -10,6 +10,8 @@ import types
 
 from glob import glob
 from sklearn.model_selection import PredefinedSplit
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import cross_val_predict
 
 from ethome.io import read_DLC_tracks, read_boris_annotation, uniquifier, create_behavior_labels, read_NWB_tracks
 from ethome.utils import checkFFMPEG
@@ -789,4 +791,27 @@ def _make_dense_values_into_pairs(predictions, rate): # pragma: no cover
     if in_pair:
         pairs.append([start, idx*rate])
     return pairs
+
+def add_randomforest_predictions(df : pd.DataFrame):
+    """Perform cross validation of a RandomForestClassifier to predict behavior based on 
+    activated features. Can be useful to assess model performance, and if you have enough data.
     
+    Args:
+        df: Dataframe housing features and labels to perform classification. 
+        Will perform leave-one-video-out cross validation hence dataframe needs at least two
+        videos to run.
+
+    Returns:
+        None. Modifies df in place, adding column 'prediction' with model predictions in it.
+    """
+    model = RandomForestClassifier()
+    if df.ml.features is None or df.ml.labels is None or df.ml.groups is None:
+        warnings.warn("features, labels or groups is None, cannot make predictions")
+        return
+
+    if len(df.ml.features) == 0 or len(df.ml.labels) == 0 or len(df.ml.groups) == 0:
+        warnings.warn("features, labels or groups is empyt, cannot make predictions")
+        return
+
+    preds = cross_val_predict(model, df.ml.features, df.ml.labels, df.ml.group)
+    df['prediction'] = preds

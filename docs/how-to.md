@@ -131,6 +131,8 @@ This will compute and add the distances between all body parts of all animals.
 
 First, if your setup is a social mouse study, involving two mice, similar enough to the standard resident-intruder setup, then you can use some pre-designed feature sets. The body parts that are tracked must be those from the MARS dataset (See figure). You will have to have labeled and tracked your mice in DLC in the same way. (with the same animal and body part names -- `ethome`'s `create_dataset` function can rename them appropriately)
 
+![Resident-intruder keypoints](assets/mars_keypoints.png)
+
 The `cnn1d_prob`, `mars`, `mars_reduced` and `social` functions can be used to make features for this setup. 
 
 * `cnn1d_prob` runs a 1D CNN and outputs prediction probabilities of three behaviors (attack, mount, and investigation). Even if you're not interested in these exact behaviors, they may still be useful for predicting the occurance of other behaviors, as part of an ensemble model. 
@@ -199,11 +201,15 @@ model = RandomForestClassifier()
 cross_val_score(model, recording.ml.features, recording.ml.labels, recordings.ml.group)
 ```
 
-## 5 Perform unsupervised learning
+A convenience function that essentially runs the above lines is provided, 
+`add_randomforest_predictions`:
+```python
+from ethome import add_randomforest_predictions
+add_randomforest_predictions(recording)
+```
+which can be used as a starting point for developing behavior classifiers. 
 
-STILL UNDER CONSTRUCTION
-
-## 6 Make output movies
+## 5 Make output movies
 
 Now we have our model we can make a video of its predictions. Provide the column names whose state we're going to overlay on the video, along with the directory to output the videos:
 
@@ -212,7 +218,7 @@ dataset.io.save_movie(['label', 'prediction'], '.')
 ```
 The video field in the `metadata`, specifying the path to the underlying video, has to be present for each recording for this to work. 
 
-## 7 Save your data
+## 6 Save your data
 
 You can save your data as a pickled DataFrame with
 ```python
@@ -225,7 +231,7 @@ recordings = pd.DataFrame.io.load('outfile.pkl')
 
 NOTE: By importing `ethome` you extend the functionality of the pandas dataframe, hence can access things like `.io.load`
 
-## 8 Summary and reference list of added functionality by `ethome`
+## 7 Summary and reference list of added functionality by `ethome`
 
 For reference, the metadata and added functions added to the dataframe are:
 * `recordings.metadata`, which houses

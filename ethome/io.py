@@ -350,8 +350,8 @@ def get_sample_data():
     cur_dir = os.path.dirname(os.path.abspath(__file__))
     path_in = os.path.join(cur_dir, 'data', 'sample_data.pkl')
     with open(path_in, 'rb') as handle:
-        #b = pickle.load(handle)
-        b = pd.read_pickle(handle)
+        b = pickle.load(handle)
+        #b = pd.read_pickle(handle)
     return b
 
 def read_boris_annotation(fn_in : str, fps : int, duration : float, behav_labels : dict = None) -> tuple:

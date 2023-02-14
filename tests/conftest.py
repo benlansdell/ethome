@@ -15,6 +15,10 @@ def labels():
     return sorted(glob(os.path.join(TEST_DATA_DIR, 'boris/*.csv')))
 
 @pytest.fixture()
+def simultaneous_labels():
+    return sorted(glob(os.path.join(TEST_DATA_DIR, 'boris/simultaneous_events/*.csv')))
+
+@pytest.fixture()
 def metadata_params():
     params = {
         'frame_width': 20,

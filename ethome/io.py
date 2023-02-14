@@ -8,6 +8,7 @@ import os
 from glob import glob
 import warnings
 from pynwb import NWBHDF5IO
+from collections import defaultdict
 
 XY_IDS = ['x', 'y']
 XYLIKELIHOOD_IDS = ['x', 'y', 'likelihood']
@@ -354,7 +355,7 @@ def get_sample_data():
         #b = pd.read_pickle(handle)
     return b
 
-def read_boris_annotation(fn_in : str, fps : int, duration : float, behav_labels : dict = None) -> tuple:
+def read_boris_annotation(fn_in : str, fps : int, duration : float, behav_labels : list = None) -> tuple:
     """Read behavior annotation from BORIS exported csv file. 
 
     This will import behavior types specified (or all types, if behavior_list is None) and assign a numerical label to each. Overlapping annotations (those occurring simulataneously) are not supported. Any time the video is annotated as being in multiple states, the last state will be the one labeled.
@@ -366,8 +367,7 @@ def read_boris_annotation(fn_in : str, fps : int, duration : float, behav_labels
         behav_labels: If provided, only import behaviors with these names. Default = None = import everything. 
     
     Returns:
-        A numpy array which indicates, for all frames, which behavior is occuring. 0 = no behavior, 1 and above are the labels of the behaviors.
-        A dictionary with keys the numerical labels and values the names of the behaviors. 
+        A dictionary of numpy arrays which gives, for all frames, which behavior is occuring. 0 = no behavior, 1 = behavior.
     """
 
     boris_labels = pd.read_csv(fn_in, skiprows = 15)
@@ -382,13 +382,12 @@ def read_boris_annotation(fn_in : str, fps : int, duration : float, behav_labels
         warnings.warn(f"Warning: BORIS duration is {duration_boris} but video is {duration} seconds. Are the DLC and BORIS files from the same video?")
 
     n_bins = int(duration*fps)
-    ground_truth = np.zeros(n_bins)
+    ground_truth = defaultdict(lambda: np.zeros(n_bins))
 
     if behav_labels is None:
-        behaviors = boris_labels['Behavior'].unique()
-        behav_labels = {i+1:k for i,k in enumerate(behaviors)}
-
-    for behav_idx, behavior in behav_labels.items():
+        behav_labels = boris_labels['Behavior'].unique()
+    
+    for behavior in behav_labels:
         labels = boris_labels[boris_labels['Behavior'] == behavior]
         starts = labels.loc[labels['Status'] == 'START', 'Time']
         ends = labels.loc[labels['Status'] == 'STOP', 'Time']
@@ -397,9 +396,9 @@ def read_boris_annotation(fn_in : str, fps : int, duration : float, behav_labels
         elif len(ends) == len(starts) + 1:
             ends.append(duration)
         for start, end in zip(starts, ends):
-            ground_truth[int(start*fps):int(end*fps)] = behav_idx
+            ground_truth[behavior][int(start*fps):int(end*fps)] = 1
 
-    return ground_truth, behav_labels
+    return ground_truth
 
 def create_behavior_labels(boris_files):
     """Create behavior labels from BORIS exported csv files.

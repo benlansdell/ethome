@@ -29,6 +29,16 @@ def test_sample_singlemouse_data():
     assert df.pose.animals == ['ind1']
     assert len(df.columns) == 15
 
+def test_sample_simultaneous_behavior_data(tracking_files, simultaneous_labels):
+    import numpy as np
+    from ethome import create_dataset, create_metadata
+    metadata = create_metadata(tracking_files[:1], 
+                               labels = simultaneous_labels,
+                               fps = 30)
+
+    df = create_dataset(metadata)
+    assert 2 in np.unique(df.ml.labels.sum(axis = 1))
+
 def test_multiple_boris_behaviors():
     import os 
     from glob import glob 

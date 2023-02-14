@@ -723,6 +723,7 @@ def _load_labels_boris(df, col_name = 'label', set_as_label = False):
                 label_files.append(df.metadata.details[fn]['labels'])
         df.metadata.label_key = create_behavior_labels(label_files)
 
+    label_cols = []
     for vid in df.metadata.details:
         if 'labels' in df.metadata.details[vid]:
 
@@ -730,12 +731,17 @@ def _load_labels_boris(df, col_name = 'label', set_as_label = False):
             fps = df.metadata.details[vid]['fps']
             duration = df.metadata.details[vid]['duration']
 
-            ground_truth, _ = read_boris_annotation(fn_in, fps, duration, df.metadata.label_key)
+            ground_truth = read_boris_annotation(fn_in, fps, duration, df.metadata.label_key.values())
 
-            df.loc[df['filename'] == vid, col_name] = ground_truth
+            for behavior in ground_truth:
+                col_name = 'label_' + behavior
+                label_cols.append(col_name)
+                if col_name not in df.columns:
+                    df[col_name] = 0.
+                df.loc[df['filename'] == vid, col_name] = ground_truth[behavior]
 
     if set_as_label:
-        df.ml.label_cols = col_name
+        df.ml.label_cols = list(set(label_cols))
 
 def load_experiment(fn_in : str) -> pd.DataFrame:
     """Load DataFrame from file.

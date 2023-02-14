@@ -1,0 +1,22 @@
+Observation id,testvid,,,,,,,
+,,,,,,,,
+Media file(s),,,,,,,,
+,,,,,,,,
+Player #1,/Users/blansdel/projects/ethome/tests/data/vids/e3v813a-20210610T120637-121213.avi,,,,,,,
+,,,,,,,,
+Observation date,2023-02-12 00:26:30,,,,,,,
+,,,,,,,,
+Description,,,,,,,,
+,,,,,,,,
+Time offset (s),0.000,,,,,,,
+,,,,,,,,
+independent variables,,,,,,,,
+variable,value,,,,,,,
+,,,,,,,,
+Time,Media file path,Total length,FPS,Subject,Behavior,Behavioral category,Comment,Status
+9.955,/Users/blansdel/projects/ethome/tests/data/vids/e3v813a-20210610T120637-121213.avi,336.000,30.0,mouse,mm,,,START
+11.256,/Users/blansdel/projects/ethome/tests/data/vids/e3v813a-20210610T120637-121213.avi,336.000,30.0,mouse,mm,,,STOP
+26.605,/Users/blansdel/projects/ethome/tests/data/vids/e3v813a-20210610T120637-121213.avi,336.000,30.0,mouse,mm,,,START
+28.205,/Users/blansdel/projects/ethome/tests/data/vids/e3v813a-20210610T120637-121213.avi,336.000,30.0,mouse,aa,,,START
+30.630,/Users/blansdel/projects/ethome/tests/data/vids/e3v813a-20210610T120637-121213.avi,336.000,30.0,mouse,aa,,,STOP
+31.705,/Users/blansdel/projects/ethome/tests/data/vids/e3v813a-20210610T120637-121213.avi,336.000,30.0,mouse,mm,,,STOP

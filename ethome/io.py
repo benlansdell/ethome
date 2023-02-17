@@ -163,6 +163,8 @@ def _read_DLC_tracks(df : pd.DataFrame,
         final_df = pd.concat((final_df, labels), axis = 1)
         final_df = final_df.rename(columns = {k:k[0] for k in labels.columns})
 
+    final_df.ml.label_cols = [p[0] for p in labels.columns]
+
     return final_df, body_parts, animals, colnames, scorer
 
 ## This function is from DLC2NWB package: https://github.com/DeepLabCut/DLC2NWB/blob/10331daa1bfadb9c19d2e4957aa8752d74d5759b/dlc2nwb/utils.py#L307 
@@ -246,7 +248,7 @@ def _convert_nwb_to_h5_all(nwbfile):
         cols = []
         for read_pe in objects:
             name = read_pe.name
-            col = 'annotation_' + name
+            col = 'label_' + name
             cols.append(col)
             new_df[col] = 0
             start_times = read_pe.start_time[:]

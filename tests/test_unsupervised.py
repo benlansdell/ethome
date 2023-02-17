@@ -41,7 +41,6 @@ def test_compute_watershed(dens_matrix):
 
 def test_cluster_behaviors(dataset, default_track_cols):
     cluster_results = cluster_behaviors(dataset, default_track_cols, N_rows = 200)
-
     assert 'embedding_index_0' in dataset.columns
     assert 'embedding_index_1' in dataset.columns
     assert 'unsup_behavior_label' in dataset.columns

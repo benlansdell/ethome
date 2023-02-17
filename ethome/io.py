@@ -162,8 +162,7 @@ def _read_DLC_tracks(df : pd.DataFrame,
         labels.index = final_df.index
         final_df = pd.concat((final_df, labels), axis = 1)
         final_df = final_df.rename(columns = {k:k[0] for k in labels.columns})
-
-    final_df.ml.label_cols = [p[0] for p in labels.columns]
+        final_df.ml.label_cols = [p[0] for p in labels.columns]
 
     return final_df, body_parts, animals, colnames, scorer
 

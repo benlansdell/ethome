@@ -1,4 +1,5 @@
 """Small helper utilities"""
+from importlib.util import find_spec 
 
 #TODO
 # Make ffmpeg support windows friendly
@@ -22,3 +23,7 @@ def checkFFMPEG() -> bool:
         pass
 
     return False 
+
+def check_keras():
+    if find_spec('tensorflow') is not None: return True 
+    else: return False

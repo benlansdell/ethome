@@ -4,18 +4,11 @@ import pandas as pd
 import tqdm
 import os
 from copy import deepcopy
-import warnings
 
 from ethome.features.cnn1d import build_baseline_model
 from ethome.features.cnn1d import MABe_Generator, features_identity
 from .cnn1d import *
-
-try:
-    import tensorflow.keras as keras
-    has_keras = True
-except ImportError:
-    warnings.warn("Keras not found. Deep learning-based features are not available", RuntimeWarning)
-    has_keras = False
+from ..utils import check_keras
 
 THIS_FILE_DIR = os.path.dirname(os.path.realpath(__file__))
 
@@ -286,7 +279,7 @@ def compute_dl_probability_features(df : pd.DataFrame, raw_col_names : list, **k
 
     animal_setup = df.pose.animal_setup
 
-    if not has_keras:
+    if not check_keras():
         raise RuntimeError("Keras not found. Deep learning-based features are not available")
 
     test_data = convert_to_mars_format(df, raw_col_names, animal_setup)

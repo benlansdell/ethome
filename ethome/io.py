@@ -55,7 +55,7 @@ def read_DLC_tracks(fn_in : str,
     """Read in tracks from DLC.
 
     Args:
-        fn_in: csv file that has DLC tracks
+        fn_in: csv or h5 file that has DLC tracks
         part_renamer: dictionary to rename body parts, if needed 
         animal_renamer: dictionary to rename animals, if needed
         read_likelihoods: default True. Whether to attach DLC likelihoods to table
@@ -68,21 +68,31 @@ def read_DLC_tracks(fn_in : str,
             Scorer
     """
 
-    df = pd.read_csv(fn_in, header = [0,1,2,3], index_col = 0)
-    return _read_DLC_tracks(df, fn_in, part_renamer, animal_renamer, read_likelihoods, labels)
+    ext = os.path.splitext(fn_in)[1]
+    if ext == 'h5' or ext == 'hdf5' or ext == 'hdf':
+        df = pd.read_hdf(fn_in)
+        ext = 'h5'
+    else:
+        df = pd.read_csv(fn_in, header = [0,1,2,3], index_col = 0)
+        ext = 'csv'
+    return _read_DLC_tracks(df, fn_in, part_renamer, animal_renamer, read_likelihoods, labels, ext)
 
 def _read_DLC_tracks(df : pd.DataFrame, 
                      fn_in : str,
                      part_renamer : dict = None, 
                      animal_renamer : dict = None,
                      read_likelihoods : bool = True,
-                     labels : pd.DataFrame = None) -> tuple:
+                     labels : pd.DataFrame = None, 
+                     ext : str = 'csv') -> tuple:
 
     if 'individuals' in df.columns.names:
         df.columns = df.columns.set_names(['scorer', 'individuals', 'bodyparts', 'coords'])
         multi_animal = True
     else:
-        df = pd.read_csv(fn_in, header = [0,1,2], index_col = 0)
+        if ext == 'csv':
+            df = pd.read_csv(fn_in, header = [0,1,2], index_col = 0)
+        else:
+            df = pd.read_hdf(fn_in)
         df.columns = df.columns.set_names(['scorer', 'bodyparts', 'coords'])
         multi_animal = False
 

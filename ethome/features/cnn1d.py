@@ -1,35 +1,22 @@
-import warnings
 import numpy as np 
 import pandas as pd 
 
-try:
-    import tensorflow.keras as keras
-    from keras.models import Sequential
-    import keras.layers as layers
-    import keras
-    has_keras = True
-except ImportError:
-    warnings.warn("Keras not found. Deep learning-based features are not available", RuntimeWarning)
-    has_keras = False
-
+from ..utils import check_keras
 from .mars_features import make_features_mars, make_features_mars_distr
 
 def build_baseline_model(input_dim, layer_channels=(512, 256), dropout_rate=0., 
                         learning_rate=1e-3, conv_size=5, num_classes = 4,
                         class_weight = None):
 
-    if not has_keras:
+    if not check_keras():
         raise RuntimeError("Keras not found. Deep learning-based features are not available")
 
-    print(f"dropout_rate: {dropout_rate}, learning_rate: {learning_rate}, layer_channels: {layer_channels}, conv_size: {conv_size}")
+    import tensorflow.keras as keras
+    from keras.models import Sequential
+    import keras.layers as layers
+    #import keras
 
-    # def add_dense_bn_activate(model, out_dim, activation='relu', drop=0.):
-    #     model.add(layers.Dense(out_dim))
-    #     model.add(layers.BatchNormalization())
-    #     model.add(layers.Activation('relu'))
-    #     if drop > 0:
-    #         model.add(layers.Dropout(rate=drop))
-    #     return model
+    print(f"dropout_rate: {dropout_rate}, learning_rate: {learning_rate}, layer_channels: {layer_channels}, conv_size: {conv_size}")
 
     def add_conv_bn_activate(model, out_dim, activation='relu', conv_size=3, drop=0.):
         model.add(layers.Conv1D(out_dim, conv_size))
@@ -144,100 +131,101 @@ def features_distances_normalized(inputs): # pragma: no cover
     return features, features.shape[1:]
     #output (4509, X) = (frame, feature) 
 
-if has_keras:
-    class MABe_Generator(keras.utils.Sequence):
-        def __init__(self, pose_dict, 
-                    batch_size, dim, 
-                    use_conv, num_classes, augment=False,
-                    class_to_number=None,
-                    past_frames=0, future_frames=0, 
-                    frame_gap=1, shuffle=False,
-                    mode='fit', featurize = features_identity):
-            self.batch_size = batch_size
-            self.featurize = featurize
-            self.video_keys = list(pose_dict.keys())
-            self.dim = dim
-            self.use_conv = use_conv
-            self.past_frames = past_frames
-            self.future_frames = future_frames
-            self.frame_gap = frame_gap
-            self.shuffle = shuffle
-            self.num_classes=num_classes
-            self.augment = augment
-            self.mode = mode
+class MABe_Generator:
+    def __init__(self, pose_dict, 
+                batch_size, dim, 
+                use_conv, num_classes, augment=False,
+                class_to_number=None,
+                past_frames=0, future_frames=0, 
+                frame_gap=1, shuffle=False,
+                mode='fit', featurize = features_identity):
+        self.batch_size = batch_size
+        self.featurize = featurize
+        self.video_keys = list(pose_dict.keys())
+        self.dim = dim
+        self.use_conv = use_conv
+        self.past_frames = past_frames
+        self.future_frames = future_frames
+        self.frame_gap = frame_gap
+        self.shuffle = shuffle
+        self.num_classes=num_classes
+        self.augment = augment
+        self.mode = mode
 
-            self.class_to_number = class_to_number
+        self.class_to_number = class_to_number
 
-            self.video_indexes = []
-            self.frame_indexes = []
-            self.X = {}
-            self.pad = self.past_frames * self.frame_gap
-            future_pad = self.future_frames * self.frame_gap
-            pad_width = (self.pad, future_pad), (0, 0), (0, 0), (0, 0)
-            self.seq_lengths = {}
-            for vc, key in enumerate(self.video_keys):
-                nframes = len(pose_dict[key]['keypoints'])
-                self.video_indexes.extend([vc for _ in range(nframes)])
-                self.frame_indexes.extend(range(nframes))
-                self.X[key],_ = self.featurize(np.pad(pose_dict[key]['keypoints'], pad_width))
-                self.seq_lengths[key] = nframes
-            
-            self.class_weights = np.ones(num_classes)
-            
-            self.X_dtype = self.X[key].dtype
+        self.video_indexes = []
+        self.frame_indexes = []
+        self.X = {}
+        self.pad = self.past_frames * self.frame_gap
+        future_pad = self.future_frames * self.frame_gap
+        pad_width = (self.pad, future_pad), (0, 0), (0, 0), (0, 0)
+        self.seq_lengths = {}
+        for vc, key in enumerate(self.video_keys):
+            nframes = len(pose_dict[key]['keypoints'])
+            self.video_indexes.extend([vc for _ in range(nframes)])
+            self.frame_indexes.extend(range(nframes))
+            self.X[key],_ = self.featurize(np.pad(pose_dict[key]['keypoints'], pad_width))
+            self.seq_lengths[key] = nframes
+        
+        self.class_weights = np.ones(num_classes)
+        
+        self.X_dtype = self.X[key].dtype
 
-            self.indexes = list(range(len(self.frame_indexes)))
+        self.indexes = list(range(len(self.frame_indexes)))
 
+        if self.mode == 'predict':
+            extra_predicts = -len(self.indexes) % self.batch_size # So that last part is not missed
+            self.indexes.extend(self.indexes[:extra_predicts])
+            self.indexes = np.array(self.indexes)
+        
+        self.on_epoch_end()
+
+    def __len__(self):
+        return len(self.indexes) // self.batch_size
+
+    def augment_fn(self, x):
+        # Rotate
+        angle = (np.random.rand()-0.5) * (np.pi * 2)
+        c, s = np.cos(angle), np.sin(angle)
+        rot = np.array([[c, -s], [s, c]])
+        x = np.dot(x, rot)
+
+        # Shift - All get shifted together
+        shift = (np.random.rand(2)-0.5) * 2 * 0.25
+        x = x + shift
+        return x
+
+    def __getitem__(self, index):
+        bs = self.batch_size
+        indexes = self.indexes[index*bs:(index+1)*bs]
+        X = np.empty((bs, *self.dim), self.X_dtype)
+        if self.mode == 'predict':
+            vkey_fi_list = []
+        for bi, idx in enumerate(indexes):
+            vkey = self.video_keys[self.video_indexes[idx]]
+            fi = self.frame_indexes[idx]
             if self.mode == 'predict':
-                extra_predicts = -len(self.indexes) % self.batch_size # So that last part is not missed
-                self.indexes.extend(self.indexes[:extra_predicts])
-                self.indexes = np.array(self.indexes)
-            
-            self.on_epoch_end()
+                vkey_fi_list.append((vkey, fi))
+            fi = fi + self.pad
+            start = fi - self.past_frames*self.frame_gap
+            stop = fi + (self.future_frames + 1)*self.frame_gap
+            assert start >= 0
 
-        def __len__(self):
-            return len(self.indexes) // self.batch_size
+            Xi = self.X[vkey][start:stop:self.frame_gap].copy()
+        
+            if self.augment:
+                Xi = self.augment_fn(Xi)
+            X[bi] = np.reshape(Xi, self.dim)
 
-        def augment_fn(self, x):
-            # Rotate
-            angle = (np.random.rand()-0.5) * (np.pi * 2)
-            c, s = np.cos(angle), np.sin(angle)
-            rot = np.array([[c, -s], [s, c]])
-            x = np.dot(x, rot)
+        if self.mode == 'predict':
+            return X, vkey_fi_list
 
-            # Shift - All get shifted together
-            shift = (np.random.rand(2)-0.5) * 2 * 0.25
-            x = x + shift
-            return x
+    def on_epoch_end(self):
+        if self.shuffle == True:
+            np.random.shuffle(self.indexes)
 
-        def __getitem__(self, index):
-            bs = self.batch_size
-            indexes = self.indexes[index*bs:(index+1)*bs]
-            X = np.empty((bs, *self.dim), self.X_dtype)
-            if self.mode == 'predict':
-                vkey_fi_list = []
-            for bi, idx in enumerate(indexes):
-                vkey = self.video_keys[self.video_indexes[idx]]
-                fi = self.frame_indexes[idx]
-                if self.mode == 'predict':
-                    vkey_fi_list.append((vkey, fi))
-                fi = fi + self.pad
-                start = fi - self.past_frames*self.frame_gap
-                stop = fi + (self.future_frames + 1)*self.frame_gap
-                assert start >= 0
-
-                Xi = self.X[vkey][start:stop:self.frame_gap].copy()
-            
-                if self.augment:
-                    Xi = self.augment_fn(Xi)
-                X[bi] = np.reshape(Xi, self.dim)
-
-            if self.mode == 'predict':
-                return X, vkey_fi_list
-
-        def on_epoch_end(self):
-            if self.shuffle == True:
-                np.random.shuffle(self.indexes)
-else:
-    class MABe_Generator(object):
-        pass
+    def __iter__(self):
+        """Create a generator that iterate over the Sequence."""
+        for item in (self[i] for i in range(len(self))):
+            yield item

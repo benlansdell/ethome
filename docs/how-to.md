@@ -64,7 +64,11 @@ When making this metadata dictionary, keep in mind:
 * The `video` field is also special. You should use it to provide a path to the corresponding video that was tracked. If available, this will be used by some of the visualization functions.
 * For each video, the `fps` field must be provided, so that frame numbers can be converted into times.
 
-### 1e Scaling pose data
+### 1e BORIS behavior annotation data
+
+Behavior annotations should be exported from BORIS, in tabular form (as a csv), for each video to be imported.
+
+### 1f Scaling pose data
 
 There is some support for scaling the data to get it into desired units, consistent across all recordings. 
 
@@ -76,7 +80,7 @@ By default, all coordinates are converted to 'mm'. The pair 'units':'mm' is adde
 
 If the DLC/tracking files are already in desired units, either in physical distances, or pixels, then do *not* provide all of the fields `frame_width`, `resolution`, and `frame_width_units`. If you want to keep track of the units, you can add a `units` key to the metadata. This could be `pixels`, `cm`, etc, as appropriate.
 
-### 1f Making the data frame
+### 1g Making the data frame
 
 Once you have the metadata dictionary prepared, you can easily create a `DataFrame` as:
 ```python
@@ -85,7 +89,7 @@ recordings = create_dataset(metadata)
 
 This creates a pandas dataframe, `recordings`, that contains pose data, and perhaps behavior annotations, from all the videos listed in `metadata`.
 
-### 1g Renaming things
+### 1h Renaming things
 
 If your tracking project named the animals some way, but you want them named another way in this dataframe, you can provide an `animal_renamer` dictionary as an argument to the constructor:
 ```python
@@ -93,7 +97,7 @@ recordings = create_dataset(metadata, animal_renamer={'adult': 'resident', 'juve
 ```
 Similarly with the body parts -- you can provide a `part_renamer` dictionary.
 
-### 1h Metadata
+### 1i Metadata
 
 When `recordings` is created, additional metadata is computed and accessible via:
 * `recordings.metadata` houses the following attributes:

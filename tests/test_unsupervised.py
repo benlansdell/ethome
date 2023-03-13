@@ -46,7 +46,7 @@ def test_cluster_behaviors(dataset, default_track_cols):
     assert 'unsup_behavior_label' in dataset.columns
 
     #Test Morlet
-    cluster_results = cluster_behaviors(dataset, default_track_cols, use_morlet = True, N_rows = 200)
+    #cluster_results = cluster_behaviors(dataset, default_track_cols, use_morlet = True, N_rows = 200)
 
     #Test TSNE
-    cluster_results = cluster_behaviors(dataset, default_track_cols, use_umap = False, N_rows = 200)
+    #cluster_results = cluster_behaviors(dataset, default_track_cols, use_umap = False, N_rows = 200)

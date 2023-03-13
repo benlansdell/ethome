@@ -18,7 +18,7 @@ authors:
     equal-contrib: false 
     affiliation: 1
 affiliations:
- - name: Developmental Neurobiology, St Jude Children's Research Hospital, Memphis, TN, USA
+ - name: Developmental Neurobiology, St Jude Children's Research Hospital, Memphis, Tennessee, USA
    index: 1
 date: 14 March 2023
 bibliography: paper.bib
@@ -51,4 +51,12 @@ A range of packages solve related problems: `SimBA`, as mentioned, also performs
 
 # Design 
 
-[The package operates as an extended pandas dataframe]
+The package operates around creating and manipulating an extended Pandas DataFrame to house both pose data and behavioral labels for a set of recordings. The idea being that all added functionality operates on a single object already familiar to users. Extended dataframes can be treated exactly as you would treat any other dataframe. `ethome` then adds metadata and functionality to this object. 
+
+A key feature is that it adds the ability to easily create features for machine learning. You can use pre-built featuresets or make your own. For instance `dataframe.features.add('distances')` will compute all distances between all body parts (both between and within animals). There are also featuresets specifically tailored for social mice studies (resident-intruder studies). For this, you must have labeled your body parts in a certain way (see the How To). A more detailed run through of features is provided in the How To guide.
+
+# Acknowledgements
+
+The authors thank Ryan Li for feedback on incorporating NWB pose data into the package.
+
+# References

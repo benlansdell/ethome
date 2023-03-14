@@ -6,7 +6,7 @@
 
 Tools for machine learning of animal behavior.
 
-This library interprets pose-tracking files (at present, from DLC or NWB formats) and behavior annotations (at present, from BORIS and NWB formats) to help train a behavior classifier, interpolate data and other common analysis tasks. 
+This library interprets pose-tracking files (at present, from DLC, SLEAP or NWB formats) and behavior annotations (at present, from BORIS and NWB formats) to help train a behavior classifier, interpolate data and other common analysis tasks. 
 
 ## Features
 

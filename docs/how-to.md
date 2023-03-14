@@ -23,11 +23,11 @@ recordings = create_dataset(fn_in)
 
 You can provide multiple recordings, just provide a list of paths instead. Each separate file is assumed to represent a different session/experiment/time period. I.e., they're *not* meant to represent the same session from different cameras, or the same session for different animals.  
 
-### 1b Loading your own metadata/loading DLC files
+### 1b Loading your own metadata/loading tracking files
 
-If your data is stored in DeepLabCut `csv`s or `h5` files, perhaps with accompanying behavioral annotations from [BORIS](https://www.boris.unito.it/), then you'll have to associate these with each other, and provide relevant metadata yourself. Sections 1b -> 1f outline how to do this. Data stored in NWB files have already addressed each of these steps and you can skip these sections. 
+If your data is stored in DeepLabCut `csv`s or `h5` files, or SLEAP exported analysis `h5` files, perhaps with accompanying behavioral annotations from [BORIS](https://www.boris.unito.it/), then you'll have to associate these with each other, and provide relevant metadata yourself. Sections 1b -> 1f outline how to do this. Data stored in NWB files have already addressed each of these steps and you can skip these sections. 
 
-To import the data, you'll need to provide metadata for each video you want to analyze. For this, you create a `metadata` dictionary housing this information. This is a dictionary whose keys are paths to pose-tracking DLC `.csv`s -- this is how each video is identified. The value of each entry is a dictionary that provides details about that video. For instance, you may have:
+To import the data, you'll need to provide metadata for each video you want to analyze. For this, you create a `metadata` dictionary housing this information. This is a dictionary whose keys are paths to pose-tracking files -- this is how each video is identified. The value of each entry is a dictionary that provides details about that video. For instance, you may have:
 ```python
 tracking_csv = './dlc_tracking_file.csv'
 metadata = {tracking_csv : {'fps': 30, 'resolution': (1200, 1600)}}
@@ -107,14 +107,14 @@ When `recordings` is created, additional metadata is computed and accessible via
     * `label_key`: associates numbers with text labels for each behavior
     * `reverse_label_key`: associates text labels for each behavior number
 * `recordings.pose`, houses pose information:
-    * `body_parts`: list of body parts loaded from the DLC file(s)
-    * `animals`: list of animals loaded from the DLC files(s)
+    * `body_parts`: list of body parts loaded from the DLC/SLEAP file(s)
+    * `animals`: list of animals loaded from the DLC/SLEAP files(s)
     * `animal_setup`: dictionary detailing animal parts and names
-    * `raw_track_columns`: all original columns names loaded from DLC
+    * `raw_track_columns`: all original columns names loaded from DLC/SLEAP
 
 ## 2 Interpolate low-confidence pose tracking
 
-Some simple support for interpolating low-confidence tracks in DLC is provided. Often predicted locations below a given confidence level are noisy and unreliable, and better tracks may be obtained by removing these predictions and interpolating from more confident predictions on either side of the uncertain prediction. 
+Some simple support for interpolating low-confidence tracks in DLC/SLEAP is provided. Often predicted locations below a given confidence level are noisy and unreliable, and better tracks may be obtained by removing these predictions and interpolating from more confident predictions on either side of the uncertain prediction. 
 
 You can achieve this with
 ```python
@@ -134,7 +134,7 @@ This will compute and add the distances between all body parts of all animals.
 
 ### 3a In-built support for resident-intruder setup
 
-First, if your setup is a social mouse study, involving two mice, similar enough to the standard resident-intruder setup, then you can use some pre-designed feature sets. The body parts that are tracked must be those from the MARS dataset (See figure). You will have to have labeled and tracked your mice in DLC in the same way. (with the same animal and body part names -- `ethome`'s `create_dataset` function can rename them appropriately)
+First, if your setup is a social mouse study, involving two mice, similar enough to the standard resident-intruder setup, then you can use some pre-designed feature sets. The body parts that are tracked must be those from the MARS dataset (See figure). You will have to have labeled and tracked your mice in DLC/SLEAP in the same way. (with the same animal and body part names -- `ethome`'s `create_dataset` function can rename them appropriately)
 
 ![Resident-intruder keypoints](assets/mars_keypoints.png)
 
@@ -250,10 +250,10 @@ For reference, the metadata and added functions added to the dataframe are:
     * `label_key`: associates numbers with text labels for each behavior
     * `reverse_label_key`: associates text labels for each behavior number
 * `recordings.pose`, houses pose information:
-    * `body_parts`: list of body parts loaded from the DLC file(s)
-    * `animals`: list of animals loaded from the DLC files(s)
+    * `body_parts`: list of body parts loaded from the DLC/SLEAP file(s)
+    * `animals`: list of animals loaded from the DLC/SLEAP files(s)
     * `animal_setup`: dictionary detailing animal parts and names
-    * `raw_track_columns`: all original columns names loaded from DLC
+    * `raw_track_columns`: all original columns names loaded from DLC/SLEAP
 * `recordings.features`, feature creation and manipulation
     * `activate`: activate columns by name
     * `deactivate`: deactivate columns by name

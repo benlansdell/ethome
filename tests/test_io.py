@@ -18,6 +18,13 @@ def test_nwb_import():
     dataset = create_dataset(path)
     assert type(dataset) is pd.DataFrame
 
+def test_sleap_import(sleap_file):
+    from ethome.io import read_sleap_tracks
+    df = read_sleap_tracks(sleap_file)
+    assert type(df[0]) is pd.DataFrame
+    assert df[1] == ['abdomen', 'eyeL', 'eyeR', 'forelegL4', 'forelegR4', 'head', 'hindlegL4', 'hindlegR4', 'midlegL4', 'midlegR4', 'thorax', 'wingL', 'wingR']
+    assert df[2] == ['Animal0', 'Animal1']
+
 def test_sample_data():
     from ethome.io import get_sample_data
     dataset = get_sample_data()

@@ -86,7 +86,7 @@ def read_sleap_tracks(fn_in : str,
     """Read in tracks from SLEAP.
 
     Args:
-        fn_in: csv or h5 file that has DLC tracks
+        fn_in: csv or h5 file that has sleap tracks
         part_renamer: dictionary to rename body parts, if needed 
         animal_renamer: dictionary to rename animals, if needed
         read_likelihoods: default True. Whether to attach DLC likelihoods to table

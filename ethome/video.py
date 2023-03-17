@@ -12,7 +12,7 @@ from glob import glob
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import cross_val_predict, LeaveOneGroupOut, PredefinedSplit
 
-from ethome.io import read_DLC_tracks, read_boris_annotation, uniquifier, create_behavior_labels, read_NWB_tracks
+from ethome.io import read_DLC_tracks, read_boris_annotation, uniquifier, create_behavior_labels, read_NWB_tracks, read_sleap_tracks
 from ethome.utils import checkFFMPEG
 from ethome.config import global_config
 from ethome.features import feature_class_maker, FEATURE_MAKERS
@@ -544,6 +544,8 @@ class EthologyIOAccessor(object):
             label_columns = {k:k for k in label_columns}
 
         for video in video_filenames:
+            if 'fps' not in self._obj.metadata.details[video]:
+                raise ValueError(f"FPS not in metadata for video {video}, skipping. Provide FPS in dataset creation.")
             rate = 1/self._obj.metadata.details[video]['fps']
             vid_in = self._obj.metadata.details[video]['video_files']
             file_out = os.path.splitext(os.path.basename(vid_in))[0] + '_'.join(label_columns.keys()) + '.mp4'
@@ -561,11 +563,45 @@ class EthologyIOAccessor(object):
             cmd = f'ffmpeg -y -i {vid_in} -vf "{label_string}" {vid_out}'
             os.system(cmd)            
 
-    #I think... this is obsolete, and the other save is the right one
-    #def save(self, fn):
-    #    with open(fn, 'wb') as handle:
-    #        pickle.dump(self, handle, protocol=pickle.HIGHEST_PROTOCOL)
+def _create_from_dict(metadata, label_key, part_renamer, animal_renamer):
+    df = pd.DataFrame()
+    #req_cols = ['fps']
+    #Drop requirement this is provided. Just omit addition of time column, if fps omitted
+    req_cols = []
+    is_valid, should_rescale = _validate_metadata(metadata, req_cols)
+    if is_valid:   
+        df.metadata.details = metadata
+    else:
+        raise ValueError("Metadata not properly formatted. See docstring.")
 
+    if len(metadata) > 0:
+        _load_tracks(df, part_renamer, animal_renamer, rescale = should_rescale) 
+        _load_labels(df, set_as_label = True)
+
+    if should_rescale:
+        _convert_units(df)
+    elif 'scale_factor' in df.columns: 
+        df.drop(columns = 'scale_factor', inplace = True)
+
+    return df    
+
+def _create_from_list(metadata, label_key, part_renamer, animal_renamer):
+    if len(metadata) == 0:
+        return pd.DataFrame()
+    supported_exts = ['csv', 'h5', 'nwb', 'hdf5']
+    exts = [os.path.splitext(m)[1] for m in metadata]
+    supported = [e in supported_exts for e in exts]
+    is_nwb = [e == 'nwb' for e in exts]
+    if not all(supported):
+        ValueError("Only NWB, dlc (csv) or SLEAP (h5, hdf5) formats are supported.")
+
+    if all(is_nwb):
+        df = _load_nwb(metadata, part_renamer, animal_renamer)
+    else:
+        metadata = {k:{} for k in metadata}
+        df = _create_from_dict(metadata, label_key, part_renamer, animal_renamer)
+
+    return df
 
 def create_dataset(metadata : dict = None, 
                      label_key : dict = None, 
@@ -576,7 +612,6 @@ def create_dataset(metadata : dict = None,
     Args:
         metadata: Dictionary whose keys are DLC tracking csvs, and value is a dictionary of associated metadata
             for that video. Most easiest to create with 'create_metadata'. 
-            Required keys are: ['fps']
         label_key: Default None. Dictionary whose keys are positive integers and values are behavior labels. If none, then this is inferred from the behavior annotation files provided.  
         part_renamer: Default None. Dictionary that can rename body parts from tracking files if needed (for feature creation, e.g.)
         animal_renamer: Default None. Dictionary that can rename animals from tracking files if needed
@@ -586,30 +621,11 @@ def create_dataset(metadata : dict = None,
     """
 
     if type(metadata) is dict:
-
-        df = pd.DataFrame()
-        req_cols = ['fps']
-        is_valid, should_rescale = _validate_metadata(metadata, req_cols)
-        if is_valid:   
-            df.metadata.details = metadata
-        else:
-            raise ValueError("Metadata not properly formatted. See docstring.")
-
-        if len(metadata) > 0:
-            _load_tracks(df, part_renamer, animal_renamer, rescale = should_rescale) 
-            _load_labels(df, set_as_label = True)
-
-        if should_rescale:
-            _convert_units(df)
-        elif 'scale_factor' in df.columns: 
-            df.drop(columns = 'scale_factor', inplace = True)
-
+        df = _create_from_dict(metadata, label_key, part_renamer, animal_renamer)
     elif type(metadata) is str:
-        df = _load_nwb([metadata], part_renamer, animal_renamer)
-
+        df = _create_from_list([metadata], label_key, part_renamer, animal_renamer)
     elif type(metadata) is list:
-        df = _load_nwb(metadata, part_renamer, animal_renamer)
-
+        df = _create_from_list(metadata, label_key, part_renamer, animal_renamer)
     else:
         raise ValueError("Metadata not properly formatted. See docstring.")
 
@@ -652,26 +668,33 @@ def _load_nwb(nwb_files, part_renamer, animal_renamer):
     return df
 
 def _load_tracks(df, part_renamer, animal_renamer, rescale = False):
-    #For the moment only supports DLC
-    return _load_dlc_tracks(df, part_renamer, animal_renamer, rescale = rescale)
-
-def _load_dlc_tracks(df, part_renamer, animal_renamer, rescale = False):
-    """Add DLC tracks to DataFrame"""
-
+    """Add tracks to DataFrame"""
     dfs = []
     col_names_old = None
     #Go through each video file and load DLC tracks
     for fn in df.metadata.details.keys():
-        if fn.split('.')[-1] == 'nwb':
+        _, ext = os.path.splitext(fn)
+        if ext == 'nwb':
             df_fn, body_parts, animals, col_names, scorer, _ = read_NWB_tracks(fn, 
                                                                             part_renamer, 
                                                                             animal_renamer)
-        else:
+        elif ext == 'csv':
             df_fn, body_parts, animals, col_names, scorer = read_DLC_tracks(fn, 
                                                                             part_renamer, 
                                                                             animal_renamer)
+        else:
+            #Try DLC first, if this fails, read as SLEAP
+            try:
+                df_fn, body_parts, animals, col_names, scorer = read_DLC_tracks(fn, 
+                                                                                part_renamer, 
+                                                                                animal_renamer)
+            except:
+                df_fn, body_parts, animals, col_names, scorer = read_sleap_tracks(fn, 
+                                                                                part_renamer, 
+                                                                                animal_renamer)
+
         n_rows = len(df_fn)
-        if 'time' not in df_fn.columns:
+        if 'time' not in df_fn.columns and 'fps' in df.metadata.details[fn]:
             df_fn['time'] = df_fn['frame']/df.metadata.details[fn]['fps']
 
         if rescale and ('frame_width_units' in df.metadata.details[fn]) and \
@@ -690,7 +713,8 @@ def _load_dlc_tracks(df, part_renamer, animal_renamer, rescale = False):
             df_fn['scale_factor'] = 1
 
         dfs.append(df_fn)
-        df.metadata.details[fn]['duration'] = (n_rows)/df.metadata.details[fn]['fps']
+        if 'fps' in df.metadata.details[fn]:
+            df.metadata.details[fn]['duration'] = (n_rows)/df.metadata.details[fn]['fps']
         df.metadata.details[fn]['scorer'] = scorer
         if col_names_old is not None:
             if col_names != col_names_old:
@@ -725,8 +749,7 @@ def _load_labels_boris(df, col_name = 'label', set_as_label = False):
 
     label_cols = []
     for vid in df.metadata.details:
-        if 'labels' in df.metadata.details[vid]:
-
+        if 'labels' in df.metadata.details[vid] and 'fps' in df.metadata.details[vid]:
             fn_in = df.metadata.details[vid]['labels']
             fps = df.metadata.details[vid]['fps']
             duration = df.metadata.details[vid]['duration']
@@ -821,3 +844,4 @@ def add_randomforest_predictions(df : pd.DataFrame):
 
     preds = cross_val_predict(model, df.ml.features, df.ml.labels, groups = df.ml.group, cv = cv)
     df['prediction'] = preds
+

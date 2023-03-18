@@ -7,7 +7,7 @@ This guide covers basic usage -- it doesn't comprehensively describe how to use 
 
 ## 1 Getting started
 
-`ethome` makes it easy to perform common machine learning analyses on pose-tracking data, perhaps in combination with behavioral annotations. The key thing you need to get started, then, is pose tracking data. At present, data from DeepLabCut or pose data stored in NWB files is supported (via the `ndx-pose` extension). 
+`ethome` makes it easy to perform common machine learning analyses on pose-tracking data, perhaps in combination with behavioral annotations. The key thing you need to get started, then, is pose tracking data. At present, data from DeepLabCut, SLEAP or pose data stored in NWB files is supported (via the `ndx-pose` extension). 
 
 ### 1a Loading NWB files
 

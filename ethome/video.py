@@ -36,19 +36,19 @@ def create_metadata(tracking_files : list, **kwargs) -> dict:
     """
     Prepare a metadata dictionary for defining a ExperimentDataFrame. 
 
-    Only required argument is list of DLC tracking file names. 
+    Only required argument is list of pose tracking file names. 
 
     Any other keyword argument must be either a non-iterable object (e.g. a scalar parameter, like FPS)
-    that will be copied and tagged to each of the DLC tracking files, or an iterable object of the same
-    length of the list of DLC tracking files. Each element in the iterable will be tagged with the corresponding
-    DLC file.
+    that will be copied and tagged to each of the pose tracking files, or an iterable object of the same
+    length of the list of pose tracking files. Each element in the iterable will be tagged with the corresponding
+    pose-tracking file.
 
     Args:
-        tracking_files: List of DLC tracking .csvs
+        tracking_files: List of pose tracking files
         **kwargs: described as above
 
     Returns:
-        Dictionary whose keys are DLC tracking file names, and contains a dictionary with key,values containing the metadata provided
+        Dictionary whose keys are pose-tracking file names, and contains a dictionary with key,values containing the metadata provided
     """
 
     metadata = {}
@@ -68,7 +68,7 @@ def create_metadata(tracking_files : list, **kwargs) -> dict:
     return metadata
 
 def _convert_units(df):
-    # if 'frame_width', 'resolution' and 'frame_width_units' are provided, then we convert DLC tracks to these units.
+    # if 'frame_width', 'resolution' and 'frame_width_units' are provided, then we convert tracks to these units.
     if len(df.metadata.details) == 0:
         return 
     for col in df.columns:
@@ -515,7 +515,7 @@ class EthologyIOAccessor(object):
         """Given columns indicating behavior predictions or whatever else, make a video
         with these predictions overlaid. 
 
-        ExperimentDataFrame metadata must have the keys 'video_file', so that the video associated with each set of DLC tracks is known.
+        ExperimentDataFrame metadata must have the keys 'video_file', so that the video associated with each set of pose tracks is known.
 
         Args:
             label_columns: list or dict of columns whose values to overlay on top of video. If dict, keys are the columns and values are the print-friendly version.
@@ -588,8 +588,9 @@ def _create_from_dict(metadata, label_key, part_renamer, animal_renamer):
 def _create_from_list(metadata, label_key, part_renamer, animal_renamer):
     if len(metadata) == 0:
         return pd.DataFrame()
-    supported_exts = ['csv', 'h5', 'nwb', 'hdf5']
+    supported_exts = ['.csv', '.h5', '.nwb', '.hdf5']
     exts = [os.path.splitext(m)[1] for m in metadata]
+    print(exts)
     supported = [e in supported_exts for e in exts]
     is_nwb = [e == 'nwb' for e in exts]
     if not all(supported):
@@ -607,10 +608,10 @@ def create_dataset(metadata : dict = None,
                      label_key : dict = None, 
                      part_renamer : dict = None,
                      animal_renamer : dict = None) -> pd.DataFrame:
-    """Houses DLC tracking data and behavior annotations in pandas DataFrame for ML, along with relevant metadata, features and behavior annotation labels.
+    """Houses pose-tracking data and behavior annotations in pandas DataFrame for ML, along with relevant metadata, features and behavior annotation labels.
 
     Args:
-        metadata: Dictionary whose keys are DLC tracking csvs, and value is a dictionary of associated metadata
+        metadata: Dictionary whose keys are pose tracking files, and value is a dictionary of associated metadata
             for that video. Most easiest to create with 'create_metadata'. 
         label_key: Default None. Dictionary whose keys are positive integers and values are behavior labels. If none, then this is inferred from the behavior annotation files provided.  
         part_renamer: Default None. Dictionary that can rename body parts from tracking files if needed (for feature creation, e.g.)
@@ -671,14 +672,14 @@ def _load_tracks(df, part_renamer, animal_renamer, rescale = False):
     """Add tracks to DataFrame"""
     dfs = []
     col_names_old = None
-    #Go through each video file and load DLC tracks
+    #Go through each video file and load tracks
     for fn in df.metadata.details.keys():
         _, ext = os.path.splitext(fn)
-        if ext == 'nwb':
+        if ext == '.nwb':
             df_fn, body_parts, animals, col_names, scorer, _ = read_NWB_tracks(fn, 
                                                                             part_renamer, 
                                                                             animal_renamer)
-        elif ext == 'csv':
+        elif ext == '.csv':
             df_fn, body_parts, animals, col_names, scorer = read_DLC_tracks(fn, 
                                                                             part_renamer, 
                                                                             animal_renamer)
@@ -718,7 +719,7 @@ def _load_tracks(df, part_renamer, animal_renamer, rescale = False):
         df.metadata.details[fn]['scorer'] = scorer
         if col_names_old is not None:
             if col_names != col_names_old:
-                raise RuntimeError("DLC files have different columns. Must all be from same project")
+                raise RuntimeError("Tracking files have different columns. Must all be from same project")
         col_names_old = col_names
 
     dfs = pd.concat(dfs, axis = 0)

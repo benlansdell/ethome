@@ -27,7 +27,7 @@ bibliography: paper.bib
 
 # Summary
 
-`ethome` supports machine learning of animal behavior. It interprets pose-tracking files and behavior annotations to create feature tables, train behavior classifiers, interpolate pose tracking data and other common analysis tasks.
+`ethome` supports machine learning of animal behavior. It interprets pose-tracking files and behavior annotations to create feature tables, train behavior classifiers, interpolate pose tracking data and other common analysis tasks. 
 It features:
 
 * Read in animal pose data and corresponding behavior annotations to make supervised learning easy
@@ -43,9 +43,12 @@ Together these features significantly reduce the code a user needs to write to p
 
 The quantitative study animal behavior is rapidly growing [@Mathis2020DeepLT], with pose-tracking tools like DeepLabCut [@Lauer2022MultianimalPE] making accurate pose estimation easily and widely applicable. Such data promises to revolutionize the study of animal behavior. 
 
-With this wealth of data comes the need for analysis tools that makes post-tracking machine learning tasks just as accessible and straightforward. Once poses have been tracked for a set of videos, what next? Both supervised learning -- behavior classification -- and unsupervised learning may provide insights into the data. Presently, to perform this machine learning, one can either use a comprehensive behavior analysis software package, like `SimBA` [@Nilsson2020-simba], or write the analysis code ones self. Through offering a GUI, SimBA is an excellent solution for users wanting to do zero coding, but this comes at the price of flexibility. But writing this analysis code involves going through many tedious details -- understanding the file formats of the software creating the behavioral data, aligning the pose and behavior annotation data, changing units, interpolating or correcting bad pose estimates, creating relevant features for machine learning, etc. This can be time consuming.
+With the vast amount of data available, there is a growing need for analysis tools that simplify post-tracking machine learning tasks. After poses have been tracked in a series of videos, both supervised learning (behavior classification) and unsupervised learning can offer valuable insights. Currently, there are two main options for conducting machine learning analysis: using a comprehensive behavior analysis software package like SimBA [@Nilsson2020-simba], or writing custom analysis code. 
+ 
+SimBA provides a user-friendly GUI, making it an ideal solution for those who prefer a no-code approach. However, this convenience comes at the cost of flexibility. On the other hand, writing custom analysis code requires navigating numerous tedious details, such as understanding the file formats used by the software generating the behavioral data, aligning pose and behavior annotation data, converting units, interpolating or correcting inaccurate pose estimates, and creating relevant features for machine learning. This process can be quite time-consuming. 
 
-The goal of `ethome` is to perform all these things for the user, so that both experienced and novice coders/machine learning practitioners can easily build ML models. The target user is anyone familar with basic python and machine learning, with animal behavior and pose tracking questions that would benefit from machine learning.
+
+The goal of `ethome` is to perform all the required processing steps for the user, so that both experienced and novice coders/machine learning practitioners can easily build ML models. The target user is anyone familiar with basic python and machine learning, with animal behavior and pose tracking questions that would benefit from machine learning. 
 
 # Related work
 
@@ -55,9 +58,9 @@ Advances in deep learning has lead to a number of interesting models: `TREBA` [@
 
 # Design 
 
-The package operates around creating and manipulating an extended Pandas `DataFrame` to house both pose data and behavioral labels for a set of recordings. The idea is that all added functionality operates on a single object already familiar to users, enabling maximum flexibility and support for as broad a range of behavior and pose analyses as possible. Extended dataframes can be treated exactly as one would treat any other dataframe. `ethome` then adds metadata and functionality to this object. 
+The package creates and manipulates an extended Pandas `DataFrame` to house both pose data and behavioral labels for a set of recordings. The idea is that all added functionality operates on a single object already familiar to users, enabling maximum flexibility and support for as broad a range of behavior and pose analyses as possible. Extended dataframes can be treated exactly as one would treat any other dataframe. `ethome` then adds metadata and functionality to this object. 
 
-A key feature is that it adds the ability to easily create features for machine learning. The user can use pre-built featuresets or make their own. For instance `dataframe.features.add('distances')` will compute all distances between all body parts (both between and within animals). There are also featuresets specifically tailored for social mice studies (resident-intruder studies). A more detailed run through of features is provided in the Readme and How To guide.
+A key feature of this tool is the ease with which it enables users to create features for machine learning. The user can use pre-built featuresets or make their own. For instance `dataframe.features.add('distances')` will compute all distances between all body parts (both between and within animals). There are also featuresets specifically tailored for social mice studies (resident-intruder studies). A more detailed run through of features is provided in the Readme and How To guide. 
 
 # Acknowledgements
 

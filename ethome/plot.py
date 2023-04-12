@@ -11,9 +11,10 @@ from ethome.config import global_config
 
 def plot_embedding(dataset : pd.DataFrame, 
                    col_names : list  = ['embedding_0', 'embedding_1'],
+                   col_labels : list = None,
                    color_col : str = None, 
                    figsize : tuple = (10,10),
-                   **kwargs) -> tuple:  # pragma: no cover
+                   **kwargs) -> tuple:
     """Scatterplot of a 2D TSNE or UMAP embedding from the dataset.
     
     Args:
@@ -21,7 +22,7 @@ def plot_embedding(dataset : pd.DataFrame,
         col_names: list of column names to use for the x and y axes
         color_col: if provided, a column that will be used to color the points in the scatter plot
         figsize: tuple with the dimensions of the plot (in inches)
-        kwargs: All other keyword pairs are sent to Matplotlib's scatter function
+        **kwargs: All other keyword pairs are sent to Matplotlib's scatter function
 
     Returns:
         tuple (fig, axes). The Figure and Axes objects. 
@@ -33,10 +34,11 @@ def plot_embedding(dataset : pd.DataFrame,
         c = None
 
     col1, col2 = col_names
-    fig, axes = plt.subplots(1,1, figsize = figsize)
+    fig, axes = plt.subplots(1, 1, figsize = figsize)
     axes.scatter(x = dataset[col1], y = dataset[col2], s = 1, c = c, **kwargs)
-    axes.set_xlabel('Embedding dim 1')
-    axes.set_ylabel('Embedding dim 2')
+    if col_labels is None: col_labels = col_names
+    axes.set_xlabel(col_labels[0])
+    axes.set_ylabel(col_labels[1])
     return fig, axes
 
 class MplColorHelper:  # pragma: no cover

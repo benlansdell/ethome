@@ -6,10 +6,14 @@ import pytest
 
 import numpy as np
 
-from ethome.unsupervised import compute_tsne_embedding, compute_morlet, \
+from ethome.unsupervised import compute_tsne_embedding, compute_morlet, compute_umap_embedding, \
                                   compute_density, compute_watershed, cluster_behaviors
 
 N_ROWS = 200
+
+def test_umap_embedding(dataset, default_track_cols):
+    embedding = compute_umap_embedding(dataset, default_track_cols, N_rows = N_ROWS)
+    assert embedding.shape == (len(dataset), 2)
 
 def test_tsne_embedding(dataset, default_track_cols):
     embedding, indices = compute_tsne_embedding(dataset, default_track_cols, N_rows = N_ROWS)

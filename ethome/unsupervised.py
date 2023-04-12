@@ -34,6 +34,31 @@ def compute_tsne_embedding(dataset : pd.DataFrame,
     tsne_embedding = TSNE(n_components=n_components, init = 'pca', perplexity = perplexity).fit_transform(tsne_data)
     return tsne_embedding, random_indices
 
+def compute_umap_embedding(dataset : pd.DataFrame, 
+                           cols : list, 
+                           N_rows : int = 20000, 
+                           n_components = 2, 
+                           **kwargs) -> np.ndarray:
+    """Compute UMAP embedding. Compute based on a random subset of rows, then apply to all rows
+    
+    Args:
+        dataset: Input data
+        cols: A list of column names to produce the embedding for
+        N_rows: A number of rows to randomly sample for the embedding. Only these rows are embedded.
+        n_components: The number of dimensions to embed the data into.
+        **kwargs: Passed to UMAP constructor
+        
+    Returns:
+        - A numpy array with the embedding data
+    """
+    
+    umap_data = StandardScaler().fit_transform(dataset[cols])
+    random_indices = np.random.choice(umap_data.shape[0], min(N_rows, umap_data.shape[0]), replace = False)
+    umap_data_rand = umap_data[random_indices, :]
+    model = umap.UMAP(n_components=n_components, **kwargs)
+    model.fit(umap_data_rand)
+    return model.transform(umap_data)
+
 def compute_morlet(data : np.ndarray, 
                    dt : float = 1/30, 
                    n_freq : int = 5, 

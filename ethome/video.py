@@ -308,7 +308,10 @@ class EthologyFeaturesAccessor(object):
         new_features = new_features[notdupcols]
 
         df.reset_index(drop = True, inplace = True)
-        df[notdupcols] = new_features.reset_index(drop = True)
+        #Suppress warnings here:
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore")
+            df[notdupcols] = new_features.reset_index(drop = True)
 
         if add_to_features:
             if self.active is not None:

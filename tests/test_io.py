@@ -4,11 +4,11 @@
 
 import pandas as pd
 
-def test_nwb_dandiset231_import():
-    from ethome import create_dataset
-    path = '/home/blansdel/projects/ethome/ethome/data/sample_nwb_dandiset_231.nwb'
-    dataset = create_dataset(path)
-    assert type(dataset) is pd.DataFrame
+# def test_nwb_dandiset231_import():
+#     from ethome import create_dataset
+#     path = '/home/blansdel/projects/ethome/ethome/data/sample_nwb_dandiset_231.nwb'
+#     dataset = create_dataset(path)
+#     assert type(dataset) is pd.DataFrame
 
 def test_dataset_creation_list(tracking_files):
 

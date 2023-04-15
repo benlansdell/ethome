@@ -526,6 +526,7 @@ def get_sample_nwb_paths():
     cur_dir = os.path.dirname(os.path.abspath(__file__))
     return os.path.join(cur_dir, 'data/sample_nwb_.nwb')
 
+#TODO Probably get rid of these...
 def get_sample_data_paths():
     """Get path to sample data files provided with package. 
     
@@ -537,6 +538,7 @@ def get_sample_data_paths():
     boris_files = sorted(glob(cur_dir + '/data/boris/*.csv'))
     return tracking_files, boris_files
 
+#TODO Probably get rid of these...
 def get_sample_data():
     """Load a sample dataset of 5 mice social interaction videos. Each video is approx. 5 minutes in duration
     
@@ -545,7 +547,7 @@ def get_sample_data():
     """
 
     cur_dir = os.path.dirname(os.path.abspath(__file__))
-    path_in = os.path.join(cur_dir, 'data', 'sample_data.pkl')
+    path_in = os.path.join(cur_dir, 'data', 'sample_dataframe.pkl')
     with open(path_in, 'rb') as handle:
         b = pickle.load(handle)
         #b = pd.read_pickle(handle)

@@ -4,9 +4,11 @@
 
 # Ethome
 
-Tools for machine learning of animal behavior.
+Tools for machine learning of animal behavior. 
 
-This library interprets pose-tracking files (at present, from DLC, SLEAP or NWB formats) and behavior annotations (at present, from BORIS and NWB formats) to help train a behavior classifier, interpolate data and other common analysis tasks. 
+This library interprets pose-tracking files and behavior annotations to create features, train behavior classifiers, interpolate pose tracking data and other common analysis tasks. 
+
+At present pose tracking data from DLC, SLEAP and NWB formats are supported, and behavior annotations from BORIS and NWB formats are supported.
 
 ## Features
 
@@ -15,7 +17,7 @@ This library interprets pose-tracking files (at present, from DLC, SLEAP or NWB 
 * Interpolate pose data to improve low-confidence predictions 
 * Create generic features for analysis and downstream ML tasks
 * Create features specifically for mouse resident-intruder setup
-* Quickly generate a movie with behavior predictions
+* Quickly generate plots and movies with behavior predictions
 
 ## Installation
 
@@ -53,7 +55,11 @@ dataset.features.add('distances')
 ``` 
 will compute all distances between all body parts (both between and within animals).
 
-There are also featuresets specifically tailored for social mice studies (resident intruder). For this, you must have labeled your body parts in a certain way (refer to How To). But other, more generic, feature creation functions are provided that work for any animal configuration. 
+There are featuresets specifically tailored for social mice studies (resident intruder). For instance, 
+```
+dataset.features.add('cnn1d_prob')
+```
+Uses a pretrained CNN to output probabilities of 3 behaviors (attack, mount, social investigation). For this, you must have labeled your body parts in a certain way (refer to How To). Other, more generic, feature creation functions are provided that work for any animal configuration. 
 
 Now you can access a features table, labels, and groups for learning with `dataset.ml.features, dataset.ml.labels, dataset.ml.group`. From here it's easy to use some ML libraries to train a behavior classifier. For example:
 ```python

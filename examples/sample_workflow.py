@@ -38,7 +38,8 @@ animal_renamer = {'adult': 'resident', 'juvenile':'intruder'}
 dataset = create_dataset(metadata, animal_renamer=animal_renamer)
 interpolate_lowconf_points(dataset)
 
-#Now create features on this dataset. Can use pre-built featuresets, or make your own. Here are two that work with a mouse resident-intruder setup:
+#Now create features on this dataset. Can use pre-built featuresets, or make your own. 
+#Here are two that work with a mouse resident-intruder setup:
 dataset.features.add('cnn1d_prob')
 dataset.features.add('mars')
 

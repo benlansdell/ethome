@@ -192,9 +192,9 @@ By default, when new features are added to the dataframe, they are considered 'a
 ```python
 recordings.ml.features
 ```
-You can pass this to any ML method for further processing. This `.ml.features` is just a convenience for managing the long list of features you will have created in the steps above. You can always just treat `recordings` like a pandas DataFrame and do ML how you would normally. 
+You can pass this to any ML method for further processing. This `.ml.features` is just a convenience for managing the long list of features you will have created in the steps above. You can always just treat `recordings` like a Pandas DataFrame and do ML how you would normally. 
 
-To activate features you can use `recordings.features.activate`, and to deactivate features you can use `recordings.features.deactivate`. Deactivating keeps them in the DataTable, but just no longer includes those features in the `recordings.ml.features` view.
+To activate features you can use `recordings.features.activate`, and to deactivate features you can use `recordings.features.deactivate`. Deactivating keeps them in the DataFrame, but just no longer includes those features in the `recordings.ml.features` view.
 
 ## 4 Fit a model for behavior classification
 
@@ -270,3 +270,7 @@ For reference, the metadata and added functions added to the dataframe are:
     * `save_movie`: create a movie with some feature column you indicate overlaid
 
 See the API docs for usage details.
+
+## 8 Some caveats
+
+* The workflow assumes you import all your data into one DataFrame. Combining two DataFrames (append or concat) is not officially supported. It may behave well, or it may not.

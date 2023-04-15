@@ -50,10 +50,10 @@ dataset.pose.body_parts
 A key functionality of `ethome` is the ability to easily create features for machine learning. You can use pre-built featuresets or make your own. For instance:
 ```python
 dataset.features.add('distances')
-```
+``` 
 will compute all distances between all body parts (both between and within animals).
 
-There are also featuresets specifically tailored for social mice studies (resident intruder). For this, you must have labeled your body parts in a certain way (see the How To). (The 'mars' feature-set is designed for studying social behavior in mice, based heavily on the MARS framework Segalin et al. [1])But other, more generic, feature creation functions are provided that work for any animal configuration. 
+There are also featuresets specifically tailored for social mice studies (resident intruder). For this, you must have labeled your body parts in a certain way (refer to How To). But other, more generic, feature creation functions are provided that work for any animal configuration. 
 
 Now you can access a features table, labels, and groups for learning with `dataset.ml.features, dataset.ml.labels, dataset.ml.group`. From here it's easy to use some ML libraries to train a behavior classifier. For example:
 ```python
@@ -87,7 +87,4 @@ dataset.io.save_movie(['label', 'prediction'], '.')
 where `label` and `prediction` reference column names to annotate the video with.
 
 A more detailed run through of features is provided in the How To guide.
-
-## References
-
-[1] "The Mouse Action Recognition System (MARS): a software pipeline for automated analysis of social behaviors in mice" Segalin et al, eLife 2021
+ 

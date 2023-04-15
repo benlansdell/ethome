@@ -15,7 +15,6 @@ from sklearn.model_selection import cross_val_predict, GroupKFold
 from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_score
 
 N_UMAP_ROWS = 10000
-
 #%% Gather the DLC and BORIS tracking and annotation files
 tracking_files, boris_files = get_sample_data_paths()
 

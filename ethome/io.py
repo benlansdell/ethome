@@ -549,7 +549,7 @@ def get_sample_data():
     cur_dir = os.path.dirname(os.path.abspath(__file__))
     path_in = os.path.join(cur_dir, 'data', 'sample_dataframe.pkl')
     with open(path_in, 'rb') as handle:
-        b = pickle.load(handle)
+        b = pickle.load(handle)['dataset']
         #b = pd.read_pickle(handle)
     return b
 

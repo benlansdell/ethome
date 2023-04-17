@@ -33,27 +33,30 @@ You can provide multiple recordings, just provide a list of paths instead. Each 
 
 If your data is stored in DeepLabCut `csv`s or `h5` files, or SLEAP exported analysis `h5` files, perhaps with accompanying behavioral annotations from [BORIS](https://www.boris.unito.it/), then you'll have to associate these with each other, and provide relevant metadata yourself. Sections 1b -> 1e outline how to do this. Data stored in NWB files have already addressed each of these steps and you can skip these sections. 
 
+Let's get some sample data to play with:
+```python
+tracking_files, boris_files = get_sample_data_paths()
+```
+These are just lists of csv files containing our input data.
+
 To import just your tracking data, you can simple do: 
 ```python
-tracking_csvs = ['./dlc_tracking_file_1.csv', './dlc_tracking_file_2.csv']
-recordings = create_dataset(tracking_csvs)
+recordings = create_dataset(tracking_files)
 ```
 
 But generally, you may want to provide metadata with each tracking file. This can be done just by providing keyword arguments:
 ```python
-tracking_csvs = ['./dlc_tracking_file_1.csv', './dlc_tracking_file_2.csv']
 fps = 30
 resolution = (1200, 1600)
-recordings = create_dataset(tracking_csvs, fps = fps, resolution = resolution)
+recordings = create_dataset(tracking_files, fps = fps, resolution = resolution)
 ```
 This loads the dataframe, with `fps` and `resolution` associated to each input csv. 
 
 NOTE: Any keyword that is a list of the same length as the tracking files is zipped with the tracking files accordingly. That is, if the resolution of the videos is different:
 ```python
-tracking_csvs = ['./dlc_tracking_file_1.csv', './dlc_tracking_file_2.csv']
 fps = 30
 resolutions = [(1200, 1600), (800, 1200)]
-recordings = create_dataset(tracking_csvs, fps = fps, resolution = resolutions)
+recordings = create_dataset(tracking_files, fps = fps, resolution = resolutions)
 ```
 Rather than assigning the same value to all videos, the entry `resolutions[i]` would then be associated with `tracking_csvs[i]`. These lists, therefore, must be sorted appropriately.
 
@@ -63,9 +66,7 @@ NOTE: It is strongly recommended the `fps` field is provided for all videos, so 
 
 The (optional) `labels` keyword is used to include corresponding behavioral annotation files:
 ```python
-tracking_csvs = ['./dlc_tracking_file_1.csv', './dlc_tracking_file_2.csv']
-labels = ['./boris_tracking_file_1.csv', './boris_tracking_file_2.csv']
-recordings = create_dataset(tracking_csvs, labels = labels)
+recordings = create_dataset(tracking_files, labels = boris_files)
 ```
 
 Behavior annotations should be exported from BORIS, in tabular form (as a csv), for each video to be imported.
@@ -217,7 +218,9 @@ add_randomforest_predictions(recordings)
 ```
 which can be used as a starting point for developing behavior classifiers. 
 
-## 5 Make output movies
+## 5 Plotting
+
+## 6 Make output movies
 
 Now we have our model we can make a video of its predictions. Provide the column names whose state we're going to overlay on the video, along with the directory to output the videos:
 
@@ -239,7 +242,7 @@ recordings = pd.DataFrame.io.load('outfile.pkl')
 
 NOTE: By importing `ethome` you extend the functionality of the pandas DataFrame, hence can access things like `.io.load`
 
-## 7 Summary and reference list of added functionality by `ethome`
+## 8 Summary and reference list of added functionality by `ethome`
 
 For reference, the metadata and added functions added to the dataframe are:
 
@@ -271,6 +274,6 @@ For reference, the metadata and added functions added to the dataframe are:
 
 See the API docs for usage details.
 
-## 8 Some caveats
+## 9 Some caveats
 
 The workflow assumes you import all your data into one DataFrame. Combining two DataFrames (append or concat) is not officially supported. It may behave well, or it may not.

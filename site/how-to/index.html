@@ -796,18 +796,24 @@ recordings = create_dataset(tracking_csvs, labels = labels)
 </code></pre>
 <p>Similarly with the body parts, you can provide a <code>part_renamer</code> dictionary.</p>
 <h3 id="1g-metadata">1g Metadata</h3>
-<p>When <code>recordings</code> is created, additional metadata is computed and accessible via:
-* <code>recordings.metadata</code> houses the following attributes:
-    * <code>details</code>: the metadata given to create_dataset
-    * <code>videos</code>: list of videos given in <code>metadata</code>
-    * <code>n_videos</code>: number of videos in DataFrame
-    * <code>label_key</code>: associates numbers with text labels for each behavior
-    * <code>reverse_label_key</code>: associates text labels for each behavior number
-* <code>recordings.pose</code>, houses pose information:
-    * <code>body_parts</code>: list of body parts loaded from the DLC/SLEAP file(s)
-    * <code>animals</code>: list of animals loaded from the DLC/SLEAP files(s)
-    * <code>animal_setup</code>: dictionary detailing animal parts and names
-    * <code>raw_track_columns</code>: all original columns names loaded from DLC/SLEAP</p>
+<p>When <code>recordings</code> is created, additional metadata is computed and accessible via:</p>
+<ul>
+<li><code>recordings.metadata</code> houses the following attributes:<ul>
+<li><code>details</code>: the metadata given to create_dataset</li>
+<li><code>videos</code>: list of videos given in <code>metadata</code></li>
+<li><code>n_videos</code>: number of videos in DataFrame</li>
+<li><code>label_key</code>: associates numbers with text labels for each behavior</li>
+<li><code>reverse_label_key</code>: associates text labels for each behavior number</li>
+</ul>
+</li>
+<li><code>recordings.pose</code>, houses pose information:<ul>
+<li><code>body_parts</code>: list of body parts loaded from the DLC/SLEAP file(s)</li>
+<li><code>animals</code>: list of animals loaded from the DLC/SLEAP files(s)</li>
+<li><code>animal_setup</code>: dictionary detailing animal parts and names</li>
+<li><code>raw_track_columns</code>: all original columns names loaded from DLC/SLEAP</li>
+</ul>
+</li>
+</ul>
 <h2 id="2-interpolate-low-confidence-pose-tracking">2 Interpolate low-confidence pose tracking</h2>
 <p>Some simple support for interpolating low-confidence tracks in DLC/SLEAP is provided. Often predicted locations below a given confidence level are noisy and unreliable, and better tracks may be obtained by removing these predictions and interpolating from more confident predictions on either side of the uncertain prediction. </p>
 <p>You can achieve this with</p>
@@ -832,14 +838,16 @@ interpolate_lowconf_points(recordings)
 <li><code>social</code> is a set of features that only involve measures of one animal in relation to the other.</li>
 </ul>
 <h3 id="3b-generic-features">3b Generic features</h3>
-<p>You can generate more generic features using the following functions:
-* <code>centroid</code> the centroid of each animal's body parts
-* <code>centroid_velocity</code> the velocity of the centroids
-* <code>centroid_interanimal</code> the distances between the centroids of all the animals
-* <code>centroid_interanimal_speed</code> the rate of change of <code>centroid_interanimal</code>
-* <code>intrabodypartspeeds</code> the speeds of all body parts
-* <code>intrabodypartdistances</code> the distances between all animals body parts (inter- and intra-animal)
-* <code>distances</code> is an alias for <code>intrabodypartdistances</code></p>
+<p>You can generate more generic features using the following functions:</p>
+<ul>
+<li><code>centroid</code> the centroid of each animal's body parts</li>
+<li><code>centroid_velocity</code> the velocity of the centroids</li>
+<li><code>centroid_interanimal</code> the distances between the centroids of all the animals</li>
+<li><code>centroid_interanimal_speed</code> the rate of change of <code>centroid_interanimal</code></li>
+<li><code>intrabodypartspeeds</code> the speeds of all body parts</li>
+<li><code>intrabodypartdistances</code> the distances between all animals body parts (inter- and intra-animal)</li>
+<li><code>distances</code> is an alias for <code>intrabodypartdistances</code></li>
+</ul>
 <p>These classes work for any animal setup, not just resident-intruder with specific body parts, as assumed for the <code>mars</code> features.</p>
 <h3 id="3c-add-your-own-features">3c Add your own features</h3>
 <p>There are two ways to add your own feature sets to your DataFrame. </p>
@@ -897,32 +905,44 @@ add_randomforest_predictions(recordings)
 </code></pre>
 <p>NOTE: By importing <code>ethome</code> you extend the functionality of the pandas DataFrame, hence can access things like <code>.io.load</code></p>
 <h2 id="7-summary-and-reference-list-of-added-functionality-by-ethome">7 Summary and reference list of added functionality by <code>ethome</code></h2>
-<p>For reference, the metadata and added functions added to the dataframe are:
-* <code>recordings.metadata</code>, which houses
-    * <code>details</code>: the metadata dictionary given to create_dataset
-    * <code>videos</code>: list of videos given in <code>metadata</code>
-    * <code>n_videos</code>: number of videos in DataFrame
-    * <code>label_key</code>: associates numbers with text labels for each behavior
-    * <code>reverse_label_key</code>: associates text labels for each behavior number
-* <code>recordings.pose</code>, houses pose information:
-    * <code>body_parts</code>: list of body parts loaded from the DLC/SLEAP file(s)
-    * <code>animals</code>: list of animals loaded from the DLC/SLEAP files(s)
-    * <code>animal_setup</code>: dictionary detailing animal parts and names
-    * <code>raw_track_columns</code>: all original columns names loaded from DLC/SLEAP
-* <code>recordings.features</code>, feature creation and manipulation
-    * <code>activate</code>: activate columns by name
-    * <code>deactivate</code>: deactivate columns by name
-    * <code>regex</code>: select column names based on regex
-    * <code>add</code>: create new features
-* <code>recordings.ml</code>, machine learning conveniences
-    * <code>features</code>: a 'active' set of features
-    * <code>labels</code>: if loaded from BORIS, behavior labels. from text to label with <code>recordings.metadata.label_key</code>
-    * <code>group</code>: the corresponding video filename for all rows in the table -- can be used for GroupKFold CV, or similar
-* <code>recordings.io</code>, I/O functions
-    * <code>save</code>: save DataFrame as pickle file
-    * <code>to_dlc_csv</code>: save original tracking data back into csv -- if you interpolated or otherwise manipulated the data
-    * <code>load</code>: load DataFrame from pickle file
-    * <code>save_movie</code>: create a movie with some feature column you indicate overlaid</p>
+<p>For reference, the metadata and added functions added to the dataframe are:</p>
+<ul>
+<li><code>recordings.metadata</code>, which houses<ul>
+<li><code>details</code>: the metadata dictionary given to create_dataset</li>
+<li><code>videos</code>: list of videos given in <code>metadata</code></li>
+<li><code>n_videos</code>: number of videos in DataFrame</li>
+<li><code>label_key</code>: associates numbers with text labels for each behavior</li>
+<li><code>reverse_label_key</code>: associates text labels for each behavior number</li>
+</ul>
+</li>
+<li><code>recordings.pose</code>, houses pose information:<ul>
+<li><code>body_parts</code>: list of body parts loaded from the DLC/SLEAP file(s)</li>
+<li><code>animals</code>: list of animals loaded from the DLC/SLEAP files(s)</li>
+<li><code>animal_setup</code>: dictionary detailing animal parts and names</li>
+<li><code>raw_track_columns</code>: all original columns names loaded from DLC/SLEAP</li>
+</ul>
+</li>
+<li><code>recordings.features</code>, feature creation and manipulation<ul>
+<li><code>activate</code>: activate columns by name</li>
+<li><code>deactivate</code>: deactivate columns by name</li>
+<li><code>regex</code>: select column names based on regex</li>
+<li><code>add</code>: create new features</li>
+</ul>
+</li>
+<li><code>recordings.ml</code>, machine learning conveniences<ul>
+<li><code>features</code>: a 'active' set of features</li>
+<li><code>labels</code>: if loaded from BORIS, behavior labels. from text to label with <code>recordings.metadata.label_key</code></li>
+<li><code>group</code>: the corresponding video filename for all rows in the table -- can be used for GroupKFold CV, or similar</li>
+</ul>
+</li>
+<li><code>recordings.io</code>, I/O functions<ul>
+<li><code>save</code>: save DataFrame as pickle file</li>
+<li><code>to_dlc_csv</code>: save original tracking data back into csv -- if you interpolated or otherwise manipulated the data</li>
+<li><code>load</code>: load DataFrame from pickle file</li>
+<li><code>save_movie</code>: create a movie with some feature column you indicate overlaid</li>
+</ul>
+</li>
+</ul>
 <p>See the API docs for usage details.</p>
 <h2 id="8-some-caveats">8 Some caveats</h2>
 <p>The workflow assumes you import all your data into one DataFrame. Combining two DataFrames (append or concat) is not officially supported. It may behave well, or it may not.</p>

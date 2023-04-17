@@ -97,6 +97,7 @@ Similarly with the body parts, you can provide a `part_renamer` dictionary.
 ### 1g Metadata
 
 When `recordings` is created, additional metadata is computed and accessible via:
+
 * `recordings.metadata` houses the following attributes:
     * `details`: the metadata given to create_dataset
     * `videos`: list of videos given in `metadata`
@@ -147,6 +148,7 @@ The `cnn1d_prob`, `mars`, `mars_reduced` and `social` functions can be used to m
 ### 3b Generic features
 
 You can generate more generic features using the following functions:
+
 * `centroid` the centroid of each animal's body parts
 * `centroid_velocity` the velocity of the centroids
 * `centroid_interanimal` the distances between the centroids of all the animals
@@ -240,6 +242,7 @@ NOTE: By importing `ethome` you extend the functionality of the pandas DataFrame
 ## 7 Summary and reference list of added functionality by `ethome`
 
 For reference, the metadata and added functions added to the dataframe are:
+
 * `recordings.metadata`, which houses
     * `details`: the metadata dictionary given to create_dataset
     * `videos`: list of videos given in `metadata`

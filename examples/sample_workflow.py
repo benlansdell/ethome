@@ -1,11 +1,10 @@
 """Demo workflow showing a simple building of behavior classifier and other analysis"""
-
 #%%
 import os
 #More reliable to not use GPU here. It's only doing inference with a small net, doesn't take long
 os.environ["CUDA_VISIBLE_DEVICES"] = ''
 
-from ethome import create_dataset, create_metadata, interpolate_lowconf_points
+from ethome import create_dataset, interpolate_lowconf_points
 from ethome.io import get_sample_data_paths
 from ethome.unsupervised import compute_umap_embedding
 from ethome.plot import plot_embedding
@@ -23,19 +22,16 @@ frame_width = 20                 # (float) length of entire horizontal shot
 frame_width_units = 'in'         # (str) units frame_width is given in
 fps = 30                         # (int) frames per second
 resolution = (1200, 1600)        # (tuple) HxW in pixels
-
-#Create a parameter object and video dataset
-metadata = create_metadata(tracking_files, 
-                           labels = boris_files, 
-                           frame_width = frame_width, 
-                           fps = fps, 
-                           frame_width_units = frame_width_units, 
-                           resolution = resolution)
-
 animal_renamer = {'adult': 'resident', 'juvenile':'intruder'}
 
 #%% Create dataset and add features
-dataset = create_dataset(metadata, animal_renamer=animal_renamer)
+dataset = create_dataset(tracking_files, 
+                         animal_renamer=animal_renamer,
+                         labels = boris_files, 
+                         frame_width = frame_width, 
+                         fps = fps, 
+                         frame_width_units = frame_width_units, 
+                         resolution = resolution)
 interpolate_lowconf_points(dataset)
 
 #Now create features on this dataset. Can use pre-built featuresets, or make your own. 
@@ -85,4 +81,4 @@ fig, ax = plot_embedding(dataset, color_col = 'prediction')
 #Now we have our model we can make a video of its predictions. 
 #Provide the column names whose state we're going to overlay on the video, along
 #with the directory to output the videos
-dataset.io.make_movie(['label', 'prediction'], '.')
+dataset.io.save_movie(['label', 'prediction'], '.')

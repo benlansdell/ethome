@@ -18,7 +18,6 @@ def augment_features(window_size = 5, n_shifts = 3, mode = 'shift'):
         #function returns the names of the columns just made
         def wrapper(*args, **kwargs):
             #Compute the features
-            #print(args, kwargs, args[0])
             if 'mode' in kwargs:
                 mode = kwargs['mode']
             if 'n_shifts' in kwargs:
@@ -301,7 +300,6 @@ def make_features_distances(df, animal_setup):
     bodypart_ids = animal_setup['bodypart_ids']
     mouse_ids = animal_setup['mouse_ids']
     colnames = animal_setup['colnames']
-    print(colnames)
 
     features_df = df.copy()
 

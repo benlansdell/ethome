@@ -9,14 +9,11 @@ def build_baseline_model(input_dim, layer_channels=(512, 256), dropout_rate=0.,
                         class_weight = None):
 
     if not check_keras():
-        raise RuntimeError("Keras not found. Deep learning-based features are not available")
+        raise RuntimeError("Keras not found. Deep learning-based features are not available.")
 
     import tensorflow.keras as keras
     from keras.models import Sequential
     import keras.layers as layers
-    #import keras
-
-    print(f"dropout_rate: {dropout_rate}, learning_rate: {learning_rate}, layer_channels: {layer_channels}, conv_size: {conv_size}")
 
     def add_conv_bn_activate(model, out_dim, activation='relu', conv_size=3, drop=0.):
         model.add(layers.Conv1D(out_dim, conv_size))
@@ -36,15 +33,13 @@ def build_baseline_model(input_dim, layer_channels=(512, 256), dropout_rate=0.,
     model.add(layers.Flatten())
     model.add(layers.Dense(num_classes, activation='softmax'))
 
-    #metrics = [F1Score(num_classes=num_classes, average = 'macro', labels = [0,1,2]), 'accuracy']
-    metrics = []
-    optimizer = keras.optimizers.Adam(lr=learning_rate)
-    model.compile(loss='categorical_crossentropy', 
-                optimizer=optimizer,
-                metrics=metrics)
+    # metrics = []
+    # optimizer = keras.optimizers.Adam(lr=learning_rate)
+    # #model.compile(loss='categorical_crossentropy', 
+    #            optimizer=optimizer,
+    #            metrics=metrics)
 
     return model 
-
 
 def make_df(pts, colnames = None): # pragma: no cover
     df = []

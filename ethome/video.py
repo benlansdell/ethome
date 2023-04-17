@@ -550,7 +550,7 @@ class EthologyIOAccessor(object):
             if 'fps' not in self._obj.metadata.details[video]:
                 raise ValueError(f"FPS not in metadata for video {video}, skipping. Provide FPS in dataset creation.")
             rate = 1/self._obj.metadata.details[video]['fps']
-            vid_in = self._obj.metadata.details[video]['video_files']
+            vid_in = self._obj.metadata.details[video]['video']
             file_out = os.path.splitext(os.path.basename(vid_in))[0] + '_'.join(label_columns.keys()) + '.mp4'
             vid_out = os.path.join(path_out, file_out)
             label_strings = []
@@ -588,48 +588,57 @@ def _create_from_dict(metadata, label_key, part_renamer, animal_renamer):
 
     return df    
 
-def _create_from_list(metadata, label_key, part_renamer, animal_renamer):
-    if len(metadata) == 0:
+def _create_from_list(input, label_key, part_renamer, animal_renamer, **kwargs):
+    if len(input) == 0:
         return pd.DataFrame()
     supported_exts = ['.csv', '.h5', '.nwb', '.hdf5']
-    exts = [os.path.splitext(m)[1] for m in metadata]
-    print(exts)
+    exts = [os.path.splitext(m)[1] for m in input]
     supported = [e in supported_exts for e in exts]
     is_nwb = [e == 'nwb' for e in exts]
     if not all(supported):
         ValueError("Only NWB, dlc (csv) or SLEAP (h5, hdf5) formats are supported.")
 
     if all(is_nwb):
-        df = _load_nwb(metadata, part_renamer, animal_renamer)
+        df = _load_nwb(input, part_renamer, animal_renamer)
     else:
-        metadata = {k:{} for k in metadata}
+        metadata = create_metadata(input, **kwargs)
         df = _create_from_dict(metadata, label_key, part_renamer, animal_renamer)
 
     return df
 
-def create_dataset(metadata : dict = None, 
+def create_dataset(input : dict = None, 
                      label_key : dict = None, 
                      part_renamer : dict = None,
-                     animal_renamer : dict = None) -> pd.DataFrame:
-    """Houses pose-tracking data and behavior annotations in pandas DataFrame for ML, along with relevant metadata, features and behavior annotation labels.
+                     animal_renamer : dict = None,
+                     video : list = None, 
+                     labels : list = None,
+                     **kwargs) -> pd.DataFrame:
+    """Creates DataFrame that houses pose-tracking data and behavior annotations, along with relevant metadata, features and behavior annotation labels.
 
     Args:
-        metadata: Dictionary whose keys are pose tracking files, and value is a dictionary of associated metadata
-            for that video. Most easiest to create with 'create_metadata'. 
+        input: String OR list of strings with path(s) to tracking file(s). 
+            OR Dictionary whose keys are pose tracking files, and value is a dictionary of associated metadata
+            for that video (see `create_metadata` if using this construction option)
         label_key: Default None. Dictionary whose keys are positive integers and values are behavior labels. If none, then this is inferred from the behavior annotation files provided.  
         part_renamer: Default None. Dictionary that can rename body parts from tracking files if needed (for feature creation, e.g.)
         animal_renamer: Default None. Dictionary that can rename animals from tracking files if needed
-
+        **kwargs: Any other data to associate with each of the tracking files. This includes label files, and other metadata. 
+            Any list-like arguments of appropriate length are zipped (associated) with each tracking file. See How To guide for more information.
+        
     Returns:
         DataFrame object. This is a pandas DataFrame with additional metadata and methods.
     """
 
-    if type(metadata) is dict:
-        df = _create_from_dict(metadata, label_key, part_renamer, animal_renamer)
-    elif type(metadata) is str:
-        df = _create_from_list([metadata], label_key, part_renamer, animal_renamer)
-    elif type(metadata) is list:
-        df = _create_from_list(metadata, label_key, part_renamer, animal_renamer)
+    if type(input) is dict:
+        df = _create_from_dict(input, label_key, part_renamer, animal_renamer)
+    elif type(input) is str:
+        kwargs['video'] = video 
+        kwargs['labels'] = labels
+        df = _create_from_list([input], label_key, part_renamer, animal_renamer, **kwargs)
+    elif type(input) is list:
+        kwargs['video'] = video 
+        kwargs['labels'] = labels
+        df = _create_from_list(input, label_key, part_renamer, animal_renamer, **kwargs)
     else:
         raise ValueError("Metadata not properly formatted. See docstring.")
 
@@ -652,7 +661,7 @@ def _load_nwb(nwb_files, part_renamer, animal_renamer):
         #Add additional metadata
         metadata[fn] = {}
         metadata[fn]['scorer'] = scorer
-        metadata[fn]['video'] = meta[fn]['video_files']
+        metadata[fn]['video'] = meta[fn]['video']
         metadata[fn]['resolution'] = meta[fn]['resolution']
         metadata[fn]['units'] = meta[fn]['unit']
 
@@ -766,6 +775,8 @@ def _load_labels_boris(df, col_name = 'label', set_as_label = False):
                 if col_name not in df.columns:
                     df[col_name] = 0.
                 df.loc[df['filename'] == vid, col_name] = ground_truth[behavior]
+        elif 'fps' not in df.metadata.details[vid]:
+            print(f"'fps' not provided for video {vid}. Cannot link pose data to BORIS annotations.")
 
     if set_as_label:
         df.ml.label_cols = list(set(label_cols))
@@ -794,12 +805,12 @@ def get_sample_openfield_data():
 
     cur_dir = os.path.dirname(os.path.abspath(__file__))
     tracking_files = glob(os.path.join(cur_dir, 'data', 'dlc', 'openfield', '*example.csv'))
-    video_files = glob(os.path.join(cur_dir, 'data', 'videos', '*.mp4'))
+    video = glob(os.path.join(cur_dir, 'data', 'videos', '*.mp4'))
     fps = 30                         # (int) frames per second
     resolution = (480, 640)          # (tuple) HxW in pixels
     #Metadata is a dictionary that attaches each of the above parameters to the video/behavior annotations
     metadata = create_metadata(tracking_files, 
-                            video_files = video_files,
+                            video = video,
                             fps = fps, 
                             resolution = resolution)
 

@@ -137,7 +137,7 @@ Overlay ethogram on top of source video with ffmpeg
 **Args:**
  
  - <b>`dataset`</b>:  source dataset 
- - <b>`vid_key`</b>:  the key (in dataset.metadata) pointing to the video to make ethogram for. metadata must have field 'video_files' that points to the source video location 
+ - <b>`vid_key`</b>:  the key (in dataset.metadata) pointing to the video to make ethogram for. metadata must have field 'video' that points to the source video location 
  - <b>`query_label`</b>:  the column containing the behavior labels to plot 
  - <b>`out_file`</b>:  output path for created video 
  - <b>`frame_limit`</b>:  only make the ethogram/video for frames [0, frame_limit] 

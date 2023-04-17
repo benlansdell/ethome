@@ -404,7 +404,7 @@ def _convert_nwb_to_h5_all(nwbfile):
             if len(videos) == 1:
                 videos = videos[0]
             meta[animal_key] = {'resolution': np.squeeze(read_pe.dimensions[:]),
-                                'video_files': videos,
+                                'video': videos,
                                 'scorer': scorer}
             for node in read_pe.nodes:
                 pes = read_pe.pose_estimation_series[node]

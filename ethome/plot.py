@@ -142,7 +142,7 @@ def create_ethogram_video(dataset : pd.DataFrame,
 
     Args:
         dataset: source dataset
-        vid_key: the key (in dataset.metadata) pointing to the video to make ethogram for. metadata must have field 'video_files' that points to the source video location
+        vid_key: the key (in dataset.metadata) pointing to the video to make ethogram for. metadata must have field 'video' that points to the source video location
         query_label: the column containing the behavior labels to plot
         out_file: output path for created video
         frame_limit: only make the ethogram/video for frames [0, frame_limit]
@@ -152,7 +152,7 @@ def create_ethogram_video(dataset : pd.DataFrame,
     Returns:
         None
     """
-    vid_file = dataset.metadata.details[vid_key]['video_files']
+    vid_file = dataset.metadata.details[vid_key]['video']
     fps = dataset.metadata.details[vid_key]['fps']
     time_limit = frame_limit/fps
     fig, _ = plt.subplots(1,1,figsize = (im_dim,2))

@@ -1,17 +1,23 @@
-
 # How To guide
 
-This guide covers the all of the tasks you can perform with this package, roughly in the order you'd want to do them. A very basic outline is also in the Quick Start section of the readme. 
+This guide covers the all of the tasks you can perform with `ethome`, roughly in the order you'd want to do them. A very basic outline is also in the Quick Start section of the readme. 
 
 This guide covers basic usage -- it doesn't comprehensively describe how to use every function or feature in `ethome`; you can consult the API docs for complete information on usage. After installation, cut and past the code samples below to follow along.
 
-## 1 Getting started
+## 0 Installation
 
-`ethome` makes it easy to perform common machine learning analyses on pose-tracking data, perhaps in combination with behavioral annotations. The key thing you need to get started, then, is pose tracking data. At present, data from DeepLabCut, SLEAP or pose data stored in NWB files is supported (via the `ndx-pose` extension). 
+Just do
+```
+pip install ethome-ml
+```
+
+You may want to also install `tensorflow` if you want to use the CNN features for a resident-intruder setup.
+
+## 1 Loading your data
+
+`ethome` makes it easy to perform common machine learning analyses on pose-tracking data, perhaps in combination with behavioral annotations. The basic object of the package is an extended pandas `DataFrame`, which provides associated support functions that are suited for behavior analysis. The `DataFrame` object will house data from one or more video's worth of pose data, along with associated metadata for each video. The key thing you need to get started, then, is pose tracking data. At present, data from DeepLabCut, SLEAP or pose data stored in NWB files is supported (via the `ndx-pose` extension). 
 
 ### 1a Loading NWB files
-
-The first task is to load the data into a form useful for machine learning. The basic object of the package is an extended pandas `DataFrame`, which provides associated support functions that are suited for behavior analysis. The `DataFrame` object will house data from one or more video's worth of pose data, along with associated metadata for each video. 
 
 The NeurodataWithoutBorders format can store both pose tracking data and behavioral annotations, along with associated metadata. If all of your data is stored in this format, then it's easy to import it into `ethome`:
 ```python
@@ -21,58 +27,58 @@ fn_in = get_sample_nwb_paths()
 recordings = create_dataset(fn_in)
 ```
 
-You can provide multiple recordings, just provide a list of paths instead. Each separate file is assumed to represent a different session/experiment/time period. I.e., they're *not* meant to represent the same session from different cameras, or the same session for different animals.  
+You can provide multiple recordings, just provide a list of paths instead. Each separate file is assumed to represent a similar setup but different session/experiment/time period. I.e., they're *not* meant to represent the same session from different cameras, or the same session for different animals.  
 
-### 1b Loading your own metadata/loading tracking files
+### 1b Loading tracking files
 
-If your data is stored in DeepLabCut `csv`s or `h5` files, or SLEAP exported analysis `h5` files, perhaps with accompanying behavioral annotations from [BORIS](https://www.boris.unito.it/), then you'll have to associate these with each other, and provide relevant metadata yourself. Sections 1b -> 1f outline how to do this. Data stored in NWB files have already addressed each of these steps and you can skip these sections. 
+If your data is stored in DeepLabCut `csv`s or `h5` files, or SLEAP exported analysis `h5` files, perhaps with accompanying behavioral annotations from [BORIS](https://www.boris.unito.it/), then you'll have to associate these with each other, and provide relevant metadata yourself. Sections 1b -> 1e outline how to do this. Data stored in NWB files have already addressed each of these steps and you can skip these sections. 
 
-To import the data, you'll need to provide metadata for each video you want to analyze. For this, you create a `metadata` dictionary housing this information. This is a dictionary whose keys are paths to pose-tracking files -- this is how each video is identified. The value of each entry is a dictionary that provides details about that video. For instance, you may have:
+To import just your tracking data, you can simple do: 
 ```python
-tracking_csv = './dlc_tracking_file.csv'
-metadata = {tracking_csv : {'fps': 30, 'resolution': (1200, 1600)}}
+tracking_csvs = ['./dlc_tracking_file_1.csv', './dlc_tracking_file_2.csv']
+recordings = create_dataset(tracking_csvs)
 ```
 
-NOTE: Beyond providing the `fps` for each video, all other fields are optional. 
-
-### 1c Helper function for making metadata dictionary
-
-Often you'll have many videos that have the same metadata, in that case you can easily create an appropriate dictionary with the helper function `create_metadata`. Say you now have two tracking files, each with the same FPS and resolution. You can make the corresponding metadata dictionary with:
+But generally, you may want to provide metadata with each tracking file. This can be done just by providing keyword arguments:
 ```python
-from ethome import create_metadata
 tracking_csvs = ['./dlc_tracking_file_1.csv', './dlc_tracking_file_2.csv']
 fps = 30
 resolution = (1200, 1600)
-metadata = create_metadata(tracking_csvs, fps = fps, resolution = resolution)
+recordings = create_dataset(tracking_csvs, fps = fps, resolution = resolution)
 ```
-The `metadata` dictionary now has two items, one for each video, each listing the same FPS and resolution. 
+This loads the dataframe, with `fps` and `resolution` associated to each input csv. 
 
-NOTE: Any keyword that is an iterable of the same length as the tracking files is zipped with the tracking files accordingly. That is, if you also have behavioral annotations provided by BORIS for each of the videos, then you should prepare a list `labeled_data` and provide that to `create_metadata`:
+NOTE: Any keyword that is a list of the same length as the tracking files is zipped with the tracking files accordingly. That is, if the resolution of the videos is different:
 ```python
 tracking_csvs = ['./dlc_tracking_file_1.csv', './dlc_tracking_file_2.csv']
-labeled_data = ['./boris_tracking_file_1.csv', './boris_tracking_file_2.csv']
 fps = 30
-resolution = (1200, 1600)
-metadata = create_metadata(tracking_csvs, labels = labeled_data, fps = fps, resolution = resolution)
+resolutions = [(1200, 1600), (800, 1200)]
+recordings = create_dataset(tracking_csvs, fps = fps, resolution = resolutions)
 ```
-Rather than assigning the same value (e.g. `fps = 30`) to all videos, the entry `labeled_data[i]` would then be associated with `tracking_csvs[i]`. These lists, therefore, must be sorted appropriately.
+Rather than assigning the same value to all videos, the entry `resolutions[i]` would then be associated with `tracking_csvs[i]`. These lists, therefore, must be sorted appropriately.
 
-### 1d Special fields
+NOTE: It is strongly recommended the `fps` field is provided for all videos, so that frame numbers can be converted into times, which is needed for loading data from other sources (e.g. BORIS).
 
-When making this metadata dictionary, keep in mind:
-* The `labels` field is special. If it is provided, then it is treated as housing the paths to behavioral annotations exported from a corresponding BORIS project. The package loads these behavior annotations and adds them to the data frame with the field `label`.
-* The `video` field is also special. You should use it to provide a path to the corresponding video that was tracked. If available, this will be used by some of the visualization functions.
-* For each video, the `fps` field must be provided, so that frame numbers can be converted into times.
+### 1c Loading behavioral annotation data
 
-### 1e BORIS behavior annotation data
+The (optional) `labels` keyword is used to include corresponding behavioral annotation files:
+```python
+tracking_csvs = ['./dlc_tracking_file_1.csv', './dlc_tracking_file_2.csv']
+labels = ['./boris_tracking_file_1.csv', './boris_tracking_file_2.csv']
+recordings = create_dataset(tracking_csvs, labels = labels)
+```
 
 Behavior annotations should be exported from BORIS, in tabular form (as a csv), for each video to be imported.
 
-### 1f Scaling pose data
+### 1d Loading video data
+
+The (optional) `video` keyword is used to provide the path(s) to the corresponding video(s) that were tracked. If available, this will be used by some of the visualization functions.
+
+### 1e Scaling pose data
 
 There is some support for scaling the data to get it into desired units, consistent across all recordings. 
 
-If the tracking is in pixels and you do want to rescale it to some physical distance, you should provide `frame_width`, `frame_width_units` and `resolution` for all videos. This ensures the entire dataset is using the same units. The package will use these values for each video to rescale the (presumed) pixel coordinates to physical coordinates.
+If the tracking is in pixels and you do want to rescale it to some physical distance, you should provide keywords `frame_width`, `frame_width_units` and `resolution` for all videos. This ensures the entire dataset is using the same units. The package will use these values for each video to rescale the (presumed) pixel coordinates to physical coordinates.
 
 `resolution` is a tuple (H,W) in pixels of the videos and `frame_width` is the width of the image, in units `frame_width_units`.
 
@@ -80,28 +86,19 @@ By default, all coordinates are converted to 'mm'. The pair 'units':'mm' is adde
 
 If the DLC/tracking files are already in desired units, either in physical distances, or pixels, then do *not* provide all of the fields `frame_width`, `resolution`, and `frame_width_units`. If you want to keep track of the units, you can add a `units` key to the metadata. This could be `pixels`, `cm`, etc, as appropriate.
 
-### 1g Making the data frame
-
-Once you have the metadata dictionary prepared, you can easily create a `DataFrame` as:
-```python
-recordings = create_dataset(metadata)
-```
-
-This creates a pandas dataframe, `recordings`, that contains pose data, and perhaps behavior annotations, from all the videos listed in `metadata`.
-
-### 1h Renaming things
+### 1f Renaming things
 
 If your tracking project named the animals some way, but you want them named another way in this dataframe, you can provide an `animal_renamer` dictionary as an argument to the constructor:
 ```python
-recordings = create_dataset(metadata, animal_renamer={'adult': 'resident', 'juvenile':'intruder'})
+recordings = create_dataset(tracking_csvs, animal_renamer={'adult': 'resident', 'juvenile':'intruder'})
 ```
-Similarly with the body parts -- you can provide a `part_renamer` dictionary.
+Similarly with the body parts, you can provide a `part_renamer` dictionary.
 
-### 1i Metadata
+### 1g Metadata
 
 When `recordings` is created, additional metadata is computed and accessible via:
 * `recordings.metadata` houses the following attributes:
-    * `details`: the metadata dictionary given to create_dataset
+    * `details`: the metadata given to create_dataset
     * `videos`: list of videos given in `metadata`
     * `n_videos`: number of videos in DataFrame
     * `label_key`: associates numbers with text labels for each behavior
@@ -207,14 +204,14 @@ from sklearn.model_selection import cross_val_score, LeaveOneGroupOut
 
 cv = LeaveOneGroupOut()
 model = RandomForestClassifier()
-cross_val_score(model, recording.ml.features, recording.ml.labels, recordings.ml.group, cv = cv)
+cross_val_score(model, recordings.ml.features, recordings.ml.labels, recordings.ml.group, cv = cv)
 ```
 
 A convenience function that essentially runs the above lines is provided, 
 `add_randomforest_predictions`:
 ```python
 from ethome import add_randomforest_predictions
-add_randomforest_predictions(recording)
+add_randomforest_predictions(recordings)
 ```
 which can be used as a starting point for developing behavior classifiers. 
 
@@ -223,7 +220,7 @@ which can be used as a starting point for developing behavior classifiers.
 Now we have our model we can make a video of its predictions. Provide the column names whose state we're going to overlay on the video, along with the directory to output the videos:
 
 ```python
-dataset.io.save_movie(['label', 'prediction'], '.')
+recordings.io.save_movie(['label', 'prediction'], '.')
 ```
 The video field in the `metadata`, specifying the path to the underlying video, has to be present for each recording for this to work. 
 
@@ -273,4 +270,4 @@ See the API docs for usage details.
 
 ## 8 Some caveats
 
-* The workflow assumes you import all your data into one DataFrame. Combining two DataFrames (append or concat) is not officially supported. It may behave well, or it may not.
+The workflow assumes you import all your data into one DataFrame. Combining two DataFrames (append or concat) is not officially supported. It may behave well, or it may not.

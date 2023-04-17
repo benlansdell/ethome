@@ -632,12 +632,12 @@ def create_dataset(input : dict = None,
     if type(input) is dict:
         df = _create_from_dict(input, label_key, part_renamer, animal_renamer)
     elif type(input) is str:
-        kwargs['video'] = video 
-        kwargs['labels'] = labels
+        if video is not None: kwargs['video'] = video 
+        if labels is not None: kwargs['labels'] = labels
         df = _create_from_list([input], label_key, part_renamer, animal_renamer, **kwargs)
     elif type(input) is list:
-        kwargs['video'] = video 
-        kwargs['labels'] = labels
+        if video is not None: kwargs['video'] = video 
+        if labels is not None: kwargs['labels'] = labels
         df = _create_from_list(input, label_key, part_renamer, animal_renamer, **kwargs)
     else:
         raise ValueError("Metadata not properly formatted. See docstring.")

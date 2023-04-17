@@ -3,21 +3,7 @@
 <a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L0"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 # <kbd>module</kbd> `video`
-Basic video tracking and behavior class that houses data.  
-
-Basic object is the ExperimentDataFrame class. 
-
-## A note on unit conversions 
-
-For the unit rescaling, if the dlc/tracking file is already in desired units, either in physical distances, or pixels, then don't provide all of 'frame_width', 'resolution', and 'frame_width_units'. If you want to keep track of the units, you can add a 'units' key to the metadata. This could be 'pixels', or 'cm', as appropriate. 
-
-If the tracking is in pixels and you do want to rescale it to some physical distance, you should provide 'frame_width', 'frame_width_units' and 'resolution' for all videos. This ensures the entire dataset is using the same units. The package will use these values for each video to rescale the (presumed) pixel coordinates to physical coordinates.  
-
-Resolution is a tuple (H,W) in pixels of the videos. 'frame_width' is the width of the image, in units 'frame_width_units' 
-
-When this is done, all coordinates are converted to 'mm'. The pair 'units':'mm' is added to the metadata dictionary for each video 
-
-If any of the provided parameters are provided, but are not the right format, or some values are missing, a warning is given and the rescaling is not performed. 
+Basic video tracking and behavior class that houses data 
 
 **Global Variables**
 ---------------
@@ -27,7 +13,7 @@ If any of the provided parameters are provided, but are not the right format, or
 
 ---
 
-<a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L49"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L35"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `create_metadata`
 
@@ -37,49 +23,52 @@ create_metadata(tracking_files: list, **kwargs) → dict
 
 Prepare a metadata dictionary for defining a ExperimentDataFrame.  
 
-Only required argument is list of DLC tracking file names.  
+Only required argument is list of pose tracking file names.  
 
-Any other keyword argument must be either a non-iterable object (e.g. a scalar parameter, like FPS) that will be copied and tagged to each of the DLC tracking files, or an iterable object of the same length of the list of DLC tracking files. Each element in the iterable will be tagged with the corresponding DLC file. 
+Any other keyword argument must be either a non-iterable object (e.g. a scalar parameter, like FPS) that will be copied and tagged to each of the pose tracking files, or an iterable object of the same length of the list of pose tracking files. Each element in the iterable will be tagged with the corresponding pose-tracking file. 
 
 
 
 **Args:**
  
- - <b>`tracking_files`</b>:  List of DLC tracking .csvs 
+ - <b>`tracking_files`</b>:  List of pose tracking files 
  - <b>`**kwargs`</b>:  described as above 
 
 
 
 **Returns:**
- Dictionary whose keys are DLC tracking file names, and contains a dictionary with key,values containing the metadata provided 
+ Dictionary whose keys are pose-tracking file names, and contains a dictionary with key,values containing the metadata provided 
 
 
 ---
 
-<a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L584"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L609"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `create_dataset`
 
 ```python
 create_dataset(
-    metadata: dict = None,
+    input: dict = None,
     label_key: dict = None,
     part_renamer: dict = None,
-    animal_renamer: dict = None
+    animal_renamer: dict = None,
+    video: list = None,
+    labels: list = None,
+    **kwargs
 ) → DataFrame
 ```
 
-Houses DLC tracking data and behavior annotations in pandas DataFrame for ML, along with relevant metadata, features and behavior annotation labels. 
+Creates DataFrame that houses pose-tracking data and behavior annotations, along with relevant metadata, features and behavior annotation labels. 
 
 
 
 **Args:**
  
- - <b>`metadata`</b>:  Dictionary whose keys are DLC tracking csvs, and value is a dictionary of associated metadata  for that video. Most easiest to create with 'create_metadata'.  
- - <b>`Required keys are`</b>:  ['fps'] 
+ - <b>`input`</b>:  String OR list of strings with path(s) to tracking file(s).   OR Dictionary whose keys are pose tracking files, and value is a dictionary of associated metadata  for that video (see `create_metadata` if using this construction option) 
  - <b>`label_key`</b>:  Default None. Dictionary whose keys are positive integers and values are behavior labels. If none, then this is inferred from the behavior annotation files provided.   
  - <b>`part_renamer`</b>:  Default None. Dictionary that can rename body parts from tracking files if needed (for feature creation, e.g.) 
  - <b>`animal_renamer`</b>:  Default None. Dictionary that can rename animals from tracking files if needed 
+ - <b>`**kwargs`</b>:  Any other data to associate with each of the tracking files. This includes label files, and other metadata.   Any list-like arguments of appropriate length are zipped (associated) with each tracking file. See How To guide for more information. 
 
 
 
@@ -89,7 +78,7 @@ Houses DLC tracking data and behavior annotations in pandas DataFrame for ML, al
 
 ---
 
-<a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L753"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L784"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `load_experiment`
 
@@ -113,7 +102,7 @@ Load DataFrame from file.
 
 ---
 
-<a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L768"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L799"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `get_sample_openfield_data`
 
@@ -131,14 +120,38 @@ Load a sample dataset of 1 mouse in openfield setup. The video is the sample tha
 
 ---
 
-<a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L178"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L838"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+
+## <kbd>function</kbd> `add_randomforest_predictions`
+
+```python
+add_randomforest_predictions(df: DataFrame)
+```
+
+Perform cross validation of a RandomForestClassifier to predict behavior based on  activated features. Can be useful to assess model performance, and if you have enough data. 
+
+
+
+**Args:**
+ 
+ - <b>`df`</b>:  Dataframe housing features and labels to perform classification.  Will perform leave-one-video-out cross validation hence dataframe needs at least two videos to run. 
+
+
+
+**Returns:**
+ None. Modifies df in place, adding column 'prediction' with model predictions in it. 
+
+
+---
+
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L164"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>class</kbd> `EthologyMetadataAccessor`
 
 
 
 
-<a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L179"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L165"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `__init__`
 
@@ -196,14 +209,14 @@ __init__(pandas_obj)
 
 ---
 
-<a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L215"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L201"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>class</kbd> `EthologyFeaturesAccessor`
 
 
 
 
-<a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L216"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L202"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `__init__`
 
@@ -228,7 +241,7 @@ __init__(pandas_obj)
 
 ---
 
-<a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L229"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L215"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `activate`
 
@@ -251,7 +264,7 @@ Add already present columns in data frame to the feature set.
 
 ---
 
-<a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L276"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L262"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `add`
 
@@ -282,7 +295,7 @@ Compute features to dataframe using Feature object. 'featureset_name' will be pr
 
 ---
 
-<a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L262"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L248"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `deactivate`
 
@@ -305,7 +318,7 @@ Remove columns from the feature set.
 
 ---
 
-<a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L334"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L323"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `deactivate_cols`
 
@@ -328,7 +341,7 @@ Remove provided columns from set of feature columns.
 
 ---
 
-<a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L246"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L232"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `regex`
 
@@ -352,14 +365,14 @@ Return a list of column names that match the provided regex pattern.
 
 ---
 
-<a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L349"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L338"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>class</kbd> `EthologyPoseAccessor`
 
 
 
 
-<a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L350"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L339"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `__init__`
 
@@ -409,14 +422,14 @@ __init__(pandas_obj)
 
 ---
 
-<a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L398"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L387"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>class</kbd> `EthologyMLAccessor`
 
 
 
 
-<a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L399"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L388"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `__init__`
 
@@ -490,14 +503,14 @@ __init__(pandas_obj)
 
 ---
 
-<a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L464"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L453"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>class</kbd> `EthologyIOAccessor`
 
 
 
 
-<a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L465"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L454"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `__init__`
 
@@ -514,7 +527,7 @@ __init__(pandas_obj)
 
 ---
 
-<a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L517"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L506"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `load`
 
@@ -537,7 +550,7 @@ Load ExperimentDataFrame object from pickle file.
 
 ---
 
-<a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L468"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L457"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `save`
 
@@ -560,7 +573,7 @@ Save ExperimentDataFrame object with pickle.
 
 ---
 
-<a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L528"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L517"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `save_movie`
 
@@ -570,7 +583,7 @@ save_movie(label_columns, path_out: str, video_filenames=None) → None
 
 Given columns indicating behavior predictions or whatever else, make a video with these predictions overlaid.  
 
-ExperimentDataFrame metadata must have the keys 'video_file', so that the video associated with each set of DLC tracks is known. 
+ExperimentDataFrame metadata must have the keys 'video_file', so that the video associated with each set of pose tracks is known. 
 
 
 
@@ -587,7 +600,7 @@ ExperimentDataFrame metadata must have the keys 'video_file', so that the video 
 
 ---
 
-<a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L482"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L471"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ### <kbd>method</kbd> `to_dlc_csv`
 

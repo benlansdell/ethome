@@ -1,5 +1,5 @@
 ---
-title: 'Ethome: machine learning for animal behavior'
+title: 'Ethome: tools for machine learning of animal behavior'
 tags:
   - Python
   - supervised-learning

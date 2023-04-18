@@ -566,7 +566,7 @@ class EthologyIOAccessor(object):
             cmd = f'ffmpeg -y -i {vid_in} -vf "{label_string}" {vid_out}'
             os.system(cmd)            
 
-def _create_from_dict(metadata, label_key, part_renamer, animal_renamer):
+def _create_from_dict(metadata, part_renamer, animal_renamer):
     df = pd.DataFrame()
     #req_cols = ['fps']
     #Drop requirement this is provided. Just omit addition of time column, if fps omitted
@@ -588,13 +588,13 @@ def _create_from_dict(metadata, label_key, part_renamer, animal_renamer):
 
     return df    
 
-def _create_from_list(input, label_key, part_renamer, animal_renamer, **kwargs):
+def _create_from_list(input, part_renamer, animal_renamer, **kwargs):
     if len(input) == 0:
         return pd.DataFrame()
     supported_exts = ['.csv', '.h5', '.nwb', '.hdf5']
     exts = [os.path.splitext(m)[1] for m in input]
     supported = [e in supported_exts for e in exts]
-    is_nwb = [e == 'nwb' for e in exts]
+    is_nwb = [e == '.nwb' for e in exts]
     if not all(supported):
         ValueError("Only NWB, dlc (csv) or SLEAP (h5, hdf5) formats are supported.")
 
@@ -602,12 +602,11 @@ def _create_from_list(input, label_key, part_renamer, animal_renamer, **kwargs):
         df = _load_nwb(input, part_renamer, animal_renamer)
     else:
         metadata = create_metadata(input, **kwargs)
-        df = _create_from_dict(metadata, label_key, part_renamer, animal_renamer)
+        df = _create_from_dict(metadata, part_renamer, animal_renamer)
 
     return df
 
 def create_dataset(input : dict = None, 
-                     label_key : dict = None, 
                      part_renamer : dict = None,
                      animal_renamer : dict = None,
                      video : list = None, 
@@ -619,7 +618,6 @@ def create_dataset(input : dict = None,
         input: String OR list of strings with path(s) to tracking file(s). 
             OR Dictionary whose keys are pose tracking files, and value is a dictionary of associated metadata
             for that video (see `create_metadata` if using this construction option)
-        label_key: Default None. Dictionary whose keys are positive integers and values are behavior labels. If none, then this is inferred from the behavior annotation files provided.  
         part_renamer: Default None. Dictionary that can rename body parts from tracking files if needed (for feature creation, e.g.)
         animal_renamer: Default None. Dictionary that can rename animals from tracking files if needed
         **kwargs: Any other data to associate with each of the tracking files. This includes label files, and other metadata. 
@@ -630,24 +628,21 @@ def create_dataset(input : dict = None,
     """
 
     if type(input) is dict:
-        df = _create_from_dict(input, label_key, part_renamer, animal_renamer)
+        df = _create_from_dict(input, part_renamer, animal_renamer)
     elif type(input) is str:
         if video is not None: kwargs['video'] = video 
         if labels is not None: kwargs['labels'] = labels
-        df = _create_from_list([input], label_key, part_renamer, animal_renamer, **kwargs)
+        df = _create_from_list([input], part_renamer, animal_renamer, **kwargs)
     elif type(input) is list:
         if video is not None: kwargs['video'] = video 
         if labels is not None: kwargs['labels'] = labels
-        df = _create_from_list(input, label_key, part_renamer, animal_renamer, **kwargs)
+        df = _create_from_list(input, part_renamer, animal_renamer, **kwargs)
     else:
         raise ValueError("Metadata not properly formatted. See docstring.")
 
-    if label_key:
-        df.metadata.label_key = label_key
-
     return df
 
-def _load_nwb(nwb_files, part_renamer, animal_renamer):
+def _load_nwb(nwb_files, part_renamer, animal_renamer, set_as_label = True):
 
     metadata = {}
     dfs = []
@@ -678,6 +673,13 @@ def _load_nwb(nwb_files, part_renamer, animal_renamer):
     df.pose.animals = animals
     df.pose.animal_setup = {'mouse_ids': animals, 'bodypart_ids': body_parts, 'colnames': col_names}
     df.pose.raw_track_columns = col_names
+
+    label_cols = [x for x in df.columns if x.startswith('label_')]
+    df.metadata.label_key = {idx:k for idx, k in enumerate(list(set(label_cols)))}
+
+    if set_as_label:
+        df.ml.label_cols = list(df.metadata.label_key.values())
+
     return df
 
 def _load_tracks(df, part_renamer, animal_renamer, rescale = False):
@@ -750,15 +752,8 @@ def _load_labels(df, col_name = 'label', set_as_label = False):
     #For the moment only BORIS support
     return _load_labels_boris(df, col_name, set_as_label)
 
-def _load_labels_boris(df, col_name = 'label', set_as_label = False):
+def _load_labels_boris(df, prefix = 'label', set_as_label = False):
     """Add behavior label data to DataFrame"""
-
-    if not df.metadata.label_key:
-        label_files = []
-        for fn in df.metadata.details.keys():
-            if 'labels' in df.metadata.details[fn]:
-                label_files.append(df.metadata.details[fn]['labels'])
-        df.metadata.label_key = create_behavior_labels(label_files)
 
     label_cols = []
     for vid in df.metadata.details:
@@ -767,10 +762,10 @@ def _load_labels_boris(df, col_name = 'label', set_as_label = False):
             fps = df.metadata.details[vid]['fps']
             duration = df.metadata.details[vid]['duration']
 
-            ground_truth = read_boris_annotation(fn_in, fps, duration, df.metadata.label_key.values())
+            ground_truth = read_boris_annotation(fn_in, fps, duration)
 
             for behavior in ground_truth:
-                col_name = 'label_' + behavior
+                col_name = prefix + '_' + behavior
                 label_cols.append(col_name)
                 if col_name not in df.columns:
                     df[col_name] = 0.
@@ -778,8 +773,10 @@ def _load_labels_boris(df, col_name = 'label', set_as_label = False):
         elif 'fps' not in df.metadata.details[vid]:
             print(f"'fps' not provided for video {vid}. Cannot link pose data to BORIS annotations.")
 
+    df.metadata.label_key = {idx:k for idx, k in enumerate(list(set(label_cols)))}
+
     if set_as_label:
-        df.ml.label_cols = list(set(label_cols))
+        df.ml.label_cols = list(df.metadata.label_key.values())
 
 def load_experiment(fn_in : str) -> pd.DataFrame:
     """Load DataFrame from file.

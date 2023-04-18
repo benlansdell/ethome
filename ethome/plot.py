@@ -1,13 +1,78 @@
-import matplotlib.pyplot as plt
-import matplotlib as mpl
-from matplotlib import cm
 import os
 import time
+import matplotlib.pyplot as plt
+import matplotlib as mpl
 import numpy as np
-from glob import glob
 import pandas as pd
 
+from matplotlib import cm
+from glob import glob
+from ipywidgets import interact, IntSlider
+from IPython.display import display
+from itertools import product
+
 from ethome.config import global_config
+
+def interactive_tracks(df : pd.DataFrame, 
+                       filename : str, 
+                       animals : list = None,
+                       start_frame : int = 0, 
+                       stop_frame : int = None):
+    """Simple interactive widget to explore pose tracking data from a recording.
+    
+    Use within Jupyter Notebook, with %matplotlib inline
+
+    Args:
+        df: input DataFrame
+        filename: tracking file to source trackes from
+        animals: if provided, only plot these animals. Default = None = plot all
+        start_frame: Display frames after this value
+        stop_frame: Display frames up to this value. If None, show all frames in recording.
+        
+    Returns:
+        None. Plot is created and displayed by the function without returning. 
+    """
+    if animals is None:
+        animals = df.pose.animals 
+
+    df = df[(df['filename'] == filename)]
+    if stop_frame is None:
+        stop_frame = df.frame.max() 
+    df = df[(df['frame'] >= start_frame) & (df['frame'] <= stop_frame)]
+
+    all_x_cols = [f'{animal}_x_{bp}' for animal, bp in product(animals, df.pose.body_parts)]
+    all_y_cols = [f'{animal}_y_{bp}' for animal, bp in product(animals, df.pose.body_parts)]
+
+    xmin, xmax = np.min(df[all_x_cols].values), np.max(df[all_x_cols].values)
+    ymin, ymax = np.min(df[all_y_cols].values), np.max(df[all_y_cols].values)
+    
+    fig = plt.figure(figsize=(8,8))
+    styles = ['bo', 'r+', 'g.']
+
+    lines = {}
+    for idx, animal in enumerate(animals):
+        line, = plt.plot([], [], styles[idx%len(styles)])
+        lines[animal] = line
+
+    plt.xlim(xmin, xmax)
+    plt.ylim(ymin, ymax)
+    plt.xlabel('x')
+    plt.ylabel('y')
+    plt.title(','.join(animals) + ' from ' + os.path.basename(filename))
+    plt.close()
+
+    def plot_frame(frame):
+        for animal in animals:
+            x = []
+            y = []
+            for bp in df.pose.body_parts:
+                x.append(df.loc[df['frame'] == frame, f'{animal}_x_{bp}'].values[0])
+                y.append(df.loc[df['frame'] == frame, f'{animal}_y_{bp}'].values[0])
+            lines[animal].set_data(x, y)
+
+        display(fig)
+        
+    interact(plot_frame, frame=IntSlider(min=start_frame, max=stop_frame, value=start_frame))
 
 def plot_embedding(dataset : pd.DataFrame, 
                    col_names : list  = ['embedding_0', 'embedding_1'],

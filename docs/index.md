@@ -45,7 +45,7 @@ Create the dataframe:
 dataset = create_dataset(fn_in)
 ```
 `dataset` is an extended pandas DataFrame, so can be treated exactly as you would treat any other dataframe. `ethome` adds a bunch of metadata about the dataset, for instance you can list the body parts with:
-```
+```python
 dataset.pose.body_parts
 ```
 
@@ -56,7 +56,7 @@ dataset.features.add('distances')
 will compute all distances between all body parts (both between and within animals).
 
 There are featuresets specifically tailored for social mice studies (resident intruder). For instance, 
-```
+```python
 dataset.features.add('cnn1d_prob')
 ```
 Uses a pretrained CNN to output probabilities of 3 behaviors (attack, mount, social investigation). For this, you must have labeled your body parts in a certain way (refer to How To). Other, more generic, feature creation functions are provided that work for any animal configuration. 
@@ -92,5 +92,4 @@ dataset.io.save_movie(['label', 'prediction'], '.')
 ```
 where `label` and `prediction` reference column names to annotate the video with.
 
-A more detailed run through of features is provided in the How To guide.
- 
+A more detailed run through of features is provided in the How To guide. Also checkout `examples` for working demos to quickly see how things work.

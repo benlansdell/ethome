@@ -92,7 +92,9 @@ If the DLC/tracking files are already in desired units, either in physical dista
 
 If your tracking project named the animals some way, but you want them named another way in this dataframe, you can provide an `animal_renamer` dictionary as an argument to the constructor:
 ```python
-recordings = create_dataset(tracking_csvs, 
+recordings = create_dataset(tracking_files, 
+                            labels = boris_files,
+                            fps = 30,
                             animal_renamer={'adult': 'resident', 'juvenile':'intruder'})
 ```
 Similarly with the body parts, you can provide a `part_renamer` dictionary.
@@ -171,7 +173,7 @@ The first is to create a function that takes a pandas DataFrame, and returns a n
 def diff_cols(df, required_columns = []):
     return df[required_columns].diff()
 
-recordings.features.add(diff_cols, required_columns = ['resident_neck_x', 'resident_neck_y'])
+recordings.features.add(diff_cols, required_columns = ['resident_x_neck', 'resident_y_neck'])
 ```
 
 The second is to create a class that has, at the least, the method `transform`. 
@@ -183,7 +185,7 @@ class BodyPartDiff:
     def transform(self, df):
         return df[self.required_columns].diff()
 
-head_diff = BodyPartDiff(['resident_neck_x', 'resident_neck_y'])
+head_diff = BodyPartDiff(['resident_x_neck', 'resident_y_neck'])
 recordings.features.add(head_diff)
 ```
 This is more verbose than the above, but has the advantage that the it can be re-used. E.g. you may want to fit the instance to training data and apply it to test data, similar to an sklearn model.

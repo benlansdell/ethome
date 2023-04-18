@@ -1,3 +1,5 @@
+"""Interpolate over low confidence data"""
+
 import pandas as pd 
 import numpy as np
 

@@ -49,7 +49,6 @@ Any other keyword argument must be either a non-iterable object (e.g. a scalar p
 ```python
 create_dataset(
     input: dict = None,
-    label_key: dict = None,
     part_renamer: dict = None,
     animal_renamer: dict = None,
     video: list = None,
@@ -65,7 +64,6 @@ Creates DataFrame that houses pose-tracking data and behavior annotations, along
 **Args:**
  
  - <b>`input`</b>:  String OR list of strings with path(s) to tracking file(s).   OR Dictionary whose keys are pose tracking files, and value is a dictionary of associated metadata  for that video (see `create_metadata` if using this construction option) 
- - <b>`label_key`</b>:  Default None. Dictionary whose keys are positive integers and values are behavior labels. If none, then this is inferred from the behavior annotation files provided.   
  - <b>`part_renamer`</b>:  Default None. Dictionary that can rename body parts from tracking files if needed (for feature creation, e.g.) 
  - <b>`animal_renamer`</b>:  Default None. Dictionary that can rename animals from tracking files if needed 
  - <b>`**kwargs`</b>:  Any other data to associate with each of the tracking files. This includes label files, and other metadata.   Any list-like arguments of appropriate length are zipped (associated) with each tracking file. See How To guide for more information. 
@@ -78,7 +76,7 @@ Creates DataFrame that houses pose-tracking data and behavior annotations, along
 
 ---
 
-<a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L784"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L781"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `load_experiment`
 
@@ -102,7 +100,7 @@ Load DataFrame from file.
 
 ---
 
-<a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L799"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L796"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `get_sample_openfield_data`
 
@@ -120,7 +118,7 @@ Load a sample dataset of 1 mouse in openfield setup. The video is the sample tha
 
 ---
 
-<a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L838"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L835"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `add_randomforest_predictions`
 

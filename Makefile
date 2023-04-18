@@ -28,9 +28,9 @@ clean:
 deploytest:
 		python -m twine upload --repository testpypi --skip-existing dist/* 
 #Then you can test install with:
-#python3 -m pip install --index-url https://test.pypi.org/simple/ --no-deps ethome-ml==0.5.4
+#python3 -m pip install --index-url https://test.pypi.org/simple/ --no-deps ethome-ml==0.6.0
 #or with version number
-#python3 -m pip install --index-url https://test.pypi.org/simple/ ethome-ml==0.5.4
+#python3 -m pip install --index-url https://test.pypi.org/simple/ ethome-ml==0.6.0
 
 #Upload built package to pypi repository (publish)
 deploy:

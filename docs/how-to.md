@@ -303,3 +303,7 @@ For reference, the metadata and added functions added to the dataframe are:
     * `save_movie`: create a movie with some feature column you indicate overlaid
 
 See the API docs for usage details.
+
+## References
+
+[1] "The Mouse Action Recognition System (MARS) software pipeline for automated analysis of social behaviors in mice" Segalin et al. Elife 2021.

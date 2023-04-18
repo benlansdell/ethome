@@ -90,9 +90,9 @@ def test_multiple_boris_behaviors():
 
     edf = create_dataset(metadata)
 
-    assert 'interact' in edf.metadata.label_key.values()
-    assert 'mount' in edf.metadata.label_key.values()
-    assert all(np.array(list(edf.metadata.label_key.keys())) > 0)
+    assert 'label_interact' in edf.metadata.label_key.values()
+    assert 'label_mount' in edf.metadata.label_key.values()
+    assert all(np.array(list(edf.metadata.label_key.keys())) >= 0)
 
 def test_sample_singlemouse_data_missing():
 

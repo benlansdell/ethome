@@ -1159,7 +1159,6 @@
 <h2 id="function-create_dataset"><kbd>function</kbd> <code>create_dataset</code></h2>
 <pre><code class="language-python">create_dataset(
     input: dict = None,
-    label_key: dict = None,
     part_renamer: dict = None,
     animal_renamer: dict = None,
     video: list = None,
@@ -1171,7 +1170,6 @@
 <p><strong>Args:</strong></p>
 <ul>
 <li><b><code>input</code></b>:  String OR list of strings with path(s) to tracking file(s).   OR Dictionary whose keys are pose tracking files, and value is a dictionary of associated metadata  for that video (see <code>create_metadata</code> if using this construction option) </li>
-<li><b><code>label_key</code></b>:  Default None. Dictionary whose keys are positive integers and values are behavior labels. If none, then this is inferred from the behavior annotation files provided.   </li>
 <li><b><code>part_renamer</code></b>:  Default None. Dictionary that can rename body parts from tracking files if needed (for feature creation, e.g.) </li>
 <li><b><code>animal_renamer</code></b>:  Default None. Dictionary that can rename animals from tracking files if needed </li>
 <li><b><code>**kwargs</code></b>:  Any other data to associate with each of the tracking files. This includes label files, and other metadata.   Any list-like arguments of appropriate length are zipped (associated) with each tracking file. See How To guide for more information. </li>
@@ -1179,7 +1177,7 @@
 <p><strong>Returns:</strong>
  DataFrame object. This is a pandas DataFrame with additional metadata and methods. </p>
 <hr />
-<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L784"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L781"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="function-load_experiment"><kbd>function</kbd> <code>load_experiment</code></h2>
 <pre><code class="language-python">load_experiment(fn_in: str) → DataFrame
 </code></pre>
@@ -1191,7 +1189,7 @@
 <p><strong>Returns:</strong>
  DataFrame object from pickle file </p>
 <hr />
-<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L799"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L796"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="function-get_sample_openfield_data"><kbd>function</kbd> <code>get_sample_openfield_data</code></h2>
 <pre><code class="language-python">get_sample_openfield_data()
 </code></pre>
@@ -1199,7 +1197,7 @@
 <p><strong>Returns:</strong>
   DataFrame with the corresponding tracking and behavior annotation files </p>
 <hr />
-<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L838"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L835"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="function-add_randomforest_predictions"><kbd>function</kbd> <code>add_randomforest_predictions</code></h2>
 <pre><code class="language-python">add_randomforest_predictions(df: DataFrame)
 </code></pre>

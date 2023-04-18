@@ -504,14 +504,14 @@ from ethome.io import get_sample_nwb_paths
 <pre><code class="language-python">dataset = create_dataset(fn_in)
 </code></pre>
 <p><code>dataset</code> is an extended pandas DataFrame, so can be treated exactly as you would treat any other dataframe. <code>ethome</code> adds a bunch of metadata about the dataset, for instance you can list the body parts with:</p>
-<pre><code>dataset.pose.body_parts
+<pre><code class="language-python">dataset.pose.body_parts
 </code></pre>
 <p>A key functionality of <code>ethome</code> is the ability to easily create features for machine learning. You can use pre-built featuresets or make your own. For instance:</p>
 <pre><code class="language-python">dataset.features.add('distances')
 </code></pre>
 <p>will compute all distances between all body parts (both between and within animals).</p>
 <p>There are featuresets specifically tailored for social mice studies (resident intruder). For instance, </p>
-<pre><code>dataset.features.add('cnn1d_prob')
+<pre><code class="language-python">dataset.features.add('cnn1d_prob')
 </code></pre>
 <p>Uses a pretrained CNN to output probabilities of 3 behaviors (attack, mount, social investigation). For this, you must have labeled your body parts in a certain way (refer to How To). Other, more generic, feature creation functions are provided that work for any animal configuration. </p>
 <p>Now you can access a features table, labels, and groups for learning with <code>dataset.ml.features, dataset.ml.labels, dataset.ml.group</code>. From here it's easy to use some ML libraries to train a behavior classifier. For example:</p>
@@ -539,7 +539,7 @@ dataset['prediction'] = predictions
 <pre><code class="language-python">dataset.io.save_movie(['label', 'prediction'], '.')
 </code></pre>
 <p>where <code>label</code> and <code>prediction</code> reference column names to annotate the video with.</p>
-<p>A more detailed run through of features is provided in the How To guide.</p>
+<p>A more detailed run through of features is provided in the How To guide. Also checkout <code>examples</code> for working demos to quickly see how things work.</p>
 
 
 

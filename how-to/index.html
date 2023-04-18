@@ -354,36 +354,43 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#4-fit-a-model-for-behavior-classification" class="md-nav__link">
-    4 Fit a model for behavior classification
+  <a href="#4a-fit-a-model-for-behavior-classification" class="md-nav__link">
+    4a Fit a model for behavior classification
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#5-make-output-movies" class="md-nav__link">
-    5 Make output movies
+  <a href="#4b-unsupervised-learning" class="md-nav__link">
+    4b Unsupervised learning
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#6-save-your-data" class="md-nav__link">
-    6 Save your data
+  <a href="#5-plotting" class="md-nav__link">
+    5 Plotting
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#7-summary-and-reference-list-of-added-functionality-by-ethome" class="md-nav__link">
-    7 Summary and reference list of added functionality by ethome
+  <a href="#6-make-output-movies" class="md-nav__link">
+    6 Make output movies
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#8-some-caveats" class="md-nav__link">
-    8 Some caveats
+  <a href="#7-save-your-data" class="md-nav__link">
+    7 Save your data
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-summary-and-reference-list-of-added-functionality-by-ethome" class="md-nav__link">
+    8 Summary and reference list of added functionality by ethome
   </a>
   
 </li>
@@ -687,36 +694,43 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#4-fit-a-model-for-behavior-classification" class="md-nav__link">
-    4 Fit a model for behavior classification
+  <a href="#4a-fit-a-model-for-behavior-classification" class="md-nav__link">
+    4a Fit a model for behavior classification
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#5-make-output-movies" class="md-nav__link">
-    5 Make output movies
+  <a href="#4b-unsupervised-learning" class="md-nav__link">
+    4b Unsupervised learning
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#6-save-your-data" class="md-nav__link">
-    6 Save your data
+  <a href="#5-plotting" class="md-nav__link">
+    5 Plotting
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#7-summary-and-reference-list-of-added-functionality-by-ethome" class="md-nav__link">
-    7 Summary and reference list of added functionality by ethome
+  <a href="#6-make-output-movies" class="md-nav__link">
+    6 Make output movies
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#8-some-caveats" class="md-nav__link">
-    8 Some caveats
+  <a href="#7-save-your-data" class="md-nav__link">
+    7 Save your data
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-summary-and-reference-list-of-added-functionality-by-ethome" class="md-nav__link">
+    8 Summary and reference list of added functionality by ethome
   </a>
   
 </li>
@@ -738,14 +752,14 @@
 
 <h1 id="how-to-guide">How To guide</h1>
 <p>This guide covers the all of the tasks you can perform with <code>ethome</code>, roughly in the order you'd want to do them. A very basic outline is also in the Quick Start section of the readme. </p>
-<p>This guide covers basic usage -- it doesn't comprehensively describe how to use every function or feature in <code>ethome</code>; you can consult the API docs for complete information on usage. After installation, cut and past the code samples below to follow along.</p>
+<p>This guide covers basic usage -- it doesn't comprehensively describe how to use every function or feature in <code>ethome</code>; you can consult the API docs for complete information on usage. After installation, cut and paste the code samples below to follow along.</p>
 <h2 id="0-installation">0 Installation</h2>
 <p>Just do</p>
 <pre><code>pip install ethome-ml
 </code></pre>
 <p>You may want to also install <code>tensorflow</code> if you want to use the CNN features for a resident-intruder setup.</p>
 <h2 id="1-loading-your-data">1 Loading your data</h2>
-<p><code>ethome</code> makes it easy to perform common machine learning analyses on pose-tracking data, perhaps in combination with behavioral annotations. The basic object of the package is an extended pandas <code>DataFrame</code>, which provides associated support functions that are suited for behavior analysis. The <code>DataFrame</code> object will house data from one or more video's worth of pose data, along with associated metadata for each video. The key thing you need to get started, then, is pose tracking data. At present, data from DeepLabCut, SLEAP or pose data stored in NWB files is supported (via the <code>ndx-pose</code> extension). </p>
+<p><code>ethome</code> makes it easy to perform common machine learning analyses on pose-tracking data, perhaps in combination with behavioral annotations. The basic object of the package is an extended pandas <code>DataFrame</code>, which provides associated support functions that are suited for behavior analysis. The <code>DataFrame</code> object houses data from one or more video's worth of pose data, along with associated metadata for each video. The key thing you need to get started, then, is pose tracking data. At present, data from DeepLabCut, SLEAP or pose data stored in NWB files is supported (via the <code>ndx-pose</code> extension). </p>
 <h3 id="1a-loading-nwb-files">1a Loading NWB files</h3>
 <p>The NeurodataWithoutBorders format can store both pose tracking data and behavioral annotations, along with associated metadata. If all of your data is stored in this format, then it's easy to import it into <code>ethome</code>:</p>
 <pre><code class="language-python">from ethome import create_dataset
@@ -753,53 +767,54 @@ from ethome.io import get_sample_nwb_paths
 fn_in = get_sample_nwb_paths()
 recordings = create_dataset(fn_in)
 </code></pre>
-<p>You can provide multiple recordings, just provide a list of paths instead. Each separate file is assumed to represent a similar setup but different session/experiment/time period. I.e., they're <em>not</em> meant to represent the same session from different cameras, or the same session for different animals.  </p>
+<p>You can provide multiple recordings, just provide a list of paths instead. Each separate file is assumed to represent a similar setup but different session/experiment/time period. I.e., they're <em>not</em> meant to represent the same session from different cameras, or the same session for different animals. </p>
 <h3 id="1b-loading-tracking-files">1b Loading tracking files</h3>
 <p>If your data is stored in DeepLabCut <code>csv</code>s or <code>h5</code> files, or SLEAP exported analysis <code>h5</code> files, perhaps with accompanying behavioral annotations from <a href="https://www.boris.unito.it/">BORIS</a>, then you'll have to associate these with each other, and provide relevant metadata yourself. Sections 1b -&gt; 1e outline how to do this. Data stored in NWB files have already addressed each of these steps and you can skip these sections. </p>
+<p>Let's get some sample data to play with:</p>
+<pre><code class="language-python">from ethome.io import get_sample_data_paths
+tracking_files, boris_files = get_sample_data_paths()
+</code></pre>
+<p>These are just lists of csv files containing our input data.</p>
 <p>To import just your tracking data, you can simple do: </p>
-<pre><code class="language-python">tracking_csvs = ['./dlc_tracking_file_1.csv', './dlc_tracking_file_2.csv']
-recordings = create_dataset(tracking_csvs)
+<pre><code class="language-python">recordings = create_dataset(tracking_files)
 </code></pre>
 <p>But generally, you may want to provide metadata with each tracking file. This can be done just by providing keyword arguments:</p>
-<pre><code class="language-python">tracking_csvs = ['./dlc_tracking_file_1.csv', './dlc_tracking_file_2.csv']
-fps = 30
+<pre><code class="language-python">fps = 30
 resolution = (1200, 1600)
-recordings = create_dataset(tracking_csvs, fps = fps, resolution = resolution)
+recordings = create_dataset(tracking_files, fps = fps, resolution = resolution)
 </code></pre>
 <p>This loads the dataframe, with <code>fps</code> and <code>resolution</code> associated to each input csv. </p>
 <p>NOTE: Any keyword that is a list of the same length as the tracking files is zipped with the tracking files accordingly. That is, if the resolution of the videos is different:</p>
-<pre><code class="language-python">tracking_csvs = ['./dlc_tracking_file_1.csv', './dlc_tracking_file_2.csv']
-fps = 30
+<pre><code class="language-python">fps = 30
 resolutions = [(1200, 1600), (800, 1200)]
-recordings = create_dataset(tracking_csvs, fps = fps, resolution = resolutions)
+recordings = create_dataset(tracking_files[:2], fps = fps, resolution = resolutions)
 </code></pre>
 <p>Rather than assigning the same value to all videos, the entry <code>resolutions[i]</code> would then be associated with <code>tracking_csvs[i]</code>. These lists, therefore, must be sorted appropriately.</p>
 <p>NOTE: It is strongly recommended the <code>fps</code> field is provided for all videos, so that frame numbers can be converted into times, which is needed for loading data from other sources (e.g. BORIS).</p>
 <h3 id="1c-loading-behavioral-annotation-data">1c Loading behavioral annotation data</h3>
 <p>The (optional) <code>labels</code> keyword is used to include corresponding behavioral annotation files:</p>
-<pre><code class="language-python">tracking_csvs = ['./dlc_tracking_file_1.csv', './dlc_tracking_file_2.csv']
-labels = ['./boris_tracking_file_1.csv', './boris_tracking_file_2.csv']
-recordings = create_dataset(tracking_csvs, labels = labels)
+<pre><code class="language-python">recordings = create_dataset(tracking_files, labels = boris_files)
 </code></pre>
 <p>Behavior annotations should be exported from BORIS, in tabular form (as a csv), for each video to be imported.</p>
 <h3 id="1d-loading-video-data">1d Loading video data</h3>
-<p>The (optional) <code>video</code> keyword is used to provide the path(s) to the corresponding video(s) that were tracked. If available, this will be used by some of the visualization functions.</p>
+<p>The (optional) <code>video</code> keyword is used to provide the path(s) to the corresponding video(s) that were tracked. If available, this is used by some of the visualization functions.</p>
 <h3 id="1e-scaling-pose-data">1e Scaling pose data</h3>
 <p>There is some support for scaling the data to get it into desired units, consistent across all recordings. </p>
 <p>If the tracking is in pixels and you do want to rescale it to some physical distance, you should provide keywords <code>frame_width</code>, <code>frame_width_units</code> and <code>resolution</code> for all videos. This ensures the entire dataset is using the same units. The package will use these values for each video to rescale the (presumed) pixel coordinates to physical coordinates.</p>
 <p><code>resolution</code> is a tuple (H,W) in pixels of the videos and <code>frame_width</code> is the width of the image, in units <code>frame_width_units</code>.</p>
 <p>By default, all coordinates are converted to 'mm'. The pair 'units':'mm' is added to the metadata dictionary for each video. You can specify the units by providing the <code>units</code> key yourself. Supported units include: 'mm', 'cm', 'm', 'in', 'ft'.</p>
-<p>If the DLC/tracking files are already in desired units, either in physical distances, or pixels, then do <em>not</em> provide all of the fields <code>frame_width</code>, <code>resolution</code>, and <code>frame_width_units</code>. If you want to keep track of the units, you can add a <code>units</code> key to the metadata. This could be <code>pixels</code>, <code>cm</code>, etc, as appropriate.</p>
+<p>If the DLC/tracking files are already in desired units, either in physical distances, or pixels, then do <em>not</em> provide all of the fields <code>frame_width</code>, <code>resolution</code>, and <code>frame_width_units</code>. If you want to keep track of the units, you can add a <code>units</code> key to the metadata.</p>
 <h3 id="1f-renaming-things">1f Renaming things</h3>
 <p>If your tracking project named the animals some way, but you want them named another way in this dataframe, you can provide an <code>animal_renamer</code> dictionary as an argument to the constructor:</p>
-<pre><code class="language-python">recordings = create_dataset(tracking_csvs, animal_renamer={'adult': 'resident', 'juvenile':'intruder'})
+<pre><code class="language-python">recordings = create_dataset(tracking_csvs, 
+                            animal_renamer={'adult': 'resident', 'juvenile':'intruder'})
 </code></pre>
 <p>Similarly with the body parts, you can provide a <code>part_renamer</code> dictionary.</p>
 <h3 id="1g-metadata">1g Metadata</h3>
 <p>When <code>recordings</code> is created, additional metadata is computed and accessible via:</p>
 <ul>
 <li><code>recordings.metadata</code> houses the following attributes:<ul>
-<li><code>details</code>: the metadata given to create_dataset</li>
+<li><code>details</code>: all the metadata given to create_dataset</li>
 <li><code>videos</code>: list of videos given in <code>metadata</code></li>
 <li><code>n_videos</code>: number of videos in DataFrame</li>
 <li><code>label_key</code>: associates numbers with text labels for each behavior</li>
@@ -807,29 +822,29 @@ recordings = create_dataset(tracking_csvs, labels = labels)
 </ul>
 </li>
 <li><code>recordings.pose</code>, houses pose information:<ul>
-<li><code>body_parts</code>: list of body parts loaded from the DLC/SLEAP file(s)</li>
-<li><code>animals</code>: list of animals loaded from the DLC/SLEAP files(s)</li>
+<li><code>body_parts</code>: list of body parts loaded from the tracking file(s)</li>
+<li><code>animals</code>: list of animals loaded from the tracking files(s)</li>
 <li><code>animal_setup</code>: dictionary detailing animal parts and names</li>
-<li><code>raw_track_columns</code>: all original columns names loaded from DLC/SLEAP</li>
+<li><code>raw_track_columns</code>: all original columns names loaded from tracking</li>
 </ul>
 </li>
 </ul>
 <h2 id="2-interpolate-low-confidence-pose-tracking">2 Interpolate low-confidence pose tracking</h2>
-<p>Some simple support for interpolating low-confidence tracks in DLC/SLEAP is provided. Often predicted locations below a given confidence level are noisy and unreliable, and better tracks may be obtained by removing these predictions and interpolating from more confident predictions on either side of the uncertain prediction. </p>
-<p>You can achieve this with</p>
+<p>Some simple support for interpolating low-confidence tracks in DLC/SLEAP is provided. Predicted positions below a given confidence level can be noisy and unreliable, and better tracks may be obtained by removing these predictions and interpolating from more confident predictions on either side of the uncertain prediction. </p>
+<p>You can achieve this with:</p>
 <pre><code class="language-python">from ethome import interpolate_lowconf_points
 interpolate_lowconf_points(recordings)
 </code></pre>
 <h2 id="3-generate-features">3 Generate features</h2>
 <p>To do machine learning you'll want to create features from the pose tracking data. <code>ethome</code> can help you do this in a few different ways. You can either use one of the feature-making functions provided or create a custom feature-making function, or custom class. </p>
-<p>To use the inbuilt functions you can reference them by identifying string, or provide the function itself to the <code>features.add</code> function. For instance, to compute the distances between all body parts (within and between animals), you could do:</p>
+<p>To use the inbuilt functions you can reference them by their identifying string, or provide the function itself to the <code>features.add</code> function. For instance, to compute the distances between all body parts (within and between animals), you could do:</p>
 <pre><code class="language-python">recordings.features.add('distances')
 </code></pre>
 <p>This will compute and add the distances between all body parts of all animals.</p>
 <h3 id="3a-in-built-support-for-resident-intruder-setup">3a In-built support for resident-intruder setup</h3>
-<p>First, if your setup is a social mouse study, involving two mice, similar enough to the standard resident-intruder setup, then you can use some pre-designed feature sets. The body parts that are tracked must be those from the MARS dataset (See figure). You will have to have labeled and tracked your mice in DLC/SLEAP in the same way. (with the same animal and body part names -- <code>ethome</code>'s <code>create_dataset</code> function can rename them appropriately)</p>
+<p>First, if your setup is a social mouse study, involving two mice, similar enough to the standard resident-intruder setup, then you can use some pre-designed feature sets. The body parts that are tracked must be those from the MARS dataset [1] (See Figure). You will have to have labeled and tracked your mice in DLC/SLEAP in the same way. (with the same animal and body part names. Though <code>ethome</code>'s <code>create_dataset</code> function can help you rename them appropriately)</p>
 <p><img alt="Resident-intruder keypoints" src="../assets/mars_keypoints.png" /></p>
-<p>The animals must be named <code>resident</code> and <code>intruder</code>, and the body parts must be: <code>nose</code>, <code>leftear</code>, <code>rightear</code>, <code>neck</code>, <code>lefthip</code>, <code>righthip</code>, and <code>tail</code>.</p>
+<p>Specifically, the animals <em>must</em> be named <code>resident</code> and <code>intruder</code>, and the body parts must be: <code>nose</code>, <code>leftear</code>, <code>rightear</code>, <code>neck</code>, <code>lefthip</code>, <code>righthip</code>, and <code>tail</code>.</p>
 <p>The <code>cnn1d_prob</code>, <code>mars</code>, <code>mars_reduced</code> and <code>social</code> functions can be used to make features for this setup. </p>
 <ul>
 <li><code>cnn1d_prob</code> runs a 1D CNN and outputs prediction probabilities of three behaviors (attack, mount, and investigation). Even if you're not interested in these exact behaviors, they may still be useful for predicting the occurance of other behaviors, as part of an ensemble model. </li>
@@ -838,7 +853,7 @@ interpolate_lowconf_points(recordings)
 <li><code>social</code> is a set of features that only involve measures of one animal in relation to the other.</li>
 </ul>
 <h3 id="3b-generic-features">3b Generic features</h3>
-<p>You can generate more generic features using the following functions:</p>
+<p>You can generate more generic features using the following inbuilt feature creation options:</p>
 <ul>
 <li><code>centroid</code> the centroid of each animal's body parts</li>
 <li><code>centroid_velocity</code> the velocity of the centroids</li>
@@ -848,7 +863,7 @@ interpolate_lowconf_points(recordings)
 <li><code>intrabodypartdistances</code> the distances between all animals body parts (inter- and intra-animal)</li>
 <li><code>distances</code> is an alias for <code>intrabodypartdistances</code></li>
 </ul>
-<p>These classes work for any animal setup, not just resident-intruder with specific body parts, as assumed for the <code>mars</code> features.</p>
+<p>These work for any animal setup, not just resident-intruder with specific body parts, as assumed for the <code>mars</code> features. </p>
 <h3 id="3c-add-your-own-features">3c Add your own features</h3>
 <p>There are two ways to add your own feature sets to your DataFrame. </p>
 <p>The first is to create a function that takes a pandas DataFrame, and returns a new DataFrame with the features you want to add. For example:</p>
@@ -870,13 +885,13 @@ recordings.features.add(head_diff)
 </code></pre>
 <p>This is more verbose than the above, but has the advantage that the it can be re-used. E.g. you may want to fit the instance to training data and apply it to test data, similar to an sklearn model.</p>
 <h3 id="3d-features-manipulation">3d Features manipulation</h3>
-<p>By default, when new features are added to the dataframe, they are considered 'active'. Active features can be accessed through</p>
+<p>By default, when new features are added to the dataframe, they are considered 'active'. Active simply means they can be accessed through the attribute:</p>
 <pre><code class="language-python">recordings.ml.features
 </code></pre>
-<p>You can pass this to any ML method for further processing. This <code>.ml.features</code> is just a convenience for managing the long list of features you will have created in the steps above. You can always just treat <code>recordings</code> like a Pandas DataFrame and do ML how you would normally. </p>
+<p>provided for convenience. You can pass this to any ML method for further processing. This <code>.ml.features</code> helps manage  the long list of features you will have created in the steps above. You can always just treat <code>recordings</code> like a Pandas DataFrame and do ML how you would normally. </p>
 <p>To activate features you can use <code>recordings.features.activate</code>, and to deactivate features you can use <code>recordings.features.deactivate</code>. Deactivating keeps them in the DataFrame, but just no longer includes those features in the <code>recordings.ml.features</code> view.</p>
-<h2 id="4-fit-a-model-for-behavior-classification">4 Fit a model for behavior classification</h2>
-<p>Ok! The hard work is done, so now you can easily train a behavior classifier based on the features you've computed and the labels provided. </p>
+<h2 id="4a-fit-a-model-for-behavior-classification">4a Fit a model for behavior classification</h2>
+<p>Ok! All the work is done and now you can easily train a behavior classifier based on the features you've computed and the labels provided. </p>
 <p>E.g.</p>
 <pre><code class="language-python">from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import cross_val_score, LeaveOneGroupOut
@@ -891,20 +906,40 @@ cross_val_score(model, recordings.ml.features, recordings.ml.labels, recordings.
 add_randomforest_predictions(recordings)
 </code></pre>
 <p>which can be used as a starting point for developing behavior classifiers. </p>
-<h2 id="5-make-output-movies">5 Make output movies</h2>
+<h2 id="4b-unsupervised-learning">4b Unsupervised learning</h2>
+<p>Some basic functions are also provided that perform unsupervised learning. For instance</p>
+<pre><code class="language-python">embedding = compute_umap_embedding(recordings, recordings.features.active, N_rows = 10000)
+recordings[['embedding_0', 'embedding_1']] = embedding
+</code></pre>
+<p>Computes and stores a UMAP embedding of the computed features.</p>
+<h2 id="5-plotting">5 Plotting</h2>
+<p>You can plot this embedding via</p>
+<pre><code class="language-python">fig, ax = plot_embedding(recordings, color_col = 'prediction') 
+</code></pre>
+<p>There's also an interactive widget to explore the pose data</p>
+<pre><code class="language-python">%matplotlib inline
+filename = dataset.metadata.videos[0]
+interactive_tracks(recordingsrecordings,
+                   filename, 
+                   start_frame = 3000,
+                   stop_frame = 4000)
+</code></pre>
+<p>viewable in a Jupyter notebook.</p>
+<h2 id="6-make-output-movies">6 Make output movies</h2>
 <p>Now we have our model we can make a video of its predictions. Provide the column names whose state we're going to overlay on the video, along with the directory to output the videos:</p>
 <pre><code class="language-python">recordings.io.save_movie(['label', 'prediction'], '.')
 </code></pre>
-<p>The video field in the <code>metadata</code>, specifying the path to the underlying video, has to be present for each recording for this to work. </p>
-<h2 id="6-save-your-data">6 Save your data</h2>
-<p>You can save your data as a pickled DataFrame with</p>
+<p>The <code>video</code> argument, specifying the path to the underlying video, has to be present for each recording for this to work. Provide this as a keywork argument to <code>create_dataset</code>.</p>
+<h2 id="7-save-your-data">7 Save your data</h2>
+<p>Finally, you can save your data as a pickled DataFrame with</p>
 <pre><code class="language-python">recordings.io.save('outfile.pkl')
 </code></pre>
 <p>(and can be loaded again with:)</p>
-<pre><code class="language-python">recordings = pd.DataFrame.io.load('outfile.pkl')
+<pre><code class="language-python">import ethome
+recordings = pd.DataFrame.io.load('outfile.pkl')
 </code></pre>
 <p>NOTE: By importing <code>ethome</code> you extend the functionality of the pandas DataFrame, hence can access things like <code>.io.load</code></p>
-<h2 id="7-summary-and-reference-list-of-added-functionality-by-ethome">7 Summary and reference list of added functionality by <code>ethome</code></h2>
+<h2 id="8-summary-and-reference-list-of-added-functionality-by-ethome">8 Summary and reference list of added functionality by <code>ethome</code></h2>
 <p>For reference, the metadata and added functions added to the dataframe are:</p>
 <ul>
 <li><code>recordings.metadata</code>, which houses<ul>
@@ -944,8 +979,6 @@ add_randomforest_predictions(recordings)
 </li>
 </ul>
 <p>See the API docs for usage details.</p>
-<h2 id="8-some-caveats">8 Some caveats</h2>
-<p>The workflow assumes you import all your data into one DataFrame. Combining two DataFrames (append or concat) is not officially supported. It may behave well, or it may not.</p>
 
 
 

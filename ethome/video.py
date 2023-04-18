@@ -58,7 +58,7 @@ def create_metadata(tracking_files : list, **kwargs) -> dict:
 
     for k,v in kwargs.items():
         if hasattr(v, '__len__'):
-            if len(v) != n_files:
+            if len(v) != n_files or type(v) is not list:
                 _add_item_to_dict(tracking_files, metadata, k, v)
             else:
                 _add_items_to_dict(tracking_files, metadata, k, v)

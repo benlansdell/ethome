@@ -1,6 +1,7 @@
 [![codecov](https://codecov.io/gh/benlansdell/ethome/branch/master/graph/badge.svg?token=IJ0JJBOGGS)](https://codecov.io/gh/benlansdell/ethome)
 ![build](https://github.com/benlansdell/ethome/actions/workflows/workflow.yml/badge.svg)
 [![PyPI version](https://badge.fury.io/py/ethome-ml.svg)](https://badge.fury.io/py/ethome-ml)
+[![status](https://joss.theoj.org/papers/0472dab158806827a83da79e602e16e4/status.svg)](https://joss.theoj.org/papers/0472dab158806827a83da79e602e16e4)
 
 # Ethome
 

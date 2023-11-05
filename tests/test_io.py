@@ -4,12 +4,43 @@
 
 import pandas as pd
 
+# def test_nwb_dandiset231_import():
+#     from ethome import create_dataset
+#     path = '/home/blansdel/projects/ethome/ethome/data/sample_nwb_dandiset_231.nwb'
+#     dataset = create_dataset(path)
+#     assert type(dataset) is pd.DataFrame
+
+def test_dataset_creation_list(tracking_files):
+
+    from ethome.io import get_sample_nwb_paths
+    from ethome import create_dataset
+    import os 
+    from glob import glob 
+
+    #Create dataset from openfield nwb and openfield DLC
+    cur_dir = os.path.dirname(os.path.abspath(__file__))
+    openfield_path = glob(os.path.join(cur_dir, '..', 'ethome', 'data', 'dlc', 'openfield', '*missingdata.csv'))[0]
+
+    nwb_path = get_sample_nwb_paths()
+    dataset = create_dataset([nwb_path, openfield_path], animal_renamer = {'PoseEstimation':'ind1'})
+    assert type(dataset) is pd.DataFrame
+
+    dataset = create_dataset(tracking_files)
+    assert type(dataset) is pd.DataFrame
+
 def test_nwb_import():
     from ethome.io import get_sample_nwb_paths
     from ethome import create_dataset
     path = get_sample_nwb_paths()
     dataset = create_dataset(path)
     assert type(dataset) is pd.DataFrame
+
+def test_sleap_import(sleap_file):
+    from ethome.io import read_sleap_tracks
+    df = read_sleap_tracks(sleap_file)
+    assert type(df[0]) is pd.DataFrame
+    assert df[1] == ['abdomen', 'eyeL', 'eyeR', 'forelegL4', 'forelegR4', 'head', 'hindlegL4', 'hindlegR4', 'midlegL4', 'midlegR4', 'thorax', 'wingL', 'wingR']
+    assert df[2] == ['Animal0', 'Animal1']
 
 def test_sample_data():
     from ethome.io import get_sample_data
@@ -59,9 +90,9 @@ def test_multiple_boris_behaviors():
 
     edf = create_dataset(metadata)
 
-    assert 'interact' in edf.metadata.label_key.values()
-    assert 'mount' in edf.metadata.label_key.values()
-    assert all(np.array(list(edf.metadata.label_key.keys())) > 0)
+    assert 'label_interact' in edf.metadata.label_key.values()
+    assert 'label_mount' in edf.metadata.label_key.values()
+    assert all(np.array(list(edf.metadata.label_key.keys())) >= 0)
 
 def test_sample_singlemouse_data_missing():
 
@@ -72,7 +103,7 @@ def test_sample_singlemouse_data_missing():
     cur_dir = os.path.dirname(os.path.abspath(__file__))
     tracking_files = glob(os.path.join(cur_dir, '..', 'ethome', 'data', 'dlc', 'openfield', '*missingdata.csv'))
     fps = 30                         # (int) frames per second
-    resolution = (480, 640)        # (tuple) HxW in pixels
+    resolution = (480, 640)          # (tuple) HxW in pixels
     #Metadata is a dictionary that attaches each of the above parameters to the video/behavior annotations
     metadata = create_metadata(tracking_files, 
                             fps = fps, 

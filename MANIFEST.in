@@ -1,5 +1,8 @@
 include README.md
 include LICENSE
-include ethome/data/sample_dataframe.pkl
-include ethome/data/dlc/openfield/openfield_dlc_inference_example.csv
-recursive-include ethome/dl/pretrained_models *
+include ./ethome/data/sample_dataframe.pkl
+include ./ethome/data/sample_nwb_.nwb
+include ./ethome/data/videos/m3v1mp4.mp4
+recursive-include ./ethome/data/dlc *.csv
+recursive-include ./ethome/data/boris *.csv
+recursive-include ./ethome/features/pretrained_models *

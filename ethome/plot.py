@@ -1,19 +1,85 @@
-import matplotlib.pyplot as plt
-import matplotlib as mpl
-from matplotlib import cm
 import os
 import time
+import matplotlib.pyplot as plt
+import matplotlib as mpl
 import numpy as np
-from glob import glob
 import pandas as pd
+
+from matplotlib import cm
+from glob import glob
+from ipywidgets import interact, IntSlider
+from IPython.display import display
+from itertools import product
 
 from ethome.config import global_config
 
+def interactive_tracks(df : pd.DataFrame, 
+                       filename : str, 
+                       animals : list = None,
+                       start_frame : int = 0, 
+                       stop_frame : int = None):
+    """Simple interactive widget to explore pose tracking data from a recording.
+    
+    Use within Jupyter Notebook, with %matplotlib inline
+
+    Args:
+        df: input DataFrame
+        filename: tracking file to source trackes from
+        animals: if provided, only plot these animals. Default = None = plot all
+        start_frame: Display frames after this value
+        stop_frame: Display frames up to this value. If None, show all frames in recording.
+        
+    Returns:
+        None. Plot is created and displayed by the function without returning. 
+    """
+    if animals is None:
+        animals = df.pose.animals 
+
+    df = df[(df['filename'] == filename)]
+    if stop_frame is None:
+        stop_frame = df.frame.max() 
+    df = df[(df['frame'] >= start_frame) & (df['frame'] <= stop_frame)]
+
+    all_x_cols = [f'{animal}_x_{bp}' for animal, bp in product(animals, df.pose.body_parts)]
+    all_y_cols = [f'{animal}_y_{bp}' for animal, bp in product(animals, df.pose.body_parts)]
+
+    xmin, xmax = np.min(df[all_x_cols].values), np.max(df[all_x_cols].values)
+    ymin, ymax = np.min(df[all_y_cols].values), np.max(df[all_y_cols].values)
+    
+    fig = plt.figure(figsize=(8,8))
+    styles = ['bo', 'r+', 'g.']
+
+    lines = {}
+    for idx, animal in enumerate(animals):
+        line, = plt.plot([], [], styles[idx%len(styles)])
+        lines[animal] = line
+
+    plt.xlim(xmin, xmax)
+    plt.ylim(ymin, ymax)
+    plt.xlabel('x')
+    plt.ylabel('y')
+    plt.title(','.join(animals) + ' from ' + os.path.basename(filename))
+    plt.close()
+
+    def plot_frame(frame):
+        for animal in animals:
+            x = []
+            y = []
+            for bp in df.pose.body_parts:
+                x.append(df.loc[df['frame'] == frame, f'{animal}_x_{bp}'].values[0])
+                y.append(df.loc[df['frame'] == frame, f'{animal}_y_{bp}'].values[0])
+            lines[animal].set_data(x, y)
+
+        display(fig)
+        
+    interact(plot_frame, frame=IntSlider(min=start_frame, max=stop_frame, value=start_frame))
+
 def plot_embedding(dataset : pd.DataFrame, 
                    col_names : list  = ['embedding_0', 'embedding_1'],
+                   col_labels : list = None,
                    color_col : str = None, 
                    figsize : tuple = (10,10),
-                   **kwargs) -> tuple:  # pragma: no cover
+                   **kwargs) -> tuple:
     """Scatterplot of a 2D TSNE or UMAP embedding from the dataset.
     
     Args:
@@ -21,7 +87,7 @@ def plot_embedding(dataset : pd.DataFrame,
         col_names: list of column names to use for the x and y axes
         color_col: if provided, a column that will be used to color the points in the scatter plot
         figsize: tuple with the dimensions of the plot (in inches)
-        kwargs: All other keyword pairs are sent to Matplotlib's scatter function
+        **kwargs: All other keyword pairs are sent to Matplotlib's scatter function
 
     Returns:
         tuple (fig, axes). The Figure and Axes objects. 
@@ -33,10 +99,11 @@ def plot_embedding(dataset : pd.DataFrame,
         c = None
 
     col1, col2 = col_names
-    fig, axes = plt.subplots(1,1, figsize = figsize)
+    fig, axes = plt.subplots(1, 1, figsize = figsize)
     axes.scatter(x = dataset[col1], y = dataset[col2], s = 1, c = c, **kwargs)
-    axes.set_xlabel('Embedding dim 1')
-    axes.set_ylabel('Embedding dim 2')
+    if col_labels is None: col_labels = col_names
+    axes.set_xlabel(col_labels[0])
+    axes.set_ylabel(col_labels[1])
     return fig, axes
 
 class MplColorHelper:  # pragma: no cover
@@ -140,7 +207,7 @@ def create_ethogram_video(dataset : pd.DataFrame,
 
     Args:
         dataset: source dataset
-        vid_key: the key (in dataset.metadata) pointing to the video to make ethogram for. metadata must have field 'video_files' that points to the source video location
+        vid_key: the key (in dataset.metadata) pointing to the video to make ethogram for. metadata must have field 'video' that points to the source video location
         query_label: the column containing the behavior labels to plot
         out_file: output path for created video
         frame_limit: only make the ethogram/video for frames [0, frame_limit]
@@ -150,7 +217,7 @@ def create_ethogram_video(dataset : pd.DataFrame,
     Returns:
         None
     """
-    vid_file = dataset.metadata.details[vid_key]['video_files']
+    vid_file = dataset.metadata.details[vid_key]['video']
     fps = dataset.metadata.details[vid_key]['fps']
     time_limit = frame_limit/fps
     fig, _ = plt.subplots(1,1,figsize = (im_dim,2))

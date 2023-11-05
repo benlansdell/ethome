@@ -16,7 +16,7 @@ Loading and saving tracking and behavior annotation files
 
 ---
 
-<a href="https://github.com/benlansdell/ethome/blob/master/ethome/io.py#L15"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/io.py#L17"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `uniquifier`
 
@@ -29,7 +29,7 @@ Return a sequence (e.g. list) with unique elements only, but maintaining origina
 
 ---
 
-<a href="https://github.com/benlansdell/ethome/blob/master/ethome/io.py#L28"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/io.py#L30"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `save_sklearn_model`
 
@@ -49,7 +49,7 @@ Save sklearn model to file
 
 ---
 
-<a href="https://github.com/benlansdell/ethome/blob/master/ethome/io.py#L37"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/io.py#L39"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `load_sklearn_model`
 
@@ -73,7 +73,7 @@ Load sklearn model from file
 
 ---
 
-<a href="https://github.com/benlansdell/ethome/blob/master/ethome/io.py#L49"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/io.py#L51"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `read_DLC_tracks`
 
@@ -93,7 +93,7 @@ Read in tracks from DLC.
 
 **Args:**
  
- - <b>`fn_in`</b>:  csv file that has DLC tracks 
+ - <b>`fn_in`</b>:  csv or h5 file that has DLC tracks 
  - <b>`part_renamer`</b>:  dictionary to rename body parts, if needed  
  - <b>`animal_renamer`</b>:  dictionary to rename animals, if needed 
  - <b>`read_likelihoods`</b>:  default True. Whether to attach DLC likelihoods to table 
@@ -106,7 +106,40 @@ Read in tracks from DLC.
 
 ---
 
-<a href="https://github.com/benlansdell/ethome/blob/master/ethome/io.py#L246"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/io.py#L81"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+
+## <kbd>function</kbd> `read_sleap_tracks`
+
+```python
+read_sleap_tracks(
+    fn_in: str,
+    part_renamer: dict = None,
+    animal_renamer: dict = None,
+    read_likelihoods: bool = True,
+    labels: DataFrame = None
+) → tuple
+```
+
+Read in tracks from SLEAP. 
+
+
+
+**Args:**
+ 
+ - <b>`fn_in`</b>:  csv or h5 file that has sleap tracks 
+ - <b>`part_renamer`</b>:  dictionary to rename body parts, if needed  
+ - <b>`animal_renamer`</b>:  dictionary to rename animals, if needed 
+ - <b>`read_likelihoods`</b>:  default True. Whether to attach DLC likelihoods to table 
+
+
+
+**Returns:**
+ Pandas DataFrame with (n_animals*2*n_body_parts) columns plus with filename and frame,   List of body parts,  List of animals,  Columns names for DLC tracks (excluding likelihoods, if read in),  Scorer 
+
+
+---
+
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/io.py#L452"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `read_NWB_tracks`
 
@@ -138,7 +171,7 @@ Read in tracks from NWB PoseEstimiationSeries format (something saved using the 
 
 ---
 
-<a href="https://github.com/benlansdell/ethome/blob/master/ethome/io.py#L268"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/io.py#L474"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `save_DLC_tracks_h5`
 
@@ -158,7 +191,7 @@ Save DLC tracks in h5 format.
 
 ---
 
-<a href="https://github.com/benlansdell/ethome/blob/master/ethome/io.py#L277"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/io.py#L483"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `load_data`
 
@@ -182,7 +215,7 @@ Load an object from a pickle file
 
 ---
 
-<a href="https://github.com/benlansdell/ethome/blob/master/ethome/io.py#L314"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/io.py#L520"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `get_sample_nwb_paths`
 
@@ -200,7 +233,7 @@ Get path to a sample NWB file with tracking data for testing and dev purposes.
 
 ---
 
-<a href="https://github.com/benlansdell/ethome/blob/master/ethome/io.py#L323"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/io.py#L530"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `get_sample_data_paths_dlcboris`
 
@@ -218,7 +251,7 @@ Get path to sample data files provided with package.
 
 ---
 
-<a href="https://github.com/benlansdell/ethome/blob/master/ethome/io.py#L334"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/io.py#L542"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `get_sample_data`
 
@@ -236,7 +269,7 @@ Load a sample dataset of 5 mice social interaction videos. Each video is approx.
 
 ---
 
-<a href="https://github.com/benlansdell/ethome/blob/master/ethome/io.py#L347"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/io.py#L556"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `read_boris_annotation`
 
@@ -245,7 +278,7 @@ read_boris_annotation(
     fn_in: str,
     fps: int,
     duration: float,
-    behav_labels: dict = None
+    behav_labels: list = None
 ) → tuple
 ```
 
@@ -265,12 +298,12 @@ This will import behavior types specified (or all types, if behavior_list is Non
 
 
 **Returns:**
- A numpy array which indicates, for all frames, which behavior is occuring. 0 = no behavior, 1 and above are the labels of the behaviors. A dictionary with keys the numerical labels and values the names of the behaviors.  
+ A dictionary of numpy arrays which gives, for all frames, which behavior is occuring. 0 = no behavior, 1 = behavior. 
 
 
 ---
 
-<a href="https://github.com/benlansdell/ethome/blob/master/ethome/io.py#L394"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/benlansdell/ethome/blob/master/ethome/io.py#L601"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `create_behavior_labels`
 

@@ -10,6 +10,11 @@ def tracking_files():
     return sorted(glob(os.path.join(TEST_DATA_DIR, 'dlc/*.csv')))
 
 @pytest.fixture()
+def sleap_file():
+    print('SLEAP tracking files:', len(glob(os.path.join(TEST_DATA_DIR, 'sleap/*.h5'))))
+    return glob(os.path.join(TEST_DATA_DIR, 'sleap/*.h5'))[0]
+
+@pytest.fixture()
 def labels():
     print('label files:', len(glob(os.path.join(TEST_DATA_DIR, 'boris/*.csv'))))
     return sorted(glob(os.path.join(TEST_DATA_DIR, 'boris/*.csv')))

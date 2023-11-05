@@ -1,3 +1,5 @@
+"""Interpolate over low confidence data"""
+
 import pandas as pd 
 import numpy as np
 
@@ -22,7 +24,7 @@ def interpolate_lowconf_points(edf : pd.DataFrame,
     df_filtered = []
 
     for fn_in in edf.metadata.videos:
-        print("processing", fn_in)
+        print("Processing", fn_in)
 
         if not in_place:
             df_filter_low_conf = edf.loc[edf.filename == fn_in].copy()

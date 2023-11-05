@@ -116,7 +116,7 @@ class Trainer(object):
         """ Set an external, provide initialized and compiled keras model """
         self.model = model
 
-    def train(self, model_params, class_weight=None, n_folds = 5):
+    def inference(self, model_params, class_weight=None, n_folds = 5):
 
         kwargs = {}
         if class_weight is not None:
@@ -246,7 +246,7 @@ def run_task(vocabulary, test_data, config_name,
         class_weight = None
 
     model_params['class_weight'] = class_weight
-    all_test_probs = trainer.train(class_weight = class_weight, model_params = model_params)
+    all_test_probs = trainer.inference(class_weight = class_weight, model_params = model_params)
     return all_test_probs
 
 def lrs(epoch, lr, freq = 10):

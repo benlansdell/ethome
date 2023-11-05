@@ -1,0 +1,23 @@
+{
+  "@context": "https://raw.githubusercontent.com/codemeta/codemeta/master/codemeta.jsonld",
+  "@type": "Code",
+  "author": [
+    {
+      "@id": "http://orcid.org/0000-0003-1444-1950",
+      "@type": "Person",
+      "email": "ben.lansdell@gmail.com",
+      "name": "benlansdell",
+      "affiliation": ""
+    }
+  ],
+  "identifier": "",
+  "codeRepository": "https://github.com/benlansdell/ethome",
+  "datePublished": "2023-04-12",
+  "dateModified": "2023-04-12",
+  "dateCreated": "2023-04-12",
+  "description": "Tools for machine learning of animal behavior",
+  "keywords": "supervised-learning, dlc, boris, neurodata-without-borders,deeplabcut, pose-tracking, ndx-pose",
+  "license": "MIT",
+  "title": "ethome",
+  "version": "v0.4.0"
+}

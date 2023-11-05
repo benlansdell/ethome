@@ -12,7 +12,7 @@ from glob import glob
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import cross_val_predict, LeaveOneGroupOut, PredefinedSplit
 
-from ethome.io import read_DLC_tracks, read_boris_annotation, uniquifier, create_behavior_labels, read_NWB_tracks
+from ethome.io import read_DLC_tracks, read_boris_annotation, uniquifier, create_behavior_labels, read_NWB_tracks, read_sleap_tracks
 from ethome.utils import checkFFMPEG
 from ethome.config import global_config
 from ethome.features import feature_class_maker, FEATURE_MAKERS
@@ -36,19 +36,19 @@ def create_metadata(tracking_files : list, **kwargs) -> dict:
     """
     Prepare a metadata dictionary for defining a ExperimentDataFrame. 
 
-    Only required argument is list of DLC tracking file names. 
+    Only required argument is list of pose tracking file names. 
 
     Any other keyword argument must be either a non-iterable object (e.g. a scalar parameter, like FPS)
-    that will be copied and tagged to each of the DLC tracking files, or an iterable object of the same
-    length of the list of DLC tracking files. Each element in the iterable will be tagged with the corresponding
-    DLC file.
+    that will be copied and tagged to each of the pose tracking files, or an iterable object of the same
+    length of the list of pose tracking files. Each element in the iterable will be tagged with the corresponding
+    pose-tracking file.
 
     Args:
-        tracking_files: List of DLC tracking .csvs
+        tracking_files: List of pose tracking files
         **kwargs: described as above
 
     Returns:
-        Dictionary whose keys are DLC tracking file names, and contains a dictionary with key,values containing the metadata provided
+        Dictionary whose keys are pose-tracking file names, and contains a dictionary with key,values containing the metadata provided
     """
 
     metadata = {}
@@ -58,7 +58,7 @@ def create_metadata(tracking_files : list, **kwargs) -> dict:
 
     for k,v in kwargs.items():
         if hasattr(v, '__len__'):
-            if len(v) != n_files:
+            if len(v) != n_files or type(v) is not list:
                 _add_item_to_dict(tracking_files, metadata, k, v)
             else:
                 _add_items_to_dict(tracking_files, metadata, k, v)
@@ -68,7 +68,7 @@ def create_metadata(tracking_files : list, **kwargs) -> dict:
     return metadata
 
 def _convert_units(df):
-    # if 'frame_width', 'resolution' and 'frame_width_units' are provided, then we convert DLC tracks to these units.
+    # if 'frame_width', 'resolution' and 'frame_width_units' are provided, then we convert tracks to these units.
     if len(df.metadata.details) == 0:
         return 
     for col in df.columns:
@@ -308,7 +308,10 @@ class EthologyFeaturesAccessor(object):
         new_features = new_features[notdupcols]
 
         df.reset_index(drop = True, inplace = True)
-        df[notdupcols] = new_features.reset_index(drop = True)
+        #Suppress warnings here:
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore")
+            df[notdupcols] = new_features.reset_index(drop = True)
 
         if add_to_features:
             if self.active is not None:
@@ -515,7 +518,7 @@ class EthologyIOAccessor(object):
         """Given columns indicating behavior predictions or whatever else, make a video
         with these predictions overlaid. 
 
-        ExperimentDataFrame metadata must have the keys 'video_file', so that the video associated with each set of DLC tracks is known.
+        ExperimentDataFrame metadata must have the keys 'video_file', so that the video associated with each set of pose tracks is known.
 
         Args:
             label_columns: list or dict of columns whose values to overlay on top of video. If dict, keys are the columns and values are the print-friendly version.
@@ -544,8 +547,10 @@ class EthologyIOAccessor(object):
             label_columns = {k:k for k in label_columns}
 
         for video in video_filenames:
+            if 'fps' not in self._obj.metadata.details[video]:
+                raise ValueError(f"FPS not in metadata for video {video}, skipping. Provide FPS in dataset creation.")
             rate = 1/self._obj.metadata.details[video]['fps']
-            vid_in = self._obj.metadata.details[video]['video_files']
+            vid_in = self._obj.metadata.details[video]['video']
             file_out = os.path.splitext(os.path.basename(vid_in))[0] + '_'.join(label_columns.keys()) + '.mp4'
             vid_out = os.path.join(path_out, file_out)
             label_strings = []
@@ -561,64 +566,83 @@ class EthologyIOAccessor(object):
             cmd = f'ffmpeg -y -i {vid_in} -vf "{label_string}" {vid_out}'
             os.system(cmd)            
 
-    #I think... this is obsolete, and the other save is the right one
-    #def save(self, fn):
-    #    with open(fn, 'wb') as handle:
-    #        pickle.dump(self, handle, protocol=pickle.HIGHEST_PROTOCOL)
+def _create_from_dict(metadata, part_renamer, animal_renamer):
+    df = pd.DataFrame()
+    #req_cols = ['fps']
+    #Drop requirement this is provided. Just omit addition of time column, if fps omitted
+    req_cols = []
+    is_valid, should_rescale = _validate_metadata(metadata, req_cols)
+    if is_valid:   
+        df.metadata.details = metadata
+    else:
+        raise ValueError("Metadata not properly formatted. See docstring.")
 
+    if len(metadata) > 0:
+        _load_tracks(df, part_renamer, animal_renamer, rescale = should_rescale) 
+        _load_labels(df, set_as_label = True)
 
-def create_dataset(metadata : dict = None, 
-                     label_key : dict = None, 
+    if should_rescale:
+        _convert_units(df)
+    elif 'scale_factor' in df.columns: 
+        df.drop(columns = 'scale_factor', inplace = True)
+
+    return df    
+
+def _create_from_list(input, part_renamer, animal_renamer, **kwargs):
+    if len(input) == 0:
+        return pd.DataFrame()
+    supported_exts = ['.csv', '.h5', '.nwb', '.hdf5']
+    exts = [os.path.splitext(m)[1] for m in input]
+    supported = [e in supported_exts for e in exts]
+    is_nwb = [e == '.nwb' for e in exts]
+    if not all(supported):
+        ValueError("Only NWB, dlc (csv) or SLEAP (h5, hdf5) formats are supported.")
+
+    if all(is_nwb):
+        df = _load_nwb(input, part_renamer, animal_renamer)
+    else:
+        metadata = create_metadata(input, **kwargs)
+        df = _create_from_dict(metadata, part_renamer, animal_renamer)
+
+    return df
+
+def create_dataset(input : dict = None, 
                      part_renamer : dict = None,
-                     animal_renamer : dict = None) -> pd.DataFrame:
-    """Houses DLC tracking data and behavior annotations in pandas DataFrame for ML, along with relevant metadata, features and behavior annotation labels.
+                     animal_renamer : dict = None,
+                     video : list = None, 
+                     labels : list = None,
+                     **kwargs) -> pd.DataFrame:
+    """Creates DataFrame that houses pose-tracking data and behavior annotations, along with relevant metadata, features and behavior annotation labels.
 
     Args:
-        metadata: Dictionary whose keys are DLC tracking csvs, and value is a dictionary of associated metadata
-            for that video. Most easiest to create with 'create_metadata'. 
-            Required keys are: ['fps']
-        label_key: Default None. Dictionary whose keys are positive integers and values are behavior labels. If none, then this is inferred from the behavior annotation files provided.  
+        input: String OR list of strings with path(s) to tracking file(s). 
+            OR Dictionary whose keys are pose tracking files, and value is a dictionary of associated metadata
+            for that video (see `create_metadata` if using this construction option)
         part_renamer: Default None. Dictionary that can rename body parts from tracking files if needed (for feature creation, e.g.)
         animal_renamer: Default None. Dictionary that can rename animals from tracking files if needed
-
+        **kwargs: Any other data to associate with each of the tracking files. This includes label files, and other metadata. 
+            Any list-like arguments of appropriate length are zipped (associated) with each tracking file. See How To guide for more information.
+        
     Returns:
         DataFrame object. This is a pandas DataFrame with additional metadata and methods.
     """
 
-    if type(metadata) is dict:
-
-        df = pd.DataFrame()
-        req_cols = ['fps']
-        is_valid, should_rescale = _validate_metadata(metadata, req_cols)
-        if is_valid:   
-            df.metadata.details = metadata
-        else:
-            raise ValueError("Metadata not properly formatted. See docstring.")
-
-        if len(metadata) > 0:
-            _load_tracks(df, part_renamer, animal_renamer, rescale = should_rescale) 
-            _load_labels(df, set_as_label = True)
-
-        if should_rescale:
-            _convert_units(df)
-        elif 'scale_factor' in df.columns: 
-            df.drop(columns = 'scale_factor', inplace = True)
-
-    elif type(metadata) is str:
-        df = _load_nwb([metadata], part_renamer, animal_renamer)
-
-    elif type(metadata) is list:
-        df = _load_nwb(metadata, part_renamer, animal_renamer)
-
+    if type(input) is dict:
+        df = _create_from_dict(input, part_renamer, animal_renamer)
+    elif type(input) is str:
+        if video is not None: kwargs['video'] = video 
+        if labels is not None: kwargs['labels'] = labels
+        df = _create_from_list([input], part_renamer, animal_renamer, **kwargs)
+    elif type(input) is list:
+        if video is not None: kwargs['video'] = video 
+        if labels is not None: kwargs['labels'] = labels
+        df = _create_from_list(input, part_renamer, animal_renamer, **kwargs)
     else:
         raise ValueError("Metadata not properly formatted. See docstring.")
 
-    if label_key:
-        df.metadata.label_key = label_key
-
     return df
 
-def _load_nwb(nwb_files, part_renamer, animal_renamer):
+def _load_nwb(nwb_files, part_renamer, animal_renamer, set_as_label = True):
 
     metadata = {}
     dfs = []
@@ -632,7 +656,7 @@ def _load_nwb(nwb_files, part_renamer, animal_renamer):
         #Add additional metadata
         metadata[fn] = {}
         metadata[fn]['scorer'] = scorer
-        metadata[fn]['video'] = meta[fn]['video_files']
+        metadata[fn]['video'] = meta[fn]['video']
         metadata[fn]['resolution'] = meta[fn]['resolution']
         metadata[fn]['units'] = meta[fn]['unit']
 
@@ -649,29 +673,43 @@ def _load_nwb(nwb_files, part_renamer, animal_renamer):
     df.pose.animals = animals
     df.pose.animal_setup = {'mouse_ids': animals, 'bodypart_ids': body_parts, 'colnames': col_names}
     df.pose.raw_track_columns = col_names
+
+    label_cols = [x for x in df.columns if x.startswith('label_')]
+    df.metadata.label_key = {idx:k for idx, k in enumerate(list(set(label_cols)))}
+
+    if set_as_label:
+        df.ml.label_cols = list(df.metadata.label_key.values())
+
     return df
 
 def _load_tracks(df, part_renamer, animal_renamer, rescale = False):
-    #For the moment only supports DLC
-    return _load_dlc_tracks(df, part_renamer, animal_renamer, rescale = rescale)
-
-def _load_dlc_tracks(df, part_renamer, animal_renamer, rescale = False):
-    """Add DLC tracks to DataFrame"""
-
+    """Add tracks to DataFrame"""
     dfs = []
     col_names_old = None
-    #Go through each video file and load DLC tracks
+    #Go through each video file and load tracks
     for fn in df.metadata.details.keys():
-        if fn.split('.')[-1] == 'nwb':
+        _, ext = os.path.splitext(fn)
+        if ext == '.nwb':
             df_fn, body_parts, animals, col_names, scorer, _ = read_NWB_tracks(fn, 
                                                                             part_renamer, 
                                                                             animal_renamer)
-        else:
+        elif ext == '.csv':
             df_fn, body_parts, animals, col_names, scorer = read_DLC_tracks(fn, 
                                                                             part_renamer, 
                                                                             animal_renamer)
+        else:
+            #Try DLC first, if this fails, read as SLEAP
+            try:
+                df_fn, body_parts, animals, col_names, scorer = read_DLC_tracks(fn, 
+                                                                                part_renamer, 
+                                                                                animal_renamer)
+            except:
+                df_fn, body_parts, animals, col_names, scorer = read_sleap_tracks(fn, 
+                                                                                part_renamer, 
+                                                                                animal_renamer)
+
         n_rows = len(df_fn)
-        if 'time' not in df_fn.columns:
+        if 'time' not in df_fn.columns and 'fps' in df.metadata.details[fn]:
             df_fn['time'] = df_fn['frame']/df.metadata.details[fn]['fps']
 
         if rescale and ('frame_width_units' in df.metadata.details[fn]) and \
@@ -690,11 +728,12 @@ def _load_dlc_tracks(df, part_renamer, animal_renamer, rescale = False):
             df_fn['scale_factor'] = 1
 
         dfs.append(df_fn)
-        df.metadata.details[fn]['duration'] = (n_rows)/df.metadata.details[fn]['fps']
+        if 'fps' in df.metadata.details[fn]:
+            df.metadata.details[fn]['duration'] = (n_rows)/df.metadata.details[fn]['fps']
         df.metadata.details[fn]['scorer'] = scorer
         if col_names_old is not None:
             if col_names != col_names_old:
-                raise RuntimeError("DLC files have different columns. Must all be from same project")
+                raise RuntimeError("Tracking files have different columns. Must all be from same project")
         col_names_old = col_names
 
     dfs = pd.concat(dfs, axis = 0)
@@ -713,35 +752,31 @@ def _load_labels(df, col_name = 'label', set_as_label = False):
     #For the moment only BORIS support
     return _load_labels_boris(df, col_name, set_as_label)
 
-def _load_labels_boris(df, col_name = 'label', set_as_label = False):
+def _load_labels_boris(df, prefix = 'label', set_as_label = False):
     """Add behavior label data to DataFrame"""
-
-    if not df.metadata.label_key:
-        label_files = []
-        for fn in df.metadata.details.keys():
-            if 'labels' in df.metadata.details[fn]:
-                label_files.append(df.metadata.details[fn]['labels'])
-        df.metadata.label_key = create_behavior_labels(label_files)
 
     label_cols = []
     for vid in df.metadata.details:
-        if 'labels' in df.metadata.details[vid]:
-
+        if 'labels' in df.metadata.details[vid] and 'fps' in df.metadata.details[vid]:
             fn_in = df.metadata.details[vid]['labels']
             fps = df.metadata.details[vid]['fps']
             duration = df.metadata.details[vid]['duration']
 
-            ground_truth = read_boris_annotation(fn_in, fps, duration, df.metadata.label_key.values())
+            ground_truth = read_boris_annotation(fn_in, fps, duration)
 
             for behavior in ground_truth:
-                col_name = 'label_' + behavior
+                col_name = prefix + '_' + behavior
                 label_cols.append(col_name)
                 if col_name not in df.columns:
                     df[col_name] = 0.
                 df.loc[df['filename'] == vid, col_name] = ground_truth[behavior]
+        elif 'fps' not in df.metadata.details[vid]:
+            print(f"'fps' not provided for video {vid}. Cannot link pose data to BORIS annotations.")
+
+    df.metadata.label_key = {idx:k for idx, k in enumerate(list(set(label_cols)))}
 
     if set_as_label:
-        df.ml.label_cols = list(set(label_cols))
+        df.ml.label_cols = list(df.metadata.label_key.values())
 
 def load_experiment(fn_in : str) -> pd.DataFrame:
     """Load DataFrame from file.
@@ -767,12 +802,12 @@ def get_sample_openfield_data():
 
     cur_dir = os.path.dirname(os.path.abspath(__file__))
     tracking_files = glob(os.path.join(cur_dir, 'data', 'dlc', 'openfield', '*example.csv'))
-    video_files = glob(os.path.join(cur_dir, 'data', 'videos', '*.mp4'))
+    video = glob(os.path.join(cur_dir, 'data', 'videos', '*.mp4'))
     fps = 30                         # (int) frames per second
     resolution = (480, 640)          # (tuple) HxW in pixels
     #Metadata is a dictionary that attaches each of the above parameters to the video/behavior annotations
     metadata = create_metadata(tracking_files, 
-                            video_files = video_files,
+                            video = video,
                             fps = fps, 
                             resolution = resolution)
 
@@ -821,3 +856,4 @@ def add_randomforest_predictions(df : pd.DataFrame):
 
     preds = cross_val_predict(model, df.ml.features, df.ml.labels, groups = df.ml.group, cv = cv)
     df['prediction'] = preds
+

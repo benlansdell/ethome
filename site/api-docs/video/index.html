@@ -8,8 +8,12 @@
       
       
       
+      
+        <link rel="prev" href="../utils/">
+      
+      
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.4.1, mkdocs-material-8.5.6">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.1.6">
     
     
       
@@ -17,11 +21,10 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.20d9efc8.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ded33207.min.css">
       
         
-        <link rel="stylesheet" href="../../assets/stylesheets/palette.cbb835fc.min.css">
-        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.a0c5b2b5.min.css">
       
       
 
@@ -52,7 +55,7 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="" data-md-color-accent="">
   
     
     
@@ -74,7 +77,9 @@
     
       
 
-<header class="md-header" data-md-component="header">
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
     <a href="../.." title="ethome-ml" class="md-header__button md-logo" aria-label="ethome-ml" data-md-component="logo">
       
@@ -130,7 +135,7 @@
           <div class="md-search-result__meta">
             Initializing search
           </div>
-          <ol class="md-search-result__list"></ol>
+          <ol class="md-search-result__list" role="presentation"></ol>
         </div>
       </div>
     </div>
@@ -197,7 +202,7 @@
   
     <li class="md-nav__item">
       <a href="../../how-to/" class="md-nav__link">
-        How to
+        How To guide
       </a>
     </li>
   
@@ -216,17 +221,18 @@
     <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" checked>
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
       
       
       
-      
-        <label class="md-nav__link" for="__nav_3">
+        <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
           API Reference
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <nav class="md-nav" aria-label="API Reference" data-md-level="1">
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
         <label class="md-nav__title" for="__nav_3">
           <span class="md-nav__icon md-icon"></span>
           API Reference
@@ -340,7 +346,7 @@
   
     <li class="md-nav__item md-nav__item--active">
       
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
         
@@ -369,13 +375,6 @@
       Table of contents
     </label>
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#a-note-on-unit-conversions" class="md-nav__link">
-    A note on unit conversions
-  </a>
-  
-</li>
       
         <li class="md-nav__item">
   <a href="#global-variables" class="md-nav__link">
@@ -408,6 +407,13 @@
         <li class="md-nav__item">
   <a href="#function-get_sample_openfield_data" class="md-nav__link">
     function get_sample_openfield_data
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#function-add_randomforest_predictions" class="md-nav__link">
+    function add_randomforest_predictions
   </a>
   
 </li>
@@ -760,13 +766,6 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#a-note-on-unit-conversions" class="md-nav__link">
-    A note on unit conversions
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#global-variables" class="md-nav__link">
     Global Variables
   </a>
@@ -797,6 +796,13 @@
         <li class="md-nav__item">
   <a href="#function-get_sample_openfield_data" class="md-nav__link">
     function get_sample_openfield_data
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#function-add_randomforest_predictions" class="md-nav__link">
+    function add_randomforest_predictions
   </a>
   
 </li>
@@ -1126,14 +1132,7 @@
 
 <p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L0"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h1 id="module-video"><kbd>module</kbd> <code>video</code></h1>
-<p>Basic video tracking and behavior class that houses data.  </p>
-<p>Basic object is the ExperimentDataFrame class. </p>
-<h2 id="a-note-on-unit-conversions">A note on unit conversions</h2>
-<p>For the unit rescaling, if the dlc/tracking file is already in desired units, either in physical distances, or pixels, then don't provide all of 'frame_width', 'resolution', and 'frame_width_units'. If you want to keep track of the units, you can add a 'units' key to the metadata. This could be 'pixels', or 'cm', as appropriate. </p>
-<p>If the tracking is in pixels and you do want to rescale it to some physical distance, you should provide 'frame_width', 'frame_width_units' and 'resolution' for all videos. This ensures the entire dataset is using the same units. The package will use these values for each video to rescale the (presumed) pixel coordinates to physical coordinates.  </p>
-<p>Resolution is a tuple (H,W) in pixels of the videos. 'frame_width' is the width of the image, in units 'frame_width_units' </p>
-<p>When this is done, all coordinates are converted to 'mm'. The pair 'units':'mm' is added to the metadata dictionary for each video </p>
-<p>If any of the provided parameters are provided, but are not the right format, or some values are missing, a warning is given and the rescaling is not performed. </p>
+<p>Basic video tracking and behavior class that houses data </p>
 <h2 id="global-variables"><strong>Global Variables</strong></h2>
 <ul>
 <li><strong>global_config</strong></li>
@@ -1141,43 +1140,44 @@
 <li><strong>UNIT_DICT</strong></li>
 </ul>
 <hr />
-<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L49"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L35"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="function-create_metadata"><kbd>function</kbd> <code>create_metadata</code></h2>
 <pre><code class="language-python">create_metadata(tracking_files: list, **kwargs) → dict
 </code></pre>
 <p>Prepare a metadata dictionary for defining a ExperimentDataFrame.  </p>
-<p>Only required argument is list of DLC tracking file names.  </p>
-<p>Any other keyword argument must be either a non-iterable object (e.g. a scalar parameter, like FPS) that will be copied and tagged to each of the DLC tracking files, or an iterable object of the same length of the list of DLC tracking files. Each element in the iterable will be tagged with the corresponding DLC file. </p>
+<p>Only required argument is list of pose tracking file names.  </p>
+<p>Any other keyword argument must be either a non-iterable object (e.g. a scalar parameter, like FPS) that will be copied and tagged to each of the pose tracking files, or an iterable object of the same length of the list of pose tracking files. Each element in the iterable will be tagged with the corresponding pose-tracking file. </p>
 <p><strong>Args:</strong></p>
 <ul>
-<li><b><code>tracking_files</code></b>:  List of DLC tracking .csvs </li>
+<li><b><code>tracking_files</code></b>:  List of pose tracking files </li>
 <li><b><code>**kwargs</code></b>:  described as above </li>
 </ul>
 <p><strong>Returns:</strong>
- Dictionary whose keys are DLC tracking file names, and contains a dictionary with key,values containing the metadata provided </p>
+ Dictionary whose keys are pose-tracking file names, and contains a dictionary with key,values containing the metadata provided </p>
 <hr />
-<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L584"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L609"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="function-create_dataset"><kbd>function</kbd> <code>create_dataset</code></h2>
 <pre><code class="language-python">create_dataset(
-    metadata: dict = None,
-    label_key: dict = None,
+    input: dict = None,
     part_renamer: dict = None,
-    animal_renamer: dict = None
+    animal_renamer: dict = None,
+    video: list = None,
+    labels: list = None,
+    **kwargs
 ) → DataFrame
 </code></pre>
-<p>Houses DLC tracking data and behavior annotations in pandas DataFrame for ML, along with relevant metadata, features and behavior annotation labels. </p>
+<p>Creates DataFrame that houses pose-tracking data and behavior annotations, along with relevant metadata, features and behavior annotation labels. </p>
 <p><strong>Args:</strong></p>
 <ul>
-<li><b><code>metadata</code></b>:  Dictionary whose keys are DLC tracking csvs, and value is a dictionary of associated metadata  for that video. Most easiest to create with 'create_metadata'.  </li>
-<li><b><code>Required keys are</code></b>:  ['fps'] </li>
-<li><b><code>label_key</code></b>:  Default None. Dictionary whose keys are positive integers and values are behavior labels. If none, then this is inferred from the behavior annotation files provided.   </li>
+<li><b><code>input</code></b>:  String OR list of strings with path(s) to tracking file(s).   OR Dictionary whose keys are pose tracking files, and value is a dictionary of associated metadata  for that video (see <code>create_metadata</code> if using this construction option) </li>
 <li><b><code>part_renamer</code></b>:  Default None. Dictionary that can rename body parts from tracking files if needed (for feature creation, e.g.) </li>
 <li><b><code>animal_renamer</code></b>:  Default None. Dictionary that can rename animals from tracking files if needed </li>
+<li><b><code>**kwargs</code></b>:  Any other data to associate with each of the tracking files. This includes label files, and other metadata.   Any list-like arguments of appropriate length are zipped (associated) with each tracking file. See How To guide for more information. </li>
 </ul>
 <p><strong>Returns:</strong>
  DataFrame object. This is a pandas DataFrame with additional metadata and methods. </p>
 <hr />
-<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L753"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L781"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="function-load_experiment"><kbd>function</kbd> <code>load_experiment</code></h2>
 <pre><code class="language-python">load_experiment(fn_in: str) → DataFrame
 </code></pre>
@@ -1189,7 +1189,7 @@
 <p><strong>Returns:</strong>
  DataFrame object from pickle file </p>
 <hr />
-<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L768"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L796"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="function-get_sample_openfield_data"><kbd>function</kbd> <code>get_sample_openfield_data</code></h2>
 <pre><code class="language-python">get_sample_openfield_data()
 </code></pre>
@@ -1197,9 +1197,21 @@
 <p><strong>Returns:</strong>
   DataFrame with the corresponding tracking and behavior annotation files </p>
 <hr />
-<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L178"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L835"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<h2 id="function-add_randomforest_predictions"><kbd>function</kbd> <code>add_randomforest_predictions</code></h2>
+<pre><code class="language-python">add_randomforest_predictions(df: DataFrame)
+</code></pre>
+<p>Perform cross validation of a RandomForestClassifier to predict behavior based on  activated features. Can be useful to assess model performance, and if you have enough data. </p>
+<p><strong>Args:</strong></p>
+<ul>
+<li><b><code>df</code></b>:  Dataframe housing features and labels to perform classification.  Will perform leave-one-video-out cross validation hence dataframe needs at least two videos to run. </li>
+</ul>
+<p><strong>Returns:</strong>
+ None. Modifies df in place, adding column 'prediction' with model predictions in it. </p>
+<hr />
+<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L164"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="class-ethologymetadataaccessor"><kbd>class</kbd> <code>EthologyMetadataAccessor</code></h2>
-<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L179"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L165"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h3 id="method-__init__"><kbd>method</kbd> <code>__init__</code></h3>
 <pre><code class="language-python">__init__(pandas_obj)
 </code></pre>
@@ -1214,16 +1226,16 @@
 <hr />
 <h4 id="property-videos"><kbd>property</kbd> videos</h4>
 <hr />
-<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L215"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L201"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="class-ethologyfeaturesaccessor"><kbd>class</kbd> <code>EthologyFeaturesAccessor</code></h2>
-<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L216"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L202"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h3 id="method-__init___1"><kbd>method</kbd> <code>__init__</code></h3>
 <pre><code class="language-python">__init__(pandas_obj)
 </code></pre>
 <hr />
 <h4 id="property-active"><kbd>property</kbd> active</h4>
 <hr />
-<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L229"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L215"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h3 id="method-activate"><kbd>method</kbd> <code>activate</code></h3>
 <pre><code class="language-python">activate(name: str) → list
 </code></pre>
@@ -1235,7 +1247,7 @@
 <p><strong>Returns:</strong>
  List of matched columns (may include columns that were already activated). </p>
 <hr />
-<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L276"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L262"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h3 id="method-add"><kbd>method</kbd> <code>add</code></h3>
 <pre><code class="language-python">add(
     feature_maker,
@@ -1255,7 +1267,7 @@
 <p><strong>Returns:</strong>
  List of new columns that are computed </p>
 <hr />
-<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L262"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L248"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h3 id="method-deactivate"><kbd>method</kbd> <code>deactivate</code></h3>
 <pre><code class="language-python">deactivate(name: str) → list
 </code></pre>
@@ -1267,7 +1279,7 @@
 <p><strong>Returns:</strong>
  List of removed columns. </p>
 <hr />
-<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L334"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L323"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h3 id="method-deactivate_cols"><kbd>method</kbd> <code>deactivate_cols</code></h3>
 <pre><code class="language-python">deactivate_cols(col_names: list) → list
 </code></pre>
@@ -1279,7 +1291,7 @@
 <p><strong>Returns:</strong>
  The columns that were removed from those designated as features. </p>
 <hr />
-<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L246"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L232"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h3 id="method-regex"><kbd>method</kbd> <code>regex</code></h3>
 <pre><code class="language-python">regex(pattern: str) → list
 </code></pre>
@@ -1291,9 +1303,9 @@
 <p><strong>Returns:</strong>
  list of column names </p>
 <hr />
-<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L349"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L338"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="class-ethologyposeaccessor"><kbd>class</kbd> <code>EthologyPoseAccessor</code></h2>
-<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L350"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L339"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h3 id="method-__init___2"><kbd>method</kbd> <code>__init__</code></h3>
 <pre><code class="language-python">__init__(pandas_obj)
 </code></pre>
@@ -1306,9 +1318,9 @@
 <hr />
 <h4 id="property-raw_track_columns"><kbd>property</kbd> raw_track_columns</h4>
 <hr />
-<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L398"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L387"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="class-ethologymlaccessor"><kbd>class</kbd> <code>EthologyMLAccessor</code></h2>
-<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L399"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L388"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h3 id="method-__init___3"><kbd>method</kbd> <code>__init__</code></h3>
 <pre><code class="language-python">__init__(pandas_obj)
 </code></pre>
@@ -1327,14 +1339,14 @@
 <hr />
 <h4 id="property-splitter"><kbd>property</kbd> splitter</h4>
 <hr />
-<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L464"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L453"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="class-ethologyioaccessor"><kbd>class</kbd> <code>EthologyIOAccessor</code></h2>
-<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L465"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L454"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h3 id="method-__init___4"><kbd>method</kbd> <code>__init__</code></h3>
 <pre><code class="language-python">__init__(pandas_obj)
 </code></pre>
 <hr />
-<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L517"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L506"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h3 id="method-load"><kbd>method</kbd> <code>load</code></h3>
 <pre><code class="language-python">load(fn_in: str) → DataFrame
 </code></pre>
@@ -1346,7 +1358,7 @@
 <p><strong>Returns:</strong>
  None. Data in this object is populated with contents of file. </p>
 <hr />
-<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L468"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L457"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h3 id="method-save"><kbd>method</kbd> <code>save</code></h3>
 <pre><code class="language-python">save(fn_out: str) → None
 </code></pre>
@@ -1358,12 +1370,12 @@
 <p><strong>Returns:</strong>
  None. File is saved to path. </p>
 <hr />
-<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L528"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L517"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h3 id="method-save_movie"><kbd>method</kbd> <code>save_movie</code></h3>
 <pre><code class="language-python">save_movie(label_columns, path_out: str, video_filenames=None) → None
 </code></pre>
 <p>Given columns indicating behavior predictions or whatever else, make a video with these predictions overlaid.  </p>
-<p>ExperimentDataFrame metadata must have the keys 'video_file', so that the video associated with each set of DLC tracks is known. </p>
+<p>ExperimentDataFrame metadata must have the keys 'video_file', so that the video associated with each set of pose tracks is known. </p>
 <p><strong>Args:</strong></p>
 <ul>
 <li><b><code>label_columns</code></b>:  list or dict of columns whose values to overlay on top of video. If dict, keys are the columns and values are the print-friendly version. </li>
@@ -1373,7 +1385,7 @@
 <p><strong>Returns:</strong>
  None. Videos are saved to 'path_out' </p>
 <hr />
-<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L482"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/video.py#L471"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h3 id="method-to_dlc_csv"><kbd>method</kbd> <code>to_dlc_csv</code></h3>
 <pre><code class="language-python">to_dlc_csv(base_dir: str, save_h5_too=False) → None
 </code></pre>
@@ -1404,27 +1416,6 @@
       
         <footer class="md-footer">
   
-    
-    <nav class="md-footer__inner md-grid" aria-label="Footer" >
-      
-        
-        <a href="../utils/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Utils" rel="prev">
-          <div class="md-footer__button md-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
-          </div>
-          <div class="md-footer__title">
-            <div class="md-ellipsis">
-              <span class="md-footer__direction">
-                Previous
-              </span>
-              Utils
-            </div>
-          </div>
-        </a>
-      
-      
-    </nav>
-  
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
       <div class="md-copyright">
@@ -1446,10 +1437,10 @@
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
-    <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.5bf1dace.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.078830c0.min.js"></script>
+      <script src="../../assets/javascripts/bundle.51198bba.min.js"></script>
       
     
   </body>

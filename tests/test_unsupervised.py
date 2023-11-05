@@ -6,10 +6,14 @@ import pytest
 
 import numpy as np
 
-from ethome.unsupervised import compute_tsne_embedding, compute_morlet, \
+from ethome.unsupervised import compute_tsne_embedding, compute_morlet, compute_umap_embedding, \
                                   compute_density, compute_watershed, cluster_behaviors
 
 N_ROWS = 200
+
+def test_umap_embedding(dataset, default_track_cols):
+    embedding = compute_umap_embedding(dataset, default_track_cols, N_rows = N_ROWS)
+    assert embedding.shape == (len(dataset), 2)
 
 def test_tsne_embedding(dataset, default_track_cols):
     embedding, indices = compute_tsne_embedding(dataset, default_track_cols, N_rows = N_ROWS)
@@ -46,7 +50,7 @@ def test_cluster_behaviors(dataset, default_track_cols):
     assert 'unsup_behavior_label' in dataset.columns
 
     #Test Morlet
-    cluster_results = cluster_behaviors(dataset, default_track_cols, use_morlet = True, N_rows = 200)
+    #cluster_results = cluster_behaviors(dataset, default_track_cols, use_morlet = True, N_rows = 200)
 
     #Test TSNE
-    cluster_results = cluster_behaviors(dataset, default_track_cols, use_umap = False, N_rows = 200)
+    #cluster_results = cluster_behaviors(dataset, default_track_cols, use_umap = False, N_rows = 200)

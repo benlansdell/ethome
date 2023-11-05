@@ -5,10 +5,10 @@ import os
 os.environ["CUDA_VISIBLE_DEVICES"] = ''
 
 from ethome import create_dataset, create_metadata, interpolate_lowconf_points
-from ethome.io import get_sample_data_paths
+from ethome.io import get_sample_data_paths_dlcboris
 
 #Gather the DLC and BORIS tracking and annotation files
-tracking_files, boris_files = get_sample_data_paths()
+tracking_files, boris_files = get_sample_data_paths_dlcboris()
 
 #Setup some parameters
 frame_width = 20                 # (float) length of entire horizontal shot

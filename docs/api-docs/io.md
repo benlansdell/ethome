@@ -202,10 +202,10 @@ Get path to a sample NWB file with tracking data for testing and dev purposes.
 
 <a href="https://github.com/benlansdell/ethome/blob/master/ethome/io.py#L323"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
-## <kbd>function</kbd> `get_sample_data_paths`
+## <kbd>function</kbd> `get_sample_data_paths_dlcboris`
 
 ```python
-get_sample_data_paths()
+get_sample_data_paths_dlcboris()
 ```
 
 Get path to sample data files provided with package.  

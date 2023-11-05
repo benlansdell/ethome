@@ -15,7 +15,7 @@ from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_sc
 
 N_UMAP_ROWS = 10000
 #%% Gather the DLC and BORIS tracking and annotation files
-tracking_files, boris_files = get_sample_data_paths()
+tracking_files, boris_files = get_sample_data_paths_dlcboris()
 
 #Setup some parameters
 frame_width = 20                 # (float) length of entire horizontal shot

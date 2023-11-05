@@ -526,8 +526,7 @@ def get_sample_nwb_paths():
     cur_dir = os.path.dirname(os.path.abspath(__file__))
     return os.path.join(cur_dir, 'data/sample_nwb_.nwb')
 
-#TODO Probably get rid of these...
-def get_sample_data_paths():
+def get_sample_data_paths_dlcboris():
     """Get path to sample data files provided with package. 
     
     Returns:

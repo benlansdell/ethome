@@ -48,8 +48,8 @@ def test_sample_data():
     assert type(dataset) is pd.DataFrame
 
 def test_sample_paths():
-    from ethome.io import get_sample_data_paths
-    tracking_files, boris_files = get_sample_data_paths()
+    from ethome.io import get_sample_data_paths_dlcboris
+    tracking_files, boris_files = get_sample_data_paths_dlcboris()
     assert type(tracking_files) is list
     assert type(boris_files) is list
     assert len(tracking_files) == len(boris_files)

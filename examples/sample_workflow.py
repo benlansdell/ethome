@@ -5,7 +5,7 @@ import os
 os.environ["CUDA_VISIBLE_DEVICES"] = ''
 
 from ethome import create_dataset, interpolate_lowconf_points
-from ethome.io import get_sample_data_paths
+from ethome.io import get_sample_data_paths_dlcboris
 from ethome.unsupervised import compute_umap_embedding
 from ethome.plot import plot_embedding
 
@@ -15,7 +15,7 @@ from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_sc
 
 N_UMAP_ROWS = 10000
 #%% Gather the DLC and BORIS tracking and annotation files
-tracking_files, boris_files = get_sample_data_paths()
+tracking_files, boris_files = get_sample_data_paths_dlcboris()
 
 #Setup some parameters
 frame_width = 20                 # (float) length of entire horizontal shot

@@ -31,13 +31,13 @@ It's easiest to start with an NWB file, which has metadata already connected to 
 
 Import
 ```python
-from ethome import create_dataset
-from ethome.io import get_sample_nwb_paths
+from ethome import create_dataset, create_metadata
+from ethome.io import get_sample_data_paths_dlcboris
 ```
 
 Gather a sample NWB file
 ```python
-fn_in = get_sample_nwb_paths()
+tracking_files, annotation_files = get_sample_data_paths_dlcboris()
 ```
 
 Create the dataframe:

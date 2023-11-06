@@ -55,7 +55,7 @@ def feature_class_maker(name, compute_function, required_columns = []):
         #Validate columns:
         checks = [col in self.required_columns for col in edf.columns]
         if sum(checks) < len(self.required_columns):
-            raise RuntimeError("DataFrame doesn't have necessary columns to compute this set of features.")
+            raise RuntimeError(f"DataFrame doesn't have necessary columns to compute this set of features. Requires columns: {self.required_columns}")
         if edf[self.required_columns].isnull().values.any():
             warnings.warn("Missing values in required data columns. May result in unexpected behavior. Consider interpolating or imputing missing data first.")
         new_features = self.feature_maker(edf, self.required_columns, **self.kwargs, **kwargs)

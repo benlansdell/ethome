@@ -11,6 +11,8 @@ This library interprets pose-tracking files and behavior annotations to create f
 
 At present pose tracking data from DLC, SLEAP and NWB formats are supported, and behavior annotations from BORIS and NWB formats are supported.
 
+Full documentation is posted here: [https://benlansdell.github.io/ethome/](https://benlansdell.github.io/ethome/). 
+
 ## Features
 
 * Read in animal pose data and corresponding behavior annotations to make supervised learning easy
@@ -25,6 +27,8 @@ At present pose tracking data from DLC, SLEAP and NWB formats are supported, and
 ```
 pip install ethome-ml
 ```
+
+`ethome` has been tested with Python 3.7 and 3.8. 
 
 ## Quickstart
 
@@ -60,7 +64,7 @@ There are featuresets specifically tailored for social mice studies (resident in
 ```python
 dataset.features.add('cnn1d_prob')
 ```
-Uses a pretrained CNN to output probabilities of 3 behaviors (attack, mount, social investigation). For this, you must have labeled your body parts in a certain way (refer to How To). Other, more generic, feature creation functions are provided that work for any animal configuration. 
+Uses a pretrained CNN to output probabilities of 3 behaviors (attack, mount, social investigation). For this, you must have labeled your body parts in a certain way (refer to [How To](https://benlansdell.github.io/ethome/how-to/)). Other, more generic, feature creation functions are provided that work for any animal configuration. 
 
 Now you can access a features table, labels, and groups for learning with `dataset.ml.features, dataset.ml.labels, dataset.ml.group`. From here it's easy to use some ML libraries to train a behavior classifier. For example:
 ```python
@@ -94,3 +98,7 @@ dataset.io.save_movie(['label', 'prediction'], '.')
 where `label` and `prediction` reference column names to annotate the video with.
 
 A more detailed run through of features is provided in the How To guide. Also checkout `examples` for working demos to quickly see how things work.
+
+### Contributing
+
+Refer to `CONTRIBUTING.md` for guidelines on how to contribute to the project, and report bugs, etc.

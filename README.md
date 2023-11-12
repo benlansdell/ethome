@@ -11,6 +11,8 @@ This library interprets pose-tracking files and behavior annotations to create f
 
 At present pose tracking data from DLC, SLEAP and NWB formats are supported, and behavior annotations from BORIS and NWB formats are supported.
 
+Full documentation is posted here: [https://benlansdell.github.io/ethome/](https://benlansdell.github.io/ethome/). 
+
 ## Features
 
 * Read in animal pose data and corresponding behavior annotations to make supervised learning easy
@@ -25,6 +27,8 @@ At present pose tracking data from DLC, SLEAP and NWB formats are supported, and
 ```
 pip install ethome-ml
 ```
+
+`ethome` has been tested with Python 3.7 and 3.8. 
 
 ## Quickstart
 
@@ -56,11 +60,18 @@ dataset.features.add('distances')
 ``` 
 will compute all distances between all body parts (both between and within animals).
 
-There are featuresets specifically tailored for social mice studies (resident intruder). For instance, 
+We can load pose data from DLC, and behavior annotation data from BORIS, provided we also provide a little metadata for context. E.g.:
+```python
+pose_files, behavior_files = get_sample_data_paths_dlcboris()
+metadata = create_metadata(pose_file, labels = behavior_files, fps = 30)
+dataset = create_dataset(metadata)
+```
+
+There are featuresets specifically tailored for social mice studies (the resident-intruder setup). For instance, 
 ```python
 dataset.features.add('cnn1d_prob')
 ```
-Uses a pretrained CNN to output probabilities of 3 behaviors (attack, mount, social investigation). For this, you must have labeled your body parts in a certain way (refer to How To). Other, more generic, feature creation functions are provided that work for any animal configuration. 
+Uses a pretrained CNN to output probabilities of 3 behaviors (attack, mount, social investigation). For this, you must have labeled your body parts in a certain way (refer to [How To](https://benlansdell.github.io/ethome/how-to/)). Other, more generic, feature creation functions are provided that work for any animal configuration. 
 
 Now you can access a features table, labels, and groups for learning with `dataset.ml.features, dataset.ml.labels, dataset.ml.group`. From here it's easy to use some ML libraries to train a behavior classifier. For example:
 ```python
@@ -94,3 +105,35 @@ dataset.io.save_movie(['label', 'prediction'], '.')
 where `label` and `prediction` reference column names to annotate the video with.
 
 A more detailed run through of features is provided in the How To guide. Also checkout `examples` for working demos to quickly see how things work.
+
+## Supported input data formats
+
+The following animal pose/behavior annotation data formats are supported.
+
+### DeepLabCut
+
+[Main project page](https://github.com/DeepLabCut/DeepLabCut)
+
+From DLC documentation: The labels are stored in a MultiIndex Pandas Array, which contains the name of the network, body part name, (x, y) label position in pixels, and the likelihood for each frame per body part. These arrays are stored in an efficient Hierarchical Data Format (HDF) in the same directory, where the video is stored. However, if the flag save_as_csv is set to True, the data can also be exported in comma-separated values format (.csv), which in turn can be imported in many programs, such as MATLAB, R, Prism, etc.
+
+### BORIS 
+
+[Main project page](https://www.boris.unito.it/)
+
+Behavioral Observation Research Interactive Software: BORIS is an easy-to-use event logging software for video/audio coding and live observations. It provides flexible and powerful behavior annotation from a set of videos. Data should be exported to a csv so that `ethome` can import behavior annotations.
+
+### NeuroData Without Borders (NWB)
+
+[Main project page](https://www.nwb.org/)
+
+NWB is a data standard for neurophysiology, providing neuroscientists with a common standard to share, archive, use, and build analysis tools for neurophysiology data. NWB is designed to store a variety of neurophysiology data, including data from intracellular and extracellular electrophysiology experiments, data from optical physiology experiments, and tracking and stimulus data. It includes ability to store animal behavior data and pose data, through the ndx-pose extenstion ([here](https://github.com/rly/ndx-pose)). Nwb files must have a PoseEstimationSeries and/or PoseEstimation datatypes in it to be importable into `ethome`.
+
+### SLEAP
+
+[Main project page](https://sleap.ai/)
+
+SLEAP is an open source deep-learning based framework for multi-animal pose tracking. It can be used to track any type or number of animals and includes an advanced labeling/training GUI for active learning and proofreading. SLEAP data must be in exported analysis `h5` files, to import into `ethome`.
+
+## Contributing
+
+Refer to `CONTRIBUTING.md` for guidelines on how to contribute to the project, and report bugs, etc.

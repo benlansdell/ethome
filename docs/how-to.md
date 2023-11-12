@@ -137,7 +137,9 @@ This will compute and add the distances between all body parts of all animals.
 
 ### 3a In-built support for resident-intruder setup
 
-First, if your setup is a social mouse study, involving two mice, similar enough to the standard resident-intruder setup, then you can use some pre-designed feature sets. The body parts that are tracked must be those from the MARS dataset [1] (See Figure). You will have to have labeled and tracked your mice in DLC/SLEAP in the same way. (with the same animal and body part names. Though `ethome`'s `create_dataset` function can help you rename them appropriately)
+First, if your setup is a social mouse study, involving two mice, similar enough to the standard resident-intruder setup, then you can use some pre-designed feature sets. The body parts that are tracked must be those from the MARS dataset [1] (See Figure). The MARS dataset is the Mouse Action Recognition System dataset, published by Segalin et al. It is a large, annotated mouse pose dataset that is useful for building ML models of mouse behavior. `ethome` uses pretrained models and feature sets that have been demonstrated to perform well at mouse action recognition on this dataset -- a combination of these models and features placed 3rd in AICrowd's [Multiagent behavior contest](https://www.aicrowd.com/challenges/multi-agent-behavior-representation-modeling-measurement-and-applications) in 2021.
+
+You will have to have labeled and tracked your mice in DLC/SLEAP in the same way. (with the same animal and body part names. Though `ethome`'s `create_dataset` function can help you rename them appropriately)
 
 ![Resident-intruder keypoints](assets/mars_keypoints.png)
 
@@ -145,7 +147,7 @@ Specifically, the animals *must* be named `resident` and `intruder`, and the bod
 
 The `cnn1d_prob`, `mars`, `mars_reduced` and `social` functions can be used to make features for this setup. 
 
-* `cnn1d_prob` runs a 1D CNN and outputs prediction probabilities of three behaviors (attack, mount, and investigation). Even if you're not interested in these exact behaviors, they may still be useful for predicting the occurance of other behaviors, as part of an ensemble model. 
+* `cnn1d_prob` runs a 1D CNN and outputs prediction probabilities of three behaviors (attack, mount, and investigation). Even if you're not interested in these exact behaviors, they may still be useful for predicting the occurance of other behaviors, as part of an ensemble model. The details of this pretrained model are found here: [https://github.com/benlansdell/mabetask1_ml](https://github.com/benlansdell/mabetask1_ml). 
 * `mars` computes a long list of features as used in the MARS paper. You can refer to that paper for more details. 
 * `mars_reduced` is a reduced version of the MARS features
 * `social` is a set of features that only involve measures of one animal in relation to the other.

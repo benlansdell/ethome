@@ -63,7 +63,7 @@ will compute all distances between all body parts (both between and within anima
 We can load pose data from DLC, and behavior annotation data from BORIS, provided we also provide a little metadata for context. E.g.:
 ```python
 pose_files, behavior_files = get_sample_data_paths_dlcboris()
-metadata = create_metadata(pose_file, labels = behavior_files, fps = 30)
+metadata = create_metadata(pose_files, labels = behavior_files, fps = 30)
 dataset = create_dataset(metadata)
 ```
 
@@ -137,3 +137,10 @@ SLEAP is an open source deep-learning based framework for multi-animal pose trac
 ## Contributing
 
 Refer to `CONTRIBUTING.md` for guidelines on how to contribute to the project, and report bugs, etc.
+
+## Animal data
+
+Sample data was obtained from resident-intruder open field recordings performed as part of on going social memory studies performed in the Zakharenko lab at St Jude Children's Research Hospital (e.g. [1,2]). All animal experiments were reviewed and approved by the Institutional Animal Care & Use Committee of St. Jude Children’s Research Hospital. 
+
+[1] "SCHIZOPHRENIA-RELATED MICRODELETION GENE 2510002D24Rik IS ESSENTIAL FOR SOCIAL MEMORY" US Patent US20220288235A1. Stanislav S. Zakharenko, Prakash DEVARAJU https://patents.google.com/patent/US20220288235A1/en
+[2] "A murine model of hnRNPH2-related neurodevelopmental disorder reveals a mechanism for genetic compensation by Hnrnph1". Korff et al. Journal of clinical investigation 133(14). 2023. 

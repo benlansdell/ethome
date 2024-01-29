@@ -1,0 +1,23 @@
+name: ethome
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - python=3.8
+  - setuptools>=42
+  - wheel
+  - numpy
+  - pandas>=1.5.0
+  - scikit-learn
+  - tqdm
+  - protobuf
+  - tensorflow==2.9.0
+  - typeguard
+  - tensorflow-addons
+  - typing
+  - matplotlib
+  - umap-learn
+  - scikit-image
+  - dill
+  - pynwb
+  - ipywidgets

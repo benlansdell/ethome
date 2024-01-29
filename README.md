@@ -30,6 +30,17 @@ pip install ethome-ml
 
 `ethome` has been tested with Python 3.7 and 3.8. 
 
+### Conda environment
+
+Note that dependencies have tried to be kept to a minimum so that `ethome` can work easily alongside other programs that may be part of your behavior analysis pipeline (e.g. `DeepLabCut`) -- thus you can try running the `pip install` line above in an existing virtual environment. 
+
+That said, you may want a separate environment for running `ethome`. A conda environment can be created with the following steps: 
+
+1. Download the conda environment yaml file [ethome-conda.yaml](www.google.com)
+2. (From the location you downloaded the yaml file) Create the environment: `conda env create -f ethome-conda.yaml`
+3. Run `conda activate ethome`
+3. And finally `pip install ethome-ml`
+
 ## Quickstart
 
 It's easiest to start with an NWB file, which has metadata already connected to the pose data. 

@@ -4,20 +4,15 @@ channels:
   - conda-forge
 dependencies:
   - python=3.8
-  - setuptools>=42
-  - wheel
   - numpy
-  - pandas>=1.5.0
+  - pandas
   - scikit-learn
   - tqdm
-  - protobuf
-  - tensorflow==2.9.0
   - typeguard
-  - tensorflow-addons
   - typing
   - matplotlib
-  - umap-learn
   - scikit-image
+  - umap-learn
   - dill
   - pynwb
   - ipywidgets

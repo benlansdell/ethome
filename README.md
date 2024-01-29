@@ -5,19 +5,19 @@
 
 # Ethome
 
-Tools for machine learning of animal behavior. 
+Tools for machine learning of animal behavior.
 
-This library interprets pose-tracking files and behavior annotations to create features, train behavior classifiers, interpolate pose tracking data and other common analysis tasks. 
+This library interprets pose-tracking files and behavior annotations to create features, train behavior classifiers, interpolate pose tracking data and other common analysis tasks.
 
 At present pose tracking data from DLC, SLEAP and NWB formats are supported, and behavior annotations from BORIS and NWB formats are supported.
 
-Full documentation is posted here: [https://benlansdell.github.io/ethome/](https://benlansdell.github.io/ethome/). 
+Full documentation is posted here: [https://benlansdell.github.io/ethome/](https://benlansdell.github.io/ethome/).
 
 ## Features
 
 * Read in animal pose data and corresponding behavior annotations to make supervised learning easy
 * Scale data to desired physical units
-* Interpolate pose data to improve low-confidence predictions 
+* Interpolate pose data to improve low-confidence predictions
 * Create generic features for analysis and downstream ML tasks
 * Create features specifically for mouse resident-intruder setup
 * Quickly generate plots and movies with behavior predictions
@@ -28,13 +28,13 @@ Full documentation is posted here: [https://benlansdell.github.io/ethome/](https
 pip install ethome-ml
 ```
 
-`ethome` has been tested with Python 3.7 and 3.8. 
+`ethome` has been tested with Python 3.7 and 3.8.
 
 ### Conda environment
 
-Note that dependencies have tried to be kept to a minimum so that `ethome` can work easily alongside other programs that may be part of your behavior analysis pipeline (e.g. `DeepLabCut`) -- thus you can try running the `pip install` line above in an existing virtual environment. 
+Note that dependencies have tried to be kept to a minimum so that `ethome` can work easily alongside other programs that may be part of your behavior analysis pipeline (e.g. `DeepLabCut`) -- thus you can try running the `pip install` line above in an existing virtual environment.
 
-That said, you may want a separate environment for running `ethome`. A conda environment can be created with the following steps: 
+That said, you may want a separate environment for running `ethome`. A conda environment can be created with the following steps:
 
 1. Download the conda environment yaml file [ethome-conda.yaml](www.google.com)
 2. (From the location you downloaded the yaml file) Create the environment: `conda env create -f ethome-conda.yaml`
@@ -45,7 +45,7 @@ With both install methods, you may want to also install `tensorflow` if you want
 
 ## Quickstart
 
-It's easiest to start with an NWB file, which has metadata already connected to the pose data. 
+It's easiest to start with an NWB file, which has metadata already connected to the pose data.
 
 Import
 ```python
@@ -70,7 +70,7 @@ dataset.pose.body_parts
 A key functionality of `ethome` is the ability to easily create features for machine learning. You can use pre-built featuresets or make your own. For instance:
 ```python
 dataset.features.add('distances')
-``` 
+```
 will compute all distances between all body parts (both between and within animals).
 
 We can load pose data from DLC, and behavior annotation data from BORIS, provided we also provide a little metadata for context. E.g.:
@@ -80,11 +80,11 @@ metadata = create_metadata(pose_files, labels = behavior_files, fps = 30)
 dataset = create_dataset(metadata)
 ```
 
-There are featuresets specifically tailored for social mice studies (the resident-intruder setup). For instance, 
+There are featuresets specifically tailored for social mice studies (the resident-intruder setup). For instance,
 ```python
 dataset.features.add('cnn1d_prob')
 ```
-Uses a pretrained CNN to output probabilities of 3 behaviors (attack, mount, social investigation). For this, you must have labeled your body parts in a certain way (refer to [How To](https://benlansdell.github.io/ethome/how-to/)). Other, more generic, feature creation functions are provided that work for any animal configuration. 
+Uses a pretrained CNN to output probabilities of 3 behaviors (attack, mount, social investigation). For this, you must have labeled your body parts in a certain way (refer to [How To](https://benlansdell.github.io/ethome/how-to/)). Other, more generic, feature creation functions are provided that work for any animal configuration.
 
 Now you can access a features table, labels, and groups for learning with `dataset.ml.features, dataset.ml.labels, dataset.ml.group`. From here it's easy to use some ML libraries to train a behavior classifier. For example:
 ```python
@@ -93,20 +93,20 @@ from sklearn.model_selection import cross_val_score, LeaveOneGroupOut
 
 cv = LeaveOneGroupOut()
 model = RandomForestClassifier()
-cross_val_score(model, 
-                dataset.ml.features, 
-                dataset.ml.labels, 
-                groups = dataset.ml.group, 
+cross_val_score(model,
+                dataset.ml.features,
+                dataset.ml.labels,
+                groups = dataset.ml.group,
                 cv = cv)
 ```
 
 Since the `dataset` object is just an extended Pandas dataframe we can manipulate it as such. E.g. we can add our model predictions to the dataframe:
 ```python
 from sklearn.model_selection import cross_val_predict
-predictions = cross_val_predict(model, 
-                                dataset.ml.features, 
-                                dataset.ml.labels, 
-                                groups = dataset.ml.group, 
+predictions = cross_val_predict(model,
+                                dataset.ml.features,
+                                dataset.ml.labels,
+                                groups = dataset.ml.group,
                                 cv = cv)
 dataset['prediction'] = predictions
 ```
@@ -129,7 +129,7 @@ The following animal pose/behavior annotation data formats are supported.
 
 From DLC documentation: The labels are stored in a MultiIndex Pandas Array, which contains the name of the network, body part name, (x, y) label position in pixels, and the likelihood for each frame per body part. These arrays are stored in an efficient Hierarchical Data Format (HDF) in the same directory, where the video is stored. However, if the flag save_as_csv is set to True, the data can also be exported in comma-separated values format (.csv), which in turn can be imported in many programs, such as MATLAB, R, Prism, etc.
 
-### BORIS 
+### BORIS
 
 [Main project page](https://www.boris.unito.it/)
 
@@ -153,7 +153,7 @@ Refer to `CONTRIBUTING.md` for guidelines on how to contribute to the project, a
 
 ## Animal data
 
-Sample data was obtained from resident-intruder open field recordings performed as part of on going social memory studies performed in the Zakharenko lab at St Jude Children's Research Hospital (e.g. [1,2]). All animal experiments were reviewed and approved by the Institutional Animal Care & Use Committee of St. Jude Children’s Research Hospital. 
+Sample data was obtained from resident-intruder open field recordings performed as part of on going social memory studies performed in the Zakharenko lab at St Jude Children's Research Hospital (e.g. [1,2]). All animal experiments were reviewed and approved by the Institutional Animal Care & Use Committee of St. Jude Children’s Research Hospital.
 
 [1] "SCHIZOPHRENIA-RELATED MICRODELETION GENE 2510002D24Rik IS ESSENTIAL FOR SOCIAL MEMORY" US Patent US20220288235A1. Stanislav S. Zakharenko, Prakash DEVARAJU https://patents.google.com/patent/US20220288235A1/en
-[2] "A murine model of hnRNPH2-related neurodevelopmental disorder reveals a mechanism for genetic compensation by Hnrnph1". Korff et al. Journal of clinical investigation 133(14). 2023. 
+[2] "A murine model of hnRNPH2-related neurodevelopmental disorder reveals a mechanism for genetic compensation by Hnrnph1". Korff et al. Journal of clinical investigation 133(14). 2023.

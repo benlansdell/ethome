@@ -1,6 +1,6 @@
 # How To guide
 
-This guide covers the all of the tasks you can perform with `ethome`, roughly in the order you'd want to do them. A very basic outline is also in the Quick Start section of the readme. 
+This guide covers the all of the tasks you can perform with `ethome`, roughly in the order you'd want to do them. A very basic outline is also in the Quick Start section of the readme.
 
 This guide covers basic usage -- it doesn't comprehensively describe how to use every function or feature in `ethome`; you can consult the API docs for complete information on usage. After installation, cut and paste the code samples below to follow along.
 
@@ -15,7 +15,7 @@ You may want to also install `tensorflow` if you want to use the CNN features fo
 
 ## 1 Loading your data
 
-`ethome` makes it easy to perform common machine learning analyses on pose-tracking data, perhaps in combination with behavioral annotations. The basic object of the package is an extended pandas `DataFrame`, which provides associated support functions that are suited for behavior analysis. The `DataFrame` object houses data from one or more video's worth of pose data, along with associated metadata for each video. The key thing you need to get started, then, is pose tracking data. At present, data from DeepLabCut, SLEAP or pose data stored in NWB files is supported (via the `ndx-pose` extension). 
+`ethome` makes it easy to perform common machine learning analyses on pose-tracking data, perhaps in combination with behavioral annotations. The basic object of the package is an extended pandas `DataFrame`, which provides associated support functions that are suited for behavior analysis. The `DataFrame` object houses data from one or more video's worth of pose data, along with associated metadata for each video. The key thing you need to get started, then, is pose tracking data. At present, data from DeepLabCut, SLEAP or pose data stored in NWB files is supported (via the `ndx-pose` extension).
 
 ### 1a Loading NWB files
 
@@ -27,11 +27,11 @@ fn_in = get_sample_nwb_paths()
 recordings = create_dataset(fn_in)
 ```
 
-You can provide multiple recordings, just provide a list of paths instead. Each separate file is assumed to represent a similar setup but different session/experiment/time period. I.e., they're *not* meant to represent the same session from different cameras, or the same session for different animals. 
+You can provide multiple recordings, just provide a list of paths instead. Each separate file is assumed to represent a similar setup but different session/experiment/time period. I.e., they're *not* meant to represent the same session from different cameras, or the same session for different animals.
 
 ### 1b Loading tracking files
 
-If your data is stored in DeepLabCut `csv`s or `h5` files, or SLEAP exported analysis `h5` files, perhaps with accompanying behavioral annotations from [BORIS](https://www.boris.unito.it/), then you'll have to associate these with each other, and provide relevant metadata yourself. Sections 1b -> 1e outline how to do this. Data stored in NWB files have already addressed each of these steps and you can skip these sections. 
+If your data is stored in DeepLabCut `csv`s or `h5` files, or SLEAP exported analysis `h5` files, perhaps with accompanying behavioral annotations from [BORIS](https://www.boris.unito.it/), then you'll have to associate these with each other, and provide relevant metadata yourself. Sections 1b -> 1e outline how to do this. Data stored in NWB files have already addressed each of these steps and you can skip these sections.
 
 Let's get some sample data to play with:
 ```python
@@ -40,7 +40,7 @@ tracking_files, boris_files = get_sample_data_paths()
 ```
 These are just lists of csv files containing our input data.
 
-To import just your tracking data, you can simple do: 
+To import just your tracking data, you can simple do:
 ```python
 recordings = create_dataset(tracking_files)
 ```
@@ -51,7 +51,7 @@ fps = 30
 resolution = (1200, 1600)
 recordings = create_dataset(tracking_files, fps = fps, resolution = resolution)
 ```
-This loads the dataframe, with `fps` and `resolution` associated to each input csv. 
+This loads the dataframe, with `fps` and `resolution` associated to each input csv.
 
 NOTE: Any keyword that is a list of the same length as the tracking files is zipped with the tracking files accordingly. That is, if the resolution of the videos is different:
 ```python
@@ -78,7 +78,7 @@ The (optional) `video` keyword is used to provide the path(s) to the correspondi
 
 ### 1e Scaling pose data
 
-There is some support for scaling the data to get it into desired units, consistent across all recordings. 
+There is some support for scaling the data to get it into desired units, consistent across all recordings.
 
 If the tracking is in pixels and you do want to rescale it to some physical distance, you should provide keywords `frame_width`, `frame_width_units` and `resolution` for all videos. This ensures the entire dataset is using the same units. The package will use these values for each video to rescale the (presumed) pixel coordinates to physical coordinates.
 
@@ -92,7 +92,7 @@ If the DLC/tracking files are already in desired units, either in physical dista
 
 If your tracking project named the animals some way, but you want them named another way in this dataframe, you can provide an `animal_renamer` dictionary as an argument to the constructor:
 ```python
-recordings = create_dataset(tracking_files, 
+recordings = create_dataset(tracking_files,
                             labels = boris_files,
                             fps = 30,
                             animal_renamer={'adult': 'resident', 'juvenile':'intruder'})
@@ -117,7 +117,7 @@ When `recordings` is created, additional metadata is computed and accessible via
 
 ## 2 Interpolate low-confidence pose tracking
 
-Some simple support for interpolating low-confidence tracks in DLC/SLEAP is provided. Predicted positions below a given confidence level can be noisy and unreliable, and better tracks may be obtained by removing these predictions and interpolating from more confident predictions on either side of the uncertain prediction. 
+Some simple support for interpolating low-confidence tracks in DLC/SLEAP is provided. Predicted positions below a given confidence level can be noisy and unreliable, and better tracks may be obtained by removing these predictions and interpolating from more confident predictions on either side of the uncertain prediction.
 
 You can achieve this with:
 ```python
@@ -127,7 +127,7 @@ interpolate_lowconf_points(recordings)
 
 ## 3 Generate features
 
-To do machine learning you'll want to create features from the pose tracking data. `ethome` can help you do this in a few different ways. You can either use one of the feature-making functions provided or create a custom feature-making function, or custom class. 
+To do machine learning you'll want to create features from the pose tracking data. `ethome` can help you do this in a few different ways. You can either use one of the feature-making functions provided or create a custom feature-making function, or custom class.
 
 To use the inbuilt functions you can reference them by their identifying string, or provide the function itself to the `features.add` function. For instance, to compute the distances between all body parts (within and between animals), you could do:
 ```python
@@ -145,10 +145,10 @@ You will have to have labeled and tracked your mice in DLC/SLEAP in the same way
 
 Specifically, the animals *must* be named `resident` and `intruder`, and the body parts must be: `nose`, `leftear`, `rightear`, `neck`, `lefthip`, `righthip`, and `tail`.
 
-The `cnn1d_prob`, `mars`, `mars_reduced` and `social` functions can be used to make features for this setup. 
+The `cnn1d_prob`, `mars`, `mars_reduced` and `social` functions can be used to make features for this setup.
 
-* `cnn1d_prob` runs a 1D CNN and outputs prediction probabilities of three behaviors (attack, mount, and investigation). Even if you're not interested in these exact behaviors, they may still be useful for predicting the occurance of other behaviors, as part of an ensemble model. The details of this pretrained model are found here: [https://github.com/benlansdell/mabetask1_ml](https://github.com/benlansdell/mabetask1_ml). 
-* `mars` computes a long list of features as used in the MARS paper. You can refer to that paper for more details. 
+* `cnn1d_prob` runs a 1D CNN and outputs prediction probabilities of three behaviors (attack, mount, and investigation). Even if you're not interested in these exact behaviors, they may still be useful for predicting the occurance of other behaviors, as part of an ensemble model. The details of this pretrained model are found here: [https://github.com/benlansdell/mabetask1_ml](https://github.com/benlansdell/mabetask1_ml).
+* `mars` computes a long list of features as used in the MARS paper. You can refer to that paper for more details.
 * `mars_reduced` is a reduced version of the MARS features
 * `social` is a set of features that only involve measures of one animal in relation to the other.
 
@@ -164,11 +164,11 @@ You can generate more generic features using the following inbuilt feature creat
 * `intrabodypartdistances` the distances between all animals body parts (inter- and intra-animal)
 * `distances` is an alias for `intrabodypartdistances`
 
-These work for any animal setup, not just resident-intruder with specific body parts, as assumed for the `mars` features. 
+These work for any animal setup, not just resident-intruder with specific body parts, as assumed for the `mars` features.
 
 ### 3c Add your own features
 
-There are two ways to add your own feature sets to your DataFrame. 
+There are two ways to add your own feature sets to your DataFrame.
 
 The first is to create a function that takes a pandas DataFrame, and returns a new DataFrame with the features you want to add. For example:
 ```python
@@ -178,7 +178,7 @@ def diff_cols(df, required_columns = []):
 recordings.features.add(diff_cols, required_columns = ['resident_x_neck', 'resident_y_neck'])
 ```
 
-The second is to create a class that has, at the least, the method `transform`. 
+The second is to create a class that has, at the least, the method `transform`.
 ```python
 class BodyPartDiff:
     def __init__(self, required_columns):
@@ -198,13 +198,13 @@ By default, when new features are added to the dataframe, they are considered 'a
 ```python
 recordings.ml.features
 ```
-provided for convenience. You can pass this to any ML method for further processing. This `.ml.features` helps manage  the long list of features you will have created in the steps above. You can always just treat `recordings` like a Pandas DataFrame and do ML how you would normally. 
+provided for convenience. You can pass this to any ML method for further processing. This `.ml.features` helps manage  the long list of features you will have created in the steps above. You can always just treat `recordings` like a Pandas DataFrame and do ML how you would normally.
 
 To activate features you can use `recordings.features.activate`, and to deactivate features you can use `recordings.features.deactivate`. Deactivating keeps them in the DataFrame, but just no longer includes those features in the `recordings.ml.features` view.
 
 ## 4a Fit a model for behavior classification
 
-Ok! All the work is done and now you can easily train a behavior classifier based on the features you've computed and the labels provided. 
+Ok! All the work is done and now you can easily train a behavior classifier based on the features you've computed and the labels provided.
 
 E.g.
 ```python
@@ -216,13 +216,13 @@ model = RandomForestClassifier()
 cross_val_score(model, recordings.ml.features, recordings.ml.labels, recordings.ml.group, cv = cv)
 ```
 
-A convenience function that essentially runs the above lines is provided, 
+A convenience function that essentially runs the above lines is provided,
 `add_randomforest_predictions`:
 ```python
 from ethome import add_randomforest_predictions
 add_randomforest_predictions(recordings)
 ```
-which can be used as a starting point for developing behavior classifiers. 
+which can be used as a starting point for developing behavior classifiers.
 
 ## 4b Unsupervised learning
 
@@ -236,16 +236,16 @@ Computes and stores a UMAP embedding of the computed features.
 ## 5 Plotting
 
 You can plot this embedding via
-```python 
-fig, ax = plot_embedding(recordings, color_col = 'prediction') 
+```python
+fig, ax = plot_embedding(recordings, color_col = 'prediction')
 ```
 
 There's also an interactive widget to explore the pose data
-```python 
+```python
 %matplotlib inline
 filename = dataset.metadata.videos[0]
 interactive_tracks(recordingsrecordings,
-                   filename, 
+                   filename,
                    start_frame = 3000,
                    stop_frame = 4000)
 ```

@@ -24,22 +24,22 @@ interpolate_lowconf_points(
 ) → DataFrame
 ```
 
-Interpolate raw tracking points if their probabilities are available. 
+Interpolate raw tracking points if their probabilities are available.
 
 
 
 **Args:**
- 
- - <b>`edf`</b>:  pandas DataFrame containing the tracks to interpolate 
- - <b>`conf_threshold`</b>:  default 0.9. Confidence below which to count as uncertain, and to interpolate its value instead 
- - <b>`in_place`</b>:  default True. Whether to replace data in place 
- - <b>`rolling_window`</b>:  default True. Whether to use a rolling window to interpolate 
- - <b>`window_size`</b>:  default 3. The size of the rolling window to use 
+
+ - <b>`edf`</b>:  pandas DataFrame containing the tracks to interpolate
+ - <b>`conf_threshold`</b>:  default 0.9. Confidence below which to count as uncertain, and to interpolate its value instead
+ - <b>`in_place`</b>:  default True. Whether to replace data in place
+ - <b>`rolling_window`</b>:  default True. Whether to use a rolling window to interpolate
+ - <b>`window_size`</b>:  default 3. The size of the rolling window to use
 
 
 
 **Returns:**
- Pandas dataframe with the filtered raw columns. Returns None if opted for in_place modification 
+ Pandas dataframe with the filtered raw columns. Returns None if opted for in_place modification
 
 
 

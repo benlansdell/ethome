@@ -21,12 +21,12 @@ build:
 		python -m build
 
 clean:
-		rm -rf dist 
+		rm -rf dist
 		rm -rf ethome_ml.egg-info
 
 #Upload built package to testpypi repository
 deploytest:
-		python -m twine upload --repository testpypi --skip-existing dist/* 
+		python -m twine upload --repository testpypi --skip-existing dist/*
 #Then you can test install with:
 #python3 -m pip install --index-url https://test.pypi.org/simple/ --no-deps ethome-ml==0.6.0
 #or with version number
@@ -36,7 +36,7 @@ deploytest:
 deploy:
 		python -m twine upload dist/*
 #Then can install simply with:
-#pip install ethome 
+#pip install ethome
 
 #Pointer to demo script for testing/experimenting with functionality
 demo:

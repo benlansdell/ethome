@@ -3,7 +3,7 @@
 <a href="https://github.com/benlansdell/ethome/blob/master/ethome/io.py#L0"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 # <kbd>module</kbd> `io`
-Loading and saving tracking and behavior annotation files  
+Loading and saving tracking and behavior annotation files
 
 **Global Variables**
 ---------------
@@ -24,7 +24,7 @@ Loading and saving tracking and behavior annotation files
 uniquifier(seq)
 ```
 
-Return a sequence (e.g. list) with unique elements only, but maintaining original list order 
+Return a sequence (e.g. list) with unique elements only, but maintaining original list order
 
 
 ---
@@ -37,14 +37,14 @@ Return a sequence (e.g. list) with unique elements only, but maintaining origina
 save_sklearn_model(model, fn_out)
 ```
 
-Save sklearn model to file 
+Save sklearn model to file
 
 
 
 **Args:**
- 
- - <b>`model`</b>:  sklearn model to save 
- - <b>`fn_out`</b>:  filename to save to 
+
+ - <b>`model`</b>:  sklearn model to save
+ - <b>`fn_out`</b>:  filename to save to
 
 
 ---
@@ -57,18 +57,18 @@ Save sklearn model to file
 load_sklearn_model(fn_in)
 ```
 
-Load sklearn model from file 
+Load sklearn model from file
 
 
 
 **Args:**
- 
- - <b>`fn_in`</b>:  filename to load from 
+
+ - <b>`fn_in`</b>:  filename to load from
 
 
 
 **Returns:**
- the loaded sklearn model 
+ the loaded sklearn model
 
 
 ---
@@ -87,21 +87,21 @@ read_DLC_tracks(
 ) → tuple
 ```
 
-Read in tracks from DLC. 
+Read in tracks from DLC.
 
 
 
 **Args:**
- 
- - <b>`fn_in`</b>:  csv or h5 file that has DLC tracks 
- - <b>`part_renamer`</b>:  dictionary to rename body parts, if needed  
- - <b>`animal_renamer`</b>:  dictionary to rename animals, if needed 
- - <b>`read_likelihoods`</b>:  default True. Whether to attach DLC likelihoods to table 
+
+ - <b>`fn_in`</b>:  csv or h5 file that has DLC tracks
+ - <b>`part_renamer`</b>:  dictionary to rename body parts, if needed
+ - <b>`animal_renamer`</b>:  dictionary to rename animals, if needed
+ - <b>`read_likelihoods`</b>:  default True. Whether to attach DLC likelihoods to table
 
 
 
 **Returns:**
- Pandas DataFrame with (n_animals*2*n_body_parts) columns plus with filename and frame,   List of body parts,  List of animals,  Columns names for DLC tracks (excluding likelihoods, if read in),  Scorer 
+ Pandas DataFrame with (n_animals*2*n_body_parts) columns plus with filename and frame,   List of body parts,  List of animals,  Columns names for DLC tracks (excluding likelihoods, if read in),  Scorer
 
 
 ---
@@ -120,21 +120,21 @@ read_sleap_tracks(
 ) → tuple
 ```
 
-Read in tracks from SLEAP. 
+Read in tracks from SLEAP.
 
 
 
 **Args:**
- 
- - <b>`fn_in`</b>:  csv or h5 file that has sleap tracks 
- - <b>`part_renamer`</b>:  dictionary to rename body parts, if needed  
- - <b>`animal_renamer`</b>:  dictionary to rename animals, if needed 
- - <b>`read_likelihoods`</b>:  default True. Whether to attach DLC likelihoods to table 
+
+ - <b>`fn_in`</b>:  csv or h5 file that has sleap tracks
+ - <b>`part_renamer`</b>:  dictionary to rename body parts, if needed
+ - <b>`animal_renamer`</b>:  dictionary to rename animals, if needed
+ - <b>`read_likelihoods`</b>:  default True. Whether to attach DLC likelihoods to table
 
 
 
 **Returns:**
- Pandas DataFrame with (n_animals*2*n_body_parts) columns plus with filename and frame,   List of body parts,  List of animals,  Columns names for DLC tracks (excluding likelihoods, if read in),  Scorer 
+ Pandas DataFrame with (n_animals*2*n_body_parts) columns plus with filename and frame,   List of body parts,  List of animals,  Columns names for DLC tracks (excluding likelihoods, if read in),  Scorer
 
 
 ---
@@ -152,21 +152,21 @@ read_NWB_tracks(
 ) → tuple
 ```
 
-Read in tracks from NWB PoseEstimiationSeries format (something saved using the DLC2NWB package). 
+Read in tracks from NWB PoseEstimiationSeries format (something saved using the DLC2NWB package).
 
 
 
 **Args:**
- 
- - <b>`fn_in`</b>:  nwb file that has the tracking information 
- - <b>`part_renamer`</b>:  dictionary to rename body parts, if needed  
- - <b>`animal_renamer`</b>:  dictionary to rename animals, if needed 
- - <b>`read_likelihoods`</b>:  default True. Whether to attach DLC likelihoods to table 
+
+ - <b>`fn_in`</b>:  nwb file that has the tracking information
+ - <b>`part_renamer`</b>:  dictionary to rename body parts, if needed
+ - <b>`animal_renamer`</b>:  dictionary to rename animals, if needed
+ - <b>`read_likelihoods`</b>:  default True. Whether to attach DLC likelihoods to table
 
 
 
 **Returns:**
- Pandas DataFrame with (n_animals*2*n_body_parts) columns plus with filename and frame,   List of body parts,  List of animals,  Columns names for pose tracks (excluding likelihoods, if read in),  Scorer 
+ Pandas DataFrame with (n_animals*2*n_body_parts) columns plus with filename and frame,   List of body parts,  List of animals,  Columns names for pose tracks (excluding likelihoods, if read in),  Scorer
 
 
 ---
@@ -179,14 +179,14 @@ Read in tracks from NWB PoseEstimiationSeries format (something saved using the 
 save_DLC_tracks_h5(df: DataFrame, fn_out: str) → None
 ```
 
-Save DLC tracks in h5 format. 
+Save DLC tracks in h5 format.
 
 
 
 **Args:**
- 
- - <b>`df`</b>:  Pandas dataframe to save 
- - <b>`fn_out`</b>:  Where to save the dataframe 
+
+ - <b>`df`</b>:  Pandas dataframe to save
+ - <b>`fn_out`</b>:  Where to save the dataframe
 
 
 ---
@@ -199,18 +199,18 @@ Save DLC tracks in h5 format.
 load_data(fn: str)
 ```
 
-Load an object from a pickle file 
+Load an object from a pickle file
 
 
 
 **Args:**
- 
- - <b>`fn`</b>:  The filename 
+
+ - <b>`fn`</b>:  The filename
 
 
 
 **Returns:**
- The pickled object. 
+ The pickled object.
 
 
 ---
@@ -223,12 +223,12 @@ Load an object from a pickle file
 get_sample_nwb_paths()
 ```
 
-Get path to a sample NWB file with tracking data for testing and dev purposes. 
+Get path to a sample NWB file with tracking data for testing and dev purposes.
 
 
 
 **Returns:**
-  Path to a sample NWB file. 
+  Path to a sample NWB file.
 
 
 ---
@@ -241,12 +241,12 @@ Get path to a sample NWB file with tracking data for testing and dev purposes.
 get_sample_data_paths_dlcboris()
 ```
 
-Get path to sample data files provided with package.  
+Get path to sample data files provided with package.
 
 
 
 **Returns:**
-  (tuple) list of DLC tracking file, list of boris annotation files 
+  (tuple) list of DLC tracking file, list of boris annotation files
 
 
 ---
@@ -259,12 +259,12 @@ Get path to sample data files provided with package.
 get_sample_data()
 ```
 
-Load a sample dataset of 5 mice social interaction videos. Each video is approx. 5 minutes in duration 
+Load a sample dataset of 5 mice social interaction videos. Each video is approx. 5 minutes in duration
 
 
 
 **Returns:**
-  (ExperimentDataFrame) Data frame with the corresponding tracking and behavior annotation files 
+  (ExperimentDataFrame) Data frame with the corresponding tracking and behavior annotation files
 
 
 ---
@@ -282,23 +282,23 @@ read_boris_annotation(
 ) → tuple
 ```
 
-Read behavior annotation from BORIS exported csv file.  
+Read behavior annotation from BORIS exported csv file.
 
-This will import behavior types specified (or all types, if behavior_list is None) and assign a numerical label to each. Overlapping annotations (those occurring simulataneously) are not supported. Any time the video is annotated as being in multiple states, the last state will be the one labeled. 
+This will import behavior types specified (or all types, if behavior_list is None) and assign a numerical label to each. Overlapping annotations (those occurring simulataneously) are not supported. Any time the video is annotated as being in multiple states, the last state will be the one labeled.
 
 
 
 **Args:**
- 
- - <b>`fn_in`</b>:  The filename with BORIS behavior annotations to load 
- - <b>`fps`</b>:  The frames per second of the video 
- - <b>`duration`</b>:  The duration of the video in seconds 
- - <b>`behav_labels`</b>:  If provided, only import behaviors with these names. Default = None = import everything.  
+
+ - <b>`fn_in`</b>:  The filename with BORIS behavior annotations to load
+ - <b>`fps`</b>:  The frames per second of the video
+ - <b>`duration`</b>:  The duration of the video in seconds
+ - <b>`behav_labels`</b>:  If provided, only import behaviors with these names. Default = None = import everything.
 
 
 
 **Returns:**
- A dictionary of numpy arrays which gives, for all frames, which behavior is occuring. 0 = no behavior, 1 = behavior. 
+ A dictionary of numpy arrays which gives, for all frames, which behavior is occuring. 0 = no behavior, 1 = behavior.
 
 
 ---
@@ -311,18 +311,18 @@ This will import behavior types specified (or all types, if behavior_list is Non
 create_behavior_labels(boris_files)
 ```
 
-Create behavior labels from BORIS exported csv files. 
+Create behavior labels from BORIS exported csv files.
 
 
 
 **Args:**
- 
- - <b>`boris_files`</b>:  List of BORIS exported csv files 
+
+ - <b>`boris_files`</b>:  List of BORIS exported csv files
 
 
 
 **Returns:**
- A dictionary with keys the numerical labels and values the names of the behaviors. 
+ A dictionary with keys the numerical labels and values the names of the behaviors.
 
 
 ---
@@ -330,13 +330,13 @@ Create behavior labels from BORIS exported csv files.
 <a href="https://github.com/benlansdell/ethome/blob/master/ethome/io.py"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>class</kbd> `BufferedIOBase`
-Base class for buffered IO objects. 
+Base class for buffered IO objects.
 
-The main difference with RawIOBase is that the read() method supports omitting the size argument, and does not have a default implementation that defers to readinto(). 
+The main difference with RawIOBase is that the read() method supports omitting the size argument, and does not have a default implementation that defers to readinto().
 
-In addition, read(), readinto() and write() may raise BlockingIOError if the underlying raw stream is in non-blocking mode and not ready; unlike their raw counterparts, they will never return None. 
+In addition, read(), readinto() and write() may raise BlockingIOError if the underlying raw stream is in non-blocking mode and not ready; unlike their raw counterparts, they will never return None.
 
-A typical implementation should not inherit from a RawIOBase implementation, but wrap one. 
+A typical implementation should not inherit from a RawIOBase implementation, but wrap one.
 
 
 
@@ -347,21 +347,21 @@ A typical implementation should not inherit from a RawIOBase implementation, but
 <a href="https://github.com/benlansdell/ethome/blob/master/ethome/io.py"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>class</kbd> `IOBase`
-The abstract base class for all I/O classes, acting on streams of bytes. There is no public constructor. 
+The abstract base class for all I/O classes, acting on streams of bytes. There is no public constructor.
 
-This class provides dummy implementations for many methods that derived classes can override selectively; the default implementations represent a file that cannot be read, written or seeked. 
+This class provides dummy implementations for many methods that derived classes can override selectively; the default implementations represent a file that cannot be read, written or seeked.
 
-Even though IOBase does not declare read, readinto, or write because their signatures will vary, implementations and clients should consider those methods part of the interface. Also, implementations may raise UnsupportedOperation when operations they do not support are called. 
+Even though IOBase does not declare read, readinto, or write because their signatures will vary, implementations and clients should consider those methods part of the interface. Also, implementations may raise UnsupportedOperation when operations they do not support are called.
 
-The basic type used for binary data read from or written to a file is bytes. Other bytes-like objects are accepted as method arguments too. In some cases (such as readinto), a writable object is required. Text I/O classes work with str data. 
+The basic type used for binary data read from or written to a file is bytes. Other bytes-like objects are accepted as method arguments too. In some cases (such as readinto), a writable object is required. Text I/O classes work with str data.
 
-Note that calling any method (except additional calls to close(), which are ignored) on a closed stream should raise a ValueError. 
+Note that calling any method (except additional calls to close(), which are ignored) on a closed stream should raise a ValueError.
 
-IOBase (and its subclasses) support the iterator protocol, meaning that an IOBase object can be iterated over yielding the lines in a stream. 
+IOBase (and its subclasses) support the iterator protocol, meaning that an IOBase object can be iterated over yielding the lines in a stream.
 
-IOBase also supports the :keyword:`with` statement. In this example, fp is closed after the suite of the with statement is complete: 
+IOBase also supports the :keyword:`with` statement. In this example, fp is closed after the suite of the with statement is complete:
 
-with open('spam.txt', 'r') as fp:  fp.write('Spam and eggs!') 
+with open('spam.txt', 'r') as fp:  fp.write('Spam and eggs!')
 
 
 
@@ -372,7 +372,7 @@ with open('spam.txt', 'r') as fp:  fp.write('Spam and eggs!')
 <a href="https://github.com/benlansdell/ethome/blob/master/ethome/io.py"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>class</kbd> `RawIOBase`
-Base class for raw binary I/O. 
+Base class for raw binary I/O.
 
 
 
@@ -383,9 +383,9 @@ Base class for raw binary I/O.
 <a href="https://github.com/benlansdell/ethome/blob/master/ethome/io.py"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>class</kbd> `TextIOBase`
-Base class for text I/O. 
+Base class for text I/O.
 
-This class provides a character and line based interface to stream I/O. There is no readinto method because Python's character strings are immutable. There is no public constructor. 
+This class provides a character and line based interface to stream I/O. There is no readinto method because Python's character strings are immutable. There is no public constructor.
 
 
 

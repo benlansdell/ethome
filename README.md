@@ -41,6 +41,8 @@ That said, you may want a separate environment for running `ethome`. A conda env
 3. Run `conda activate ethome`
 3. And finally `pip install ethome-ml`
 
+With both install methods, you may want to also install `tensorflow` if you want to use the CNN features for a resident-intruder setup.
+
 ## Quickstart
 
 It's easiest to start with an NWB file, which has metadata already connected to the pose data. 

@@ -164,7 +164,7 @@ You can generate more generic features using the following inbuilt feature creat
 * `intrabodypartdistances` the distances between all animals body parts (inter- and intra-animal)
 * `distances` is an alias for `intrabodypartdistances`
 
-**NOTE:** These work for any animal setup, not just resident-intruder with specific body parts, as assumed for the `mars` features. Animals don't have to be labeled following the MARS convention for these features.
+**NOTE:** These work for any animal setup, not just resident-intruder with specific body parts, as assumed for the `mars` features. Animals don't have to be labeled following the MARS convention for these features. 
 
 ### 3c Add your own features
 

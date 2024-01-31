@@ -152,7 +152,7 @@ The `cnn1d_prob`, `mars`, `mars_reduced` and `social` functions can be used to m
 * `mars_reduced` is a reduced version of the MARS features
 * `social` is a set of features that only involve measures of one animal in relation to the other.
 
-### 3b Generic features
+### 3b Generic features that work for any animal setup
 
 You can generate more generic features using the following inbuilt feature creation options:
 
@@ -164,7 +164,7 @@ You can generate more generic features using the following inbuilt feature creat
 * `intrabodypartdistances` the distances between all animals body parts (inter- and intra-animal)
 * `distances` is an alias for `intrabodypartdistances`
 
-These work for any animal setup, not just resident-intruder with specific body parts, as assumed for the `mars` features.
+**NOTE:** These work for any animal setup, not just resident-intruder with specific body parts, as assumed for the `mars` features.
 
 ### 3c Add your own features
 

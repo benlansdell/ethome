@@ -77,7 +77,7 @@ def read_DLC_tracks(
     """
 
     ext = os.path.splitext(fn_in)[1]
-    if ext == "h5" or ext == "hdf5" or ext == "hdf":
+    if ext == ".h5" or ext == ".hdf5" or ext == ".hdf":
         df = pd.read_hdf(fn_in)
         ext = "h5"
     else:

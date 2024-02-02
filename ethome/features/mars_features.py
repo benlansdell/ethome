@@ -36,7 +36,7 @@ def augment_features(window_size=5, n_shifts=3, mode="shift"):
                 window_sizes = [1, 5, 10]
                 for ws in window_sizes:
                     data = np.dstack(
-                        [np.array(df[added_cols].shift(p)) for p in range(-ws, ws + 1)]
+                        [np.array(df[added_cols].shift(p).bfill()) for p in range(-ws, ws + 1)]
                     )
                     min_data = pd.DataFrame(
                         np.min(data, axis=2),

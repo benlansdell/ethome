@@ -1,18 +1,19 @@
 import numpy as np
 import pandas as pd
 
+from typing import List, Callable
 from ..utils import check_keras
 from .mars_features import make_features_mars, make_features_mars_distr
 
 
 def build_baseline_model(
-    input_dim,
-    layer_channels=(512, 256),
-    dropout_rate=0.0,
-    learning_rate=1e-3,
-    conv_size=5,
-    num_classes=4,
-    class_weight=None,
+    input_dim: tuple,
+    layer_channels: tuple =(512, 256),
+    dropout_rate: float =0.0,
+    learning_rate: float =1e-3,
+    conv_size: int =5,
+    num_classes: int=4,
+    class_weight:tuple = None,
 ):
     if not check_keras():
         raise RuntimeError(
@@ -48,7 +49,7 @@ def build_baseline_model(
     return model
 
 
-def make_df(pts, colnames=None):  # pragma: no cover
+def make_df(pts, colnames: List[str] =None):  # pragma: no cover
     df = []
     for idx in range(len(pts)):
         data = pts[idx].flatten()
@@ -59,11 +60,12 @@ def make_df(pts, colnames=None):  # pragma: no cover
         return pd.DataFrame(df)
 
 
-def features_identity(inputs):  # pragma: no cover
+def features_identity(inputs: np.ndarray):  # pragma: no cover
+    
     return inputs, inputs.shape[1:]
 
 
-def features_via_sklearn(inputs, featurizer):  # pragma: no cover
+def features_via_sklearn(inputs: np.ndarray, featurizer: Callable):  # pragma: no cover
     # Use the ML functions to turn this into a pandas data table
     df = make_df(inputs)
     features_df, _, _ = featurizer(df)
@@ -71,18 +73,18 @@ def features_via_sklearn(inputs, featurizer):  # pragma: no cover
     return features, features.shape
 
 
-def features_mars(x):  # pragma: no cover
+def features_mars(x: np.ndarray):  # pragma: no cover
     return features_via_sklearn(x, make_features_mars)
 
 
 # #features_mars_no_shift = lambda x: features_via_sklearn(x, make_features_mars_no_shift)
 
 
-def features_mars_distr(x):  # pragma: no cover
+def features_mars_distr(x: np.ndarray):  # pragma: no cover
     return features_via_sklearn(x, make_features_mars_distr)
 
 
-def features_distances(inputs):
+def features_distances(inputs: np.ndarray):
     # inputs.shape (4509, 2,7,2) = (frame, mouse ID, body part, x/y)
 
     features = []
@@ -109,7 +111,7 @@ def features_distances(inputs):
     return features, features.shape[1:]
 
 
-def features_distances_normalized(inputs):  # pragma: no cover
+def features_distances_normalized(inputs: np.ndarray):  # pragma: no cover
     # inputs.shape (4509, 2,7,2) = (frame, mouse ID, body part, x/y)
 
     features = []
@@ -142,19 +144,19 @@ def features_distances_normalized(inputs):  # pragma: no cover
 class MABe_Generator:
     def __init__(
         self,
-        pose_dict,
-        batch_size,
-        dim,
-        use_conv,
-        num_classes,
-        augment=False,
-        class_to_number=None,
-        past_frames=0,
-        future_frames=0,
-        frame_gap=1,
-        shuffle=False,
-        mode="fit",
-        featurize=features_identity,
+        pose_dict: dict,
+        batch_size: int,
+        dim: tuple,
+        use_conv: bool,
+        num_classes: int,
+        augment: bool =False,
+        class_to_number: dict =None,
+        past_frames:int=0,
+        future_frames:int=0,
+        frame_gap:int=1,
+        shuffle:bool=False,
+        mode:str="fit",
+        featurize:Callable=features_identity,
     ):
         self.batch_size = batch_size
         self.featurize = featurize
@@ -205,7 +207,7 @@ class MABe_Generator:
     def __len__(self):
         return len(self.indexes) // self.batch_size
 
-    def augment_fn(self, x):
+    def augment_fn(self, x: np.ndarray):
         # Rotate
         angle = (np.random.rand() - 0.5) * (np.pi * 2)
         c, s = np.cos(angle), np.sin(angle)
@@ -217,7 +219,7 @@ class MABe_Generator:
         x = x + shift
         return x
 
-    def __getitem__(self, index):
+    def __getitem__(self, index: int):
         bs = self.batch_size
         indexes = self.indexes[index * bs : (index + 1) * bs]
         X = np.empty((bs, *self.dim), self.X_dtype)

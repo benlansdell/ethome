@@ -13,8 +13,8 @@ def compute_tsne_embedding(
     dataset: pd.DataFrame,
     cols: list,
     N_rows: int = 20000,
-    n_components=2,
-    perplexity=30,
+    n_components: int=2,
+    perplexity: int=30,
 ) -> tuple:
     """Compute TSNE embedding. Only for a random subset of rows.
 

@@ -5,11 +5,11 @@ from sklearn.metrics import f1_score
 import numpy as np
 
 
-def _logit(p):  # pragma: no cover
+def _logit(p: float):  # pragma: no cover
     return np.log(p / (1 - p))
 
 
-def _sample_prob_simplex(n=4):  # pragma: no cover
+def _sample_prob_simplex(n:int=4):  # pragma: no cover
     x = sorted(np.append(np.random.uniform(size=n - 1), [0, 1]))
     y = np.diff(np.array(x))
     return y
@@ -19,7 +19,7 @@ try:
     import ssm
 
     class HMMSklearn(ssm.HMM):  # pragma: no cover
-        def __init__(self, D, C=11):
+        def __init__(self, D: int, C: int=11):
             """HMM model from Linderman state-space model package ssm, tweaked slightly to fit with sklearn syntax
 
             Args:
@@ -33,7 +33,7 @@ try:
                 D, D + 1, observations="categorical", observation_kwargs={"C": C}
             )
 
-        def fit(self, X, y):
+        def fit(self, X: np.ndarray, y: np.ndarray):
             preds = np.argmax(X, axis=-1)
             X = np.hstack(
                 ((X * (self.C - 1)).astype(int), np.atleast_2d((preds).astype(int)).T)
@@ -62,7 +62,7 @@ try:
 
             self.observations.params = _logit(emission_dist)
 
-        def predict(self, X):
+        def predict(self, X: np.ndarray):
             preds = np.argmax(X, axis=-1)
             X = np.hstack(
                 ((X * (self.C - 1)).astype(int), np.atleast_2d((preds).astype(int)).T)
@@ -76,11 +76,11 @@ except ImportError:
 
 
 class F1Optimizer(ClassifierMixin):  # pragma: no cover
-    def __init__(self, N=1000, labels=[1]):
+    def __init__(self, N: int=1000, labels: list =[1]):
         self.N = N
         self.labels = labels
 
-    def fit(self, X, y):  # train_labels, train_pred_prob):
+    def fit(self, X:np.ndarray, y:np.ndarray):  # train_labels, train_pred_prob):
         self.dim_x = X.shape[1]
 
         f = lambda w: f1_score(
@@ -100,16 +100,16 @@ class F1Optimizer(ClassifierMixin):  # pragma: no cover
         self.w_star = w_star
         self.f_star = f_star
 
-    def predict(self, X):
+    def predict(self, X: np.ndarray):
         return np.argmax(X * self.w_star, axis=-1)
 
-    def predict_proba(self, X):
+    def predict_proba(self, X:np.ndarray):
         return X * self.w_star
 
-    def transform(self, X):
+    def transform(self, X:np.ndarray):
         return self.predict_proba(X)
 
-    def fit_transform(self, X, y=None):
+    def fit_transform(self, X:np.ndarray, y:np.ndarray=None):
         self.fit(X, y)
         return self.transform(X)
 
@@ -125,12 +125,12 @@ class ModelTransformer(ClassifierMixin):  # pragma: no cover
         """
         self.model = Model(*args, **kwargs)
 
-    def fit(self, X, y):
+    def fit(self, X: np.ndarray, y: np.ndarray):
         self.model.fit(X, y)
 
-    def transform(self, X):
+    def transform(self, X: np.ndarray):
         return self.model.predict_proba(X)
 
-    def fit_transform(self, X, y=None):
+    def fit_transform(self, X: np.ndarray, y: np.ndarray=None):
         self.fit(X, y)
         return self.transform(X)

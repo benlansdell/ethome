@@ -2,7 +2,7 @@
 
 # TODO
 # Add support for the user to change these.
-
+ 
 global_config = {
     "make_movie__y_offset": 60,
     "make_movie__y_inc": 30,

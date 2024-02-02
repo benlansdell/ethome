@@ -5,7 +5,7 @@ from importlib.util import find_spec
 # Make ffmpeg support windows friendly
 
 
-def _exec_php(cmd):
+def _exec_php(cmd: str):
     from subprocess import Popen, PIPE, STDOUT
 
     p = Popen(cmd, shell=False, stdout=PIPE, stderr=STDOUT)

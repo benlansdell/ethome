@@ -2,7 +2,8 @@
 """
 
 import warnings
-
+import pandas as pd
+from typing import Callable, List
 from ethome.features.dl_features import compute_dl_probability_features
 from ethome.features.mars_features import (
     compute_mars_features,
@@ -54,11 +55,11 @@ class Features:  # pragma: no cover
     def __init__(self):
         raise NotImplementedError
 
-    def transform(self, df):
+    def transform(self, df: pd.DataFrame):
         raise NotImplementedError
 
 
-def feature_class_maker(name, compute_function, required_columns=[]):
+def feature_class_maker(name:str, compute_function:Callable, required_columns:List[str]=[]):
     def __init__(self, required_columns=None, **kwargs):
         """Feature creation object. This houses the feature creation function and the columns that are required to compute the features. Performs some checks on data to make sure has these columns.
 
@@ -71,10 +72,10 @@ def feature_class_maker(name, compute_function, required_columns=[]):
             self.required_columns = required_columns
         self.kwargs = kwargs
 
-    def fit(self, edf, **kwargs):  # pragma: no cover
+    def fit(self, edf:pd.DataFrame, **kwargs):  # pragma: no cover
         return
 
-    def transform(self, edf, **kwargs):
+    def transform(self, edf:pd.DataFrame, **kwargs):
         """Make the features. This is called internally by the dataset object when running `add_features`.
 
         Args:

@@ -330,7 +330,7 @@ def test_marsreduced_features_by_string(dataset):
 # Test new feature creation methods... use a custom function, and use a custom class, and use a string
 def test_custom_feature_func(dataset):
     def diff_cols(df, required_columns=[]):
-        return df.loc[:, required_columns].diff()
+        return df.loc[:, required_columns].diff().bfill()
 
     dataset.features.add(
         diff_cols, required_columns=["resident_x_neck", "resident_y_neck"]
@@ -345,7 +345,7 @@ def test_custom_feature_class(dataset):
             self.required_columns = required_columns
 
         def transform(self, df, **kwargs):
-            return df.loc[:, self.required_columns].diff()
+            return df.loc[:, self.required_columns].diff().bfill()
 
     head_diff = BodyPartDiff(["resident_x_neck", "resident_y_neck"])
     dataset.features.add(head_diff)

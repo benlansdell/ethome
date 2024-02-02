@@ -62,9 +62,9 @@ def augment_features(window_size=5, n_shifts=3, mode="shift"):
                 # Rename all column names
                 for p in periods:
                     if mode == "shift":
-                        s_df = df[added_cols].shift(p)
+                        s_df = df[added_cols].shift(p).bfill()
                     elif mode == "diff":
-                        s_df = df[added_cols].diff(p)
+                        s_df = df[added_cols].diff(p).bfill()
                     s_df = s_df.rename(
                         columns={k: f"{k}_shifted_{p}" for k in added_cols}
                     )
@@ -221,13 +221,13 @@ def _compute_kinematics(df, names, animal_setup, window_size=5, n_shifts=3):
     for mouse_id in mouse_ids:
         for name in names:
             ## Speed of centroids
-            dx = df[f"centroid_{name}_{mouse_id}_x"].diff(window_size)
-            dy = df[f"centroid_{name}_{mouse_id}_y"].diff(window_size)
+            dx = df[f"centroid_{name}_{mouse_id}_x"].diff(window_size).bfill()
+            dy = df[f"centroid_{name}_{mouse_id}_y"].diff(window_size).bfill()
             df[f"centroid_{name}_{mouse_id}_speed"] = np.sqrt(dx**2 + dy**2)
             # colnames.append(f'centroid_{name}_{mouse_id}_speed')
             ## Acceleration of centroids
-            ddx = dx.diff(window_size)
-            ddy = dy.diff(window_size)
+            ddx = dx.diff(window_size).bfill()
+            ddy = dy.diff(window_size).bfill()
             df[f"centroid_{name}_{mouse_id}_accel_x"] = ddx / (window_size**2)
             df[f"centroid_{name}_{mouse_id}_accel_y"] = ddy / (window_size**2)
     return df
@@ -249,8 +249,8 @@ def _compute_relative_body_motions(
 
     # Compute velocity of mouse centroids
     for m_id in mouse_ids:
-        vx = df[f"centroid_all_{m_id}_x"].diff(window_size) / window_size
-        vy = df[f"centroid_all_{m_id}_y"].diff(window_size) / window_size
+        vx = df[f"centroid_all_{m_id}_x"].diff(window_size).bfill() / window_size
+        vy = df[f"centroid_all_{m_id}_y"].diff(window_size).bfill() / window_size
         v_tangent = (dx * vx + dy * vy) / dm
         v_perp_x = vx - dx * v_tangent / dm
         v_perp_y = vy - dy * v_tangent / dm
@@ -661,13 +661,13 @@ def make_features_velocities(df, animal_setup, n_shifts=5):  # pragma: no cover
                     f_new = "_".join([mouse_id, "speed", bp1, bp2])
                     features_df[f_new] = np.sqrt(
                         (
-                            features_df[f1x].diff(periods=n_shifts)
-                            - features_df[f2x].diff(periods=n_shifts)
+                            features_df[f1x].diff(periods=n_shifts).bfill()
+                            - features_df[f2x].diff(periods=n_shifts).bfill()
                         )
                         ** 2
                         + (
-                            features_df[f1y].diff(periods=n_shifts)
-                            - features_df[f2y].diff(periods=n_shifts)
+                            features_df[f1y].diff(periods=n_shifts).bfill()
+                            - features_df[f2y].diff(periods=n_shifts).bfill()
                         )
                         ** 2
                     )
@@ -679,13 +679,13 @@ def make_features_velocities(df, animal_setup, n_shifts=5):  # pragma: no cover
             f_new = "_".join(["M0_M1", "speed", bp1, bp2])
             features_df[f_new] = np.sqrt(
                 (
-                    features_df[f1x].diff(periods=n_shifts)
-                    - features_df[f2x].diff(periods=n_shifts)
+                    features_df[f1x].diff(periods=n_shifts).bfill()
+                    - features_df[f2x].diff(periods=n_shifts).bfill()
                 )
                 ** 2
                 + (
-                    features_df[f1y].diff(periods=n_shifts)
-                    - features_df[f2y].diff(periods=n_shifts)
+                    features_df[f1y].diff(periods=n_shifts).bfill()
+                    - features_df[f2y].diff(periods=n_shifts).bfill()
                 )
                 ** 2
             )

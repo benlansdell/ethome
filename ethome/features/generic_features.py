@@ -5,7 +5,7 @@ import numpy as np
 
 
 def _diff_within_group(df, sort_key, diff_col, **kwargs):
-    return df.groupby(sort_key)[diff_col].transform(lambda x: x.diff(**kwargs))
+    return df.groupby(sort_key)[diff_col].transform(lambda x: x.diff(**kwargs).bfill())
 
 
 def compute_centerofmass_interanimal_distances(
@@ -54,7 +54,7 @@ def compute_centerofmass_interanimal_speed(
 
     features_df = df.copy()
 
-    dt = features_df["time"].diff(periods=n_shifts)
+    dt = features_df["time"].diff(periods=n_shifts).bfill()
 
     for animal_id in mouse_ids:
         fxs = ["_".join([animal_id, "x", bp]) for bp in bodypart_ids]
@@ -140,7 +140,7 @@ def compute_centerofmass_velocity(
     features_df = df.copy()
     orig_cols = df.columns
 
-    dt = features_df["time"].diff(periods=n_shifts)
+    dt = features_df["time"].diff(periods=n_shifts).bfill()
 
     for animal_id in mouse_ids:
         fxs = ["_".join([animal_id, "x", bp]) for bp in bodypart_ids]
@@ -178,7 +178,7 @@ def compute_part_velocity(
     features_df = df.copy()
     orig_cols = df.columns
 
-    dt = features_df["time"].diff(periods=n_shifts)
+    dt = features_df["time"].diff(periods=n_shifts).bfill()
 
     for animal_id in mouse_ids:
         for bp in bodypart_ids:
@@ -215,7 +215,7 @@ def compute_part_speed(
     features_df = df.copy()
     orig_cols = df.columns
 
-    dt = features_df["time"].diff(periods=n_shifts)
+    dt = features_df["time"].diff(periods=n_shifts).bfill()
 
     for animal_id in mouse_ids:
         for bp in bodypart_ids:
@@ -245,7 +245,7 @@ def compute_speed_features(
     features_df = df.copy()
     orig_cols = df.columns
 
-    dt = features_df["time"].diff(periods=n_shifts)
+    dt = features_df["time"].diff(periods=n_shifts).bfill()
 
     ##Make the distance features
     for i, bp1 in enumerate(bodypart_ids):

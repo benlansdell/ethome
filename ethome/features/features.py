@@ -59,7 +59,9 @@ class Features:  # pragma: no cover
         raise NotImplementedError
 
 
-def feature_class_maker(name:str, compute_function:Callable, required_columns:List[str]=[]):
+def feature_class_maker(
+    name: str, compute_function: Callable, required_columns: List[str] = []
+):
     def __init__(self, required_columns=None, **kwargs):
         """Feature creation object. This houses the feature creation function and the columns that are required to compute the features. Performs some checks on data to make sure has these columns.
 
@@ -72,10 +74,10 @@ def feature_class_maker(name:str, compute_function:Callable, required_columns:Li
             self.required_columns = required_columns
         self.kwargs = kwargs
 
-    def fit(self, edf:pd.DataFrame, **kwargs):  # pragma: no cover
+    def fit(self, edf: pd.DataFrame, **kwargs):  # pragma: no cover
         return
 
-    def transform(self, edf:pd.DataFrame, **kwargs):
+    def transform(self, edf: pd.DataFrame, **kwargs):
         """Make the features. This is called internally by the dataset object when running `add_features`.
 
         Args:

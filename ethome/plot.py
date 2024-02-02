@@ -121,7 +121,7 @@ def plot_embedding(
 
 
 class MplColorHelper:  # pragma: no cover
-    def __init__(self, cmap_name: str, start_val:int, stop_val:int):
+    def __init__(self, cmap_name: str, start_val: int, stop_val: int):
         self.cmap_name = cmap_name
         self.cmap = plt.get_cmap(cmap_name)
         self.norm = mpl.colors.Normalize(vmin=start_val, vmax=stop_val)
@@ -344,7 +344,7 @@ def create_sample_videos(
     labels = labels[labels >= 0]
     # all_labels = np.unique(labels)
 
-    def get_window_size(label_idx: int, sample_row:int, max_size:int=500):
+    def get_window_size(label_idx: int, sample_row: int, max_size: int = 500):
         s_m = 0
         for idx in range(max_size):
             try:

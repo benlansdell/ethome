@@ -56,7 +56,7 @@ sweeps_baseline = {
 }
 
 
-def seed_everything(seed:int=2012):
+def seed_everything(seed: int = 2012):
     np.random.seed(seed)
     os.environ["PYTHONHASHSEED"] = str(seed)
 
@@ -72,17 +72,17 @@ class Trainer(object):
         *,
         feature_dim: list,
         num_classes: int,
-        test_data:np.ndarray=None,
-        class_to_number:dict=None,
-        past_frames:int=0,
-        future_frames:int=0,
-        frame_gap:int=1,
-        use_conv:bool=False,
-        build_model:Callable=build_baseline_model,
+        test_data: np.ndarray = None,
+        class_to_number: dict = None,
+        past_frames: int = 0,
+        future_frames: int = 0,
+        frame_gap: int = 1,
+        use_conv: bool = False,
+        build_model: Callable = build_baseline_model,
         Generator=MABe_Generator,
-        use_callbacks:bool=False,
-        learning_decay_freq:int=10,
-        featurizer:Callable=features_identity,
+        use_callbacks: bool = False,
+        learning_decay_freq: int = 10,
+        featurizer: Callable = features_identity,
     ):
         flat_dim = np.prod(feature_dim)
         if use_conv:
@@ -130,7 +130,9 @@ class Trainer(object):
         """Set an external, provide initialized and compiled keras model"""
         self.model = model
 
-    def inference(self, model_params: dict, class_weight:dict=None, n_folds:int=5):
+    def inference(
+        self, model_params: dict, class_weight: dict = None, n_folds: int = 5
+    ):
         kwargs = {}
         if class_weight is not None:
             if type(class_weight) is dict:
@@ -188,7 +190,7 @@ class Trainer(object):
         return all_test_preds
 
 
-def normalize_data(orig_pose_dictionary:dict):
+def normalize_data(orig_pose_dictionary: dict):
     for key in orig_pose_dictionary:
         X = orig_pose_dictionary[key]["keypoints"]
         X = X.transpose((0, 1, 3, 2))  # last axis is x, y coordinates
@@ -200,16 +202,16 @@ def normalize_data(orig_pose_dictionary:dict):
 
 
 def run_task(
-    vocabulary:dict,
-    test_data:np.ndarray,
-    config_name:str,
-    build_model:Callable,
-    skip_test_prediction:bool=False,
-    seed:int=2021,
+    vocabulary: dict,
+    test_data: np.ndarray,
+    config_name: str,
+    build_model: Callable,
+    skip_test_prediction: bool = False,
+    seed: int = 2021,
     Generator=MABe_Generator,
-    use_callbacks:bool=False,
-    params:dict=None,
-    use_conv:bool=True,
+    use_callbacks: bool = False,
+    params: dict = None,
+    use_conv: bool = True,
 ):
     if params is None:
         if config_name is None:
@@ -279,13 +281,13 @@ def run_task(
     return all_test_probs
 
 
-def lrs(epoch:int, lr:float, freq:int=10):
+def lrs(epoch: int, lr: float, freq: int = 10):
     if (epoch % freq) == 0 and epoch > 0:
         lr /= 3
     return lr
 
 
-def convert_to_mars_format(df:pd.DataFrame, colnames:List[str], animal_setup:dict):
+def convert_to_mars_format(df: pd.DataFrame, colnames: List[str], animal_setup: dict):
     n_animals = len(animal_setup["mouse_ids"])
     n_body_parts = len(animal_setup["bodypart_ids"])
     pose_dict = {}
@@ -301,7 +303,7 @@ def convert_to_mars_format(df:pd.DataFrame, colnames:List[str], animal_setup:dic
 
 
 # Basically, undo the change above
-def convert_to_pandas_df(data, colnames:List[str]=None):
+def convert_to_pandas_df(data, colnames: List[str] = None):
     dfs = []
     for vid in data:
         df = pd.DataFrame(data[vid], columns=colnames)

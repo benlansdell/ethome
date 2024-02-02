@@ -16,14 +16,14 @@ XY_IDS = ["x", "y"]
 XYLIKELIHOOD_IDS = ["x", "y", "likelihood"]
 
 
-def uniquifier(seq:Sequence):
+def uniquifier(seq: Sequence):
     """Return a sequence (e.g. list) with unique elements only, but maintaining original list order"""
     seen = set()
     seen_add = seen.add
     return [x for x in seq if not (x in seen or seen_add(x))]
 
 
-def _list_replace(ls:list, renamer:dict):
+def _list_replace(ls: list, renamer: dict):
     """Replace elements in a list according to provided dictionary"""
     for i, word in enumerate(ls):
         if word in renamer.keys():
@@ -31,7 +31,7 @@ def _list_replace(ls:list, renamer:dict):
     return ls
 
 
-def save_sklearn_model(model, fn_out:str):  # pragma: no cover
+def save_sklearn_model(model, fn_out: str):  # pragma: no cover
     """Save sklearn model to file
 
     Args:
@@ -153,7 +153,7 @@ def read_sleap_tracks(
 # POSSIBILITY OF SUCH DAMAGE.
 
 
-def _load_sleap_data(path:str, multi_animal:bool=False):
+def _load_sleap_data(path: str, multi_animal: bool = False):
     """loads sleap data h5 format from file path and returns it as pd.DataFrame
     As sleap body parts (nodes) are not ordered in a particular way, we sort them alphabetically.
     As sleap tracks do not export a score/likelihood but cut off automatically (nan), we are simulating a likelihood
@@ -409,7 +409,7 @@ def _read_DLC_tracks(
 # SOFTWARE.
 
 
-def _convert_nwb_to_h5_all(nwbfile:str):
+def _convert_nwb_to_h5_all(nwbfile: str):
     """
     Convert a NWB data file back to DeepLabCut's h5 data format.
 
@@ -547,7 +547,7 @@ def load_data(fn: str):  # pragma: no cover
 
 
 # Only used to making a test dataframe for testing and dev purposes
-def _make_sample_dataframe(fn_out:str="sample_dataframe.pkl"):  # pragma: no cover
+def _make_sample_dataframe(fn_out: str = "sample_dataframe.pkl"):  # pragma: no cover
     from ethome import create_dataset, create_metadata
 
     cur_dir = os.path.dirname(os.path.abspath(__file__))
@@ -663,7 +663,7 @@ def read_boris_annotation(
     return ground_truth
 
 
-def create_behavior_labels(boris_files:list):
+def create_behavior_labels(boris_files: list):
     """Create behavior labels from BORIS exported csv files.
 
     Args:

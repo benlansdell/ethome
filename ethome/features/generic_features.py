@@ -4,7 +4,7 @@ import pandas as pd
 import numpy as np
 
 
-def _diff_within_group(df, sort_key: str, diff_col:str, **kwargs):
+def _diff_within_group(df, sort_key: str, diff_col: str, **kwargs):
     return df.groupby(sort_key)[diff_col].transform(lambda x: x.diff(**kwargs).bfill())
 
 
@@ -45,7 +45,7 @@ def compute_centerofmass_interanimal_distances(
 
 
 def compute_centerofmass_interanimal_speed(
-    df: pd.DataFrame, raw_col_names: list, n_shifts:int=5, **kwargs
+    df: pd.DataFrame, raw_col_names: list, n_shifts: int = 5, **kwargs
 ) -> pd.DataFrame:
     """Speeds between all animals' centroids"""
     animal_setup = df.pose.animal_setup
@@ -123,7 +123,11 @@ def compute_centerofmass(
 
 
 def compute_centerofmass_velocity(
-    df: pd.DataFrame, raw_col_names: list, n_shifts:int=5, bodyparts: list = [], **kwargs
+    df: pd.DataFrame,
+    raw_col_names: list,
+    n_shifts: int = 5,
+    bodyparts: list = [],
+    **kwargs,
 ) -> pd.DataFrame:
     """Velocity of all animals' centroids"""
     animal_setup = df.pose.animal_setup
@@ -161,7 +165,11 @@ def compute_centerofmass_velocity(
 
 
 def compute_part_velocity(
-    df: pd.DataFrame, raw_col_names: list, n_shifts:int=5, bodyparts: list = [], **kwargs
+    df: pd.DataFrame,
+    raw_col_names: list,
+    n_shifts: int = 5,
+    bodyparts: list = [],
+    **kwargs,
 ) -> pd.DataFrame:
     """Velocity of all animals' bodyparts"""
     animal_setup = df.pose.animal_setup
@@ -198,7 +206,11 @@ def compute_part_velocity(
 
 
 def compute_part_speed(
-    df: pd.DataFrame, raw_col_names: list, n_shifts:int=5, bodyparts: list = [], **kwargs
+    df: pd.DataFrame,
+    raw_col_names: list,
+    n_shifts: int = 5,
+    bodyparts: list = [],
+    **kwargs,
 ) -> pd.DataFrame:
     """Speed of all animals' bodyparts"""
     animal_setup = df.pose.animal_setup
@@ -235,7 +247,7 @@ def compute_part_speed(
 
 
 def compute_speed_features(
-    df: pd.DataFrame, raw_col_names: list, n_shifts:int=5, **kwargs
+    df: pd.DataFrame, raw_col_names: list, n_shifts: int = 5, **kwargs
 ) -> pd.DataFrame:
     """Speeds between all body parts pairs (within and between animals)"""
     animal_setup = df.pose.animal_setup

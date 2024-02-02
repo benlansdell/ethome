@@ -3,7 +3,7 @@
 import pandas as pd
 import numpy as np
 
- 
+
 def interpolate_lowconf_points(
     edf: pd.DataFrame,
     conf_threshold: float = 0.9,

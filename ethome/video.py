@@ -50,12 +50,12 @@ UNIT_DICT = {
 }
 
 
-def _add_item_to_dict(tracking_files: list, metadata:dict, k:Any, item:Any):
+def _add_item_to_dict(tracking_files: list, metadata: dict, k: Any, item: Any):
     for fn in tracking_files:
         metadata[fn][k] = item
 
 
-def _add_items_to_dict(tracking_files: list, metadata:dict, k:Any, items:Any):
+def _add_items_to_dict(tracking_files: list, metadata: dict, k: Any, items: Any):
     for fn, item in zip(tracking_files, items):
         metadata[fn][k] = item
 
@@ -96,7 +96,7 @@ def create_metadata(tracking_files: list, **kwargs) -> dict:
     return metadata
 
 
-def _convert_units(df:pd.DataFrame):
+def _convert_units(df: pd.DataFrame):
     # if 'frame_width', 'resolution' and 'frame_width_units' are provided, then we convert tracks to these units.
     if len(df.metadata.details) == 0:
         return
@@ -111,7 +111,7 @@ def _convert_units(df:pd.DataFrame):
     df.drop(columns="scale_factor", inplace=True)
 
 
-def _validate_metadata(metadata:dict, req_cols:list):
+def _validate_metadata(metadata: dict, req_cols: list):
     has_all_dim_cols_count = 0
 
     should_rescale = None
@@ -216,7 +216,7 @@ def _validate_metadata(metadata:dict, req_cols:list):
 
 @pd.api.extensions.register_dataframe_accessor("metadata")
 class EthologyMetadataAccessor(object):
-    def __init__(self, pandas_obj:pd.DataFrame):
+    def __init__(self, pandas_obj: pd.DataFrame):
         self._obj = pandas_obj
         if "metadata__details" not in self._obj.attrs:
             self._obj.attrs["metadata__details"] = {}
@@ -232,11 +232,11 @@ class EthologyMetadataAccessor(object):
         return self._obj.attrs["metadata__label_key"]
 
     @details.setter
-    def details(self, val:Any):
+    def details(self, val: Any):
         self._obj.attrs["metadata__details"] = val
 
     @label_key.setter
-    def label_key(self, val:Any):
+    def label_key(self, val: Any):
         self._obj.attrs["metadata__label_key"] = val
 
     @property
@@ -254,7 +254,7 @@ class EthologyMetadataAccessor(object):
 
 @pd.api.extensions.register_dataframe_accessor("features")
 class EthologyFeaturesAccessor(object):
-    def __init__(self, pandas_obj:pd.DataFrame):
+    def __init__(self, pandas_obj: pd.DataFrame):
         self._obj = pandas_obj
         if "features__active" not in self._obj.attrs:
             self._obj.attrs["features__active"] = None
@@ -264,7 +264,7 @@ class EthologyFeaturesAccessor(object):
         return self._obj.attrs["features__active"]
 
     @active.setter
-    def active(self, val:Any):
+    def active(self, val: Any):
         self._obj.attrs["features__active"] = val
 
     def activate(self, name: str) -> list:
@@ -396,7 +396,7 @@ class EthologyFeaturesAccessor(object):
 
 @pd.api.extensions.register_dataframe_accessor("pose")
 class EthologyPoseAccessor(object):
-    def __init__(self, pandas_obj:pd.DataFrame):
+    def __init__(self, pandas_obj: pd.DataFrame):
         self._obj = pandas_obj
 
         if "pose__body_parts" not in self._obj.attrs:
@@ -416,7 +416,7 @@ class EthologyPoseAccessor(object):
         return self._obj.attrs["pose__body_parts"]
 
     @body_parts.setter
-    def body_parts(self, val:Any):
+    def body_parts(self, val: Any):
         self._obj.attrs["pose__body_parts"] = val
 
     @property
@@ -424,7 +424,7 @@ class EthologyPoseAccessor(object):
         return self._obj.attrs["pose__animals"]
 
     @animals.setter
-    def animals(self, val:Any):
+    def animals(self, val: Any):
         self._obj.attrs["pose__animals"] = val
 
     @property
@@ -432,7 +432,7 @@ class EthologyPoseAccessor(object):
         return self._obj.attrs["pose__animal_setup"]
 
     @animal_setup.setter
-    def animal_setup(self, val:Any):
+    def animal_setup(self, val: Any):
         self._obj.attrs["pose__animal_setup"] = val
 
     @property
@@ -440,13 +440,13 @@ class EthologyPoseAccessor(object):
         return self._obj.attrs["pose__raw_track_columns"]
 
     @raw_track_columns.setter
-    def raw_track_columns(self, val:Any):
+    def raw_track_columns(self, val: Any):
         self._obj.attrs["pose__raw_track_columns"] = val
 
 
 @pd.api.extensions.register_dataframe_accessor("ml")
 class EthologyMLAccessor(object):
-    def __init__(self, pandas_obj:pd.DataFrame):
+    def __init__(self, pandas_obj: pd.DataFrame):
         self._obj = pandas_obj
 
         if "ml__label_cols" not in self._obj.attrs:
@@ -460,7 +460,7 @@ class EthologyMLAccessor(object):
         return self._obj.attrs["ml__label_cols"]
 
     @label_cols.setter
-    def label_cols(self, val:Any):
+    def label_cols(self, val: Any):
         self._obj.attrs["ml__label_cols"] = val
 
     @property
@@ -468,7 +468,7 @@ class EthologyMLAccessor(object):
         return self._obj.attrs["ml__fold_cols"]
 
     @fold_cols.setter
-    def fold_cols(self, val:Any):
+    def fold_cols(self, val: Any):
         self._obj.attrs["ml__fold_cols"] = val
 
     @property
@@ -515,7 +515,7 @@ class EthologyMLAccessor(object):
 
 @pd.api.extensions.register_dataframe_accessor("io")
 class EthologyIOAccessor(object):
-    def __init__(self, pandas_obj:pd.DataFrame):
+    def __init__(self, pandas_obj: pd.DataFrame):
         self._obj = pandas_obj
 
     def save(self, fn_out: str) -> None:
@@ -532,7 +532,7 @@ class EthologyIOAccessor(object):
             # file.write(pickle.dumps(df.__dict__, protocol = 4))
             file.write(dill.dumps(df.__dict__, protocol=4))
 
-    def to_dlc_csv(self, base_dir: str, save_h5_too:bool=False) -> None:
+    def to_dlc_csv(self, base_dir: str, save_h5_too: bool = False) -> None:
         """Save ExperimentDataFrame tracking files to DLC csv format.
 
         Only save tracking data, not other computed features.
@@ -589,7 +589,7 @@ class EthologyIOAccessor(object):
         return load_experiment(fn_in)
 
     def save_movie(
-        self, label_columns:list, path_out: str, video_filenames:list=None
+        self, label_columns: list, path_out: str, video_filenames: list = None
     ) -> None:  # pragma: no cover
         """Given columns indicating behavior predictions or whatever else, make a video
         with these predictions overlaid.
@@ -656,7 +656,7 @@ class EthologyIOAccessor(object):
             os.system(cmd)
 
 
-def _create_from_dict(metadata:dict, part_renamer:dict, animal_renamer:dict):
+def _create_from_dict(metadata: dict, part_renamer: dict, animal_renamer: dict):
     df = pd.DataFrame()
     # req_cols = ['fps']
     # Drop requirement this is provided. Just omit addition of time column, if fps omitted
@@ -679,7 +679,7 @@ def _create_from_dict(metadata:dict, part_renamer:dict, animal_renamer:dict):
     return df
 
 
-def _create_from_list(input:list, part_renamer:dict, animal_renamer:dict, **kwargs):
+def _create_from_list(input: list, part_renamer: dict, animal_renamer: dict, **kwargs):
     if len(input) == 0:
         return pd.DataFrame()
     supported_exts = [".csv", ".h5", ".nwb", ".hdf5"]
@@ -741,7 +741,9 @@ def create_dataset(
     return df
 
 
-def _load_nwb(nwb_files:list, part_renamer:dict, animal_renamer:dict, set_as_label:bool=True):
+def _load_nwb(
+    nwb_files: list, part_renamer: dict, animal_renamer: dict, set_as_label: bool = True
+):
     metadata = {}
     dfs = []
     col_names_old = None
@@ -787,7 +789,9 @@ def _load_nwb(nwb_files:list, part_renamer:dict, animal_renamer:dict, set_as_lab
     return df
 
 
-def _load_tracks(df:pd.DataFrame, part_renamer:dict, animal_renamer:dict, rescale:bool=False):
+def _load_tracks(
+    df: pd.DataFrame, part_renamer: dict, animal_renamer: dict, rescale: bool = False
+):
     """Add tracks to DataFrame"""
     dfs = []
     col_names_old = None
@@ -873,12 +877,14 @@ def _load_tracks(df:pd.DataFrame, part_renamer:dict, animal_renamer:dict, rescal
     return col_names
 
 
-def _load_labels(df:pd.DataFrame, col_name:str="label", set_as_label:bool=False):
+def _load_labels(df: pd.DataFrame, col_name: str = "label", set_as_label: bool = False):
     # For the moment only BORIS support
     return _load_labels_boris(df, col_name, set_as_label)
 
 
-def _load_labels_boris(df:pd.DataFrame, prefix:str="label", set_as_label:bol=False):
+def _load_labels_boris(
+    df: pd.DataFrame, prefix: str = "label", set_as_label: bol = False
+):
     """Add behavior label data to DataFrame"""
 
     label_cols = []
@@ -945,7 +951,7 @@ def get_sample_openfield_data():
     return create_dataset(metadata)
 
 
-def _make_dense_values_into_pairs(predictions:list, rate:int):  # pragma: no cover
+def _make_dense_values_into_pairs(predictions: list, rate: int):  # pragma: no cover
     # Put into start/stop pairs
     pairs = []
     in_pair = False

@@ -8,12 +8,12 @@ from .mars_features import make_features_mars, make_features_mars_distr
 
 def build_baseline_model(
     input_dim: tuple,
-    layer_channels: tuple =(512, 256),
-    dropout_rate: float =0.0,
-    learning_rate: float =1e-3,
-    conv_size: int =5,
-    num_classes: int=4,
-    class_weight:tuple = None,
+    layer_channels: tuple = (512, 256),
+    dropout_rate: float = 0.0,
+    learning_rate: float = 1e-3,
+    conv_size: int = 5,
+    num_classes: int = 4,
+    class_weight: tuple = None,
 ):
     if not check_keras():
         raise RuntimeError(
@@ -49,7 +49,7 @@ def build_baseline_model(
     return model
 
 
-def make_df(pts, colnames: List[str] =None):  # pragma: no cover
+def make_df(pts, colnames: List[str] = None):  # pragma: no cover
     df = []
     for idx in range(len(pts)):
         data = pts[idx].flatten()
@@ -61,7 +61,6 @@ def make_df(pts, colnames: List[str] =None):  # pragma: no cover
 
 
 def features_identity(inputs: np.ndarray):  # pragma: no cover
-    
     return inputs, inputs.shape[1:]
 
 
@@ -149,14 +148,14 @@ class MABe_Generator:
         dim: tuple,
         use_conv: bool,
         num_classes: int,
-        augment: bool =False,
-        class_to_number: dict =None,
-        past_frames:int=0,
-        future_frames:int=0,
-        frame_gap:int=1,
-        shuffle:bool=False,
-        mode:str="fit",
-        featurize:Callable=features_identity,
+        augment: bool = False,
+        class_to_number: dict = None,
+        past_frames: int = 0,
+        future_frames: int = 0,
+        frame_gap: int = 1,
+        shuffle: bool = False,
+        mode: str = "fit",
+        featurize: Callable = features_identity,
     ):
         self.batch_size = batch_size
         self.featurize = featurize

@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 
+from typing import Callable
 from ethome.io import XY_IDS
 
 from itertools import product
@@ -12,9 +13,9 @@ from itertools import product
 
 
 # The decorator maker, so we can provide arguments
-def augment_features(window_size=5, n_shifts=3, mode="shift"):
+def augment_features(window_size:int=5, n_shifts:int=3, mode:str="shift"):
     # The decorator
-    def decorator(feature_function):
+    def decorator(feature_function:Callable):
         # What is called instead of the actual function, assumes the feature making
         # function returns the names of the columns just made
         def wrapper(*args, **kwargs):
@@ -85,7 +86,7 @@ def augment_features(window_size=5, n_shifts=3, mode="shift"):
 from pandas.api.types import is_numeric_dtype
 
 
-def boiler_plate(features_df):
+def boiler_plate(features_df:pd.DataFrame):
     reversemap = None
 
     to_drop = ["Unnamed: 0"]
@@ -101,7 +102,7 @@ def boiler_plate(features_df):
 
 @augment_features()
 def _compute_centroid(
-    df, name, animal_setup, body_parts=None, n_shifts=3, mode="shift"
+    df:pd.DataFrame, name:str, animal_setup:dict, body_parts:list=None, n_shifts:int=3, mode:str="shift"
 ):
     bodypart_ids = animal_setup["bodypart_ids"]
     mouse_ids = animal_setup["mouse_ids"]
@@ -121,7 +122,7 @@ def _compute_centroid(
 
 @augment_features()
 def _compute_abs_angle(
-    df, name, animal_setup, bps, centroid=True, n_shifts=3, mode="shift"
+    df:pd.DataFrame, name:str, animal_setup:dict, bps:list, centroid:bool=True, n_shifts:int=3, mode:bool="shift"
 ):
     mouse_ids = animal_setup["mouse_ids"]
     df = df.copy()
@@ -142,7 +143,7 @@ def _compute_abs_angle(
 
 @augment_features()
 def _compute_rel_angle(
-    df, name, animal_setup, bps, centroid=False, n_shifts=3, mode="shift"
+    df:pd.DataFrame, name:str, animal_setup:dict, bps:list, centroid:bool=False, n_shifts:int=3, mode:str="shift"
 ):
     mouse_ids = animal_setup["mouse_ids"]
     df = df.copy()
@@ -172,7 +173,7 @@ def _compute_rel_angle(
 
 
 @augment_features()
-def _compute_ellipsoid(df, animal_setup, n_shifts=3, mode="shift"):
+def _compute_ellipsoid(df:pd.DataFrame, animal_setup:dict, n_shifts:int=3, mode:str="shift"):
     bodypart_ids = animal_setup["bodypart_ids"]
     mouse_ids = animal_setup["mouse_ids"]
     colnames = animal_setup["colnames"]
@@ -213,7 +214,7 @@ def _compute_ellipsoid(df, animal_setup, n_shifts=3, mode="shift"):
 
 
 # Recall framerate is 30 fps
-def _compute_kinematics(df, names, animal_setup, window_size=5, n_shifts=3):
+def _compute_kinematics(df:pd.DataFrame, names:list, animal_setup:dict, window_size:int=5, n_shifts:int=3):
     bodypart_ids = animal_setup["bodypart_ids"]
     mouse_ids = animal_setup["mouse_ids"]
     colnames = animal_setup["colnames"]
@@ -235,7 +236,7 @@ def _compute_kinematics(df, names, animal_setup, window_size=5, n_shifts=3):
 
 @augment_features()
 def _compute_relative_body_motions(
-    df, animal_setup, window_size=3, n_shifts=3, mode="shift"
+    df:pd.DataFrame, animal_setup:dict, window_size:int=3, n_shifts:int=3, mode:str="shift"
 ):
     bodypart_ids = animal_setup["bodypart_ids"]
     mouse_ids = animal_setup["mouse_ids"]
@@ -268,7 +269,7 @@ def _compute_relative_body_motions(
 
 
 @augment_features()
-def _compute_relative_body_angles(df, animal_setup, n_shifts=3, mode="shift"):
+def _compute_relative_body_angles(df:pd.DataFrame, animal_setup:dict, n_shifts:int=3, mode:str="shift"):
     bodypart_ids = animal_setup["bodypart_ids"]
     mouse_ids = animal_setup["mouse_ids"]
     colnames = animal_setup["colnames"]
@@ -313,7 +314,7 @@ def _compute_relative_body_angles(df, animal_setup, n_shifts=3, mode="shift"):
 
 
 @augment_features()
-def _compute_iou(df, animal_setup, n_shifts=3, mode="shift"):
+def _compute_iou(df:pd.DataFrame, animal_setup:dict, n_shifts:int=3, mode:str="shift"):
     bodypart_ids = animal_setup["bodypart_ids"]
     mouse_ids = animal_setup["mouse_ids"]
     colnames = animal_setup["colnames"]
@@ -355,7 +356,7 @@ def _compute_iou(df, animal_setup, n_shifts=3, mode="shift"):
 # Which can change from video to video, train to test, etc. So perhaps not useful
 @augment_features()
 def _compute_cage_distances(
-    features_df, animal_setup, n_shifts=3, mode="shift"
+    features_df:pd.DataFrame, animal_setup:dict, n_shifts:int=3, mode:bool="shift"
 ):  # pragma: no cover
     bodypart_ids = animal_setup["bodypart_ids"]
     mouse_ids = animal_setup["mouse_ids"]
@@ -388,7 +389,7 @@ def _compute_cage_distances(
     return features_df
 
 
-def make_features_distances(df, animal_setup):
+def make_features_distances(df:pd.DataFrame, animal_setup:dict):
     bodypart_ids = animal_setup["bodypart_ids"]
     mouse_ids = animal_setup["mouse_ids"]
     colnames = animal_setup["colnames"]
@@ -430,7 +431,7 @@ def make_features_distances(df, animal_setup):
     return features_df
 
 
-def make_features_mars(df, animal_setup, n_shifts=3, mode="shift"):
+def make_features_mars(df:pd.DataFrame, animal_setup:dict, n_shifts:int=3, mode:str="shift"):
     features_df = df.copy()
 
     #######################
@@ -541,11 +542,11 @@ def make_features_mars(df, animal_setup, n_shifts=3, mode="shift"):
     return features_df
 
 
-def make_features_mars_distr(df, animal_setup):
+def make_features_mars_distr(df:pd.DataFrame, animal_setup:dict):
     return make_features_mars(df, animal_setup, n_shifts=3, mode="distr")
 
 
-def make_features_mars_reduced(df, animal_setup, n_shifts=2, mode="diff"):
+def make_features_mars_reduced(df:pd.DataFrame, animal_setup:dict, n_shifts:int=2, mode:str="diff"):
     features_df = df.copy()
 
     #######################
@@ -641,7 +642,7 @@ def make_features_mars_reduced(df, animal_setup, n_shifts=2, mode="diff"):
     return features_df
 
 
-def make_features_velocities(df, animal_setup, n_shifts=5):  # pragma: no cover
+def make_features_velocities(df:pd.DataFrame, animal_setup:dict, n_shifts:int=5):  # pragma: no cover
     bodypart_ids = animal_setup["bodypart_ids"]
     mouse_ids = animal_setup["mouse_ids"]
     colnames = animal_setup["colnames"]
@@ -699,7 +700,7 @@ def make_features_velocities(df, animal_setup, n_shifts=5):  # pragma: no cover
     return features_df
 
 
-def make_features_social(df, animal_setup, n_shifts=3, mode="shift"):
+def make_features_social(df:pd.DataFrame, animal_setup:dict, n_shifts:int=3, mode:str="shift"):
     features_df = df.copy()
     colnames = animal_setup["colnames"]
 

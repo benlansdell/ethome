@@ -30,7 +30,7 @@ from ethome.video import (
     add_randomforest_predictions,
 )
 from ethome.unsupervised import compute_tsne_embedding
-from ethome.features import list_inbuilt_features
+from ethome.features.features  import list_inbuilt_features
 
 # These are the functions imported when doing 'from ethome import *'
 __all__ = [

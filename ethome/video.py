@@ -22,7 +22,7 @@ from ethome.io import (
 )
 from ethome.utils import checkFFMPEG
 from ethome.config import global_config
-from ethome.features import feature_class_maker, FEATURE_MAKERS
+from ethome.features.features  import feature_class_maker, FEATURE_MAKERS
 
 # This converts everything to mm, or leaves them as pixels
 UNIT_DICT = {
@@ -883,7 +883,7 @@ def _load_labels(df: pd.DataFrame, col_name: str = "label", set_as_label: bool =
 
 
 def _load_labels_boris(
-    df: pd.DataFrame, prefix: str = "label", set_as_label: bol = False
+    df: pd.DataFrame, prefix: str = "label", set_as_label: bool = False
 ):
     """Add behavior label data to DataFrame"""
 

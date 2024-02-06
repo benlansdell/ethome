@@ -145,14 +145,14 @@ def test_df_renaming(metadata, default_track_cols):
 
 
 def test_list_features():
-    from ethome.features import list_inbuilt_features
+    from ethome.features.features  import list_inbuilt_features
 
     list_inbuilt_features()
 
 
 def test_rf_baselinemodel(dataset):
     from ethome import add_randomforest_predictions
-    from ethome.features import Distances
+    from ethome.features.features import Distances
 
     distances = Distances()
     dataset.features.add(distances, featureset_name="distances", add_to_features=True)
@@ -164,7 +164,7 @@ def test_dl_features(dataset):
     import os
 
     os.environ["CUDA_VISIBLE_DEVICES"] = ""
-    from ethome.features import CNN1DProb
+    from ethome.features.features import CNN1DProb
 
     cnnprobs = CNN1DProb()
     dataset.features.add(cnnprobs, featureset_name="1dcnn", add_to_features=True)
@@ -183,7 +183,7 @@ def test_dl_features_with_missing(dataset):
     import numpy as np
 
     os.environ["CUDA_VISIBLE_DEVICES"] = ""
-    from ethome.features import CNN1DProb
+    from ethome.features.features import CNN1DProb
 
     dataset.iloc[:10, 0] = np.nan
     cnnprobs = CNN1DProb()
@@ -237,7 +237,7 @@ def test_remove_likelihood(dataset):
 
 
 def test_mars_features(dataset):
-    from ethome.features import MARS
+    from ethome.features.features import MARS
 
     mars_features = MARS()
     dataset.features.add(mars_features, featureset_name="MARS", add_to_features=True)
@@ -247,7 +247,7 @@ def test_mars_features(dataset):
 
 def test_mars_features_with_missing(dataset):
     import numpy as np
-    from ethome.features import MARS
+    from ethome.features.features import MARS
 
     #
     # Give the df missing data:
@@ -260,7 +260,7 @@ def test_mars_features_with_missing(dataset):
 
 
 def test_mars_then_interpolate(dataset):
-    from ethome.features import MARS
+    from ethome.features.features import MARS
 
     mars = MARS()
     dataset.features.add(mars, featureset_name="MARS", add_to_features=True)
@@ -274,7 +274,7 @@ def test_singleanimal_interpolate(openfield_sample):
 
 
 def test_duplicate_mars_features(dataset):
-    from ethome.features import MARS
+    from ethome.features.features import MARS
 
     mars = MARS()
     dataset.features.add(mars, featureset_name="MARS", add_to_features=True)
@@ -284,7 +284,7 @@ def test_duplicate_mars_features(dataset):
 
 
 def test_distance_features(dataset):
-    from ethome.features import Distances
+    from ethome.features.features import Distances
 
     distances = Distances()
     dataset.features.add(distances, featureset_name="distances", add_to_features=True)
@@ -293,7 +293,7 @@ def test_distance_features(dataset):
 
 
 def test_speed_features(dataset):
-    from ethome.features import Speeds
+    from ethome.features.features import Speeds
 
     speeds = Speeds()
     dataset.features.add(speeds, featureset_name="speeds", add_to_features=True)
@@ -302,7 +302,7 @@ def test_speed_features(dataset):
 
 
 def test_social_features(dataset):
-    from ethome.features import Social
+    from ethome.features.features import Social
 
     social = Social()
     dataset.features.add(social, featureset_name="social", add_to_features=True)
@@ -311,7 +311,7 @@ def test_social_features(dataset):
 
 
 def test_marsreduced_features(dataset):
-    from ethome.features import MARSReduced
+    from ethome.features.features import MARSReduced
 
     marsred = MARSReduced()
     dataset.features.add(marsred, featureset_name="social", add_to_features=True)
@@ -434,7 +434,7 @@ def test_save_to_dlc_csv(dataset, tmp_path_factory):
 
 
 def test_centerofmass_interanimal_features(dataset):
-    from ethome.features import CentroidInteranimal
+    from ethome.features.features import CentroidInteranimal
 
     cinter = CentroidInteranimal()
     dataset.features.add(
@@ -445,7 +445,7 @@ def test_centerofmass_interanimal_features(dataset):
 
 
 def test_centerofmass_interanimal_speed_features(dataset):
-    from ethome.features import CentroidInteranimalSpeed
+    from ethome.features.features import CentroidInteranimalSpeed
 
     cinterspeed = CentroidInteranimalSpeed()
     dataset.features.add(
@@ -456,7 +456,7 @@ def test_centerofmass_interanimal_speed_features(dataset):
 
 
 def test_centerofmass_features(dataset):
-    from ethome.features import Centroid
+    from ethome.features.features import Centroid
 
     c = Centroid()
     dataset.features.add(c, featureset_name="com", add_to_features=True)
@@ -465,7 +465,7 @@ def test_centerofmass_features(dataset):
 
 
 def test_centerofmass_vel_features(dataset):
-    from ethome.features import CentroidVelocity
+    from ethome.features.features import CentroidVelocity
 
     cspeed = CentroidVelocity()
     dataset.features.add(cspeed, featureset_name="com_vel", add_to_features=True)
@@ -474,7 +474,7 @@ def test_centerofmass_vel_features(dataset):
 
 
 def test_speed_features(dataset):
-    from ethome.features import Speeds
+    from ethome.features.features import Speeds
 
     speeds = Speeds()
     dataset.features.add(speeds, featureset_name="speed", add_to_features=True)
@@ -483,7 +483,7 @@ def test_speed_features(dataset):
 
 
 def test_dist_features(dataset):
-    from ethome.features import Distances
+    from ethome.features.features import Distances
 
     distances = Distances()
     dataset.features.add(distances, featureset_name="dist", add_to_features=True)

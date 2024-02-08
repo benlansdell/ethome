@@ -583,6 +583,16 @@ def get_sample_nwb_paths():
     return os.path.join(cur_dir, "data/sample_nwb_.nwb")
 
 
+def get_sample_sleap_paths():
+    """Get path to a sample SLEAP h5 file with tracking data for testing and dev purposes.
+
+    Returns:
+        Path to a sample SLEAP file.
+    """
+    cur_dir = os.path.dirname(os.path.abspath(__file__))
+    return os.path.join(cur_dir, "data/sleap/sample_sleap.h5")
+
+
 def get_sample_data_paths_dlcboris():
     """Get path to sample data files provided with package.
 

@@ -41,7 +41,9 @@ That said, you may want a separate environment for running `ethome`. A conda env
 3. Run `conda activate ethome`
 3. And finally `pip install ethome-ml`
 
-With both install methods, you may want to also install `tensorflow` if you want to use the CNN features for a resident-intruder setup.
+### Optional packages
+
+With both install methods, you may want to also install `tensorflow` (at least version 2.0) if you want to use the CNN features for a resident-intruder setup.
 
 ## Quickstart
 
@@ -146,6 +148,13 @@ NWB is a data standard for neurophysiology, providing neuroscientists with a com
 [Main project page](https://sleap.ai/)
 
 SLEAP is an open source deep-learning based framework for multi-animal pose tracking. It can be used to track any type or number of animals and includes an advanced labeling/training GUI for active learning and proofreading. SLEAP data must be in exported analysis `h5` files, to import into `ethome`.
+
+## Sample notebooks
+
+Sample notebooks are available ([here](https://github.com/benlansdell/ethome/tree/master/examples)) that you can use as a starting point for your own analyses, using either:
+* NWB files
+* SLEAP files
+* DLC tracking and BORIS annotations
 
 ## Contributing
 

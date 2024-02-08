@@ -1,4 +1,5 @@
 __pycache__
+.DS_store
 .vscode
 ethome/ethome.egg-info/
 ethome.egg-info/

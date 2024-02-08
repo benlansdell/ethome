@@ -5,4 +5,5 @@ include ./ethome/data/sample_nwb_.nwb
 include ./ethome/data/videos/m3v1mp4.mp4
 recursive-include ./ethome/data/dlc *.csv
 recursive-include ./ethome/data/boris *.csv
+recursive-include ./ethome/data/sleap *.h5
 recursive-include ./ethome/features/pretrained_models *

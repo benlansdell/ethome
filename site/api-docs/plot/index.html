@@ -2,94 +2,90 @@
 <!doctype html>
 <html lang="en" class="no-js">
   <head>
-
+    
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
-
-
-
-
+      
+      
+      
+      
         <link rel="prev" href="../io/">
-
-
+      
+      
         <link rel="next" href="../unsupervised/">
-
+      
+      
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.1.6">
-
-
-
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.8">
+    
+    
+      
         <title>Plot - ethome-ml</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.f2e4d321.min.css">
+      
+      
 
 
-
-      <link rel="stylesheet" href="../../assets/stylesheets/main.ded33207.min.css">
-
-
-        <link rel="stylesheet" href="../../assets/stylesheets/palette.a0c5b2b5.min.css">
-
-
-
-
-
-
-
-
-
+    
+    
+      
+    
+    
+      
+        
+        
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
         <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
-
-
-
+      
+    
+    
     <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
 
-
-
-
-
-
+    
+    
+    
   </head>
-
-
-
-
-
-
-
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="" data-md-color-accent="">
-
-
-
+  
+  
+    <body dir="ltr">
+  
+    
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
-
-
+      
+        
         <a href="#module-plot" class="md-skip">
           Skip to content
         </a>
-
+      
     </div>
     <div data-md-component="announce">
-
+      
     </div>
+    
+    
+      
 
-
-
-
-
+  
 
 <header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
     <a href="../.." title="ethome-ml" class="md-header__button md-logo" aria-label="ethome-ml" data-md-component="logo">
-
-
+      
+  
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
+      
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
     </label>
     <div class="md-header__title" data-md-component="header-title">
@@ -101,17 +97,21 @@
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
-
+            
               Plot
-
+            
           </span>
         </div>
       </div>
     </div>
-
-
-
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
       <label class="md-header__button md-icon" for="__search">
+        
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
       </label>
       <div class="md-search" data-md-component="search" role="dialog">
@@ -120,16 +120,19 @@
     <form class="md-search__form" name="search">
       <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
       <label class="md-search__icon md-icon" for="__search">
+        
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
       </label>
       <nav class="md-search__options" aria-label="Search">
-
+        
         <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
         </button>
       </nav>
-
+      
     </form>
     <div class="md-search__output">
       <div class="md-search__scrollwrap" data-md-scrollfix>
@@ -143,447 +146,569 @@
     </div>
   </div>
 </div>
-
-
+    
+    
   </nav>
-
+  
 </header>
-
+    
     <div class="md-container" data-md-component="container">
-
-
-
-
-
-
+      
+      
+        
+          
+        
+      
       <main class="md-main" data-md-component="main">
         <div class="md-main__inner md-grid">
-
-
-
+          
+            
+              
               <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
+                    
 
 
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
     <a href="../.." title="ethome-ml" class="md-nav__button md-logo" aria-label="ethome-ml" data-md-component="logo">
-
-
+      
+  
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
 
     </a>
     ethome-ml
   </label>
-
+  
   <ul class="md-nav__list" data-md-scrollfix>
-
-
-
-
-
-
-
-
+    
+      
+      
+  
+  
+  
+  
     <li class="md-nav__item">
       <a href="../.." class="md-nav__link">
-        Home
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
-
+    
+      
+      
+  
+  
+  
+  
     <li class="md-nav__item">
       <a href="../../how-to/" class="md-nav__link">
-        How To guide
+        
+  
+  <span class="md-ellipsis">
+    How To guide
+  </span>
+  
+
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
-
-
-
-
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
     <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    API Reference
+  </span>
+  
 
-
-
-
-      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
-
-
-
-        <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
-          API Reference
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-
-      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
-        <label class="md-nav__title" for="__nav_3">
-          <span class="md-nav__icon md-icon"></span>
-          API Reference
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-
-
-
-
-
-
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            API Reference
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
     <li class="md-nav__item">
       <a href="../" class="md-nav__link">
-        Overview
+        
+  
+  <span class="md-ellipsis">
+    Overview
+  </span>
+  
+
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
+  
     <li class="md-nav__item">
       <a href="../features/" class="md-nav__link">
-        Features
+        
+  
+  <span class="md-ellipsis">
+    Features
+  </span>
+  
+
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
+  
     <li class="md-nav__item">
       <a href="../interpolation/" class="md-nav__link">
-        Interpolation
+        
+  
+  <span class="md-ellipsis">
+    Interpolation
+  </span>
+  
+
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
+  
     <li class="md-nav__item">
       <a href="../io/" class="md-nav__link">
-        Io
+        
+  
+  <span class="md-ellipsis">
+    Io
+  </span>
+  
+
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
     <li class="md-nav__item md-nav__item--active">
-
+      
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-
-
-
-
-
+      
+      
+        
+      
+      
         <label class="md-nav__link md-nav__link--active" for="__toc">
-          Plot
+          
+  
+  <span class="md-ellipsis">
+    Plot
+  </span>
+  
+
           <span class="md-nav__icon md-icon"></span>
         </label>
-
+      
       <a href="./" class="md-nav__link md-nav__link--active">
-        Plot
+        
+  
+  <span class="md-ellipsis">
+    Plot
+  </span>
+  
+
       </a>
-
-
+      
+        
 
 <nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-
-
-
-
-
-
+  
+  
+  
+    
+  
+  
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
       Table of contents
     </label>
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-
+      
         <li class="md-nav__item">
   <a href="#global-variables" class="md-nav__link">
-    Global Variables
+    <span class="md-ellipsis">
+      Global Variables
+    </span>
   </a>
-
+  
 </li>
-
+      
         <li class="md-nav__item">
   <a href="#function-plot_embedding" class="md-nav__link">
-    function plot_embedding
+    <span class="md-ellipsis">
+      function plot_embedding
+    </span>
   </a>
-
+  
 </li>
-
+      
         <li class="md-nav__item">
   <a href="#function-plot_unsupervised_results" class="md-nav__link">
-    function plot_unsupervised_results
+    <span class="md-ellipsis">
+      function plot_unsupervised_results
+    </span>
   </a>
-
+  
 </li>
-
+      
         <li class="md-nav__item">
   <a href="#function-plot_ethogram" class="md-nav__link">
-    function plot_ethogram
+    <span class="md-ellipsis">
+      function plot_ethogram
+    </span>
   </a>
-
+  
 </li>
-
+      
         <li class="md-nav__item">
   <a href="#function-create_ethogram_video" class="md-nav__link">
-    function create_ethogram_video
+    <span class="md-ellipsis">
+      function create_ethogram_video
+    </span>
   </a>
-
+  
 </li>
-
+      
         <li class="md-nav__item">
   <a href="#function-create_sample_videos" class="md-nav__link">
-    function create_sample_videos
+    <span class="md-ellipsis">
+      function create_sample_videos
+    </span>
   </a>
-
+  
 </li>
-
+      
         <li class="md-nav__item">
   <a href="#function-create_mosaic_video" class="md-nav__link">
-    function create_mosaic_video
+    <span class="md-ellipsis">
+      function create_mosaic_video
+    </span>
   </a>
-
+  
 </li>
-
+      
         <li class="md-nav__item">
   <a href="#class-mplcolorhelper" class="md-nav__link">
-    class MplColorHelper
+    <span class="md-ellipsis">
+      class MplColorHelper
+    </span>
   </a>
-
+  
     <nav class="md-nav" aria-label="class MplColorHelper">
       <ul class="md-nav__list">
-
+        
           <li class="md-nav__item">
   <a href="#method-__init__" class="md-nav__link">
-    method __init__
+    <span class="md-ellipsis">
+      method __init__
+    </span>
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#method-get_rgb" class="md-nav__link">
-    method get_rgb
+    <span class="md-ellipsis">
+      method get_rgb
+    </span>
   </a>
-
+  
 </li>
-
+        
       </ul>
     </nav>
-
+  
 </li>
-
+      
     </ul>
-
+  
 </nav>
-
+      
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
+  
     <li class="md-nav__item">
       <a href="../unsupervised/" class="md-nav__link">
-        Unsupervised
+        
+  
+  <span class="md-ellipsis">
+    Unsupervised
+  </span>
+  
+
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
+  
     <li class="md-nav__item">
       <a href="../utils/" class="md-nav__link">
-        Utils
+        
+  
+  <span class="md-ellipsis">
+    Utils
+  </span>
+  
+
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
+  
     <li class="md-nav__item">
       <a href="../video/" class="md-nav__link">
-        Video
+        
+  
+  <span class="md-ellipsis">
+    Video
+  </span>
+  
+
       </a>
     </li>
+  
 
-
-
-
-        </ul>
-      </nav>
+              
+            
+          </ul>
+        </nav>
+      
     </li>
+  
 
-
-
+    
   </ul>
 </nav>
                   </div>
                 </div>
               </div>
-
-
-
+            
+            
+              
               <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
-
+                    
 
 <nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-
-
-
-
-
-
+  
+  
+  
+    
+  
+  
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
       Table of contents
     </label>
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-
+      
         <li class="md-nav__item">
   <a href="#global-variables" class="md-nav__link">
-    Global Variables
+    <span class="md-ellipsis">
+      Global Variables
+    </span>
   </a>
-
+  
 </li>
-
+      
         <li class="md-nav__item">
   <a href="#function-plot_embedding" class="md-nav__link">
-    function plot_embedding
+    <span class="md-ellipsis">
+      function plot_embedding
+    </span>
   </a>
-
+  
 </li>
-
+      
         <li class="md-nav__item">
   <a href="#function-plot_unsupervised_results" class="md-nav__link">
-    function plot_unsupervised_results
+    <span class="md-ellipsis">
+      function plot_unsupervised_results
+    </span>
   </a>
-
+  
 </li>
-
+      
         <li class="md-nav__item">
   <a href="#function-plot_ethogram" class="md-nav__link">
-    function plot_ethogram
+    <span class="md-ellipsis">
+      function plot_ethogram
+    </span>
   </a>
-
+  
 </li>
-
+      
         <li class="md-nav__item">
   <a href="#function-create_ethogram_video" class="md-nav__link">
-    function create_ethogram_video
+    <span class="md-ellipsis">
+      function create_ethogram_video
+    </span>
   </a>
-
+  
 </li>
-
+      
         <li class="md-nav__item">
   <a href="#function-create_sample_videos" class="md-nav__link">
-    function create_sample_videos
+    <span class="md-ellipsis">
+      function create_sample_videos
+    </span>
   </a>
-
+  
 </li>
-
+      
         <li class="md-nav__item">
   <a href="#function-create_mosaic_video" class="md-nav__link">
-    function create_mosaic_video
+    <span class="md-ellipsis">
+      function create_mosaic_video
+    </span>
   </a>
-
+  
 </li>
-
+      
         <li class="md-nav__item">
   <a href="#class-mplcolorhelper" class="md-nav__link">
-    class MplColorHelper
+    <span class="md-ellipsis">
+      class MplColorHelper
+    </span>
   </a>
-
+  
     <nav class="md-nav" aria-label="class MplColorHelper">
       <ul class="md-nav__list">
-
+        
           <li class="md-nav__item">
   <a href="#method-__init__" class="md-nav__link">
-    method __init__
+    <span class="md-ellipsis">
+      method __init__
+    </span>
   </a>
-
+  
 </li>
-
+        
           <li class="md-nav__item">
   <a href="#method-get_rgb" class="md-nav__link">
-    method get_rgb
+    <span class="md-ellipsis">
+      method get_rgb
+    </span>
   </a>
-
+  
 </li>
-
+        
       </ul>
     </nav>
-
+  
 </li>
-
+      
     </ul>
-
+  
 </nav>
                   </div>
                 </div>
               </div>
-
-
-
+            
+          
+          
             <div class="md-content" data-md-component="content">
               <article class="md-content__inner md-typeset">
-
-
+                
+                  
 
 
 <!-- markdownlint-disable -->
@@ -605,17 +730,17 @@
     **kwargs
 ) → tuple
 </code></pre>
-<p>Scatterplot of a 2D TSNE or UMAP embedding from the dataset. </p>
+<p>Scatterplot of a 2D TSNE or UMAP embedding from the dataset.</p>
 <p><strong>Args:</strong></p>
 <ul>
-<li><b><code>dataset</code></b>:  data </li>
-<li><b><code>col_names</code></b>:  list of column names to use for the x and y axes </li>
-<li><b><code>color_col</code></b>:  if provided, a column that will be used to color the points in the scatter plot </li>
-<li><b><code>figsize</code></b>:  tuple with the dimensions of the plot (in inches) </li>
-<li><b><code>kwargs</code></b>:  All other keyword pairs are sent to Matplotlib's scatter function </li>
+<li><b><code>dataset</code></b>:  data</li>
+<li><b><code>col_names</code></b>:  list of column names to use for the x and y axes</li>
+<li><b><code>color_col</code></b>:  if provided, a column that will be used to color the points in the scatter plot</li>
+<li><b><code>figsize</code></b>:  tuple with the dimensions of the plot (in inches)</li>
+<li><b><code>kwargs</code></b>:  All other keyword pairs are sent to Matplotlib's scatter function</li>
 </ul>
 <p><strong>Returns:</strong>
- tuple (fig, axes). The Figure and Axes objects.  </p>
+ tuple (fig, axes). The Figure and Axes objects.</p>
 <hr />
 <p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/plot.py#L53"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="function-plot_unsupervised_results"><kbd>function</kbd> <code>plot_unsupervised_results</code></h2>
@@ -627,17 +752,17 @@
     **kwargs
 )
 </code></pre>
-<p>Set of plots for unsupervised behavior clustering results </p>
+<p>Set of plots for unsupervised behavior clustering results</p>
 <p><strong>Args:</strong></p>
 <ul>
-<li><b><code>dataset</code></b>:  data </li>
-<li><b><code>cluster_results</code></b>:  tuple output by 'cluster_behaviors' </li>
-<li><b><code>col_names</code></b>:  list of column names to use for the x and y axes </li>
-<li><b><code>figsize</code></b>:  tuple with the plot dimensions, in inches </li>
-<li><b><code>kwargs</code></b>:  all other keyword pairs are sent to Matplotlib's scatter function </li>
+<li><b><code>dataset</code></b>:  data</li>
+<li><b><code>cluster_results</code></b>:  tuple output by 'cluster_behaviors'</li>
+<li><b><code>col_names</code></b>:  list of column names to use for the x and y axes</li>
+<li><b><code>figsize</code></b>:  tuple with the plot dimensions, in inches</li>
+<li><b><code>kwargs</code></b>:  all other keyword pairs are sent to Matplotlib's scatter function</li>
 </ul>
 <p><strong>Returns:</strong>
- tuple (fig, axes). The Figure and Axes objects.  </p>
+ tuple (fig, axes). The Figure and Axes objects.</p>
 <hr />
 <p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/plot.py#L103"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="function-plot_ethogram"><kbd>function</kbd> <code>plot_ethogram</code></h2>
@@ -649,15 +774,15 @@
     figsize: tuple = (16, 2)
 ) → tuple
 </code></pre>
-<p>Simple ethogram of one video, up to a certain frame number. </p>
+<p>Simple ethogram of one video, up to a certain frame number.</p>
 <p><strong>Args:</strong>
-  dataset:<br />
+  dataset:
  - <b><code>vid_key</code></b>:  key (in dataset.metadata) pointing to the video to make ethogram for
  - <b><code>query_label</code></b>:  the column containing the behavior labels to plot
  - <b><code>frame_limit</code></b>:  only make the ethogram for frames between [0, frame_limit]
- - <b><code>figsize</code></b>:  tuple with figure size (in inches) </p>
+ - <b><code>figsize</code></b>:  tuple with figure size (in inches)</p>
 <p><strong>Returns:</strong>
- tuple (fig, axes). The Figure and Axes objects </p>
+ tuple (fig, axes). The Figure and Axes objects</p>
 <hr />
 <p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/plot.py#L132"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="function-create_ethogram_video"><kbd>function</kbd> <code>create_ethogram_video</code></h2>
@@ -671,19 +796,19 @@
     min_frames: int = 3
 ) → None
 </code></pre>
-<p>Overlay ethogram on top of source video with ffmpeg </p>
+<p>Overlay ethogram on top of source video with ffmpeg</p>
 <p><strong>Args:</strong></p>
 <ul>
-<li><b><code>dataset</code></b>:  source dataset </li>
-<li><b><code>vid_key</code></b>:  the key (in dataset.metadata) pointing to the video to make ethogram for. metadata must have field 'video' that points to the source video location </li>
-<li><b><code>query_label</code></b>:  the column containing the behavior labels to plot </li>
-<li><b><code>out_file</code></b>:  output path for created video </li>
-<li><b><code>frame_limit</code></b>:  only make the ethogram/video for frames [0, frame_limit] </li>
-<li><b><code>in_dim</code></b>:  x dimension (in inches) of ethogram </li>
-<li><b><code>min_frames</code></b>:  any behaviors occurring for less than this number of frames are not labeled </li>
+<li><b><code>dataset</code></b>:  source dataset</li>
+<li><b><code>vid_key</code></b>:  the key (in dataset.metadata) pointing to the video to make ethogram for. metadata must have field 'video' that points to the source video location</li>
+<li><b><code>query_label</code></b>:  the column containing the behavior labels to plot</li>
+<li><b><code>out_file</code></b>:  output path for created video</li>
+<li><b><code>frame_limit</code></b>:  only make the ethogram/video for frames [0, frame_limit]</li>
+<li><b><code>in_dim</code></b>:  x dimension (in inches) of ethogram</li>
+<li><b><code>min_frames</code></b>:  any behaviors occurring for less than this number of frames are not labeled</li>
 </ul>
 <p><strong>Returns:</strong>
- None </p>
+ None</p>
 <hr />
 <p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/plot.py#L202"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="function-create_sample_videos"><kbd>function</kbd> <code>create_sample_videos</code></h2>
@@ -698,21 +823,21 @@
     N_supersample_rows: int = 1000
 ) → None
 </code></pre>
-<p>Create a sample of videos displaying the labeled behaviors using ffmpeg.  </p>
-<p>For each behavior label, randomly choose frames from the entire dataset and extract short clips from source videos based around those points. Tries to select frames where the labeled behavior is exhibited in many frames of the clip. </p>
+<p>Create a sample of videos displaying the labeled behaviors using ffmpeg.</p>
+<p>For each behavior label, randomly choose frames from the entire dataset and extract short clips from source videos based around those points. Tries to select frames where the labeled behavior is exhibited in many frames of the clip.</p>
 <p><strong>Args:</strong></p>
 <ul>
-<li><b><code>dataset</code></b>:  source dataset </li>
-<li><b><code>video_dir</code></b>:  location of source video files </li>
-<li><b><code>out_dir</code></b>:  base output directory to save videos. Videos are saved in the form: [out_dir]/[behavior_label]/[video_name]_[time in seconds].avi </li>
-<li><b><code>query_label</code></b>:  the column containing the behavior labels to extract clips for. Each unique value in this column is treated as a separate behavior </li>
-<li><b><code>N_sample_rows</code></b>:  number of clips to extract per behavior </li>
-<li><b><code>window_size</code></b>:  amount of video to extract on either side of the sampled frame, in seconds </li>
-<li><b><code>fps</code></b>:  frames per second of videos </li>
-<li><b><code>N_supersample_rows</code></b>:  this many rows are randomly sampled for each behavior label, and the top N_sample_rows are returned (in terms of number of adjacent frames also exhibiting that behavior). Shouldn't need to play with this. </li>
+<li><b><code>dataset</code></b>:  source dataset</li>
+<li><b><code>video_dir</code></b>:  location of source video files</li>
+<li><b><code>out_dir</code></b>:  base output directory to save videos. Videos are saved in the form: [out_dir]/[behavior_label]/[video_name]_[time in seconds].avi</li>
+<li><b><code>query_label</code></b>:  the column containing the behavior labels to extract clips for. Each unique value in this column is treated as a separate behavior</li>
+<li><b><code>N_sample_rows</code></b>:  number of clips to extract per behavior</li>
+<li><b><code>window_size</code></b>:  amount of video to extract on either side of the sampled frame, in seconds</li>
+<li><b><code>fps</code></b>:  frames per second of videos</li>
+<li><b><code>N_supersample_rows</code></b>:  this many rows are randomly sampled for each behavior label, and the top N_sample_rows are returned (in terms of number of adjacent frames also exhibiting that behavior). Shouldn't need to play with this.</li>
 </ul>
 <p><strong>Returns:</strong>
- None </p>
+ None</p>
 <hr />
 <p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/plot.py#L303"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="function-create_mosaic_video"><kbd>function</kbd> <code>create_mosaic_video</code></h2>
@@ -722,16 +847,16 @@
     ndim: tuple = (1600, 1200)
 ) → None
 </code></pre>
-<p>Take a set of video clips and turn them into a mosaic using ffmpeg  </p>
-<p>16 videos are tiled. </p>
+<p>Take a set of video clips and turn them into a mosaic using ffmpeg</p>
+<p>16 videos are tiled.</p>
 <p><strong>Args:</strong></p>
 <ul>
-<li><b><code>vid_dir</code></b>:  source directory with videos in it </li>
-<li><b><code>output_file</code></b>:  output video path </li>
-<li><b><code>ndim</code></b>:  tuple with the output video dimensions, in pixels </li>
+<li><b><code>vid_dir</code></b>:  source directory with videos in it</li>
+<li><b><code>output_file</code></b>:  output video path</li>
+<li><b><code>ndim</code></b>:  tuple with the output video dimensions, in pixels</li>
 </ul>
 <p><strong>Returns:</strong>
- None     </p>
+ None</p>
 <hr />
 <p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/plot.py#L42"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="class-mplcolorhelper"><kbd>class</kbd> <code>MplColorHelper</code></h2>
@@ -752,42 +877,51 @@
 
 
 
+
+
+
+
+
+
+                
               </article>
             </div>
-
-
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
         </div>
-
+        
       </main>
-
+      
         <footer class="md-footer">
-
+  
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
       <div class="md-copyright">
-
-
+  
+  
     Made with
     <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
       Material for MkDocs
     </a>
-
+  
 </div>
-
+      
     </div>
   </div>
 </footer>
-
+      
     </div>
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-
-    <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
-
-
-      <script src="../../assets/javascripts/bundle.51198bba.min.js"></script>
-
-
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.8fd75fb4.min.js"></script>
+      
+    
   </body>
 </html>

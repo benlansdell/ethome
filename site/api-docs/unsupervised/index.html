@@ -2,94 +2,90 @@
 <!doctype html>
 <html lang="en" class="no-js">
   <head>
-
+    
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
-
-
-
-
+      
+      
+      
+      
         <link rel="prev" href="../plot/">
-
-
+      
+      
         <link rel="next" href="../utils/">
-
+      
+      
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.1.6">
-
-
-
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.8">
+    
+    
+      
         <title>Unsupervised - ethome-ml</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.f2e4d321.min.css">
+      
+      
 
 
-
-      <link rel="stylesheet" href="../../assets/stylesheets/main.ded33207.min.css">
-
-
-        <link rel="stylesheet" href="../../assets/stylesheets/palette.a0c5b2b5.min.css">
-
-
-
-
-
-
-
-
-
+    
+    
+      
+    
+    
+      
+        
+        
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
         <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
-
-
-
+      
+    
+    
     <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
 
-
-
-
-
-
+    
+    
+    
   </head>
-
-
-
-
-
-
-
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="" data-md-color-accent="">
-
-
-
+  
+  
+    <body dir="ltr">
+  
+    
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
-
-
+      
+        
         <a href="#module-unsupervised" class="md-skip">
           Skip to content
         </a>
-
+      
     </div>
     <div data-md-component="announce">
-
+      
     </div>
+    
+    
+      
 
-
-
-
-
+  
 
 <header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
     <a href="../.." title="ethome-ml" class="md-header__button md-logo" aria-label="ethome-ml" data-md-component="logo">
-
-
+      
+  
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
+      
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
     </label>
     <div class="md-header__title" data-md-component="header-title">
@@ -101,17 +97,21 @@
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
-
+            
               Unsupervised
-
+            
           </span>
         </div>
       </div>
     </div>
-
-
-
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
       <label class="md-header__button md-icon" for="__search">
+        
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
       </label>
       <div class="md-search" data-md-component="search" role="dialog">
@@ -120,16 +120,19 @@
     <form class="md-search__form" name="search">
       <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
       <label class="md-search__icon md-icon" for="__search">
+        
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
       </label>
       <nav class="md-search__options" aria-label="Search">
-
+        
         <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
         </button>
       </nav>
-
+      
     </form>
     <div class="md-search__output">
       <div class="md-search__scrollwrap" data-md-scrollfix>
@@ -143,365 +146,467 @@
     </div>
   </div>
 </div>
-
-
+    
+    
   </nav>
-
+  
 </header>
-
+    
     <div class="md-container" data-md-component="container">
-
-
-
-
-
-
+      
+      
+        
+          
+        
+      
       <main class="md-main" data-md-component="main">
         <div class="md-main__inner md-grid">
-
-
-
+          
+            
+              
               <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
+                    
 
 
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
     <a href="../.." title="ethome-ml" class="md-nav__button md-logo" aria-label="ethome-ml" data-md-component="logo">
-
-
+      
+  
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
 
     </a>
     ethome-ml
   </label>
-
+  
   <ul class="md-nav__list" data-md-scrollfix>
-
-
-
-
-
-
-
-
+    
+      
+      
+  
+  
+  
+  
     <li class="md-nav__item">
       <a href="../.." class="md-nav__link">
-        Home
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
-
+    
+      
+      
+  
+  
+  
+  
     <li class="md-nav__item">
       <a href="../../how-to/" class="md-nav__link">
-        How To guide
+        
+  
+  <span class="md-ellipsis">
+    How To guide
+  </span>
+  
+
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
-
-
-
-
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
     <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    API Reference
+  </span>
+  
 
-
-
-
-      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
-
-
-
-        <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
-          API Reference
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-
-      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
-        <label class="md-nav__title" for="__nav_3">
-          <span class="md-nav__icon md-icon"></span>
-          API Reference
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-
-
-
-
-
-
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            API Reference
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
     <li class="md-nav__item">
       <a href="../" class="md-nav__link">
-        Overview
+        
+  
+  <span class="md-ellipsis">
+    Overview
+  </span>
+  
+
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
+  
     <li class="md-nav__item">
       <a href="../features/" class="md-nav__link">
-        Features
+        
+  
+  <span class="md-ellipsis">
+    Features
+  </span>
+  
+
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
+  
     <li class="md-nav__item">
       <a href="../interpolation/" class="md-nav__link">
-        Interpolation
+        
+  
+  <span class="md-ellipsis">
+    Interpolation
+  </span>
+  
+
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
+  
     <li class="md-nav__item">
       <a href="../io/" class="md-nav__link">
-        Io
+        
+  
+  <span class="md-ellipsis">
+    Io
+  </span>
+  
+
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
+  
     <li class="md-nav__item">
       <a href="../plot/" class="md-nav__link">
-        Plot
+        
+  
+  <span class="md-ellipsis">
+    Plot
+  </span>
+  
+
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
     <li class="md-nav__item md-nav__item--active">
-
+      
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-
-
-
-
-
+      
+      
+        
+      
+      
         <label class="md-nav__link md-nav__link--active" for="__toc">
-          Unsupervised
+          
+  
+  <span class="md-ellipsis">
+    Unsupervised
+  </span>
+  
+
           <span class="md-nav__icon md-icon"></span>
         </label>
-
+      
       <a href="./" class="md-nav__link md-nav__link--active">
-        Unsupervised
+        
+  
+  <span class="md-ellipsis">
+    Unsupervised
+  </span>
+  
+
       </a>
-
-
+      
+        
 
 <nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-
-
-
-
-
-
+  
+  
+  
+    
+  
+  
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
       Table of contents
     </label>
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-
+      
         <li class="md-nav__item">
   <a href="#function-compute_tsne_embedding" class="md-nav__link">
-    function compute_tsne_embedding
+    <span class="md-ellipsis">
+      function compute_tsne_embedding
+    </span>
   </a>
-
+  
 </li>
-
+      
         <li class="md-nav__item">
   <a href="#function-compute_morlet" class="md-nav__link">
-    function compute_morlet
+    <span class="md-ellipsis">
+      function compute_morlet
+    </span>
   </a>
-
+  
 </li>
-
+      
         <li class="md-nav__item">
   <a href="#function-compute_density" class="md-nav__link">
-    function compute_density
+    <span class="md-ellipsis">
+      function compute_density
+    </span>
   </a>
-
+  
 </li>
-
+      
         <li class="md-nav__item">
   <a href="#function-compute_watershed" class="md-nav__link">
-    function compute_watershed
+    <span class="md-ellipsis">
+      function compute_watershed
+    </span>
   </a>
-
+  
 </li>
-
+      
         <li class="md-nav__item">
   <a href="#function-cluster_behaviors" class="md-nav__link">
-    function cluster_behaviors
+    <span class="md-ellipsis">
+      function cluster_behaviors
+    </span>
   </a>
-
+  
 </li>
-
+      
     </ul>
-
+  
 </nav>
-
+      
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
+  
     <li class="md-nav__item">
       <a href="../utils/" class="md-nav__link">
-        Utils
+        
+  
+  <span class="md-ellipsis">
+    Utils
+  </span>
+  
+
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
+  
     <li class="md-nav__item">
       <a href="../video/" class="md-nav__link">
-        Video
+        
+  
+  <span class="md-ellipsis">
+    Video
+  </span>
+  
+
       </a>
     </li>
+  
 
-
-
-
-        </ul>
-      </nav>
+              
+            
+          </ul>
+        </nav>
+      
     </li>
+  
 
-
-
+    
   </ul>
 </nav>
                   </div>
                 </div>
               </div>
-
-
-
+            
+            
+              
               <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
-
+                    
 
 <nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-
-
-
-
-
-
+  
+  
+  
+    
+  
+  
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
       Table of contents
     </label>
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-
+      
         <li class="md-nav__item">
   <a href="#function-compute_tsne_embedding" class="md-nav__link">
-    function compute_tsne_embedding
+    <span class="md-ellipsis">
+      function compute_tsne_embedding
+    </span>
   </a>
-
+  
 </li>
-
+      
         <li class="md-nav__item">
   <a href="#function-compute_morlet" class="md-nav__link">
-    function compute_morlet
+    <span class="md-ellipsis">
+      function compute_morlet
+    </span>
   </a>
-
+  
 </li>
-
+      
         <li class="md-nav__item">
   <a href="#function-compute_density" class="md-nav__link">
-    function compute_density
+    <span class="md-ellipsis">
+      function compute_density
+    </span>
   </a>
-
+  
 </li>
-
+      
         <li class="md-nav__item">
   <a href="#function-compute_watershed" class="md-nav__link">
-    function compute_watershed
+    <span class="md-ellipsis">
+      function compute_watershed
+    </span>
   </a>
-
+  
 </li>
-
+      
         <li class="md-nav__item">
   <a href="#function-cluster_behaviors" class="md-nav__link">
-    function cluster_behaviors
+    <span class="md-ellipsis">
+      function cluster_behaviors
+    </span>
   </a>
-
+  
 </li>
-
+      
     </ul>
-
+  
 </nav>
                   </div>
                 </div>
               </div>
-
-
-
+            
+          
+          
             <div class="md-content" data-md-component="content">
               <article class="md-content__inner md-typeset">
-
-
+                
+                  
 
 
 <!-- markdownlint-disable -->
@@ -519,19 +624,19 @@
     perplexity=30
 ) → tuple
 </code></pre>
-<p>Compute TSNE embedding. Only for a random subset of rows. </p>
+<p>Compute TSNE embedding. Only for a random subset of rows.</p>
 <p><strong>Args:</strong></p>
 <ul>
-<li><b><code>dataset</code></b>:  Input data </li>
-<li><b><code>cols</code></b>:  A list of column names to produce the embedding for </li>
-<li><b><code>N_rows</code></b>:  A number of rows to randomly sample for the embedding. Only these rows are embedded. </li>
-<li><b><code>n_components</code></b>:  The number of dimensions to embed the data into. </li>
-<li><b><code>perplexity</code></b>:  The perplexity of the TSNE embedding. </li>
+<li><b><code>dataset</code></b>:  Input data</li>
+<li><b><code>cols</code></b>:  A list of column names to produce the embedding for</li>
+<li><b><code>N_rows</code></b>:  A number of rows to randomly sample for the embedding. Only these rows are embedded.</li>
+<li><b><code>n_components</code></b>:  The number of dimensions to embed the data into.</li>
+<li><b><code>perplexity</code></b>:  The perplexity of the TSNE embedding.</li>
 </ul>
 <p><strong>Returns:</strong>
- The tuple:<br />
+ The tuple:
         - A numpy array with the embedding data, only for a random subset of row
-        - The rows that were used for the embedding </p>
+        - The rows that were used for the embedding</p>
 <hr />
 <p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/unsupervised.py#L37"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="function-compute_morlet"><kbd>function</kbd> <code>compute_morlet</code></h2>
@@ -542,15 +647,15 @@
     w: float = 3
 ) → ndarray
 </code></pre>
-<p>Compute morlet wavelet transform of a time series. </p>
+<p>Compute morlet wavelet transform of a time series.</p>
 <p><strong>Args:</strong></p>
 <ul>
-<li><b><code>data</code></b>:  A 2D array containing the time series data, with dimensions (n_pts x n_channels) </li>
-<li><b><code>dt</code></b>:  The time step of the time series </li>
-<li><b><code>n_freq</code></b>:  The number of frequencies to compute </li>
-<li><b><code>w</code></b>:  The width of the morlet wavelet </li>
+<li><b><code>data</code></b>:  A 2D array containing the time series data, with dimensions (n_pts x n_channels)</li>
+<li><b><code>dt</code></b>:  The time step of the time series</li>
+<li><b><code>n_freq</code></b>:  The number of frequencies to compute</li>
+<li><b><code>w</code></b>:  The width of the morlet wavelet</li>
 </ul>
-<p>Returns A 2D numpy array with the morlet wavelet transform. The first dimension is the frequency, the second is the time. </p>
+<p>Returns A 2D numpy array with the morlet wavelet transform. The first dimension is the frequency, the second is the time.</p>
 <hr />
 <p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/unsupervised.py#L63"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="function-compute_density"><kbd>function</kbd> <code>compute_density</code></h2>
@@ -563,18 +668,18 @@
     rows: list = None
 ) → ndarray
 </code></pre>
-<p>Compute kernel density estimate of embedding. </p>
+<p>Compute kernel density estimate of embedding.</p>
 <p><strong>Args:</strong></p>
 <ul>
-<li><b><code>dataset</code></b>:  pd.DataFrame with embedding data loaded in it. (Must have already populated columns named 'embedding_0', 'embedding_1') </li>
-<li><b><code>embedding_extent</code></b>:  the bounds in which to apply the density estimate. Has the form (xmin, xmax, ymin, ymax) </li>
-<li><b><code>bandwidth</code></b>:  the Gaussian kernel bandwidth. Will depend on the scale of the embedding. Can be changed to affect the number of clusters pulled out </li>
-<li><b><code>n_pts</code></b>:  number of points over which to evaluate the KDE </li>
-<li><b><code>N_sample_rows</code></b>:  number of rows to randomly sample to generate estimate </li>
-<li><b><code>rows</code></b>:  If provided, use these rows instead of a random sample </li>
+<li><b><code>dataset</code></b>:  pd.DataFrame with embedding data loaded in it. (Must have already populated columns named 'embedding_0', 'embedding_1')</li>
+<li><b><code>embedding_extent</code></b>:  the bounds in which to apply the density estimate. Has the form (xmin, xmax, ymin, ymax)</li>
+<li><b><code>bandwidth</code></b>:  the Gaussian kernel bandwidth. Will depend on the scale of the embedding. Can be changed to affect the number of clusters pulled out</li>
+<li><b><code>n_pts</code></b>:  number of points over which to evaluate the KDE</li>
+<li><b><code>N_sample_rows</code></b>:  number of rows to randomly sample to generate estimate</li>
+<li><b><code>rows</code></b>:  If provided, use these rows instead of a random sample</li>
 </ul>
 <p><strong>Returns:</strong>
- Numpy array with KDE over the specified square region in the embedding space, with dimensions (n_pts x n_pts)     </p>
+ Numpy array with KDE over the specified square region in the embedding space, with dimensions (n_pts x n_pts)</p>
 <hr />
 <p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/unsupervised.py#L98"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="function-compute_watershed"><kbd>function</kbd> <code>compute_watershed</code></h2>
@@ -584,15 +689,15 @@
     cutoff: float = 0
 ) → tuple
 </code></pre>
-<p>Compute watershed clustering of a density matrix.  </p>
+<p>Compute watershed clustering of a density matrix.</p>
 <p><strong>Args:</strong></p>
 <ul>
-<li><b><code>dens_matrix</code></b>:  A square 2D numpy array, output from compute_density, containing the kernel density estimate of the embedding. </li>
-<li><b><code>positive_only</code></b>:  Whether to apply a threshold, 'cutoff'. If applied, 'cutoff' is subtracted from dens_matrix, and any value below zero is set to zero. Useful for only focusing on high density clusters. </li>
-<li><b><code>cutoff</code></b>:  The cutoff value to apply if positive_only = True </li>
+<li><b><code>dens_matrix</code></b>:  A square 2D numpy array, output from compute_density, containing the kernel density estimate of the embedding.</li>
+<li><b><code>positive_only</code></b>:  Whether to apply a threshold, 'cutoff'. If applied, 'cutoff' is subtracted from dens_matrix, and any value below zero is set to zero. Useful for only focusing on high density clusters.</li>
+<li><b><code>cutoff</code></b>:  The cutoff value to apply if positive_only = True</li>
 </ul>
 <p><strong>Returns:</strong>
- A numpy array with the same dimensions as dens_matrix. Each value in the array is the cluster ID for that coordinate. </p>
+ A numpy array with the same dimensions as dens_matrix. Each value in the array is the cluster ID for that coordinate.</p>
 <hr />
 <p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/unsupervised.py#L120"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="function-cluster_behaviors"><kbd>function</kbd> <code>cluster_behaviors</code></h2>
@@ -607,25 +712,25 @@
     **kwargs
 ) → tuple
 </code></pre>
-<p>Cluster behaviors based on dimensionality reduction, kernel density estimation, and watershed clustering. </p>
-<p><strong>Note that this will modify the dataset dataframe in place.</strong> </p>
-<p>The following columns are added to dataset:   'embedding_index_[0/1]': the coordinates of each embedding coordinate in the returned density matrix  'unsup_behavior_label': the Watershed transform label for that row, based on its embedding coordinates. Rows whose embedding coordinate has no watershed cluster, or which fall outside the domain have value -1. </p>
+<p>Cluster behaviors based on dimensionality reduction, kernel density estimation, and watershed clustering.</p>
+<p><strong>Note that this will modify the dataset dataframe in place.</strong></p>
+<p>The following columns are added to dataset:   'embedding_index_[0/1]': the coordinates of each embedding coordinate in the returned density matrix  'unsup_behavior_label': the Watershed transform label for that row, based on its embedding coordinates. Rows whose embedding coordinate has no watershed cluster, or which fall outside the domain have value -1.</p>
 <p><strong>Args:</strong></p>
 <ul>
-<li><b><code>dataset</code></b>:  the pd.DataFrame with the features of interest </li>
-<li><b><code>feature_cols</code></b>:  list of column names to perform the clustering on </li>
-<li><b><code>N_rows</code></b>:  number of rows to perform the embedding on. If 'None', then all rows are used. </li>
-<li><b><code>use_morlet</code></b>:  Apply Morlet wavelet transform to the feature cols before computing the embedding </li>
-<li><b><code>use_umap</code></b>:  If True will use UMAP dimensionality reduction, if False will use TSNE </li>
-<li><b><code>n_pts</code></b>:  dimension of grid the kernel density estimate is evaluated on.  </li>
-<li><b><code>bandwidth</code></b>:  Gaussian kernel bandwidth for kernel estimate </li>
-<li><b><code>**kwargs</code></b>:  All other keyword parameters are sent to dimensionality reduction call (either TSNE or UMAP) </li>
+<li><b><code>dataset</code></b>:  the pd.DataFrame with the features of interest</li>
+<li><b><code>feature_cols</code></b>:  list of column names to perform the clustering on</li>
+<li><b><code>N_rows</code></b>:  number of rows to perform the embedding on. If 'None', then all rows are used.</li>
+<li><b><code>use_morlet</code></b>:  Apply Morlet wavelet transform to the feature cols before computing the embedding</li>
+<li><b><code>use_umap</code></b>:  If True will use UMAP dimensionality reduction, if False will use TSNE</li>
+<li><b><code>n_pts</code></b>:  dimension of grid the kernel density estimate is evaluated on.</li>
+<li><b><code>bandwidth</code></b>:  Gaussian kernel bandwidth for kernel estimate</li>
+<li><b><code>**kwargs</code></b>:  All other keyword parameters are sent to dimensionality reduction call (either TSNE or UMAP)</li>
 </ul>
 <p><strong>Returns:</strong>
  A tuple with components:
  - <b><code>dens_matrix</code></b>:  the (n_pts x n_pts) numpy array with the density estimate of the 2D embedding
  - <b><code>labels</code></b>:  numpy array with same dimensions are dens_matrix, but with values the watershed cluster IDs
- - <b><code>embedding_extent</code></b>:  the coordinates in embedding space that dens_matrix is approximating the density over </p>
+ - <b><code>embedding_extent</code></b>:  the coordinates in embedding space that dens_matrix is approximating the density over</p>
 <hr />
 <p><em>This file was automatically generated via <a href="https://github.com/ml-tooling/lazydocs">lazydocs</a>.</em></p>
 
@@ -634,42 +739,51 @@
 
 
 
+
+
+
+
+
+
+                
               </article>
             </div>
-
-
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
         </div>
-
+        
       </main>
-
+      
         <footer class="md-footer">
-
+  
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
       <div class="md-copyright">
-
-
+  
+  
     Made with
     <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
       Material for MkDocs
     </a>
-
+  
 </div>
-
+      
     </div>
   </div>
 </footer>
-
+      
     </div>
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-
-    <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
-
-
-      <script src="../../assets/javascripts/bundle.51198bba.min.js"></script>
-
-
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.8fd75fb4.min.js"></script>
+      
+    
   </body>
 </html>

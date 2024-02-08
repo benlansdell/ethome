@@ -2,94 +2,90 @@
 <!doctype html>
 <html lang="en" class="no-js">
   <head>
-
+    
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
-
-
-
-
+      
+      
+      
+      
         <link rel="prev" href="../interpolation/">
-
-
+      
+      
         <link rel="next" href="../plot/">
-
+      
+      
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.1.6">
-
-
-
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.8">
+    
+    
+      
         <title>Io - ethome-ml</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.f2e4d321.min.css">
+      
+      
 
 
-
-      <link rel="stylesheet" href="../../assets/stylesheets/main.ded33207.min.css">
-
-
-        <link rel="stylesheet" href="../../assets/stylesheets/palette.a0c5b2b5.min.css">
-
-
-
-
-
-
-
-
-
+    
+    
+      
+    
+    
+      
+        
+        
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
         <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
-
-
-
+      
+    
+    
     <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
 
-
-
-
-
-
+    
+    
+    
   </head>
-
-
-
-
-
-
-
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="" data-md-color-accent="">
-
-
-
+  
+  
+    <body dir="ltr">
+  
+    
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
-
-
+      
+        
         <a href="#module-io" class="md-skip">
           Skip to content
         </a>
-
+      
     </div>
     <div data-md-component="announce">
-
+      
     </div>
+    
+    
+      
 
-
-
-
-
+  
 
 <header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
     <a href="../.." title="ethome-ml" class="md-header__button md-logo" aria-label="ethome-ml" data-md-component="logo">
-
-
+      
+  
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
+      
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
     </label>
     <div class="md-header__title" data-md-component="header-title">
@@ -101,17 +97,21 @@
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
-
+            
               Io
-
+            
           </span>
         </div>
       </div>
     </div>
-
-
-
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
       <label class="md-header__button md-icon" for="__search">
+        
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
       </label>
       <div class="md-search" data-md-component="search" role="dialog">
@@ -120,16 +120,19 @@
     <form class="md-search__form" name="search">
       <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
       <label class="md-search__icon md-icon" for="__search">
+        
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
       </label>
       <nav class="md-search__options" aria-label="Search">
-
+        
         <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
         </button>
       </nav>
-
+      
     </form>
     <div class="md-search__output">
       <div class="md-search__scrollwrap" data-md-scrollfix>
@@ -143,561 +146,737 @@
     </div>
   </div>
 </div>
-
-
+    
+    
   </nav>
-
+  
 </header>
-
+    
     <div class="md-container" data-md-component="container">
-
-
-
-
-
-
+      
+      
+        
+          
+        
+      
       <main class="md-main" data-md-component="main">
         <div class="md-main__inner md-grid">
-
-
-
+          
+            
+              
               <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
+                    
 
 
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
     <a href="../.." title="ethome-ml" class="md-nav__button md-logo" aria-label="ethome-ml" data-md-component="logo">
-
-
+      
+  
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
 
     </a>
     ethome-ml
   </label>
-
+  
   <ul class="md-nav__list" data-md-scrollfix>
-
-
-
-
-
-
-
-
+    
+      
+      
+  
+  
+  
+  
     <li class="md-nav__item">
       <a href="../.." class="md-nav__link">
-        Home
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
-
+    
+      
+      
+  
+  
+  
+  
     <li class="md-nav__item">
       <a href="../../how-to/" class="md-nav__link">
-        How To guide
+        
+  
+  <span class="md-ellipsis">
+    How To guide
+  </span>
+  
+
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
-
-
-
-
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
     <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    API Reference
+  </span>
+  
 
-
-
-
-      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
-
-
-
-        <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
-          API Reference
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-
-      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
-        <label class="md-nav__title" for="__nav_3">
-          <span class="md-nav__icon md-icon"></span>
-          API Reference
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-
-
-
-
-
-
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            API Reference
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
     <li class="md-nav__item">
       <a href="../" class="md-nav__link">
-        Overview
+        
+  
+  <span class="md-ellipsis">
+    Overview
+  </span>
+  
+
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
+  
     <li class="md-nav__item">
       <a href="../features/" class="md-nav__link">
-        Features
+        
+  
+  <span class="md-ellipsis">
+    Features
+  </span>
+  
+
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
+  
     <li class="md-nav__item">
       <a href="../interpolation/" class="md-nav__link">
-        Interpolation
+        
+  
+  <span class="md-ellipsis">
+    Interpolation
+  </span>
+  
+
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
     <li class="md-nav__item md-nav__item--active">
-
+      
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-
-
-
-
-
+      
+      
+        
+      
+      
         <label class="md-nav__link md-nav__link--active" for="__toc">
-          Io
+          
+  
+  <span class="md-ellipsis">
+    Io
+  </span>
+  
+
           <span class="md-nav__icon md-icon"></span>
         </label>
-
+      
       <a href="./" class="md-nav__link md-nav__link--active">
-        Io
+        
+  
+  <span class="md-ellipsis">
+    Io
+  </span>
+  
+
       </a>
-
-
+      
+        
 
 <nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-
-
-
-
-
-
+  
+  
+  
+    
+  
+  
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
       Table of contents
     </label>
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-
+      
         <li class="md-nav__item">
   <a href="#global-variables" class="md-nav__link">
-    Global Variables
+    <span class="md-ellipsis">
+      Global Variables
+    </span>
   </a>
-
+  
 </li>
-
+      
         <li class="md-nav__item">
   <a href="#function-uniquifier" class="md-nav__link">
-    function uniquifier
+    <span class="md-ellipsis">
+      function uniquifier
+    </span>
   </a>
-
+  
 </li>
-
+      
         <li class="md-nav__item">
   <a href="#function-save_sklearn_model" class="md-nav__link">
-    function save_sklearn_model
+    <span class="md-ellipsis">
+      function save_sklearn_model
+    </span>
   </a>
-
+  
 </li>
-
+      
         <li class="md-nav__item">
   <a href="#function-load_sklearn_model" class="md-nav__link">
-    function load_sklearn_model
+    <span class="md-ellipsis">
+      function load_sklearn_model
+    </span>
   </a>
-
+  
 </li>
-
+      
         <li class="md-nav__item">
   <a href="#function-read_dlc_tracks" class="md-nav__link">
-    function read_DLC_tracks
+    <span class="md-ellipsis">
+      function read_DLC_tracks
+    </span>
   </a>
-
+  
 </li>
-
+      
         <li class="md-nav__item">
   <a href="#function-read_sleap_tracks" class="md-nav__link">
-    function read_sleap_tracks
+    <span class="md-ellipsis">
+      function read_sleap_tracks
+    </span>
   </a>
-
+  
 </li>
-
+      
         <li class="md-nav__item">
   <a href="#function-read_nwb_tracks" class="md-nav__link">
-    function read_NWB_tracks
+    <span class="md-ellipsis">
+      function read_NWB_tracks
+    </span>
   </a>
-
+  
 </li>
-
+      
         <li class="md-nav__item">
   <a href="#function-save_dlc_tracks_h5" class="md-nav__link">
-    function save_DLC_tracks_h5
+    <span class="md-ellipsis">
+      function save_DLC_tracks_h5
+    </span>
   </a>
-
+  
 </li>
-
+      
         <li class="md-nav__item">
   <a href="#function-load_data" class="md-nav__link">
-    function load_data
+    <span class="md-ellipsis">
+      function load_data
+    </span>
   </a>
-
+  
 </li>
-
+      
         <li class="md-nav__item">
   <a href="#function-get_sample_nwb_paths" class="md-nav__link">
-    function get_sample_nwb_paths
+    <span class="md-ellipsis">
+      function get_sample_nwb_paths
+    </span>
   </a>
-
+  
 </li>
-
+      
+        <li class="md-nav__item">
+  <a href="#function-get_sample_sleap_paths" class="md-nav__link">
+    <span class="md-ellipsis">
+      function get_sample_sleap_paths
+    </span>
+  </a>
+  
+</li>
+      
         <li class="md-nav__item">
   <a href="#function-get_sample_data_paths_dlcboris" class="md-nav__link">
-    function get_sample_data_paths_dlcboris
+    <span class="md-ellipsis">
+      function get_sample_data_paths_dlcboris
+    </span>
   </a>
-
+  
 </li>
-
+      
         <li class="md-nav__item">
   <a href="#function-get_sample_data" class="md-nav__link">
-    function get_sample_data
+    <span class="md-ellipsis">
+      function get_sample_data
+    </span>
   </a>
-
+  
 </li>
-
+      
         <li class="md-nav__item">
   <a href="#function-read_boris_annotation" class="md-nav__link">
-    function read_boris_annotation
+    <span class="md-ellipsis">
+      function read_boris_annotation
+    </span>
   </a>
-
+  
 </li>
-
+      
         <li class="md-nav__item">
   <a href="#function-create_behavior_labels" class="md-nav__link">
-    function create_behavior_labels
+    <span class="md-ellipsis">
+      function create_behavior_labels
+    </span>
   </a>
-
+  
 </li>
-
+      
         <li class="md-nav__item">
   <a href="#class-bufferediobase" class="md-nav__link">
-    class BufferedIOBase
+    <span class="md-ellipsis">
+      class BufferedIOBase
+    </span>
   </a>
-
+  
 </li>
-
+      
         <li class="md-nav__item">
   <a href="#class-iobase" class="md-nav__link">
-    class IOBase
+    <span class="md-ellipsis">
+      class IOBase
+    </span>
   </a>
-
+  
 </li>
-
+      
         <li class="md-nav__item">
   <a href="#class-rawiobase" class="md-nav__link">
-    class RawIOBase
+    <span class="md-ellipsis">
+      class RawIOBase
+    </span>
   </a>
-
+  
 </li>
-
+      
         <li class="md-nav__item">
   <a href="#class-textiobase" class="md-nav__link">
-    class TextIOBase
+    <span class="md-ellipsis">
+      class TextIOBase
+    </span>
   </a>
-
+  
 </li>
-
+      
         <li class="md-nav__item">
   <a href="#class-unsupportedoperation" class="md-nav__link">
-    class UnsupportedOperation
+    <span class="md-ellipsis">
+      class UnsupportedOperation
+    </span>
   </a>
-
+  
 </li>
-
+      
     </ul>
-
+  
 </nav>
-
+      
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
+  
     <li class="md-nav__item">
       <a href="../plot/" class="md-nav__link">
-        Plot
+        
+  
+  <span class="md-ellipsis">
+    Plot
+  </span>
+  
+
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
+  
     <li class="md-nav__item">
       <a href="../unsupervised/" class="md-nav__link">
-        Unsupervised
+        
+  
+  <span class="md-ellipsis">
+    Unsupervised
+  </span>
+  
+
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
+  
     <li class="md-nav__item">
       <a href="../utils/" class="md-nav__link">
-        Utils
+        
+  
+  <span class="md-ellipsis">
+    Utils
+  </span>
+  
+
       </a>
     </li>
+  
 
-
-
-
-
-
-
-
-
+              
+            
+              
+                
+  
+  
+  
+  
     <li class="md-nav__item">
       <a href="../video/" class="md-nav__link">
-        Video
+        
+  
+  <span class="md-ellipsis">
+    Video
+  </span>
+  
+
       </a>
     </li>
+  
 
-
-
-
-        </ul>
-      </nav>
+              
+            
+          </ul>
+        </nav>
+      
     </li>
+  
 
-
-
+    
   </ul>
 </nav>
                   </div>
                 </div>
               </div>
-
-
-
+            
+            
+              
               <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
-
+                    
 
 <nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-
-
-
-
-
-
+  
+  
+  
+    
+  
+  
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
       Table of contents
     </label>
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-
+      
         <li class="md-nav__item">
   <a href="#global-variables" class="md-nav__link">
-    Global Variables
+    <span class="md-ellipsis">
+      Global Variables
+    </span>
   </a>
-
+  
 </li>
-
+      
         <li class="md-nav__item">
   <a href="#function-uniquifier" class="md-nav__link">
-    function uniquifier
+    <span class="md-ellipsis">
+      function uniquifier
+    </span>
   </a>
-
+  
 </li>
-
+      
         <li class="md-nav__item">
   <a href="#function-save_sklearn_model" class="md-nav__link">
-    function save_sklearn_model
+    <span class="md-ellipsis">
+      function save_sklearn_model
+    </span>
   </a>
-
+  
 </li>
-
+      
         <li class="md-nav__item">
   <a href="#function-load_sklearn_model" class="md-nav__link">
-    function load_sklearn_model
+    <span class="md-ellipsis">
+      function load_sklearn_model
+    </span>
   </a>
-
+  
 </li>
-
+      
         <li class="md-nav__item">
   <a href="#function-read_dlc_tracks" class="md-nav__link">
-    function read_DLC_tracks
+    <span class="md-ellipsis">
+      function read_DLC_tracks
+    </span>
   </a>
-
+  
 </li>
-
+      
         <li class="md-nav__item">
   <a href="#function-read_sleap_tracks" class="md-nav__link">
-    function read_sleap_tracks
+    <span class="md-ellipsis">
+      function read_sleap_tracks
+    </span>
   </a>
-
+  
 </li>
-
+      
         <li class="md-nav__item">
   <a href="#function-read_nwb_tracks" class="md-nav__link">
-    function read_NWB_tracks
+    <span class="md-ellipsis">
+      function read_NWB_tracks
+    </span>
   </a>
-
+  
 </li>
-
+      
         <li class="md-nav__item">
   <a href="#function-save_dlc_tracks_h5" class="md-nav__link">
-    function save_DLC_tracks_h5
+    <span class="md-ellipsis">
+      function save_DLC_tracks_h5
+    </span>
   </a>
-
+  
 </li>
-
+      
         <li class="md-nav__item">
   <a href="#function-load_data" class="md-nav__link">
-    function load_data
+    <span class="md-ellipsis">
+      function load_data
+    </span>
   </a>
-
+  
 </li>
-
+      
         <li class="md-nav__item">
   <a href="#function-get_sample_nwb_paths" class="md-nav__link">
-    function get_sample_nwb_paths
+    <span class="md-ellipsis">
+      function get_sample_nwb_paths
+    </span>
   </a>
-
+  
 </li>
-
+      
+        <li class="md-nav__item">
+  <a href="#function-get_sample_sleap_paths" class="md-nav__link">
+    <span class="md-ellipsis">
+      function get_sample_sleap_paths
+    </span>
+  </a>
+  
+</li>
+      
         <li class="md-nav__item">
   <a href="#function-get_sample_data_paths_dlcboris" class="md-nav__link">
-    function get_sample_data_paths_dlcboris
+    <span class="md-ellipsis">
+      function get_sample_data_paths_dlcboris
+    </span>
   </a>
-
+  
 </li>
-
+      
         <li class="md-nav__item">
   <a href="#function-get_sample_data" class="md-nav__link">
-    function get_sample_data
+    <span class="md-ellipsis">
+      function get_sample_data
+    </span>
   </a>
-
+  
 </li>
-
+      
         <li class="md-nav__item">
   <a href="#function-read_boris_annotation" class="md-nav__link">
-    function read_boris_annotation
+    <span class="md-ellipsis">
+      function read_boris_annotation
+    </span>
   </a>
-
+  
 </li>
-
+      
         <li class="md-nav__item">
   <a href="#function-create_behavior_labels" class="md-nav__link">
-    function create_behavior_labels
+    <span class="md-ellipsis">
+      function create_behavior_labels
+    </span>
   </a>
-
+  
 </li>
-
+      
         <li class="md-nav__item">
   <a href="#class-bufferediobase" class="md-nav__link">
-    class BufferedIOBase
+    <span class="md-ellipsis">
+      class BufferedIOBase
+    </span>
   </a>
-
+  
 </li>
-
+      
         <li class="md-nav__item">
   <a href="#class-iobase" class="md-nav__link">
-    class IOBase
+    <span class="md-ellipsis">
+      class IOBase
+    </span>
   </a>
-
+  
 </li>
-
+      
         <li class="md-nav__item">
   <a href="#class-rawiobase" class="md-nav__link">
-    class RawIOBase
+    <span class="md-ellipsis">
+      class RawIOBase
+    </span>
   </a>
-
+  
 </li>
-
+      
         <li class="md-nav__item">
   <a href="#class-textiobase" class="md-nav__link">
-    class TextIOBase
+    <span class="md-ellipsis">
+      class TextIOBase
+    </span>
   </a>
-
+  
 </li>
-
+      
         <li class="md-nav__item">
   <a href="#class-unsupportedoperation" class="md-nav__link">
-    class UnsupportedOperation
+    <span class="md-ellipsis">
+      class UnsupportedOperation
+    </span>
   </a>
-
+  
 </li>
-
+      
     </ul>
-
+  
 </nav>
                   </div>
                 </div>
               </div>
-
-
-
+            
+          
+          
             <div class="md-content" data-md-component="content">
               <article class="md-content__inner md-typeset">
-
-
+                
+                  
 
 
 <!-- markdownlint-disable -->
@@ -715,15 +894,15 @@
 <li><strong>XYLIKELIHOOD_IDS</strong></li>
 </ul>
 <hr />
-<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/io.py#L17"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/io.py#L19"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="function-uniquifier"><kbd>function</kbd> <code>uniquifier</code></h2>
-<pre><code class="language-python">uniquifier(seq)
+<pre><code class="language-python">uniquifier(seq: Sequence)
 </code></pre>
 <p>Return a sequence (e.g. list) with unique elements only, but maintaining original list order </p>
 <hr />
-<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/io.py#L30"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/io.py#L34"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="function-save_sklearn_model"><kbd>function</kbd> <code>save_sklearn_model</code></h2>
-<pre><code class="language-python">save_sklearn_model(model, fn_out)
+<pre><code class="language-python">save_sklearn_model(model, fn_out: str)
 </code></pre>
 <p>Save sklearn model to file </p>
 <p><strong>Args:</strong></p>
@@ -732,9 +911,9 @@
 <li><b><code>fn_out</code></b>:  filename to save to </li>
 </ul>
 <hr />
-<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/io.py#L39"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/io.py#L44"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="function-load_sklearn_model"><kbd>function</kbd> <code>load_sklearn_model</code></h2>
-<pre><code class="language-python">load_sklearn_model(fn_in)
+<pre><code class="language-python">load_sklearn_model(fn_in: str)
 </code></pre>
 <p>Load sklearn model from file </p>
 <p><strong>Args:</strong></p>
@@ -744,7 +923,7 @@
 <p><strong>Returns:</strong>
  the loaded sklearn model </p>
 <hr />
-<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/io.py#L51"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/io.py#L57"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="function-read_dlc_tracks"><kbd>function</kbd> <code>read_DLC_tracks</code></h2>
 <pre><code class="language-python">read_DLC_tracks(
     fn_in: str,
@@ -758,14 +937,14 @@
 <p><strong>Args:</strong></p>
 <ul>
 <li><b><code>fn_in</code></b>:  csv or h5 file that has DLC tracks </li>
-<li><b><code>part_renamer</code></b>:  dictionary to rename body parts, if needed  </li>
+<li><b><code>part_renamer</code></b>:  dictionary to rename body parts, if needed </li>
 <li><b><code>animal_renamer</code></b>:  dictionary to rename animals, if needed </li>
 <li><b><code>read_likelihoods</code></b>:  default True. Whether to attach DLC likelihoods to table </li>
 </ul>
 <p><strong>Returns:</strong>
- Pandas DataFrame with (n_animals<em>2</em>n_body_parts) columns plus with filename and frame,   List of body parts,  List of animals,  Columns names for DLC tracks (excluding likelihoods, if read in),  Scorer </p>
+ Pandas DataFrame with (n_animals<em>2</em>n_body_parts) columns plus with filename and frame,  List of body parts,  List of animals,  Columns names for DLC tracks (excluding likelihoods, if read in),  Scorer </p>
 <hr />
-<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/io.py#L81"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/io.py#L92"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="function-read_sleap_tracks"><kbd>function</kbd> <code>read_sleap_tracks</code></h2>
 <pre><code class="language-python">read_sleap_tracks(
     fn_in: str,
@@ -779,14 +958,14 @@
 <p><strong>Args:</strong></p>
 <ul>
 <li><b><code>fn_in</code></b>:  csv or h5 file that has sleap tracks </li>
-<li><b><code>part_renamer</code></b>:  dictionary to rename body parts, if needed  </li>
+<li><b><code>part_renamer</code></b>:  dictionary to rename body parts, if needed </li>
 <li><b><code>animal_renamer</code></b>:  dictionary to rename animals, if needed </li>
 <li><b><code>read_likelihoods</code></b>:  default True. Whether to attach DLC likelihoods to table </li>
 </ul>
 <p><strong>Returns:</strong>
- Pandas DataFrame with (n_animals<em>2</em>n_body_parts) columns plus with filename and frame,   List of body parts,  List of animals,  Columns names for DLC tracks (excluding likelihoods, if read in),  Scorer </p>
+ Pandas DataFrame with (n_animals<em>2</em>n_body_parts) columns plus with filename and frame,  List of body parts,  List of animals,  Columns names for DLC tracks (excluding likelihoods, if read in),  Scorer </p>
 <hr />
-<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/io.py#L452"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/io.py#L498"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="function-read_nwb_tracks"><kbd>function</kbd> <code>read_NWB_tracks</code></h2>
 <pre><code class="language-python">read_NWB_tracks(
     fn_in: str,
@@ -799,14 +978,14 @@
 <p><strong>Args:</strong></p>
 <ul>
 <li><b><code>fn_in</code></b>:  nwb file that has the tracking information </li>
-<li><b><code>part_renamer</code></b>:  dictionary to rename body parts, if needed  </li>
+<li><b><code>part_renamer</code></b>:  dictionary to rename body parts, if needed </li>
 <li><b><code>animal_renamer</code></b>:  dictionary to rename animals, if needed </li>
 <li><b><code>read_likelihoods</code></b>:  default True. Whether to attach DLC likelihoods to table </li>
 </ul>
 <p><strong>Returns:</strong>
- Pandas DataFrame with (n_animals<em>2</em>n_body_parts) columns plus with filename and frame,   List of body parts,  List of animals,  Columns names for pose tracks (excluding likelihoods, if read in),  Scorer </p>
+ Pandas DataFrame with (n_animals<em>2</em>n_body_parts) columns plus with filename and frame,  List of body parts,  List of animals,  Columns names for pose tracks (excluding likelihoods, if read in),  Scorer </p>
 <hr />
-<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/io.py#L474"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/io.py#L525"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="function-save_dlc_tracks_h5"><kbd>function</kbd> <code>save_DLC_tracks_h5</code></h2>
 <pre><code class="language-python">save_DLC_tracks_h5(df: DataFrame, fn_out: str) → None
 </code></pre>
@@ -817,7 +996,7 @@
 <li><b><code>fn_out</code></b>:  Where to save the dataframe </li>
 </ul>
 <hr />
-<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/io.py#L483"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/io.py#L535"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="function-load_data"><kbd>function</kbd> <code>load_data</code></h2>
 <pre><code class="language-python">load_data(fn: str)
 </code></pre>
@@ -829,7 +1008,7 @@
 <p><strong>Returns:</strong>
  The pickled object. </p>
 <hr />
-<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/io.py#L520"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/io.py#L576"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="function-get_sample_nwb_paths"><kbd>function</kbd> <code>get_sample_nwb_paths</code></h2>
 <pre><code class="language-python">get_sample_nwb_paths()
 </code></pre>
@@ -837,15 +1016,23 @@
 <p><strong>Returns:</strong>
   Path to a sample NWB file. </p>
 <hr />
-<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/io.py#L323"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/io.py#L586"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<h2 id="function-get_sample_sleap_paths"><kbd>function</kbd> <code>get_sample_sleap_paths</code></h2>
+<pre><code class="language-python">get_sample_sleap_paths()
+</code></pre>
+<p>Get path to a sample SLEAP h5 file with tracking data for testing and dev purposes. </p>
+<p><strong>Returns:</strong>
+  Path to a sample SLEAP file. </p>
+<hr />
+<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/io.py#L596"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="function-get_sample_data_paths_dlcboris"><kbd>function</kbd> <code>get_sample_data_paths_dlcboris</code></h2>
 <pre><code class="language-python">get_sample_data_paths_dlcboris()
 </code></pre>
-<p>Get path to sample data files provided with package.  </p>
+<p>Get path to sample data files provided with package. </p>
 <p><strong>Returns:</strong>
   (tuple) list of DLC tracking file, list of boris annotation files </p>
 <hr />
-<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/io.py#L542"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/io.py#L609"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="function-get_sample_data"><kbd>function</kbd> <code>get_sample_data</code></h2>
 <pre><code class="language-python">get_sample_data()
 </code></pre>
@@ -853,7 +1040,7 @@
 <p><strong>Returns:</strong>
   (ExperimentDataFrame) Data frame with the corresponding tracking and behavior annotation files </p>
 <hr />
-<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/io.py#L556"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/io.py#L624"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="function-read_boris_annotation"><kbd>function</kbd> <code>read_boris_annotation</code></h2>
 <pre><code class="language-python">read_boris_annotation(
     fn_in: str,
@@ -862,21 +1049,21 @@
     behav_labels: list = None
 ) → tuple
 </code></pre>
-<p>Read behavior annotation from BORIS exported csv file.  </p>
+<p>Read behavior annotation from BORIS exported csv file. </p>
 <p>This will import behavior types specified (or all types, if behavior_list is None) and assign a numerical label to each. Overlapping annotations (those occurring simulataneously) are not supported. Any time the video is annotated as being in multiple states, the last state will be the one labeled. </p>
 <p><strong>Args:</strong></p>
 <ul>
 <li><b><code>fn_in</code></b>:  The filename with BORIS behavior annotations to load </li>
 <li><b><code>fps</code></b>:  The frames per second of the video </li>
 <li><b><code>duration</code></b>:  The duration of the video in seconds </li>
-<li><b><code>behav_labels</code></b>:  If provided, only import behaviors with these names. Default = None = import everything.  </li>
+<li><b><code>behav_labels</code></b>:  If provided, only import behaviors with these names. Default = None = import everything. </li>
 </ul>
 <p><strong>Returns:</strong>
  A dictionary of numpy arrays which gives, for all frames, which behavior is occuring. 0 = no behavior, 1 = behavior. </p>
 <hr />
-<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/io.py#L601"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
+<p><a href="https://github.com/benlansdell/ethome/blob/master/ethome/io.py#L676"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a></p>
 <h2 id="function-create_behavior_labels"><kbd>function</kbd> <code>create_behavior_labels</code></h2>
-<pre><code class="language-python">create_behavior_labels(boris_files)
+<pre><code class="language-python">create_behavior_labels(boris_files: list)
 </code></pre>
 <p>Create behavior labels from BORIS exported csv files. </p>
 <p><strong>Args:</strong></p>
@@ -923,42 +1110,51 @@
 
 
 
+
+
+
+
+
+
+                
               </article>
             </div>
-
-
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
         </div>
-
+        
       </main>
-
+      
         <footer class="md-footer">
-
+  
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
       <div class="md-copyright">
-
-
+  
+  
     Made with
     <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
       Material for MkDocs
     </a>
-
+  
 </div>
-
+      
     </div>
   </div>
 </footer>
-
+      
     </div>
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-
-    <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
-
-
-      <script src="../../assets/javascripts/bundle.51198bba.min.js"></script>
-
-
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.8fd75fb4.min.js"></script>
+      
+    
   </body>
 </html>

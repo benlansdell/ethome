@@ -160,6 +160,14 @@ Sample notebooks are available ([here](https://github.com/benlansdell/ethome/tre
 
 Refer to `CONTRIBUTING.md` for guidelines on how to contribute to the project, and report bugs, etc.
 
+## Development
+
+You can setup your dev environment using the conda `yaml` file provided. Compiling the docs requires the following packages are also installed:
+
+```
+pip install mkdocs-material mkdocs-awesome-pages-plugin twine build
+```
+
 ## Animal data
 
 Sample data was obtained from resident-intruder open field recordings performed as part of on going social memory studies performed in the Zakharenko lab at St Jude Children's Research Hospital (e.g. [1,2]). All animal experiments were reviewed and approved by the Institutional Animal Care & Use Committee of St. Jude Children’s Research Hospital.

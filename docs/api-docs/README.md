@@ -4,8 +4,8 @@
 
 ## Modules
 
-- [`interpolation`](./interpolation.md#module-interpolation)
-- [`io`](./io.md#module-io): Loading and saving tracking and behavior annotation files
+- [`interpolation`](./interpolation.md#module-interpolation): Interpolate over low confidence data
+- [`io`](./io.md#module-io): Loading and saving tracking and behavior annotation files 
 - [`utils`](./utils.md#module-utils): Small helper utilities
 - [`video`](./video.md#module-video): Basic video tracking and behavior class that houses data
 
@@ -29,6 +29,7 @@
 - [`io.get_sample_data`](./io.md#function-get_sample_data): Load a sample dataset of 5 mice social interaction videos. Each video is approx. 5 minutes in duration
 - [`io.get_sample_data_paths_dlcboris`](./io.md#function-get_sample_data_paths_dlcboris): Get path to sample data files provided with package.
 - [`io.get_sample_nwb_paths`](./io.md#function-get_sample_nwb_paths): Get path to a sample NWB file with tracking data for testing and dev purposes.
+- [`io.get_sample_sleap_paths`](./io.md#function-get_sample_sleap_paths): Get path to a sample SLEAP h5 file with tracking data for testing and dev purposes.
 - [`io.load_data`](./io.md#function-load_data): Load an object from a pickle file
 - [`io.load_sklearn_model`](./io.md#function-load_sklearn_model): Load sklearn model from file
 - [`io.read_DLC_tracks`](./io.md#function-read_dlc_tracks): Read in tracks from DLC.

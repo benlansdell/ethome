@@ -2,6 +2,7 @@
 ![build](https://github.com/benlansdell/ethome/actions/workflows/workflow.yml/badge.svg)
 [![PyPI version](https://badge.fury.io/py/ethome-ml.svg)](https://badge.fury.io/py/ethome-ml)
 [![status](https://joss.theoj.org/papers/0472dab158806827a83da79e602e16e4/status.svg)](https://joss.theoj.org/papers/0472dab158806827a83da79e602e16e4)
+[![DOI](https://zenodo.org/badge/537926029.svg)](https://zenodo.org/doi/10.5281/zenodo.10680135)
 
 # Ethome
 

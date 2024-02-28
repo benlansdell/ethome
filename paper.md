@@ -18,7 +18,7 @@ authors:
     equal-contrib: false
     affiliation: 1
 affiliations:
- - name: Developmental Neurobiology, St Jude Children's Research Hospital, Memphis, Tennessee, USA
+ - name: Developmental Neurobiology, St Jude Children's Research Hospital, Memphis, Tennessee, United States of America
    index: 1
 date: 14 March 2023
 bibliography: paper.bib
